@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-home",
+      "description": "A modern office with people collaborating around a computer screen showing automation workflows.",
+      "imageUrl": "https://images.unsplash.com/photo-1553861542-15283bc1bcd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxvZmZpY2UlMjBjb2xsYWJvcmF0aW9ufGVufDB8fHx8MTc2NDg4NjMyMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office collaboration"
+    },
+    {
+      "id": "about-team",
+      "description": "A diverse team of professionals smiling in a modern office environment.",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1576485436509-a7d286952b65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cHJvZmVzc2lvbmFsJTIwdGVhbXxlbnwwfHx8fDE3NjQ4ODYzMjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional team"
+    },
+    {
+      "id": "blog-1",
+      "description": "Abstract network of connected nodes representing a complex workflow.",
+      "imageUrl": "https://images.unsplash.com/photo-1649429398909-db7ae841c386?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMG5ldHdvcmt8ZW58MHx8fHwxNzY0ODU1ODk0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract network"
+    },
+    {
+      "id": "blog-2",
+      "description": "A person typing on a laptop with code on the screen.",
+      "imageUrl": "https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsYXB0b3AlMjBjb2RlfGVufDB8fHx8MTc2NDg2MzQ0NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "laptop code"
+    },
+    {
+      "id": "blog-3",
+      "description": "A chart showing business growth and efficiency improvements.",
+      "imageUrl": "https://images.unsplash.com/photo-1730382624709-81e52dd294d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMGNoYXJ0fGVufDB8fHx8MTc2NDc4MzIyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business chart"
+    }
+  ]
 }
