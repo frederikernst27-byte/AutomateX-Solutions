@@ -3,90 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutomateX - n8n Automation Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>AutomateX | Enterprise n8n Automation Solutions</title>
+    <meta name="description" content="Professionelle Prozessautomatisierung für Unternehmen. n8n Experten für ERP-Integration, API-Entwicklung und maßgeschneiderte Workflows.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-card: #141414;
-            --accent: #00d4ff;
-            --accent-glow: 0 0 30px rgba(0, 212, 255, 0.4);
-            --text: #ffffff;
-            --text-muted: #666666;
-            --border: #1f1f1f;
-            --gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: #27272a;
+            --border-light: #3f3f46;
+            --success: #22c55e;
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(0, 100, 255, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 0 2rem;
         }
 
         /* Header */
         header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 0;
+            padding: 1rem 0;
         }
 
         .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
             background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         nav a {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 2rem;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
         nav a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
             color: var(--accent);
         }
 
         /* Hero */
         .hero {
+            padding: 160px 0 100px;
             text-align: center;
-            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
         }
 
         .hero h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
             line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
         .hero h1 span {
@@ -96,274 +184,580 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
-            color: var(--text-muted);
+            font-size: 1.25rem;
+            color: var(--text-secondary);
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
         }
 
-        .cta-btn {
-            display: inline-block;
-            background: var(--gradient);
-            color: var(--bg-dark);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
             font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            color: var(--accent);
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        .cta-btn:hover {
-            box-shadow: var(--accent-glow);
-            transform: scale(1.05);
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
         }
 
         /* Services */
         .services {
-            padding: 4rem 0;
+            padding: 100px 0;
         }
 
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
+        .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
         }
 
         .service-card {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         .service-card:hover {
             border-color: var(--accent);
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .service-card h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
         }
 
         .service-card p {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
 
-        /* Features */
-        .features {
-            padding: 4rem 0;
-            background: var(--bg-card);
-            border-radius: 20px;
-            margin: 2rem 0;
+        /* Why Us */
+        .why-us {
+            padding: 100px 0;
+            background: var(--bg-secondary);
         }
 
-        .features-grid {
+        .why-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .feature {
-            text-align: center;
-            padding: 2rem;
+        .why-content h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .why-list {
+            list-style: none;
         }
 
-        .feature h3 {
-            font-family: 'Syne', sans-serif;
-            margin-bottom: 0.5rem;
+        .why-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .feature p {
-            color: var(--text-muted);
+        .why-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .why-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .why-text span {
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
-        /* Contact */
-        .contact {
-            padding: 4rem 0;
+        .why-image {
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--border);
+        }
+
+        .why-image-placeholder {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .placeholder-box {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
         }
 
-        .contact-form {
-            max-width: 500px;
-            margin: 2rem auto;
+        .placeholder-box h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
         }
 
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
+        .placeholder-box p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Process */
+        .process {
+            padding: 100px 0;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
         }
 
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .contact-form textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--gradient);
-            color: var(--bg-dark);
-            border: none;
-            padding: 1rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            box-shadow: var(--accent-glow);
+        .cta p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
+            padding: 4rem 0 2rem;
             border-top: 1px solid var(--border);
-            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .why-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            header { flex-direction: column; gap: 1rem; }
-            nav { margin-top: 1rem; }
-            nav a { margin: 0 1rem; }
+            .hero { padding: 120px 0 60px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+            nav { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">⚡ AutomateX</div>
-            <nav>
-                <a href="#services">Leistungen</a>
-                <a href="#features">Vorteile</a>
-                <a href="#contact">Kontakt</a>
-            </nav>
-        </header>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="#" class="logo">
+                    <div class="logo-icon">⚡</div>
+                    AutomateX
+                </a>
+                <nav>
+                    <a href="#services">Leistungen</a>
+                    <a href="#why-us">Warum wir</a>
+                    <a href="#process">Prozess</a>
+                    <a href="#contact" class="btn btn-primary">Kontakt</a>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-        <section class="hero">
-            <h1>Prozesse automatisieren.<br><span>Effizienz steigern.</span></h1>
-            <p>Wir helfen Unternehmen, manuelle Aufgaben zu automatisieren und Zeit zu sparen. Mit n8n entwickeln wir maßgeschneiderte Workflows für Ihr Business.</p>
-            <a href="#contact" class="cta-btn">Kostenloses Beratungsgespräch</a>
-        </section>
+    <section class="hero">
+        <div class="container">
+            <div class="badge">
+                <span>✓</span> n8n Enterprise Partner
+            </div>
+            <h1>Prozessautomatisierung<br><span>für Unternehmen</span></h1>
+            <p>Wir transformieren Ihre Geschäftsprozesse mit maßgeschneiderten n8n-Lösungen. Effizienter. Skalierbar. Zukunftssicher.</p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">Kostenloses Erstgespräch</a>
+                <a href="#services" class="btn btn-outline">Leistungen entdecken</a>
+            </div>
+        </div>
+    </section>
 
-        <section class="services" id="services">
-            <h2 class="section-title">Unsere Leistungen</h2>
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">150+</div>
+                    <div class="stat-label">Automatisierte Prozesse</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Zufriedene Kunden</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">10.000+</div>
+                    <div class="stat-label">Gesparre Stunden/Jahr</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">99,9%</div>
+                    <div class="stat-label">Systemverfügbarkeit</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Unsere Kernleistungen</h2>
+                <p>End-to-End Automatisierungslösungen für moderne Unternehmen</p>
+            </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <h3>🔗 ERP-Integration</h3>
-                    <p>Verbindung von ERP-Systemen mit anderen Anwendungen. Automatische Datensynchronisierung und Optimierung interner Geschäftsprozesse.</p>
+                    <div class="service-icon">🔗</div>
+                    <h3>ERP-Integration</h3>
+                    <p>Nahtlose Verbindung zwischen ERP-Systemen und allen Geschäftsanwendungen. Automatische Datensynchronisation in Echtzeit.</p>
                 </div>
                 <div class="service-card">
-                    <h3>⚙️ Individuelle n8n-Workflows</h3>
-                    <p>Entwicklung spezifischer Automationen von einfach bis komplex. Anpassung an Ihre operativen Anforderungen.</p>
+                    <div class="service-icon">⚙️</div>
+                    <h3>n8n Workflow-Entwicklung</h3>
+                    <p>Maßgeschneiderte Automatisierungen von einfachen Triggers bis zu komplexen Multi-Step-Workflows.</p>
                 </div>
                 <div class="service-card">
-                    <h3>🌐 API-Integrationen</h3>
-                    <p>Anbindung verschiedener SaaS-Plattformen. Verbindung interner Tools für ein automatisiertes, vernetztes System.</p>
+                    <div class="service-icon">🌐</div>
+                    <h3>API-Entwicklung</h3>
+                    <p>RESTful APIs und Webhooks für die Integration Ihrer Software-Landschaft. Dokumentiert und wartbar.</p>
                 </div>
                 <div class="service-card">
-                    <h3>🤖 KI-Agenten</h3>
-                    <p>Automatisierte Anrufbeantworter und E-Mail-Beantworter mit KI. Sofortige, intelligente Antworten rund um die Uhr.</p>
+                    <div class="service-icon">🤖</div>
+                    <h3>KI-Agenten</h3>
+                    <p>Intelligente Chatbots und automatisierte E-Mail-/Anrufbeantworter mit modernen KI-Modellen.</p>
                 </div>
                 <div class="service-card">
-                    <h3>☁️ n8n Hosting</h3>
-                    <p>Wir deployen und hosten n8n für Sie. Sichere, zuverlässige Selbst gehostete Automation-Lösungen.</p>
+                    <div class="service-icon">☁️</div>
+                    <h3>n8n Hosting</h3>
+                    <p>Sichere, skalierbare Hosting-Lösungen auf Ihren eigenen Servern oder in der Cloud. DSGVO-konform.</p>
                 </div>
                 <div class="service-card">
-                    <h3>📊 Prozess-Automatisierung</h3>
-                    <p>End-to-End Automatisierung Ihrer Geschäftsprozesse. Wiederkehrende Aufgaben werden effizient erledigt.</p>
+                    <div class="service-icon">📊</div>
+                    <h3>Prozessanalyse</h3>
+                    <p>Identifikation von Optimierungspotenzialen in Ihren Geschäftsprozessen. Datengestützte Empfehlungen.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="features" id="features">
-            <h2 class="section-title">Warum AutomateX?</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">⏱️</div>
-                    <h3>Zeit sparen</h3>
-                    <p>Wiederkehrende manuelle Aufgaben werden automatisiert. Ihr Team fokussiert sich auf das Wesentliche.</p>
+    <section class="why-us" id="why-us">
+        <div class="container">
+            <div class="why-grid">
+                <div class="why-content">
+                    <h2>Warum AutomateX?</h2>
+                    <ul class="why-list">
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div class="why-text">
+                                <strong>Deutsche Qualitätsarbeit</strong>
+                                <span>DSGVO-konforme Lösungen aus Deutschland. Ihre Daten bleiben in Europa.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div class="why-text">
+                                <strong>Enterprise Expertise</strong>
+                                <span>Erfahrung mit Unternehmen jeder Größe. Von Start-ups bis Dax-Konzernen.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div class="why-text">
+                                <strong>Langfristiger Support</strong>
+                                <span>Wir begleiten Sie nach dem Go-Live. Wartung, Updates und Weiterentwicklung.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div class="why-text">
+                                <strong>Offene Technologie</strong>
+                                <span>Keine Vendor-Lock-ins. n8n ist Open-Source. Sie behalten die volle Kontrolle.</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Maßgeschneidert</h3>
-                    <p>Individuelle Lösungen, die genau zu Ihren Prozessen passen. Keine Standardlösung.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📈</div>
-                    <h3>Skalierbar</h3>
-                    <p>Automationen wachsen mit Ihrem Unternehmen. Langfristig stabil und zuverlässig.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Sicher</h3>
-                    <p>Ihre Daten bleiben auf Ihren Systemen. DSGVO-konforme Lösungen aus Deutschland.</p>
+                <div class="why-image">
+                    <div class="why-image-placeholder">
+                        <div class="placeholder-box">
+                            <h4>85%</h4>
+                            <p>Weniger manuel<br>Arbeit</p>
+                        </div>
+                        <div class="placeholder-box">
+                            <h4>24/7</h4>
+                            <p>System<br>Verfügbarkeit</p>
+                        </div>
+                        <div class="placeholder-box">
+                            <h4>< 1min</h4>
+                            <p>Response<br>Time</p>
+                        </div>
+                        <div class="placeholder-box">
+                            <h4>100%</h4>
+                            <p>DSGVO<br>Konform</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="contact" id="contact">
-            <h2 class="section-title">Kontakt</h2>
-            <p style="color: var(--text-muted);">Bereit für mehr Effizienz? Schreiben Sie uns!</p>
-            
-            <form class="contact-form" onsubmit="handleSubmit(event)">
-                <input type="text" name="name" placeholder="Ihr Name" required>
-                <input type="email" name="email" placeholder="Ihre E-Mail" required>
-                <input type="text" name="company" placeholder="Firma (optional)">
-                <textarea name="message" placeholder="Wie können wir helfen?" required></textarea>
-                <button type="submit" class="submit-btn">Nachricht senden</button>
-            </form>
-        </section>
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>So arbeiten wir</h2>
+                <p>Bewährter Prozess für erfolgreiche Automatisierung</p>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Analyse</h3>
+                    <p>Wir analysieren Ihre bestehenden Prozesse und identifizieren Optimierungspotenziale.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Konzeption</h3>
+                    <p>Gemeinsam entwickeln wir ein maßgeschneidertes Automatisierungskonzept.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Entwicklung</h3>
+                    <p>Unsere n8N-Experten setzen die Lösung effizient und dokumentiert um.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Betrieb</h3>
+                    <p>Wir übernehmen den laufenden Betrieb und sorgen für maximale Verfügbarkeit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <footer>
-            <p>© 2026 <strong>AutomateX</strong> - n8n Automation Services</p>
-            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
-                <a href="#" style="color: var(--text-muted);">Impressum</a> | 
-                <a href="#" style="color: var(--text-muted);">Datenschutz</a>
-            </p>
-        </footer>
-    </div>
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Bereit für mehr Effizienz?</h2>
+            <p>Vereinbaren Sie ein kostenloses Erstgespräch. Wir zeigen Ihnen das Potenzial.</p>
+            <a href="mailto:kontakt@automatex.de" class="btn btn-primary">Kontakt aufnehmen</a>
+        </div>
+    </section>
 
-    <script>
-        function handleSubmit(e) {
-            e.preventDefault();
-            alert('Danke für Ihre Nachricht! Wir melden uns bald bei Ihnen.');
-            e.target.reset();
-        }
-    </script>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">⚡</div>
+                        AutomateX
+                    </a>
+                    <p>Ihr Partner für professionelle Prozessautomatisierung mit n8n.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Leistungen</h4>
+                    <ul>
+                        <li><a href="#">ERP-Integration</a></li>
+                        <li><a href="#">n8n Workflows</a></li>
+                        <li><a href="#">API-Entwicklung</a></li>
+                        <li><a href="#">KI-Agenten</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Unternehmen</h4>
+                    <ul>
+                        <li><a href="#">Über uns</a></li>
+                        <li><a href="#">Referenzen</a></li>
+                        <li><a href="#">Karriere</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">AGB</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 AutomateX. Alle Rechte vorbehalten.</p>
+                <p>Made with ⚡ in Germany</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
