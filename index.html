@@ -1033,7 +1033,13 @@
                         <h3 style="margin-bottom:.75rem;">Direkter Kontakt</h3>
                         <p style="color:var(--text-secondary);margin-bottom:.5rem;">📧 E-Mail</p>
                         <a href="mailto:frederik.ernst27@gmail.com" style="color:var(--accent-light);text-decoration:none;font-weight:600;">frederik.ernst27@gmail.com</a>
-                        <p style="color:var(--text-secondary);margin-top:1rem;">Antwortzeit: in der Regel innerhalb von 24h</p>
+                        <ul style="list-style:none;margin-top:1rem;color:var(--text-secondary);font-size:.92rem;line-height:1.6;">
+                            <li>✓ Klares Value Proposition Gespräch</li>
+                            <li>✓ Social Proof + Cases auf Anfrage</li>
+                            <li>✓ Konkrete Leistungen + Resultate</li>
+                            <li>✓ Starkes Qualifizierungsformular</li>
+                            <li>✓ Schnelle Reaktion: &lt; 2 Stunden (werktags)</li>
+                        </ul>
                     </div>
 
                     <form action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST" style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:14px;padding:1.25rem;text-align:left;display:grid;gap:.8rem;">
@@ -1041,19 +1047,26 @@
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
 
-                        <label style="font-size:.9rem;color:var(--text-secondary);">Name</label>
+                        <label style="font-size:.9rem;color:var(--text-secondary);">Name *</label>
                         <input name="name" required placeholder="Ihr Name" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);">
 
-                        <label style="font-size:.9rem;color:var(--text-secondary);">E-Mail</label>
+                        <label style="font-size:.9rem;color:var(--text-secondary);">E-Mail *</label>
                         <input type="email" name="email" required placeholder="ihre@email.de" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);">
 
-                        <label style="font-size:.9rem;color:var(--text-secondary);">Unternehmen</label>
-                        <input name="company" placeholder="Ihr Unternehmen" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);">
+                        <label style="font-size:.9rem;color:var(--text-secondary);">Unternehmen *</label>
+                        <input name="company" required placeholder="Ihr Unternehmen" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);">
 
-                        <label style="font-size:.9rem;color:var(--text-secondary);">Nachricht</label>
-                        <textarea name="message" required rows="5" placeholder="Wobei können wir Sie unterstützen?" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);"></textarea>
+                        <label style="font-size:.9rem;color:var(--text-secondary);">Monatlicher Umsatz (optional)</label>
+                        <input name="monthly_revenue" placeholder="z. B. 50.000€" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);">
+
+                        <label style="font-size:.9rem;color:var(--text-secondary);">Was soll automatisiert werden? *</label>
+                        <textarea name="automation_goal" required rows="4" placeholder="z. B. Lead-Qualifizierung, Angebotsprozess, Reporting, CRM-Workflows" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);"></textarea>
+
+                        <label style="font-size:.9rem;color:var(--text-secondary);">Weitere Details</label>
+                        <textarea name="message" rows="3" placeholder="Optional: weitere Infos, Ziele, Deadline" style="padding:.8rem;border-radius:10px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);"></textarea>
 
                         <button class="btn btn-primary" type="submit" style="margin-top:.5rem;">Anfrage senden</button>
+                        <p style="color:var(--text-muted);font-size:.82rem;">Reaktionszeit: in der Regel unter 2 Stunden (werktags).</p>
                     </form>
                 </div>
             </div>
