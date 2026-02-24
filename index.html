@@ -94,11 +94,15 @@
             width: 36px;
             height: 36px;
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #fff;
+            box-shadow: 0 8px 22px rgba(59, 130, 246, 0.35);
         }
 
         .nav-links {
@@ -745,7 +749,7 @@
         <div class="container">
             <div class="nav-inner">
                 <a href="#" class="logo">
-                    <div class="logo-mark">âš¡</div>
+                    <div class="logo-mark">AX</div>
                     AutomateX
                 </a>
                 <ul class="nav-links">
@@ -929,48 +933,50 @@
     <section class="pricing" id="pricing" style="padding: 80px 0; background: var(--bg-secondary);">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">Preise</span>
-                <h2> Transparente Preise</h2>
-                <p>Wählen Sie das passende Paket für Ihre Anforderungen</p>
+                <span class="section-label">Referenzpreise</span>
+                <h2>Individuelle Preise - mit klaren Beispielen</h2>
+                <p>Jedes Projekt wird individuell kalkuliert. Zur Orientierung finden Sie hier typische Beispielbudgets.</p>
             </div>
-            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
-                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 2rem; border-radius: 16px; border: 1px solid var(--border);">
-                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Starter</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent);">€499<span style="font-size: 1rem; color: var(--text-muted);">/Projekt</span></div>
-                    <p style="color: var(--text-secondary); margin: 1rem 0;">Perfekt für kleine Automatisierungen</p>
-                    <ul style="list-style: none; margin: 1.5rem 0;">
-                        <li style="padding: 0.5rem 0;">✓ 1 Automation</li>
-                        <li style="padding: 0.5rem 0;">✓ 5 Workflows</li>
-                        <li style="padding: 0.5rem 0;">✓ E-Mail Support</li>
+            <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto;">
+                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 14px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Standard-Prozess Automation</h3>
+                    <div style="font-size: 1.9rem; font-weight: 700; color: var(--accent);">ab 900€</div>
+                    <p style="color: var(--text-secondary); margin: 0.8rem 0;">Für einen klar definierten Workflow mit 1-2 Tools.</p>
+                    <ul style="list-style: none; margin: 1rem 0; color: var(--text-secondary);">
+                        <li style="padding: 0.35rem 0;">✓ Analyse + Setup</li>
+                        <li style="padding: 0.35rem 0;">✓ 1 End-to-End Workflow</li>
+                        <li style="padding: 0.35rem 0;">✓ Übergabe + Doku</li>
                     </ul>
-                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage Starter Paket" class="btn" style="display: block; text-align: center; padding: 0.75rem; background: var(--bg-secondary); border-radius: 8px; color: var(--text-primary); text-decoration: none;">Anfragen</a>
+                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage Standard Prozess" class="btn" style="display:block;text-align:center;padding:0.75rem;background:var(--bg-secondary);border-radius:8px;color:var(--text-primary);text-decoration:none;">Beispiel anfragen</a>
                 </div>
-                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 2rem; border-radius: 16px; border: 2px solid var(--accent);">
-                    <div style="display: inline-block; background: var(--accent); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; margin-bottom: 1rem;">BELIEBT</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Business</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent);">€1.499<span style="font-size: 1rem; color: var(--text-muted);">/Projekt</span></div>
-                    <p style="color: var(--text-secondary); margin: 1rem 0;">Für wachsende Unternehmen</p>
-                    <ul style="list-style: none; margin: 1.5rem 0;">
-                        <li style="padding: 0.5rem 0;">✓ 5 Automatisierungen</li>
-                        <li style="padding: 0.5rem 0;">✓ 20 Workflows</li>
-                        <li style="padding: 0.5rem 0;">✓ Priority Support</li>
-                        <li style="padding: 0.5rem 0;">✓ Monatliche Wartung</li>
+
+                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 14px; border: 2px solid var(--accent);">
+                    <div style="display:inline-block;background:var(--accent);color:#fff;padding:0.2rem 0.6rem;border-radius:999px;font-size:.75rem;margin-bottom:.6rem;">häufig gewählt</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">KI-Agent für Anrufe / Lead-Qualifizierung</h3>
+                    <div style="font-size: 1.9rem; font-weight: 700; color: var(--accent);">ab 1.900€</div>
+                    <p style="color: var(--text-secondary); margin: 0.8rem 0;">Inbound-Anrufe oder Leads automatisch vorqualifizieren.</p>
+                    <ul style="list-style: none; margin: 1rem 0; color: var(--text-secondary);">
+                        <li style="padding: 0.35rem 0;">✓ AI-Prompting + Routing</li>
+                        <li style="padding: 0.35rem 0;">✓ CRM-Anbindung</li>
+                        <li style="padding: 0.35rem 0;">✓ Termin-/Lead-Übergabe</li>
                     </ul>
-                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage Business Paket" class="btn btn-primary" style="display: block; text-align: center; padding: 0.75rem; background: var(--accent); border-radius: 8px; color: white; text-decoration: none;">Anfragen</a>
+                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage KI Agent Anrufe" class="btn btn-primary" style="display:block;text-align:center;padding:0.75rem;background:var(--accent);border-radius:8px;color:#fff;text-decoration:none;">Beispiel anfragen</a>
                 </div>
-                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 2rem; border-radius: 16px; border: 1px solid var(--border);">
-                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Enterprise</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent);">Individuell</div>
-                    <p style="color: var(--text-secondary); margin: 1rem 0;">Maßgeschneiderte Lösungen</p>
-                    <ul style="list-style: none; margin: 1.5rem 0;">
-                        <li style="padding: 0.5rem 0;">✓ Unbegrenzte Automatisierungen</li>
-                        <li style="padding: 0.5rem 0;">✓ 24/7 Support</li>
-                        <li style="padding: 0.5rem 0;">✓ SLA Garantie</li>
-                        <li style="padding: 0.5rem 0;">✓ Individuelle Entwicklung</li>
+
+                <div class="pricing-card" style="background: var(--bg-tertiary); padding: 1.5rem; border-radius: 14px; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Multi-System Automatisierung</h3>
+                    <div style="font-size: 1.9rem; font-weight: 700; color: var(--accent);">ab 3.500€</div>
+                    <p style="color: var(--text-secondary); margin: 0.8rem 0;">Mehrere Abteilungen, APIs und Workflows in einem Setup.</p>
+                    <ul style="list-style: none; margin: 1rem 0; color: var(--text-secondary);">
+                        <li style="padding: 0.35rem 0;">✓ Architektur + Umsetzung</li>
+                        <li style="padding: 0.35rem 0;">✓ Monitoring + Alerting</li>
+                        <li style="padding: 0.35rem 0;">✓ Schulung für Ihr Team</li>
                     </ul>
-                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage Enterprise Paket" class="btn" style="display: block; text-align: center; padding: 0.75rem; background: var(--bg-secondary); border-radius: 8px; color: var(--text-primary); text-decoration: none;">Kontakt</a>
+                    <a href="mailto:frederik.ernst27@gmail.com?subject=Anfrage Multi-System Automation" class="btn" style="display:block;text-align:center;padding:0.75rem;background:var(--bg-secondary);border-radius:8px;color:var(--text-primary);text-decoration:none;">Beispiel anfragen</a>
                 </div>
             </div>
+
+            <p style="text-align:center;color:var(--text-muted);margin-top:1rem;font-size:.9rem;">Hinweis: Endpreise hängen vom Umfang, den Integrationen und der gewünschten Betriebssicherheit ab.</p>
         </div>
     </section>
 
@@ -1082,7 +1088,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <div class="logo-mark">⚡</div>
+                        <div class="logo-mark">AX</div>
                         AutomateX
                     </a>
                     <p>Ihr Partner für professionelle Prozessautomatisierung mit n8n. Made in Germany.</p>
