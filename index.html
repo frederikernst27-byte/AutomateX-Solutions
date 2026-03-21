@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutomateX — KI-gestützte Prozessautomatisierung. Made in Germany.</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
@@ -44,6 +46,16 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transition:all .25s;
 }
 .nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);}
+.nav-li{
+  color:var(--muted);transition:color .2s;
+  display:flex;align-items:center;
+}
+.nav-li:hover{color:var(--accent);}
+.nav-li{
+  color:var(--muted);transition:color .2s;
+  display:flex;align-items:center;
+}
+.nav-li:hover{color:var(--accent);}
 
 /* ── HERO ─────────────────────────────────────────────── */
 .hero{
@@ -111,6 +123,26 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 }
 
 .hero-content{position:relative;z-index:10;padding:100px 60px 0;max-width:680px;}
+.hero-brand-line{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:24px;
+  opacity:0;animation:up .9s .15s forwards;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-brand-line::before{
+  content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;
+}
+.hero-brand-line{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:24px;
+  opacity:0;animation:up .9s .15s forwards;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-brand-line::before{
+  content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;
+}
 
 .hero-h1{
   font-family:'Cormorant Garamond',serif;font-weight:300;
@@ -196,6 +228,82 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transform:translate(0,0);
 }
 .dark-card:hover::before{opacity:1;}
+
+/* ── FORSCHUNG ────────────────────────────────────────── */
+.forschung{padding:0 0 140px;position:relative;z-index:2;}
+.forschung-card{
+  background:var(--card);border:1px solid rgba(255,255,255,.07);
+  border-radius:24px;padding:72px 64px;
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.forschung-orb{
+  position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,255,176,.055) 0%,transparent 65%);
+  top:-150px;right:-100px;pointer-events:none;
+}
+.forschung-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+.f-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:100px;
+  padding:5px 12px;transition:all .25s;
+}
+.f-tag:hover{border-color:rgba(79,255,176,.3);color:var(--accent);}
+.forschung-li-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.22);
+  border-radius:8px;padding:12px 22px;color:var(--accent);
+  font-size:14px;font-weight:500;text-decoration:none;letter-spacing:.3px;
+  transition:all .25s;
+}
+.forschung-li-btn:hover{background:rgba(79,255,176,.15);border-color:var(--accent);transform:translateY(-2px);}
+
+/* badge card */
+.forschung-right{position:relative;}
+.forschung-badge-card{
+  background:rgba(4,4,12,.95);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:32px;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  position:relative;overflow:hidden;
+}
+.forschung-badge-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(79,255,176,.4),transparent);
+}
+.fbc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.fbc-logo{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.18);
+  display:flex;align-items:center;justify-content:center;
+}
+.fbc-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.fbc-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:blink 2s infinite;}
+.fbc-role{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:20px;letter-spacing:-.3px;line-height:1.3;
+  margin-bottom:12px;color:var(--text);
+}
+.fbc-uni{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
+.fbc-divider{height:1px;background:var(--line);margin-bottom:20px;}
+.fbc-skills-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.fbc-skills{display:flex;flex-wrap:wrap;gap:7px;}
+.fbc-skills span{font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
+
+/* floating chips */
+.fbc-chip{
+  position:absolute;display:flex;align-items:center;gap:7px;
+  background:rgba(4,4,12,.95);border:1px solid rgba(79,255,176,.2);
+  border-radius:100px;padding:8px 14px;font-size:11px;font-weight:500;
+  backdrop-filter:blur(12px);white-space:nowrap;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);color:var(--text);
+}
+.fbc-chip-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:blink 2s infinite;}
+.fbc-chip-1{top:-18px;left:20px;animation:fc 4s ease-in-out infinite;}
+.fbc-chip-2{bottom:-18px;right:20px;animation:fc 5s 1s ease-in-out infinite;}
+@keyframes fc{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@media(max-width:1024px){.forschung-card{grid-template-columns:1fr;gap:48px;} .forschung-card{padding:40px 28px;}}
 
 /* ── LEISTUNGEN ───────────────────────────────────────── */
 .leistungen{padding:140px 0;position:relative;z-index:2;}
@@ -479,6 +587,8 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 .f-tagline{font-size:14px;color:var(--muted);line-height:1.7;max-width:260px;margin-bottom:20px;}
 .f-mail{font-size:13px;color:var(--accent);text-decoration:none;opacity:.75;transition:opacity .2s;}
 .f-mail:hover{opacity:1;}
+.f-linkedin{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);text-decoration:none;margin-top:12px;opacity:.65;transition:all .2s;}
+.f-linkedin:hover{color:var(--accent);opacity:1;}
 .f-heading{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
 .f-links{list-style:none;display:flex;flex-direction:column;gap:11px;}
 .f-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
@@ -522,12 +632,18 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
     <li><a href="#leistungen">Leistungen</a></li>
     <li><a href="#prozess">Prozess</a></li>
     <li><a href="#preise">Preise</a></li>
+    <li><a href="#ueber">Über uns</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
-  <a href="#kontakt" class="nav-cta">
-    Kostenloses Gespräch
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-  </a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="nav-li" title="LinkedIn — Frederik Ernst">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="#kontakt" class="nav-cta">
+      Kostenloses Gespräch
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
 </nav>
 
 <!-- ═══ HERO ════════════════════════════════════════════ -->
@@ -540,6 +656,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
     </div>
   </div>
   <div class="hero-content">
+    <div class="hero-brand-line">Automate X Solutions</div>
     <h1 class="hero-h1">
       Mit <em>KI</em><br>Prozesse<br>automatisieren.
       <span class="sml">Business skalieren.</span>
@@ -791,9 +908,9 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
       <div class="kontakt-grid">
         <div>
           <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:400px;">Vereinbaren Sie ein kostenloses Erstgespräch oder senden Sie uns direkt Ihre KI-Anfrage.</p>
-          <a href="/cdn-cgi/l/email-protection#345246515051465d5f1a51465a47400603745359555d581a575b59" class="k-email">
+          <a href="mailto:frederik.ernst27@gmail.com" class="k-email">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-            <span class="__cf_email__" data-cfemail="96f0e4f3f2f3e4fffdb8f3e4f8e5e2a4a1d6f1fbf7fffab8f5f9fb">[email&#160;protected]</span>
+            frederik.ernst27@gmail.com
           </a>
           <div class="k-checks">
             <div class="k-check"><div class="k-chk">✓</div>Klares Value Proposition Gespräch</div>
@@ -823,6 +940,76 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
             </button>
           </form>
           <div class="f-rt">⚡ Reaktionszeit: in der Regel unter 2 Stunden (werktags).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FORSCHUNG ══════════════════════════════════════ -->
+<section class="forschung" id="ueber">
+  <div class="wrap">
+    <div class="forschung-card r">
+      <!-- glow orb -->
+      <div class="forschung-orb"></div>
+
+      <div class="forschung-left">
+        <div class="sec-label">Über den Gründer</div>
+        <h2 class="sec-h2" style="margin-bottom:24px;">An der <em>Forschungsfront</em><br>der KI-Automatisierung</h2>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
+          AutomateX Solutions entstand nicht am Reißbrett — sondern direkt aus aktiver Forschungsarbeit. Als Teil des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der Fakultät für Wirtschaftsinformatik der Universität Duisburg-Essen arbeite ich täglich an der Schnittstelle zwischen Wissenschaft und praxisnaher KI-Implementierung.
+        </p>
+        <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
+          Was das bedeutet: Ich verfolge neue KI-Modelle, Automatisierungsarchitekturen und Prozessinnovationen nicht als Hobby — sondern als Bestandteil meiner wissenschaftlichen Arbeit. Jede Lösung, die AutomateX liefert, ist durchdrungen von aktuellem Forschungsstand und echten Erkenntnissen aus dem Lab.
+        </p>
+
+        <div class="forschung-tags">
+          <span class="f-tag">ERP-Implementierung</span>
+          <span class="f-tag">KI-Prozessoptimierung</span>
+          <span class="f-tag">Wirtschaftsinformatik</span>
+          <span class="f-tag">Universität Duisburg-Essen</span>
+          <span class="f-tag">Process Innovation Lab</span>
+        </div>
+
+        <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="forschung-li-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          Auf LinkedIn ansehen — Frederik Ernst
+        </a>
+      </div>
+
+      <div class="forschung-right">
+        <!-- UDE research badge card -->
+        <div class="forschung-badge-card">
+          <div class="fbc-top">
+            <div class="fbc-logo">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--accent);">UDE</span>
+            </div>
+            <div class="fbc-status">
+              <span class="fbc-dot"></span>
+              <span>Aktiv · Seit Juli 2025</span>
+            </div>
+          </div>
+          <div class="fbc-role">Process Innovation &amp;<br>Automation Lab (PIA)</div>
+          <div class="fbc-uni">Universität Duisburg-Essen<br><span style="color:var(--muted);font-size:13px;">Fakultät für Wirtschaftsinformatik · Hybrid</span></div>
+          <div class="fbc-divider"></div>
+          <div class="fbc-skills-label">Forschungsschwerpunkte</div>
+          <div class="fbc-skills">
+            <span>ERP-Systeme</span>
+            <span>Prozessautomatisierung</span>
+            <span>KI-Integration</span>
+            <span>Enterprise Resource Planning</span>
+          </div>
+        </div>
+
+        <!-- floating stat chips -->
+        <div class="fbc-chip fbc-chip-1">
+          <div class="fbc-chip-dot"></div>
+          <span>Aktuelle KI-Forschung</span>
+        </div>
+        <div class="fbc-chip fbc-chip-2" style="border-color:rgba(124,92,252,.3);">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7c5cfc" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <span style="color:#7c5cfc;">Wissenschaftliche Basis</span>
         </div>
       </div>
     </div>
@@ -878,7 +1065,11 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         Automate<span>X</span>
       </a>
       <p class="f-tagline">Ihr Partner für professionelle KI-Prozessautomatisierung. Made in Germany. DSGVO-konform. Self-Hosted.</p>
-      <a href="/cdn-cgi/l/email-protection#70160215141502191b5e15021e0304424730171d11191c5e131f1d" class="f-mail"><span class="__cf_email__" data-cfemail="31574354555443585a1f54435f4245030671565c50585d1f525e5c">[email&#160;protected]</span></a>
+      <a href="mailto:frederik.ernst27@gmail.com" class="f-mail">frederik.ernst27@gmail.com</a>
+      <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="f-linkedin">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn &mdash; Frederik Ernst
+      </a>
     </div>
     <div>
       <div class="f-heading">Leistungen</div>
@@ -896,7 +1087,8 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         <li><a href="#warum">Warum wir</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#preise">Pakete</a></li>
-        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
       </ul>
     </div>
     <div>
@@ -914,7 +1106,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* NAV */
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
