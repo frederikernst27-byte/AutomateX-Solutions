@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutomateX — KI-gestützte Prozessautomatisierung. Made in Germany.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+<style>
+:root{
+  --bg:#060608;
+  --card:#0d0d10;
+  --card2:#111115;
+  --accent:#4fffb0;
+  --accent2:#7c5cfc;
+  --accent3:#00d4ff;
+  --text:#f0f0f8;
+  --muted:#606072;
+  --line:rgba(255,255,255,0.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+
+/* ── NAV ──────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  padding:18px 48px;display:flex;align-items:center;justify-content:space-between;
+  transition:all .5s;
+}
+nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom:1px solid var(--line);}
+.logo{display:flex;align-items:center;gap:0;text-decoration:none;}
+.logo img{width:44px;height:44px;object-fit:contain;filter:invert(1) brightness(1);}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.4px;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,255,176,.1);border:1px solid rgba(79,255,176,.25);
+  border-radius:6px;padding:9px 20px;color:var(--accent);
+  font-size:13px;font-weight:500;text-decoration:none;letter-spacing:.3px;
+  transition:all .25s;
+}
+.nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);}
+
+/* ── HERO ─────────────────────────────────────────────── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+
+/* BIG ambient glow behind hero */
+.hero::before{
+  content:'';position:absolute;
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,255,176,.07) 0%,transparent 65%);
+  top:-200px;right:-100px;pointer-events:none;z-index:0;
+  animation:glow 10s ease-in-out infinite;
+}
+.hero::after{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,92,252,.07) 0%,transparent 65%);
+  bottom:-150px;left:20%;pointer-events:none;z-index:0;
+  animation:glow 14s 3s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{transform:scale(1) translate(0,0);}50%{transform:scale(1.08) translate(-20px,20px);}}
+
+/* Spline */
+.hero-spline{
+  position:absolute;right:0;top:0;width:58%;height:100%;z-index:1;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 32%);
+  mask-image:linear-gradient(to right,transparent 0%,black 32%);
+}
+.hero-spline spline-viewer{width:100%;height:100%;}
+.hero-spline::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:280px;
+  background:linear-gradient(to top,var(--bg),transparent);pointer-events:none;
+  z-index:2;
+}
+/* badge-hide divs no longer needed */
+.spline-badge-hide{display:none;}
+/* Replacement chip label */
+.spline-chip{
+  position:absolute;
+  bottom:22px;right:22px;
+  z-index:10;pointer-events:none;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(6,6,8,.80);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(79,255,176,.2);
+  border-radius:100px;
+  padding:7px 14px 7px 9px;
+  animation:up .8s 1.4s both;
+}
+.spline-chip-dot{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-weight:900;color:#000;
+}
+.spline-chip-text{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:1.4px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  white-space:nowrap;
+}
+
+.hero-content{position:relative;z-index:10;padding:100px 60px 0;max-width:680px;}
+
+.hero-h1{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(60px,8vw,108px);line-height:.92;letter-spacing:-2.5px;
+  margin-bottom:32px;
+  opacity:0;animation:up .9s .3s forwards;
+}
+.hero-h1 em{font-style:italic;color:var(--accent);}
+.hero-h1 .sml{
+  font-size:clamp(28px,3.8vw,50px);color:var(--muted);
+  font-weight:300;display:block;margin-top:14px;
+  letter-spacing:0;font-style:normal;
+}
+.hero-sub{
+  font-size:17px;color:var(--muted);line-height:1.72;
+  max-width:460px;margin-bottom:48px;
+  opacity:0;animation:up .9s .5s forwards;
+}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-actions{
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  opacity:0;animation:up .9s .7s forwards;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--accent);color:#000;
+  font-weight:700;font-size:14px;letter-spacing:.3px;
+  padding:14px 30px;border-radius:8px;text-decoration:none;
+  border:none;cursor:pointer;transition:all .25s;
+}
+.btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 48px rgba(79,255,176,.22);}
+.btn-primary:hover svg{transform:translateX(4px);}
+.btn-primary svg{transition:transform .25s;}
+.btn-ghost{
+  color:var(--muted);font-size:14px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:color .25s;letter-spacing:.3px;
+}
+.btn-ghost:hover{color:var(--text);}
+
+@keyframes up{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+
+/* ── SECTION SHARED ───────────────────────────────────── */
+.wrap{max-width:1180px;margin:0 auto;padding:0 60px;}
+
+.sec-label{
+  display:flex;align-items:center;gap:14px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:22px;
+}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--accent);flex-shrink:0;}
+
+.sec-h2{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(38px,5vw,68px);line-height:.95;letter-spacing:-2px;margin-bottom:18px;
+}
+.sec-h2 em{font-style:italic;color:var(--accent);}
+.sec-sub{font-size:16px;color:var(--muted);line-height:1.75;max-width:500px;}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.r.go{opacity:1;transform:none;}
+.r.d1{transition-delay:.07s;}.r.d2{transition-delay:.14s;}.r.d3{transition-delay:.21s;}
+.r.d4{transition-delay:.28s;}.r.d5{transition-delay:.35s;}.r.d6{transition-delay:.42s;}
+.r.fl{transform:translateX(-32px);}.r.fr{transform:translateX(32px);}
+.r.fl.go,.r.fr.go{transform:none;}
+
+/* ── DARK CARD BASE ───────────────────────────────────── */
+.dark-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+}
+.dark-card::before{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,255,176,.08) 0%,transparent 70%);
+  top:-100px;left:-100px;pointer-events:none;
+  opacity:0;transition:opacity .4s, transform .6s;
+  transform:translate(0,0);
+}
+.dark-card:hover::before{opacity:1;}
+
+/* ── LEISTUNGEN ───────────────────────────────────────── */
+.leistungen{padding:140px 0;position:relative;z-index:2;}
+.leistungen-top{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:72px;}
+
+.leistung-row{
+  display:grid;grid-template-columns:52px 44px 1fr 1fr;
+  align-items:center;gap:32px;
+  padding:26px 0;border-bottom:1px solid var(--line);
+  cursor:default;position:relative;transition:all .3s;
+}
+.leistung-row::after{
+  content:'';position:absolute;left:0;bottom:-1px;right:0;height:1px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transform:scaleX(0);transform-origin:left;transition:transform .45s;
+}
+.leistung-row:hover::after{transform:scaleX(1);}
+.leistung-row:first-child{border-top:1px solid var(--line);}
+.leistung-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;}
+.leistung-icon{
+  width:40px;height:40px;border-radius:9px;
+  background:rgba(79,255,176,.06);border:1px solid rgba(79,255,176,.1);
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
+}
+.leistung-title{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:21px;letter-spacing:-.3px;transition:color .3s;
+}
+.leistung-row:hover .leistung-title{color:var(--accent);}
+.leistung-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+
+/* ── KI SECTION — Card style ─────────────────────────── */
+.ki-section{
+  padding:0 0 140px;position:relative;z-index:2;
+}
+.ki-card{
+  background:rgba(6,6,8,.96);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:24px;overflow:hidden;
+  display:flex;min-height:520px;
+  position:relative;
+  box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
+  clip-path:inset(0 0 0 0 round 24px);
+  transform:translateZ(0);
+}
+
+.ki-spotlight{
+  position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.ki-spotlight svg{
+  position:absolute;top:-40%;left:-20%;
+  width:130%;height:170%;
+  opacity:0;
+  animation:spotIn 1.2s 0.5s forwards;
+}
+@keyframes spotIn{to{opacity:1;}}
+
+.ki-left{
+  flex:1;padding:60px 56px;position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.ki-left .sec-label{margin-bottom:20px;}
+.ki-left .sec-h2{font-size:clamp(34px,4vw,58px);margin-bottom:18px;}
+.ki-left p{font-size:15px;color:var(--muted);line-height:1.75;max-width:380px;margin-bottom:36px;}
+.ki-features{display:flex;flex-direction:column;gap:0;}
+.ki-feat{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ki-feat:last-child{border-bottom:none;}
+.ki-feat-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.ki-feat-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:-.1px;margin-bottom:1px;}
+.ki-feat-desc{font-size:12.5px;color:var(--muted);}
+
+.ki-right{
+  flex:1;position:relative;overflow:hidden;
+  min-height:420px;
+}
+.ki-right::before{
+  content:'';position:absolute;
+  top:0;left:0;width:60px;height:100%;
+  background:linear-gradient(to right,rgba(6,6,8,1),transparent);
+  z-index:2;pointer-events:none;
+}
+/* Hide Spline badge bottom-right with a seamless gradient corner fade */
+.ki-right::after{
+  content:'';position:absolute;
+  bottom:0;right:0;
+  width:200px;height:60px;
+  background:linear-gradient(to top left, #060608 30%, transparent 70%);
+  z-index:6;pointer-events:none;
+}
+.ki-right spline-viewer{
+  position:absolute;inset:0;width:100%;height:100%;
+}
+/* badge cover for ki-right — hidden, kept for DOM structure only */
+.ki-right .spline-badge-hide{
+  display:none;
+}
+
+.ki-terminal{
+  position:absolute;bottom:28px;left:20px;right:20px;z-index:5;
+  background:rgba(4,4,12,.92);
+  border:1px solid rgba(79,255,176,.12);
+  border-radius:14px;overflow:hidden;
+  backdrop-filter:blur(16px);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.term-bar{
+  padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.015);
+}
+.term-dots{display:flex;gap:5px;}
+.tdc{width:9px;height:9px;border-radius:50%;}
+.tdc-r{background:#ff5f57;}.tdc-y{background:#febc2e;}.tdc-g{background:#28c840;}
+.term-ttl{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+.term-live{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);}
+.term-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+.term-body{padding:16px;display:flex;flex-direction:column;gap:12px;}
+.msg{display:flex;gap:8px;align-items:flex-start;opacity:0;transform:translateY(6px);animation:msgIn .4s forwards;}
+.msg.u{flex-direction:row-reverse;}
+.msg:nth-child(1){animation-delay:1.6s;}.msg:nth-child(2){animation-delay:2.6s;}
+.msg:nth-child(3){animation-delay:3.5s;}.msg:nth-child(4){animation-delay:4.8s;}
+@keyframes msgIn{to{opacity:1;transform:none;}}
+.m-av{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.m-av.ai{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#000;}
+.m-av.hu{background:rgba(255,255,255,.08);color:var(--muted);}
+.m-bub{max-width:80%;padding:8px 12px;border-radius:10px;font-size:12.5px;line-height:1.5;}
+.msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);border-top-left-radius:3px;}
+.msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);border-top-right-radius:3px;}
+.m-t{font-size:9px;color:var(--muted);opacity:.4;margin-top:2px;}
+.td-wrap{display:flex;gap:3px;padding:1px 0;}
+.tdd{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.3;}
+.tdd:nth-child(1){animation:tdb 1.2s 0s infinite;}.tdd:nth-child(2){animation:tdb 1.2s .2s infinite;}.tdd:nth-child(3){animation:tdb 1.2s .4s infinite;}
+@keyframes tdb{0%,100%{opacity:.3;transform:none;}50%{opacity:1;transform:translateY(-3px);}}
+
+.term-metrics{display:flex;border-top:1px solid rgba(255,255,255,.05);}
+.t-m{flex:1;padding:10px;text-align:center;border-right:1px solid rgba(255,255,255,.05);}
+.t-m:last-child{border-right:none;}
+.t-v{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:var(--accent);line-height:1;}
+.t-l{font-size:9px;color:var(--muted);margin-top:2px;letter-spacing:.5px;}
+
+/* ── WARUM ────────────────────────────────────────────── */
+.warum{padding:0 0 140px;position:relative;z-index:2;}
+.warum-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:24px;padding:72px 64px;
+  position:relative;overflow:hidden;
+}
+.warum-card::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,92,252,.06) 0%,transparent 65%);
+  bottom:-100px;right:-100px;pointer-events:none;
+}
+.warum-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:64px;}
+.warum-list{display:flex;flex-direction:column;}
+.warum-item{display:grid;grid-template-columns:38px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--line);transition:all .3s;}
+.warum-item:first-child{border-top:1px solid var(--line);}
+.warum-item:hover{padding-left:6px;}
+.w-icon{width:34px;height:34px;border-radius:8px;background:rgba(79,255,176,.06);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px;transition:background .3s;}
+.warum-item:hover .w-icon{background:rgba(79,255,176,.11);}
+.w-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:-.2px;margin-bottom:5px;}
+.w-desc{font-size:14px;color:var(--muted);line-height:1.65;}
+
+/* KPI strip */
+.kpi-strip{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1;}
+.kpi-item{padding:36px 0;border-bottom:1px solid var(--line);padding-right:36px;}
+.kpi-item:nth-child(2n){padding-right:0;padding-left:36px;border-left:1px solid var(--line);}
+.kpi-item:nth-last-child(-n+2){border-bottom:none;}
+.kpi-accent-line{display:block;width:20px;height:2px;background:var(--accent);margin-bottom:18px;}
+.kpi-n{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:68px;letter-spacing:-4px;line-height:1;color:var(--text);margin-bottom:5px;display:flex;align-items:baseline;gap:1px;}
+.kpi-em{font-size:36px;color:var(--accent);font-style:normal;letter-spacing:-1.5px;}
+.kpi-sm{font-size:24px;color:var(--muted);font-style:normal;letter-spacing:-1px;}
+.kpi-l{font-size:13px;color:var(--muted);letter-spacing:.3px;}
+
+/* ── PROZESS ──────────────────────────────────────────── */
+.prozess{padding:0 0 140px;position:relative;z-index:2;}
+.prozess-card{
+  background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;
+  display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;
+  margin-top:64px;
+}
+.p-step{
+  padding:48px 36px;border-right:1px solid var(--line);
+  position:relative;overflow:hidden;transition:background .4s;
+}
+.p-step:last-child{border-right:none;}
+.p-step:hover{background:rgba(79,255,176,.02);}
+.p-big{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:90px;letter-spacing:-5px;line-height:1;color:rgba(79,255,176,.05);margin-bottom:24px;transition:color .4s;}
+.p-step:hover .p-big{color:rgba(79,255,176,.09);}
+.p-num{position:absolute;top:24px;right:28px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+.p-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:-.3px;margin-bottom:12px;}
+.p-desc{font-size:14px;color:var(--muted);line-height:1.7;}
+
+/* ── PREISE ───────────────────────────────────────────── */
+.preise{padding:0 0 140px;position:relative;z-index:2;}
+.preise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px;}
+
+.preis-card{
+  background:var(--card);border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;padding:44px 36px;position:relative;overflow:hidden;
+  transition:transform .35s, border-color .35s, box-shadow .35s;
+}
+.preis-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.12);box-shadow:0 32px 80px rgba(0,0,0,.4);}
+.preis-card.featured{
+  background:rgba(79,255,176,.04);
+  border-color:rgba(79,255,176,.25);
+}
+.preis-card.featured::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+}
+.p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:block;}
+.preis-card.featured .p-tag{color:var(--accent);}
+.preis-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;letter-spacing:-.2px;margin-bottom:8px;}
+.preis-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;min-height:42px;}
+.preis-amount{display:flex;align-items:baseline;gap:3px;margin-bottom:4px;}
+.p-from{font-size:13px;color:var(--muted);}
+.p-cur{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:19px;color:var(--muted);align-self:flex-start;margin-top:5px;}
+.p-num-big{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:58px;letter-spacing:-3px;line-height:1;color:var(--text);}
+.p-div{height:1px;background:var(--line);margin:26px 0;}
+.p-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.p-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);}
+.p-features li::before{content:'';width:16px;height:16px;border-radius:50%;background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.2);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%234fffb0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:10px;background-repeat:no-repeat;background-position:center;}
+.p-btn{display:block;text-align:center;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:12px 24px;font-size:13px;font-weight:500;color:var(--text);letter-spacing:.3px;transition:all .25s;}
+.p-btn:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.04);}
+.preis-card.featured .p-btn{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
+.preis-card.featured .p-btn:hover{background:#fff;border-color:#fff;box-shadow:0 8px 32px rgba(79,255,176,.2);}
+.preis-note{text-align:center;font-size:13px;color:var(--muted);opacity:.5;margin-top:20px;}
+
+/* ── KONTAKT ──────────────────────────────────────────── */
+.kontakt{padding:0 0 140px;position:relative;z-index:2;}
+.kontakt-card{
+  background:var(--card);border:1px solid rgba(255,255,255,.07);
+  border-radius:24px;padding:72px 64px;
+  position:relative;overflow:hidden;
+}
+.kontakt-card::before{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,255,176,.05) 0%,transparent 65%);
+  top:-200px;right:-100px;pointer-events:none;
+}
+.kontakt-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px;}
+.k-email{display:inline-flex;align-items:center;gap:9px;color:var(--accent);font-size:15px;text-decoration:none;margin-bottom:36px;letter-spacing:.2px;transition:opacity .2s;}
+.k-email:hover{opacity:.65;}
+.k-checks{display:flex;flex-direction:column;gap:12px;margin-bottom:48px;}
+.k-check{display:flex;align-items:center;gap:12px;font-size:14.5px;color:var(--muted);}
+.k-chk{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:1px solid rgba(79,255,176,.25);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--accent);font-weight:700;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.f-group{padding-bottom:20px;border-bottom:1px solid var(--line);}
+.f-label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
+.f-input,.f-textarea{width:100%;background:transparent;border:none;outline:none;font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;padding:0;line-height:1.6;caret-color:var(--accent);}
+.f-textarea{resize:vertical;min-height:72px;}
+.f-input::placeholder,.f-textarea::placeholder{color:rgba(255,255,255,.16);}
+.f-submit{margin-top:32px;display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#000;font-weight:700;font-size:14px;letter-spacing:.3px;padding:14px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;}
+.f-submit:hover{background:#fff;transform:translateY(-2px);box-shadow:0 14px 44px rgba(79,255,176,.22);}
+.f-submit:hover svg{transform:translateX(4px);}
+.f-submit svg{transition:transform .25s;}
+.f-rt{margin-top:14px;font-size:12px;color:var(--muted);opacity:.45;letter-spacing:.3px;}
+
+/* ── FAQ ──────────────────────────────────────────────── */
+.faq{padding:0 0 140px;position:relative;z-index:2;}
+.faq-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:72px 64px;}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px;}
+.faq-item{border-bottom:1px solid var(--line);cursor:pointer;}
+.faq-item:first-child{border-top:1px solid var(--line);}
+.faq-q{padding:22px 0;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:-.2px;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;}
+.faq-ico{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:17px;transition:all .25s;line-height:1;}
+.faq-item:hover .faq-ico,.faq-item.open .faq-ico{border-color:rgba(79,255,176,.3);color:var(--accent);}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.75;overflow:hidden;max-height:0;transition:max-height .4s ease,padding .3s ease;padding-bottom:0;}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative;z-index:2;}
+.footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:64px;margin-bottom:48px;}
+.f-brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--text);letter-spacing:.3px;margin-bottom:12px;text-decoration:none;display:inline-block;}
+.f-brand-name span{color:var(--accent);}
+.f-tagline{font-size:14px;color:var(--muted);line-height:1.7;max-width:260px;margin-bottom:20px;}
+.f-mail{font-size:13px;color:var(--accent);text-decoration:none;opacity:.75;transition:opacity .2s;}
+.f-mail:hover{opacity:1;}
+.f-heading{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:11px;}
+.f-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
+.f-links a:hover{color:var(--text);}
+.footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);opacity:.4;}
+.heart{color:#ff4757;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(79,255,176,.12);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(79,255,176,.28);}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media(max-width:1024px){
+  nav{padding:16px 28px;} .wrap{padding:0 28px;}
+  .hero-content{padding:80px 28px 0;max-width:100%;} .hero-spline{width:50%;opacity:.3;}
+  .leistungen-top,.warum-grid,.kontakt-grid{grid-template-columns:1fr;gap:40px;}
+  .ki-card{flex-direction:column;} .ki-right{min-height:340px;}
+  .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
+  .prozess-card{grid-template-columns:1fr 1fr;} .preise-grid{grid-template-columns:1fr;}
+  .faq-grid{grid-template-columns:1fr;} .footer-top{grid-template-columns:1fr 1fr;}
+  .kpi-item:nth-child(2n){padding-left:28px;} .kpi-item{padding-right:28px;}
+  .warum-card,.kontakt-card,.faq-card{padding:40px 28px;}
+}
+@media(max-width:640px){
+  .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;} .hero-spline{display:none;}
+  .prozess-card{grid-template-columns:1fr;} .kpi-strip{grid-template-columns:1fr;gap:0;}
+  .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;}
+  footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="AutomateX Solutions Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#prozess">Prozess</a></li>
+    <li><a href="#preise">Preise</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="nav-cta">
+    Kostenloses Gespräch
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+</nav>
+
+<!-- ═══ HERO ════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-spline" id="spline-wrap">
+    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
+    <div class="spline-chip">
+      <div class="spline-chip-dot">KI</div>
+      <span class="spline-chip-text">Mit unseren KI Systemen erstellt</span>
+    </div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-h1">
+      Mit <em>KI</em><br>Prozesse<br>automatisieren.
+      <span class="sml">Business skalieren.</span>
+    </h1>
+    <p class="hero-sub">
+      Wir entwickeln maßgeschneiderte <strong>KI-Automatisierungslösungen</strong> für Unternehmen, die Effizienz neu definieren. Automatisieren Sie repetitive Tasks mit dem Einsatz moderner KI — und fokussieren Sie sich aufs Wesentliche.
+    </p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="btn-primary">
+        Kostenloses Gespräch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#leistungen" class="btn-ghost">
+        Leistungen ansehen
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LEISTUNGEN ══════════════════════════════════════ -->
+<section class="leistungen" id="leistungen">
+  <div class="wrap">
+    <div class="leistungen-top">
+      <div>
+        <div class="sec-label r">Leistungen</div>
+        <h2 class="sec-h2 r d1">Full-Service<br><em>KI-Automatisierung</em></h2>
+      </div>
+      <p class="sec-sub r d2">End-to-End KI-Lösungen für Ihre digitale Transformation. Von der Analyse bis zum laufenden Betrieb — alles aus einer Hand.</p>
+    </div>
+    <div>
+      <div class="leistung-row r">
+        <div class="leistung-num">01</div><div class="leistung-icon">🔗</div>
+        <div class="leistung-title">ERP-Integration</div>
+        <div class="leistung-desc">Nahtlose Verbindung zwischen SAP, Oracle, Microsoft Dynamics und Ihren Geschäftsanwendungen. Echtzeit-Datensynchronisation via KI-gestützter Middleware.</div>
+      </div>
+      <div class="leistung-row r d1">
+        <div class="leistung-num">02</div><div class="leistung-icon">⚙️</div>
+        <div class="leistung-title">Workflow-Entwicklung</div>
+        <div class="leistung-desc">Maßgeschneiderte KI-Workflows — von einfachen Triggern bis zu komplexen Multi-System-Automationen. Vollständig dokumentiert und wartbar.</div>
+      </div>
+      <div class="leistung-row r d2">
+        <div class="leistung-num">03</div><div class="leistung-icon">🔌</div>
+        <div class="leistung-title">API-Entwicklung</div>
+        <div class="leistung-desc">RESTful APIs und Webhooks für flexible Integration Ihrer Software-Landschaft. Professionell dokumentiert, skalierbar und sicher.</div>
+      </div>
+      <div class="leistung-row r d3">
+        <div class="leistung-num">04</div><div class="leistung-icon">🤖</div>
+        <div class="leistung-title">KI-Agenten</div>
+        <div class="leistung-desc">Intelligente KI-Agenten für automatisierte Kommunikation, Lead-Qualifizierung und Entscheidungslogik. 24/7 verfügbar ohne manuelle Eingriffe.</div>
+      </div>
+      <div class="leistung-row r d4">
+        <div class="leistung-num">05</div><div class="leistung-icon">☁️</div>
+        <div class="leistung-title">Self-Hosted Betrieb</div>
+        <div class="leistung-desc">Vollständig selbst gehostete KI-Infrastruktur auf Ihren eigenen Servern oder in Ihrer Cloud. DSGVO-konform, ISO 27001 zertifizierbar. Volle Datensouveränität.</div>
+      </div>
+      <div class="leistung-row r d5">
+        <div class="leistung-num">06</div><div class="leistung-icon">📊</div>
+        <div class="leistung-title">Prozessanalyse</div>
+        <div class="leistung-desc">KI-gestützte Identifikation von Optimierungspotenzialen durch datengestützte Analysen. Konkrete Handlungsempfehlungen.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ KI-SECTION — Card ════════════════════════════════ -->
+<section class="ki-section" id="ki">
+  <div class="wrap">
+    <div class="ki-card r">
+      <!-- Spotlight SVG -->
+      <div class="ki-spotlight">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
+          <g filter="url(#sf)">
+            <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
+              transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
+              fill="white" fill-opacity="0.04"/>
+          </g>
+          <defs>
+            <filter id="sf" x="0" y="0" width="3787" height="2842" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="bg"/><feBlend mode="normal" in="SourceGraphic" in2="bg" result="shape"/>
+              <feGaussianBlur stdDeviation="151" result="blur"/>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Left content -->
+      <div class="ki-left">
+        <div class="sec-label">KI-Agenten</div>
+        <h2 class="sec-h2"><em>Intelligente</em><br>KI, rund um die Uhr</h2>
+        <p>Unsere KI-Agenten qualifizieren Leads, beantworten Anfragen und buchen Termine — vollautomatisch. Alles läuft auf Ihrer eigenen Infrastruktur, DSGVO-konform.</p>
+        <div class="ki-features">
+          <div class="ki-feat">
+            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">⚡</div>
+            <div><div class="ki-feat-title">Sub-Sekunden KI-Response</div><div class="ki-feat-desc">Antwortzeit unter 1 Sekunde im Schnitt</div></div>
+          </div>
+          <div class="ki-feat">
+            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">🎯</div>
+            <div><div class="ki-feat-title">CRM-Integration</div><div class="ki-feat-desc">Automatische Übergabe in Ihr bestehendes System</div></div>
+          </div>
+          <div class="ki-feat">
+            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">🏠</div>
+            <div><div class="ki-feat-title">Self-Hosted &amp; DSGVO-Konform</div><div class="ki-feat-desc">Daten verlassen nie Ihr Unternehmen</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Spline 3D + Terminal overlay -->
+      <div class="ki-right">
+        <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
+        <div class="ki-terminal">
+          <div class="term-bar">
+            <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
+            <div class="term-ttl">AutomateX · KI-Agent</div>
+            <div class="term-live">Online</div>
+          </div>
+          <div class="term-body">
+            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">47 Leads analysiert &amp; qualifiziert. In CRM übertragen. ✅</div><div class="m-t">Automatisiert</div></div></div>
+            <div class="msg u"><div class="m-av hu">S</div><div><div class="m-bub">Wie viele über 50.000 € Budget?</div></div></div>
+            <div class="msg ai" style="animation-delay:3.5s;"><div class="m-av ai">AX</div><div class="m-bub"><div class="td-wrap"><div class="tdd"></div><div class="tdd"></div><div class="tdd"></div></div></div></div>
+            <div class="msg ai" style="animation-delay:4.8s;"><div class="m-av ai">AX</div><div><div class="m-bub">12 Leads &gt;50k €. 8 Termine automatisch gebucht. 🎯</div><div class="m-t">0.3s · KI</div></div></div>
+          </div>
+          <div class="term-metrics">
+            <div class="t-m"><div class="t-v">47</div><div class="t-l">Leads</div></div>
+            <div class="t-m"><div class="t-v">0.3s</div><div class="t-l">Response</div></div>
+            <div class="t-m"><div class="t-v">24/7</div><div class="t-l">Aktiv</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WARUM ════════════════════════════════════════════ -->
+<section class="warum" id="warum">
+  <div class="wrap">
+    <div class="warum-card r">
+      <div class="sec-label">Warum wir</div>
+      <h2 class="sec-h2">Der Partner für<br><em>ernsthafte</em> KI-Automatisierung</h2>
+      <div class="warum-grid">
+        <div class="warum-list">
+          <div class="warum-item r">
+            <div class="w-icon">🇩🇪</div>
+            <div><div class="w-title">Deutsche Qualitätsarbeit</div><div class="w-desc">DSGVO-konforme KI-Lösungen aus Deutschland. Ihre Daten bleiben in Europa — garantiert.</div></div>
+          </div>
+          <div class="warum-item r d1">
+            <div class="w-icon">🏠</div>
+            <div><div class="w-title">100% Self-Hosted möglich</div><div class="w-desc">Alle KI-Systeme können vollständig auf Ihrer eigenen Infrastruktur betrieben werden. Keine Cloud-Abhängigkeit, keine Drittanbieter-Risiken.</div></div>
+          </div>
+          <div class="warum-item r d2">
+            <div class="w-icon">🔄</div>
+            <div><div class="w-title">Langfristiger Support</div><div class="w-desc">Wartung, Updates und Weiterentwicklung. Wir begleiten Sie dauerhaft nach dem Go-Live.</div></div>
+          </div>
+          <div class="warum-item r d3">
+            <div class="w-icon">🔓</div>
+            <div><div class="w-title">Keine Vendor-Lock-ins</div><div class="w-desc">Offene Technologien ohne proprietäre Abhängigkeiten. Volle Kontrolle über Ihre Systeme und Daten.</div></div>
+          </div>
+        </div>
+        <div>
+          <p class="sec-sub r" style="margin-bottom:44px;">Messbare Ergebnisse, die für sich sprechen. Unsere Kunden profitieren täglich von spürbaren KI-Effizienzgewinnen.</p>
+          <div class="kpi-strip r d1">
+            <div class="kpi-item">
+              <span class="kpi-accent-line"></span>
+              <div class="kpi-n"><span class="cu" data-t="85">0</span><span class="kpi-em">%</span></div>
+              <div class="kpi-l">Weniger manuelle Arbeit</div>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-accent-line"></span>
+              <div class="kpi-n">24<span class="kpi-em">/7</span></div>
+              <div class="kpi-l">KI-Systemverfügbarkeit</div>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-accent-line"></span>
+              <div class="kpi-n">&lt;1<span class="kpi-sm">min</span></div>
+              <div class="kpi-l">Durchschn. Response Time</div>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-accent-line"></span>
+              <div class="kpi-n"><span class="cu" data-t="100">0</span><span class="kpi-em">%</span></div>
+              <div class="kpi-l">DSGVO-Konformität</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROZESS ══════════════════════════════════════════ -->
+<section class="prozess" id="prozess">
+  <div class="wrap">
+    <div class="sec-label r">Prozess</div>
+    <h2 class="sec-h2 r d1">So arbeiten wir</h2>
+    <p class="sec-sub r d2">Strukturiert, transparent und messbar — von der KI-Analyse bis zum laufenden Betrieb.</p>
+    <div class="prozess-card r">
+      <div class="p-step"><div class="p-num">01</div><div class="p-big">01</div><div class="p-title">Analyse</div><div class="p-desc">Wir analysieren Ihre bestehenden Prozesse mit KI-gestützten Methoden und identifizieren Optimierungspotenziale mit klaren Handlungsempfehlungen.</div></div>
+      <div class="p-step"><div class="p-num">02</div><div class="p-big">02</div><div class="p-title">Konzeption</div><div class="p-desc">Gemeinsam entwickeln wir ein maßgeschneidertes KI-Automatisierungskonzept, das zu Ihren Zielen und Ihrem Budget passt.</div></div>
+      <div class="p-step"><div class="p-num">03</div><div class="p-big">03</div><div class="p-title">Entwicklung</div><div class="p-desc">Unsere Automatisierungsexperten setzen die KI-Lösung effizient und vollständig dokumentiert um — on time, on budget.</div></div>
+      <div class="p-step"><div class="p-num">04</div><div class="p-big">04</div><div class="p-title">Betrieb</div><div class="p-desc">Wir übernehmen den laufenden Betrieb auf Ihrer Infrastruktur und sorgen für maximale Verfügbarkeit und kontinuierliche KI-Optimierung.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PREISE ═══════════════════════════════════════════ -->
+<section class="preise" id="preise">
+  <div class="wrap">
+    <div class="sec-label r">Referenzpreise</div>
+    <h2 class="sec-h2 r d1">Individuelle Preise —<br><em>klare Beispiele</em></h2>
+    <p class="sec-sub r d2">Jedes Projekt wird individuell kalkuliert. Zur Orientierung finden Sie hier typische Beispielbudgets.</p>
+    <div class="preise-grid">
+      <div class="preis-card r d1">
+        <span class="p-tag">Standard</span>
+        <div class="preis-title">Standard-Prozess Automation</div>
+        <div class="preis-desc">Für einen klar definierten KI-Workflow mit 1–2 Systemen.</div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">900</span></div>
+        <div class="p-div"></div>
+        <ul class="p-features"><li>Analyse + Setup</li><li>1 End-to-End KI-Workflow</li><li>Übergabe + Dokumentation</li></ul>
+        <a href="#kontakt" class="p-btn">Anfrage stellen</a>
+      </div>
+      <div class="preis-card featured r d2">
+        <span class="p-tag">Beliebt</span>
+        <div class="preis-title">KI-Agent für Anrufe / Leads</div>
+        <div class="preis-desc">Inbound-Anrufe oder Leads automatisch durch KI vorqualifizieren.</div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">1.900</span></div>
+        <div class="p-div"></div>
+        <ul class="p-features"><li>KI-Prompting + Routing</li><li>CRM-Anbindung</li><li>Termin-/Lead-Übergabe</li></ul>
+        <a href="#kontakt" class="p-btn">Anfrage stellen</a>
+      </div>
+      <div class="preis-card r d3">
+        <span class="p-tag">Komplex</span>
+        <div class="preis-title">Multi-System KI-Automatisierung</div>
+        <div class="preis-desc">Mehrere Abteilungen, APIs und KI-Workflows in einem Setup.</div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">3.500</span></div>
+        <div class="p-div"></div>
+        <ul class="p-features"><li>Architektur + Umsetzung</li><li>Monitoring + Alerting</li><li>Schulung für Ihr Team</li></ul>
+        <a href="#kontakt" class="p-btn">Beispiel anfragen</a>
+      </div>
+    </div>
+    <p class="preis-note r">Endpreise hängen vom Umfang, den Integrationen und der gewünschten Betriebssicherheit ab.</p>
+  </div>
+</section>
+
+<!-- ═══ KONTAKT ══════════════════════════════════════════ -->
+<section class="kontakt" id="kontakt">
+  <div class="wrap">
+    <div class="kontakt-card r">
+      <div class="sec-label">Kontakt</div>
+      <h2 class="sec-h2">Bereit für mehr<br><em>Effizienz mit KI?</em></h2>
+      <div class="kontakt-grid">
+        <div>
+          <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:400px;">Vereinbaren Sie ein kostenloses Erstgespräch oder senden Sie uns direkt Ihre KI-Anfrage.</p>
+          <a href="/cdn-cgi/l/email-protection#345246515051465d5f1a51465a47400603745359555d581a575b59" class="k-email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            <span class="__cf_email__" data-cfemail="96f0e4f3f2f3e4fffdb8f3e4f8e5e2a4a1d6f1fbf7fffab8f5f9fb">[email&#160;protected]</span>
+          </a>
+          <div class="k-checks">
+            <div class="k-check"><div class="k-chk">✓</div>Klares Value Proposition Gespräch</div>
+            <div class="k-check"><div class="k-chk">✓</div>Cases &amp; Referenzen auf Anfrage</div>
+            <div class="k-check"><div class="k-chk">✓</div>Konkrete KI-Leistungen + Resultate</div>
+            <div class="k-check"><div class="k-chk">✓</div>Self-Hosted oder Cloud — Ihre Wahl</div>
+            <div class="k-check"><div class="k-chk">✓</div>Schnelle Reaktion: &lt; 2 Stunden (werktags)</div>
+          </div>
+        </div>
+        <div>
+          <form action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://automate-x-solutions.de/#kontakt">
+            <div class="f-row">
+              <div class="f-group"><label class="f-label">Name *</label><input type="text" name="name" class="f-input" placeholder="Ihr Name" required></div>
+              <div class="f-group"><label class="f-label">E-Mail *</label><input type="email" name="email" class="f-input" placeholder="ihre@email.de" required></div>
+            </div>
+            <div class="f-row" style="margin-top:20px;">
+              <div class="f-group"><label class="f-label">Unternehmen *</label><input type="text" name="unternehmen" class="f-input" placeholder="Ihr Unternehmen" required></div>
+              <div class="f-group"><label class="f-label">Monatlicher Umsatz</label><input type="text" name="umsatz" class="f-input" placeholder="z. B. 50.000 €"></div>
+            </div>
+            <div class="f-group" style="margin-top:20px;"><label class="f-label">Was soll automatisiert werden? *</label><input type="text" name="automatisierung" class="f-input" placeholder="z. B. Lead-Qualifizierung, CRM-Workflows" required></div>
+            <div class="f-group" style="margin-top:20px;"><label class="f-label">Weitere Details</label><textarea class="f-textarea" name="details" placeholder="Optional: weitere Infos, Ziele, Deadline, Hosting-Präferenz"></textarea></div>
+            <button type="submit" class="f-submit">
+              Anfrage senden
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+          <div class="f-rt">⚡ Reaktionszeit: in der Regel unter 2 Stunden (werktags).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ══════════════════════════════════════════════ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-card r">
+      <div class="sec-label">FAQ</div>
+      <h2 class="sec-h2">Häufig gestellte<br><em>Fragen</em></h2>
+      <div class="faq-grid">
+        <div>
+          <div class="faq-item">
+            <div class="faq-q">Was ist KI-Prozessautomatisierung? <div class="faq-ico">+</div></div>
+            <div class="faq-a">KI-Prozessautomatisierung verbindet künstliche Intelligenz mit modernen Workflow-Technologien, um repetitive Aufgaben vollautomatisch zu erledigen. Die Systeme lernen kontinuierlich dazu und werden mit der Zeit effizienter.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Wie lange dauert eine Implementierung? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Je nach Komplexität dauert die Implementierung 1–4 Wochen. Einfachere KI-Automatisierungen können oft innerhalb weniger Tage live gehen. Nach dem ersten Gespräch erhalten Sie eine transparente Zeitplanung.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Bietet ihr laufende Wartung an? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Ja, wir bieten monatliche Wartungspakete inklusive Support, Updates und proaktivem Monitoring aller KI-Systeme. Sie konzentrieren sich auf Ihr Kerngeschäft — wir kümmern uns um den Rest.</div>
+          </div>
+        </div>
+        <div>
+          <div class="faq-item">
+            <div class="faq-q">Können wir alles selbst hosten? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Ja — das ist sogar unsere Standard-Empfehlung. Alle KI-Systeme und Automatisierungs-Pipelines können vollständig auf Ihrer eigenen Infrastruktur (On-Premise oder private Cloud) betrieben werden. Ihre Daten verlassen dabei nie Ihr Unternehmen.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Sind die Lösungen DSGVO-konform? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Ja. Durch den Self-Hosted-Ansatz und den ausschließlichen Betrieb auf EU-Servern sind alle unsere KI-Lösungen vollständig DSGVO-konform. Kein Vendor-Lock-in, volle Datensouveränität.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Was kostet ein KI-Erstgespräch? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Das Erstgespräch ist vollständig kostenlos und unverbindlich. Wir analysieren gemeinsam Ihren Use Case und zeigen auf, welche KI-Automatisierungslösungen für Ihr Unternehmen sinnvoll sind.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="f-brand-name" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <img src="logo.png" alt="AutomateX" style="width:32px;height:32px;object-fit:contain;filter:invert(1) brightness(1);opacity:.85;">
+        Automate<span>X</span>
+      </a>
+      <p class="f-tagline">Ihr Partner für professionelle KI-Prozessautomatisierung. Made in Germany. DSGVO-konform. Self-Hosted.</p>
+      <a href="/cdn-cgi/l/email-protection#70160215141502191b5e15021e0304424730171d11191c5e131f1d" class="f-mail"><span class="__cf_email__" data-cfemail="31574354555443585a1f54435f4245030671565c50585d1f525e5c">[email&#160;protected]</span></a>
+    </div>
+    <div>
+      <div class="f-heading">Leistungen</div>
+      <ul class="f-links">
+        <li><a href="#leistungen">ERP-Integration</a></li>
+        <li><a href="#leistungen">Workflow-Entwicklung</a></li>
+        <li><a href="#leistungen">API-Entwicklung</a></li>
+        <li><a href="#leistungen">KI-Agenten</a></li>
+        <li><a href="#leistungen">Self-Hosted Betrieb</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-heading">Unternehmen</div>
+      <ul class="f-links">
+        <li><a href="#warum">Warum wir</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#preise">Pakete</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-heading">Rechtliches</div>
+      <ul class="f-links">
+        <li><a href="impressum.html">Impressum</a></li>
+        <li><a href="datenschutz.html">Datenschutz</a></li>
+        <li><a href="https://soft-deploy.vercel.app" target="_blank">soft-deploy.vercel.app</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AutomateX Solutions. Alle Rechte vorbehalten.</span>
+    <span style="display:flex;align-items:center;gap:5px;">Made with <span class="heart">❤️</span> in Germany</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* NAV */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+
+/* PARALLAX */
+addEventListener('mousemove',e=>{const sw=document.getElementById('spline-wrap');if(sw){const mx=(e.clientX/innerWidth-.5)*14,my=(e.clientY/innerHeight-.5)*14;sw.style.transform=`translate(${mx*.2}px,${my*.2}px)`;}});
+
+/* REVEAL */
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');ro.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+
+/* COUNT-UP */
+function countUp(el){const t=+el.dataset.t,dur=2000,s=performance.now();(function u(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t).toLocaleString('de-DE');if(p<1)requestAnimationFrame(u);})(s);}
+const cro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){countUp(e.target);cro.unobserve(e.target);}});},{threshold:.5});
+document.querySelectorAll('.cu').forEach(el=>cro.observe(el));
+
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id==='#')return;e.preventDefault();const el=document.querySelector(id);if(el)el.scrollIntoView({behavior:'smooth'});});});
+
+/* FAQ ACCORDION */
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-ico').textContent='+';});
+    if(!isOpen){item.classList.add('open');item.querySelector('.faq-ico').textContent='−';}
+  });
+});
+
+/* CHAT LOOP */
+function restartChat(){document.querySelectorAll('.msg').forEach((m,i)=>{m.style.animation='none';m.style.opacity='0';setTimeout(()=>{const d=[1.6,2.6,3.5,4.8];m.style.animation=`msgIn .4s ${d[i]||i}s forwards`;},80);});}
+setInterval(restartChat,13000);
+</script>
+</body>
+</html>
