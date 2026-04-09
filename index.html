@@ -17,6 +17,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 <style>
 :root{
   --bg:#060608;
@@ -331,7 +332,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transition:all .2s;
 }
 .ki-slider-btn:hover{border-color:rgba(79,255,176,.35);color:var(--accent);background:rgba(79,255,176,.06);}
-.ki-slides{position:relative;min-height:430px;}
+.ki-slides{position:relative;min-height:520px;}
 .ki-slide{
   position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(10px);
   transition:opacity .35s ease, transform .35s ease;
@@ -344,6 +345,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 }
 .ki-terminal{
   background:rgba(4,4,12,.94);
+  min-height:440px;
   border:1px solid rgba(79,255,176,.12);
   border-radius:18px;
   overflow:hidden;
@@ -361,7 +363,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .term-ttl{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);letter-spacing:.7px;}
 .term-live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);}
 .term-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
-.term-body{padding:18px;display:flex;flex-direction:column;gap:14px;}
+.term-body{padding:18px;display:flex;flex-direction:column;gap:14px;min-height:380px;}
 .msg{display:flex;align-items:flex-start;gap:10px;opacity:1;transform:none;animation:none;}
 .msg.u{flex-direction:row;}
 .msg.ai{flex-direction:row;}
@@ -373,7 +375,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .m-av.hu{background:rgba(124,92,252,.2);color:#d8d0ff;}
 .m-cont{display:flex;flex-direction:column;gap:5px;max-width:min(100%, 560px);}
 .m-label{font-size:11px;color:var(--muted);letter-spacing:.2px;}
-.m-bub{width:100%;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.6;white-space:pre-line;}
+.m-bub{width:100%;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.55;white-space:pre-line;}
 .msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);}
 .msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);}
 .m-t{font-size:11px;color:var(--muted);opacity:.75;padding-left:2px;}
@@ -533,7 +535,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 
 @media(max-width:1024px){
   nav{padding:16px 28px;} .wrap{padding:0 28px;}
-  .hero-content{padding:80px 28px 0;max-width:100%;}
+  .hero-content{padding:80px 28px 0;max-width:100%;} .hero-spline{width:50%;opacity:.3;}
   .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
   .ki-card{flex-direction:column;} .ki-right{min-height:340px;}
   .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
@@ -543,7 +545,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
 }
 @media(max-width:640px){
-  .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;}
+  .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;} .hero-spline{display:none;}
   .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;}
   footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
 }
@@ -1064,6 +1066,8 @@ Du musst nichts tun.</div><div class="m-t">Live im Einsatz</div></div></div>
 <script>
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+
+addEventListener('mousemove',e=>{const sw=document.getElementById('spline-wrap');if(sw){const mx=(e.clientX/innerWidth-.5)*14,my=(e.clientY/innerHeight-.5)*14;sw.style.transform=`translate(${mx*.2}px,${my*.2}px)`;}});
 
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');ro.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.r').forEach(el=>ro.observe(el));
