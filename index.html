@@ -52,8 +52,12 @@ nav::before{
   background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.015) 38%,rgba(79,255,176,.03) 70%,rgba(124,92,252,.05));
 }
 nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-shadow:0 18px 56px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);}
-.logo{position:relative;z-index:1;display:flex;align-items:center;gap:12px;text-decoration:none;}
-.logo img{width:52px;height:52px;object-fit:contain;border-radius:14px;background:rgba(255,255,255,.04);padding:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
+.logo{position:relative;z-index:1;display:flex;align-items:center;gap:14px;text-decoration:none;min-width:260px;}
+.logo img{width:54px;height:54px;object-fit:contain;border-radius:14px;background:rgba(255,255,255,.04);padding:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
+.logo-mark{display:flex;flex-direction:column;justify-content:center;gap:2px;}
+.logo-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(255,255,255,.34);line-height:1;}
+.logo-wordmark{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:.95;letter-spacing:-.7px;color:var(--text);}
+.logo-wordmark span{color:var(--accent);}
 .nav-links{position:relative;z-index:1;display:flex;align-items:center;gap:16px;list-style:none;padding:7px 12px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.3px;transition:all .2s;padding:10px 14px;border-radius:12px;}
 .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05);}
@@ -561,7 +565,7 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
   .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
 }
 @media(max-width:640px){
-  .nav-links{display:none;} .hero-h1{font-size:44px;letter-spacing:-1.2px;} .hero-spline{display:none;} .hero-logo-frame{width:96px;height:96px;} .hero-logo-frame img{width:74px;height:74px;} .hero-brand-name{font-size:30px;}
+  .nav-links{display:none;} .hero-h1{font-size:44px;letter-spacing:-1.2px;} .hero-spline{display:none;} .hero-logo-frame{width:96px;height:96px;} .hero-logo-frame img{width:74px;height:74px;} .hero-brand-name{font-size:30px;} .logo{min-width:auto;} .logo-mark{display:none;}
   .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;} .ki-right{padding:18px;} .ki-slides{min-height:620px;} .ki-terminal{min-height:480px;} .term-body{min-height:420px;}
   footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
 }
@@ -572,6 +576,10 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
 <nav id="nav">
   <a href="index.html" class="logo">
     <img src="tab-logo.svg" alt="AutomateX Solutions Logo">
+    <div class="logo-mark">
+      <div class="logo-kicker">Automate X Solutions</div>
+      <div class="logo-wordmark">Automate<span>X</span></div>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="#leistungen">Leistungen</a></li>
