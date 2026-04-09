@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <!-- Google tag (gtag.js) -->
@@ -12,7 +12,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomateX â€” KI-gestÃ¼tzte Prozessautomatisierung. Made in Germany.</title>
+<title>AutomateX — KI-gestützte Prozessautomatisierung. Made in Germany.</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,6 @@ html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
 
-/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:800;
   padding:18px 48px;display:flex;align-items:center;justify-content:space-between;
@@ -55,25 +54,14 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transition:all .25s;
 }
 .nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);}
-.nav-li{
-  color:var(--muted);transition:color .2s;
-  display:flex;align-items:center;
-}
-.nav-li:hover{color:var(--accent);}
-.nav-li{
-  color:var(--muted);transition:color .2s;
-  display:flex;align-items:center;
-}
+.nav-li{color:var(--muted);transition:color .2s;display:flex;align-items:center;}
 .nav-li:hover{color:var(--accent);}
 
-/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero{
   position:relative;min-height:100vh;
   display:flex;align-items:center;
   overflow:hidden;
 }
-
-/* BIG ambient glow behind hero */
 .hero::before{
   content:'';position:absolute;
   width:900px;height:900px;border-radius:50%;
@@ -90,7 +78,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 }
 @keyframes glow{0%,100%{transform:scale(1) translate(0,0);}50%{transform:scale(1.08) translate(-20px,20px);}}
 
-/* Spline */
 .hero-spline{
   position:absolute;right:0;top:0;width:58%;height:100%;z-index:1;
   -webkit-mask-image:linear-gradient(to right,transparent 0%,black 32%);
@@ -102,9 +89,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   background:linear-gradient(to top,var(--bg),transparent);pointer-events:none;
   z-index:2;
 }
-/* badge-hide divs no longer needed */
-.spline-badge-hide{display:none;}
-/* Replacement chip label */
 .spline-chip{
   position:absolute;
   bottom:22px;right:22px;
@@ -139,20 +123,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   opacity:0;animation:up .9s .15s forwards;
   display:flex;align-items:center;gap:12px;
 }
-.hero-brand-line::before{
-  content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;
-}
-.hero-brand-line{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:24px;
-  opacity:0;animation:up .9s .15s forwards;
-  display:flex;align-items:center;gap:12px;
-}
-.hero-brand-line::before{
-  content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;
-}
-
+.hero-brand-line::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;}
 .hero-h1{
   font-family:'Cormorant Garamond',serif;font-weight:300;
   font-size:clamp(60px,8vw,108px);line-height:.92;letter-spacing:-2.5px;
@@ -191,12 +162,9 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transition:color .25s;letter-spacing:.3px;
 }
 .btn-ghost:hover{color:var(--text);}
-
 @keyframes up{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
 
-/* â”€â”€ SECTION SHARED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .wrap{max-width:1180px;margin:0 auto;padding:0 60px;}
-
 .sec-label{
   display:flex;align-items:center;gap:14px;
   font-family:'JetBrains Mono',monospace;font-size:11px;
@@ -204,7 +172,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   color:var(--muted);margin-bottom:22px;
 }
 .sec-label::before{content:'';width:24px;height:1px;background:var(--accent);flex-shrink:0;}
-
 .sec-h2{
   font-family:'Cormorant Garamond',serif;font-weight:300;
   font-size:clamp(38px,5vw,68px);line-height:.95;letter-spacing:-2px;margin-bottom:18px;
@@ -212,33 +179,11 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .sec-h2 em{font-style:italic;color:var(--accent);}
 .sec-sub{font-size:16px;color:var(--muted);line-height:1.75;max-width:500px;}
 
-/* REVEAL */
 .r{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
 .r.go{opacity:1;transform:none;}
 .r.d1{transition-delay:.07s;}.r.d2{transition-delay:.14s;}.r.d3{transition-delay:.21s;}
 .r.d4{transition-delay:.28s;}.r.d5{transition-delay:.35s;}.r.d6{transition-delay:.42s;}
-.r.fl{transform:translateX(-32px);}.r.fr{transform:translateX(32px);}
-.r.fl.go,.r.fr.go{transform:none;}
 
-/* â”€â”€ DARK CARD BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.dark-card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-}
-.dark-card::before{
-  content:'';position:absolute;
-  width:400px;height:400px;border-radius:50%;
-  background:radial-gradient(circle,rgba(79,255,176,.08) 0%,transparent 70%);
-  top:-100px;left:-100px;pointer-events:none;
-  opacity:0;transition:opacity .4s, transform .6s;
-  transform:translate(0,0);
-}
-.dark-card:hover::before{opacity:1;}
-
-/* â”€â”€ FORSCHUNG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .forschung{padding:0 0 140px;position:relative;z-index:2;}
 .forschung-card{
   background:var(--card);border:1px solid rgba(255,255,255,.07);
@@ -267,8 +212,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   transition:all .25s;
 }
 .forschung-li-btn:hover{background:rgba(79,255,176,.15);border-color:var(--accent);transform:translateY(-2px);}
-
-/* badge card */
 .forschung-right{position:relative;}
 .forschung-badge-card{
   background:rgba(4,4,12,.95);
@@ -299,8 +242,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .fbc-skills-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
 .fbc-skills{display:flex;flex-wrap:wrap;gap:7px;}
 .fbc-skills span{font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
-
-/* floating chips */
 .fbc-chip{
   position:absolute;display:flex;align-items:center;gap:7px;
   background:rgba(4,4,12,.95);border:1px solid rgba(79,255,176,.2);
@@ -312,12 +253,9 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .fbc-chip-1{top:-18px;left:20px;animation:fc 4s ease-in-out infinite;}
 .fbc-chip-2{bottom:-18px;right:20px;animation:fc 5s 1s ease-in-out infinite;}
 @keyframes fc{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
-@media(max-width:1024px){.forschung-card{grid-template-columns:1fr;gap:48px;} .forschung-card{padding:40px 28px;}}
 
-/* â”€â”€ LEISTUNGEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .leistungen{padding:140px 0;position:relative;z-index:2;}
 .leistungen-top{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:72px;}
-
 .leistung-row{
   display:grid;grid-template-columns:52px 44px 1fr 1fr;
   align-items:center;gap:32px;
@@ -344,10 +282,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .leistung-row:hover .leistung-title{color:var(--accent);}
 .leistung-desc{font-size:14px;color:var(--muted);line-height:1.6;}
 
-/* â”€â”€ KI SECTION â€” Card style â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.ki-section{
-  padding:0 0 140px;position:relative;z-index:2;
-}
+.ki-section{padding:0 0 140px;position:relative;z-index:2;}
 .ki-card{
   background:rgba(6,6,8,.96);
   border:1px solid rgba(255,255,255,.07);
@@ -358,10 +293,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   clip-path:inset(0 0 0 0 round 24px);
   transform:translateZ(0);
 }
-
-.ki-spotlight{
-  position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;
-}
+.ki-spotlight{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .ki-spotlight svg{
   position:absolute;top:-40%;left:-20%;
   width:130%;height:170%;
@@ -369,7 +301,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   animation:spotIn 1.2s 0.5s forwards;
 }
 @keyframes spotIn{to{opacity:1;}}
-
 .ki-left{
   flex:1;padding:60px 56px;position:relative;z-index:2;
   display:flex;flex-direction:column;justify-content:center;
@@ -383,18 +314,13 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .ki-feat-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .ki-feat-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:-.1px;margin-bottom:1px;}
 .ki-feat-desc{font-size:12.5px;color:var(--muted);}
-
-.ki-right{
-  flex:1;position:relative;overflow:hidden;
-  min-height:420px;
-}
+.ki-right{flex:1;position:relative;overflow:hidden;min-height:420px;}
 .ki-right::before{
   content:'';position:absolute;
   top:0;left:0;width:60px;height:100%;
   background:linear-gradient(to right,rgba(6,6,8,1),transparent);
   z-index:2;pointer-events:none;
 }
-/* Hide Spline badge bottom-right with a seamless gradient corner fade */
 .ki-right::after{
   content:'';position:absolute;
   bottom:0;right:0;
@@ -402,14 +328,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   background:linear-gradient(to top left, #060608 30%, transparent 70%);
   z-index:6;pointer-events:none;
 }
-.ki-right spline-viewer{
-  position:absolute;inset:0;width:100%;height:100%;
-}
-/* badge cover for ki-right â€” hidden, kept for DOM structure only */
-.ki-right .spline-badge-hide{
-  display:none;
-}
-
+.ki-right spline-viewer{position:absolute;inset:0;width:100%;height:100%;}
 .ki-terminal{
   position:absolute;bottom:28px;left:20px;right:20px;z-index:5;
   background:rgba(4,4,12,.92);
@@ -430,7 +349,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .term-live{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);}
 .term-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
-
 .term-body{padding:16px;display:flex;flex-direction:column;gap:12px;}
 .msg{display:flex;gap:8px;align-items:flex-start;opacity:0;transform:translateY(6px);animation:msgIn .4s forwards;}
 .msg.u{flex-direction:row-reverse;}
@@ -443,15 +361,8 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .m-bub{max-width:80%;padding:8px 12px;border-radius:10px;font-size:12.5px;line-height:1.5;}
 .msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);border-top-left-radius:3px;}
 .msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);border-top-right-radius:3px;}
-.m-t{font-size:9px;color:var(--muted);opacity:.4;margin-top:2px;}
-.td-wrap{display:flex;gap:3px;padding:1px 0;}
-.tdd{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.3;}
-.tdd:nth-child(1){animation:tdb 1.2s 0s infinite;}.tdd:nth-child(2){animation:tdb 1.2s .2s infinite;}.tdd:nth-child(3){animation:tdb 1.2s .4s infinite;}
-@keyframes tdb{0%,100%{opacity:.3;transform:none;}50%{opacity:1;transform:translateY(-3px);}}
+.m-t{font-size:9px;color:var(--muted);opacity:.6;margin-top:2px;}
 
-
-
-/* â”€â”€ WARUM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .warum{padding:0 0 140px;position:relative;z-index:2;}
 .warum-card{
   background:var(--card);
@@ -474,8 +385,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .warum-item:hover .w-icon{background:rgba(79,255,176,.11);}
 .w-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:-.2px;margin-bottom:5px;}
 .w-desc{font-size:14px;color:var(--muted);line-height:1.65;}
-
-/* KPI strip */
 .kpi-strip{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1;}
 .kpi-item{padding:36px 0;border-bottom:1px solid var(--line);padding-right:36px;}
 .kpi-item:nth-child(2n){padding-right:0;padding-left:36px;border-left:1px solid var(--line);}
@@ -486,7 +395,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .kpi-sm{font-size:24px;color:var(--muted);font-style:normal;letter-spacing:-1px;}
 .kpi-l{font-size:13px;color:var(--muted);letter-spacing:.3px;}
 
-/* â”€â”€ PROZESS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .prozess{padding:0 0 140px;position:relative;z-index:2;}
 .prozess-card{
   background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;
@@ -505,10 +413,8 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .p-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:-.3px;margin-bottom:12px;}
 .p-desc{font-size:14px;color:var(--muted);line-height:1.7;}
 
-/* â”€â”€ PREISE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .preise{padding:0 0 140px;position:relative;z-index:2;}
 .preise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px;}
-
 .preis-card{
   background:var(--card);border:1px solid rgba(255,255,255,.07);
   border-radius:20px;padding:44px 36px;position:relative;overflow:hidden;
@@ -541,7 +447,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .preis-card.featured .p-btn:hover{background:#fff;border-color:#fff;box-shadow:0 8px 32px rgba(79,255,176,.2);}
 .preis-note{text-align:center;font-size:13px;color:var(--muted);opacity:.5;margin-top:20px;}
 
-/* â”€â”€ KONTAKT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .kontakt{padding:0 0 140px;position:relative;z-index:2;}
 .kontakt-card{
   background:var(--card);border:1px solid rgba(255,255,255,.07);
@@ -572,7 +477,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .f-submit svg{transition:transform .25s;}
 .f-rt{margin-top:14px;font-size:12px;color:var(--muted);opacity:.45;letter-spacing:.3px;}
 
-/* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .faq{padding:0 0 140px;position:relative;z-index:2;}
 .faq-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:72px 64px;}
 .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px;}
@@ -584,7 +488,6 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .faq-a{font-size:14px;color:var(--muted);line-height:1.75;overflow:hidden;max-height:0;transition:max-height .4s ease,padding .3s ease;padding-bottom:0;}
 .faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
 
-/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative;z-index:2;}
 .footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:64px;margin-bottom:48px;}
 .f-brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--text);letter-spacing:.3px;margin-bottom:12px;text-decoration:none;display:inline-block;}
@@ -606,29 +509,26 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 ::-webkit-scrollbar-thumb{background:rgba(79,255,176,.12);border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:rgba(79,255,176,.28);}
 
-/* â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media(max-width:1024px){
   nav{padding:16px 28px;} .wrap{padding:0 28px;}
   .hero-content{padding:80px 28px 0;max-width:100%;} .hero-spline{width:50%;opacity:.3;}
-  .leistungen-top,.warum-grid,.kontakt-grid{grid-template-columns:1fr;gap:40px;}
+  .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
   .ki-card{flex-direction:column;} .ki-right{min-height:340px;}
   .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
   .prozess-card{grid-template-columns:1fr 1fr;} .preise-grid{grid-template-columns:1fr;}
   .faq-grid{grid-template-columns:1fr;} .footer-top{grid-template-columns:1fr 1fr;}
   .kpi-item:nth-child(2n){padding-left:28px;} .kpi-item{padding-right:28px;}
-  .warum-card,.kontakt-card,.faq-card{padding:40px 28px;}
+  .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
 }
 @media(max-width:640px){
   .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;} .hero-spline{display:none;}
-  .prozess-card{grid-template-columns:1fr;} .kpi-strip{grid-template-columns:1fr;gap:0;}
-  .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;}
+  .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;}
   footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- â•â•â• NAV â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <nav id="nav">
   <a href="index.html" class="logo">
     <img src="logo.png" alt="AutomateX Solutions Logo">
@@ -637,27 +537,26 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
     <li><a href="#leistungen">Leistungen</a></li>
     <li><a href="#prozess">Prozess</a></li>
     <li><a href="#preise">Preise</a></li>
-    <li><a href="#ueber">Ãœber uns</a></li>
+    <li><a href="#ueber">Über uns</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:16px;">
-    <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="nav-li" title="LinkedIn â€” Frederik Ernst">
+    <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="nav-li" title="LinkedIn — Frederik Ernst">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
     </a>
     <a href="#kontakt" class="nav-cta">
-      Kostenloses GesprÃ¤ch
+      Kostenloses Gespräch
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
   </div>
 </nav>
 
-<!-- â•â•â• HERO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="hero">
   <div class="hero-spline" id="spline-wrap">
     <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
     <div class="spline-chip">
       <div class="spline-chip-dot">KI</div>
-      <span class="spline-chip-text">Mit unseren KI Systemen erstellt</span>
+      <span class="spline-chip-text">Mit unseren KI-Systemen erstellt</span>
     </div>
   </div>
   <div class="hero-content">
@@ -667,11 +566,11 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
       <span class="sml">Business skalieren.</span>
     </h1>
     <p class="hero-sub">
-      Wir entwickeln maÃŸgeschneiderte <strong>KI-AutomatisierungslÃ¶sungen</strong> fÃ¼r Unternehmen, die Effizienz neu definieren. Automatisieren Sie repetitive Tasks mit dem Einsatz moderner KI â€” und fokussieren Sie sich aufs Wesentliche.
+      Wir entwickeln <strong>maßgeschneiderte KI-Automatisierungslösungen</strong> für Unternehmen, die Effizienz neu definieren. Automatisieren Sie repetitive Tasks mit moderner KI — und fokussieren Sie sich aufs Wesentliche.
     </p>
     <div class="hero-actions">
       <a href="#kontakt" class="btn-primary">
-        Kostenloses GesprÃ¤ch
+        Kostenloses Gespräch
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <a href="#leistungen" class="btn-ghost">
@@ -682,7 +581,6 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-<!-- â•â•â• LEISTUNGEN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="leistungen" id="leistungen">
   <div class="wrap">
     <div class="leistungen-top">
@@ -690,54 +588,50 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         <div class="sec-label r">Leistungen</div>
         <h2 class="sec-h2 r d1">Full-Service<br><em>KI-Automatisierung</em></h2>
       </div>
-      <p class="sec-sub r d2">End-to-End KI-LÃ¶sungen fÃ¼r Ihre digitale Transformation. Von der Analyse bis zum laufenden Betrieb â€” alles aus einer Hand.</p>
+      <p class="sec-sub r d2">End-to-End KI-Lösungen für Ihre digitale Transformation. Von der Analyse bis zum laufenden Betrieb — alles aus einer Hand.</p>
     </div>
     <div>
       <div class="leistung-row r">
-        <div class="leistung-num">01</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">01</div><div class="leistung-icon">🔗</div>
         <div class="leistung-title">ERP-Integration</div>
-        <div class="leistung-desc">Nahtlose Verbindung zwischen SAP, Oracle, Microsoft Dynamics und Ihren GeschÃ¤ftsanwendungen. Echtzeit-Datensynchronisation via KI-gestÃ¼tzter Middleware.</div>
+        <div class="leistung-desc">Nahtlose Verbindung zwischen SAP, Oracle, Microsoft Dynamics und Ihren Geschäftsanwendungen. Echtzeit-Datensynchronisation via KI-gestützter Middleware.</div>
       </div>
       <div class="leistung-row r d1">
-        <div class="leistung-num">02</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">02</div><div class="leistung-icon">⚙️</div>
         <div class="leistung-title">Workflow-Entwicklung</div>
-        <div class="leistung-desc">MaÃŸgeschneiderte KI-Workflows â€” von einfachen Triggern bis zu komplexen Multi-System-Automationen. VollstÃ¤ndig dokumentiert und wartbar.</div>
+        <div class="leistung-desc">Maßgeschneiderte KI-Workflows — von einfachen Triggern bis zu komplexen Multi-System-Automationen. Vollständig dokumentiert und wartbar.</div>
       </div>
       <div class="leistung-row r d2">
-        <div class="leistung-num">03</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">03</div><div class="leistung-icon">🧩</div>
         <div class="leistung-title">API-Entwicklung</div>
-        <div class="leistung-desc">RESTful APIs und Webhooks fÃ¼r flexible Integration Ihrer Software-Landschaft. Professionell dokumentiert, skalierbar und sicher.</div>
+        <div class="leistung-desc">RESTful APIs und Webhooks für flexible Integration Ihrer Software-Landschaft. Professionell dokumentiert, skalierbar und sicher.</div>
       </div>
       <div class="leistung-row r d3">
-        <div class="leistung-num">04</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">04</div><div class="leistung-icon">🤖</div>
         <div class="leistung-title">KI-Agenten</div>
-        <div class="leistung-desc">Intelligente KI-Agenten fÃ¼r automatisierte Kommunikation, Lead-Qualifizierung und Entscheidungslogik. 24/7 verfÃ¼gbar ohne manuelle Eingriffe.</div>
+        <div class="leistung-desc">Intelligente KI-Agenten für automatisierte Kommunikation, Lead-Qualifizierung und Entscheidungslogik. 24/7 verfügbar ohne manuelle Eingriffe.</div>
       </div>
       <div class="leistung-row r d4">
-        <div class="leistung-num">05</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">05</div><div class="leistung-icon">🛡️</div>
         <div class="leistung-title">Self-Hosted Betrieb</div>
-        <div class="leistung-desc">VollstÃ¤ndig selbst gehostete KI-Infrastruktur auf Ihren eigenen Servern oder in Ihrer Cloud. DSGVO-konform, ISO 27001 zertifizierbar. Volle DatensouverÃ¤nitÃ¤t.</div>
+        <div class="leistung-desc">Vollständig selbst gehostete KI-Infrastruktur auf Ihren eigenen Servern oder in Ihrer Cloud. DSGVO-konform, ISO 27001 zertifizierbar. Volle Datensouveränität.</div>
       </div>
       <div class="leistung-row r d5">
-        <div class="leistung-num">06</div><div class="leistung-icon">+</div>
+        <div class="leistung-num">06</div><div class="leistung-icon">📊</div>
         <div class="leistung-title">Prozessanalyse</div>
-        <div class="leistung-desc">KI-gestÃ¼tzte Identifikation von Optimierungspotenzialen durch datengestÃ¼tzte Analysen. Konkrete Handlungsempfehlungen.</div>
+        <div class="leistung-desc">KI-gestützte Identifikation von Optimierungspotenzialen durch datengestützte Analysen. Konkrete Handlungsempfehlungen.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- â•â•â• KI-SECTION â€” Card â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="ki-section" id="ki">
   <div class="wrap">
     <div class="ki-card r">
-      <!-- Spotlight SVG -->
       <div class="ki-spotlight">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
           <g filter="url(#sf)">
-            <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
-              transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
-              fill="white" fill-opacity="0.04"/>
+            <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501" transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)" fill="white" fill-opacity="0.04"/>
           </g>
           <defs>
             <filter id="sf" x="0" y="0" width="3787" height="2842" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -748,44 +642,39 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         </svg>
       </div>
 
-      <!-- Left content -->
       <div class="ki-left">
         <div class="sec-label">KI-Agenten</div>
         <h2 class="sec-h2"><em>Intelligente</em><br>KI, rund um die Uhr</h2>
-        <p>Unsere KI-Agenten qualifizieren Leads, beantworten Anfragen und buchen Termine â€” vollautomatisch. Alles lÃ¤uft auf Ihrer eigenen Infrastruktur, DSGVO-konform.</p>
+        <p>Unsere KI-Agenten qualifizieren Leads, beantworten Anfragen und buchen Termine — vollautomatisch. Alles läuft auf Ihrer eigenen Infrastruktur, DSGVO-konform.</p>
         <div class="ki-features">
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">01</div>
-            <div><div class="ki-feat-title">Sub-Sekunden KI-Response</div><div class="ki-feat-desc">Antwortzeit unter 1 Sekunde im Schnitt</div></div>
+            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">⚡</div>
+            <div><div class="ki-feat-title">Schnelle Antworten</div><div class="ki-feat-desc">Reagiert in Sekunden auf neue Anfragen</div></div>
           </div>
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">02</div>
-            <div><div class="ki-feat-title">CRM-Integration</div><div class="ki-feat-desc">Automatische Ãœbergabe in Ihr bestehendes System</div></div>
+            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">🗂️</div>
+            <div><div class="ki-feat-title">CRM-Integration</div><div class="ki-feat-desc">Automatische Übergabe in Ihr bestehendes System</div></div>
           </div>
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">03</div>
-            <div><div class="ki-feat-title">Self-Hosted &amp; DSGVO-Konform</div><div class="ki-feat-desc">Daten verlassen nie Ihr Unternehmen</div></div>
+            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">🔒</div>
+            <div><div class="ki-feat-title">Self-Hosted &amp; DSGVO-konform</div><div class="ki-feat-desc">Daten verlassen nie Ihr Unternehmen</div></div>
           </div>
         </div>
       </div>
 
-      <!-- Right: Spline 3D + Terminal overlay -->
       <div class="ki-right">
         <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
         <div class="ki-terminal">
           <div class="term-bar">
             <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
-            <div class="term-ttl">AutomateX Â· KI-Agent</div>
+            <div class="term-ttl">AutomateX · KI-Agent</div>
             <div class="term-live">Online</div>
           </div>
           <div class="term-body">
-            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Bitte priorisiere alle neuen Kontaktanfragen und buche qualifizierte Leads direkt in meinen Kalender.</div></div></div>
-            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">Verstanden. Ich prüfe eingehende Anfragen, bewerte sie nach Budget, Dringlichkeit und Anwendungsfall und übergebe passende Termine automatisch.</div><div class="m-t">System eingerichtet</div></div></div>
-            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Und was passiert bei unvollständigen Anfragen?</div></div></div>
-            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">Dann frage ich die fehlenden Informationen automatisch nach, dokumentiere alles im CRM und leite nur relevante Fälle weiter.</div><div class="m-t">Live im Einsatz</div></div></div>
-          </div><div class="t-l">Leads</div></div>
-            <div class="t-m"><div class="t-v">0.3s</div><div class="t-l">Response</div></div>
-            <div class="t-m"><div class="t-v">24/7</div><div class="t-l">Aktiv</div></div>
+            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Bitte übernimm neue Kontaktanfragen direkt in meinen Kalender und priorisiere wichtige Leads.</div></div></div>
+            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">✅ Erledigt. Neue Anfragen werden jetzt geprüft, priorisiert und direkt in das System übertragen.</div><div class="m-t">Workflow aktiv</div></div></div>
+            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Und was passiert bei qualifizierten Anfragen?</div></div></div>
+            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">✅ Qualifizierte Anfragen im Kalender übernommen. Fehlende Angaben frage ich automatisch nach und dokumentiere alles im CRM.</div><div class="m-t">Live im Einsatz</div></div></div>
           </div>
         </div>
       </div>
@@ -793,33 +682,32 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-<!-- â•â•â• WARUM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="warum" id="warum">
   <div class="wrap">
     <div class="warum-card r">
       <div class="sec-label">Warum wir</div>
-      <h2 class="sec-h2">Der Partner fÃ¼r<br><em>ernsthafte</em> KI-Automatisierung</h2>
+      <h2 class="sec-h2">Der Partner für<br><em>ernsthafte</em> KI-Automatisierung</h2>
       <div class="warum-grid">
         <div class="warum-list">
           <div class="warum-item r">
-            <div class="w-icon">+</div>
-            <div><div class="w-title">Deutsche QualitÃ¤tsarbeit</div><div class="w-desc">DSGVO-konforme KI-LÃ¶sungen aus Deutschland. Ihre Daten bleiben in Europa â€” garantiert.</div></div>
+            <div class="w-icon">🇩🇪</div>
+            <div><div class="w-title">Deutsche Qualitätsarbeit</div><div class="w-desc">DSGVO-konforme KI-Lösungen aus Deutschland. Ihre Daten bleiben in Europa — garantiert.</div></div>
           </div>
           <div class="warum-item r d1">
-            <div class="w-icon">+</div>
-            <div><div class="w-title">100% Self-Hosted mÃ¶glich</div><div class="w-desc">Alle KI-Systeme kÃ¶nnen vollstÃ¤ndig auf Ihrer eigenen Infrastruktur betrieben werden. Keine Cloud-AbhÃ¤ngigkeit, keine Drittanbieter-Risiken.</div></div>
+            <div class="w-icon">🔐</div>
+            <div><div class="w-title">100% Self-Hosted möglich</div><div class="w-desc">Alle KI-Systeme können vollständig auf Ihrer eigenen Infrastruktur betrieben werden. Keine Cloud-Abhängigkeit, keine Drittanbieter-Risiken.</div></div>
           </div>
           <div class="warum-item r d2">
-            <div class="w-icon">+</div>
+            <div class="w-icon">🛠️</div>
             <div><div class="w-title">Langfristiger Support</div><div class="w-desc">Wartung, Updates und Weiterentwicklung. Wir begleiten Sie dauerhaft nach dem Go-Live.</div></div>
           </div>
           <div class="warum-item r d3">
-            <div class="w-icon">+</div>
-            <div><div class="w-title">Keine Vendor-Lock-ins</div><div class="w-desc">Offene Technologien ohne proprietÃ¤re AbhÃ¤ngigkeiten. Volle Kontrolle Ã¼ber Ihre Systeme und Daten.</div></div>
+            <div class="w-icon">🧭</div>
+            <div><div class="w-title">Keine Vendor-Lock-ins</div><div class="w-desc">Offene Technologien ohne proprietäre Abhängigkeiten. Volle Kontrolle über Ihre Systeme und Daten.</div></div>
           </div>
         </div>
         <div>
-          <p class="sec-sub r" style="margin-bottom:44px;">Messbare Ergebnisse, die fÃ¼r sich sprechen. Unsere Kunden profitieren tÃ¤glich von spÃ¼rbaren KI-Effizienzgewinnen.</p>
+          <p class="sec-sub r" style="margin-bottom:44px;">Messbare Ergebnisse, die für sich sprechen. Unsere Kunden profitieren täglich von spürbaren KI-Effizienzgewinnen.</p>
           <div class="kpi-strip r d1">
             <div class="kpi-item">
               <span class="kpi-accent-line"></span>
@@ -829,17 +717,17 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
             <div class="kpi-item">
               <span class="kpi-accent-line"></span>
               <div class="kpi-n">24<span class="kpi-em">/7</span></div>
-              <div class="kpi-l">KI-SystemverfÃ¼gbarkeit</div>
+              <div class="kpi-l">KI-Systemverfügbarkeit</div>
             </div>
             <div class="kpi-item">
               <span class="kpi-accent-line"></span>
               <div class="kpi-n">&lt;1<span class="kpi-sm">min</span></div>
-              <div class="kpi-l">Durchschn. Response Time</div>
+              <div class="kpi-l">Durchschn. Reaktionszeit</div>
             </div>
             <div class="kpi-item">
               <span class="kpi-accent-line"></span>
               <div class="kpi-n"><span class="cu" data-t="100">0</span><span class="kpi-em">%</span></div>
-              <div class="kpi-l">DSGVO-KonformitÃ¤t</div>
+              <div class="kpi-l">DSGVO-Konformität</div>
             </div>
           </div>
         </div>
@@ -848,79 +736,76 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-<!-- â•â•â• PROZESS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="prozess" id="prozess">
   <div class="wrap">
     <div class="sec-label r">Prozess</div>
     <h2 class="sec-h2 r d1">So arbeiten wir</h2>
-    <p class="sec-sub r d2">Strukturiert, transparent und messbar â€” von der KI-Analyse bis zum laufenden Betrieb.</p>
+    <p class="sec-sub r d2">Strukturiert, transparent und messbar — von der KI-Analyse bis zum laufenden Betrieb.</p>
     <div class="prozess-card r">
-      <div class="p-step"><div class="p-num">01</div><div class="p-big">01</div><div class="p-title">Analyse</div><div class="p-desc">Wir analysieren Ihre bestehenden Prozesse mit KI-gestÃ¼tzten Methoden und identifizieren Optimierungspotenziale mit klaren Handlungsempfehlungen.</div></div>
-      <div class="p-step"><div class="p-num">02</div><div class="p-big">02</div><div class="p-title">Konzeption</div><div class="p-desc">Gemeinsam entwickeln wir ein maÃŸgeschneidertes KI-Automatisierungskonzept, das zu Ihren Zielen und Ihrem Budget passt.</div></div>
-      <div class="p-step"><div class="p-num">03</div><div class="p-big">03</div><div class="p-title">Entwicklung</div><div class="p-desc">Unsere Automatisierungsexperten setzen die KI-LÃ¶sung effizient und vollstÃ¤ndig dokumentiert um â€” on time, on budget.</div></div>
-      <div class="p-step"><div class="p-num">04</div><div class="p-big">04</div><div class="p-title">Betrieb</div><div class="p-desc">Wir Ã¼bernehmen den laufenden Betrieb auf Ihrer Infrastruktur und sorgen fÃ¼r maximale VerfÃ¼gbarkeit und kontinuierliche KI-Optimierung.</div></div>
+      <div class="p-step"><div class="p-num">01</div><div class="p-big">01</div><div class="p-title">Analyse</div><div class="p-desc">Wir analysieren Ihre bestehenden Prozesse mit KI-gestützten Methoden und identifizieren Optimierungspotenziale mit klaren Handlungsempfehlungen.</div></div>
+      <div class="p-step"><div class="p-num">02</div><div class="p-big">02</div><div class="p-title">Konzeption</div><div class="p-desc">Gemeinsam entwickeln wir ein maßgeschneidertes KI-Automatisierungskonzept, das zu Ihren Zielen und Ihrem Budget passt.</div></div>
+      <div class="p-step"><div class="p-num">03</div><div class="p-big">03</div><div class="p-title">Entwicklung</div><div class="p-desc">Unsere Automatisierungsexperten setzen die KI-Lösung effizient und vollständig dokumentiert um — on time, on budget.</div></div>
+      <div class="p-step"><div class="p-num">04</div><div class="p-big">04</div><div class="p-title">Betrieb</div><div class="p-desc">Wir übernehmen den laufenden Betrieb auf Ihrer Infrastruktur und sorgen für maximale Verfügbarkeit und kontinuierliche KI-Optimierung.</div></div>
     </div>
   </div>
 </section>
 
-<!-- â•â•â• PREISE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="preise" id="preise">
   <div class="wrap">
     <div class="sec-label r">Referenzpreise</div>
-    <h2 class="sec-h2 r d1">Individuelle Preise â€”<br><em>klare Beispiele</em></h2>
+    <h2 class="sec-h2 r d1">Individuelle Preise —<br><em>klare Beispiele</em></h2>
     <p class="sec-sub r d2">Jedes Projekt wird individuell kalkuliert. Zur Orientierung finden Sie hier typische Beispielbudgets.</p>
     <div class="preise-grid">
       <div class="preis-card r d1">
         <span class="p-tag">Standard</span>
-        <div class="preis-title">Standard-Prozess Automation</div>
-        <div class="preis-desc">FÃ¼r einen klar definierten KI-Workflow mit 1â€“2 Systemen.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">â‚¬</span><span class="p-num-big">900</span></div>
+        <div class="preis-title">Standard-Prozess-Automation</div>
+        <div class="preis-desc">Für einen klar definierten KI-Workflow mit 1–2 Systemen.</div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">900</span></div>
         <div class="p-div"></div>
-        <ul class="p-features"><li>Analyse + Setup</li><li>1 End-to-End KI-Workflow</li><li>Ãœbergabe + Dokumentation</li></ul>
+        <ul class="p-features"><li>Analyse + Setup</li><li>1 End-to-End KI-Workflow</li><li>Übergabe + Dokumentation</li></ul>
         <a href="#kontakt" class="p-btn">Anfrage stellen</a>
       </div>
       <div class="preis-card featured r d2">
         <span class="p-tag">Beliebt</span>
-        <div class="preis-title">KI-Agent fÃ¼r Anrufe / Leads</div>
+        <div class="preis-title">KI-Agent für Anrufe / Leads</div>
         <div class="preis-desc">Inbound-Anrufe oder Leads automatisch durch KI vorqualifizieren.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">â‚¬</span><span class="p-num-big">1.900</span></div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">1.900</span></div>
         <div class="p-div"></div>
-        <ul class="p-features"><li>KI-Prompting + Routing</li><li>CRM-Anbindung</li><li>Termin-/Lead-Ãœbergabe</li></ul>
+        <ul class="p-features"><li>KI-Prompting + Routing</li><li>CRM-Anbindung</li><li>Termin-/Lead-Übergabe</li></ul>
         <a href="#kontakt" class="p-btn">Anfrage stellen</a>
       </div>
       <div class="preis-card r d3">
         <span class="p-tag">Komplex</span>
         <div class="preis-title">Multi-System KI-Automatisierung</div>
         <div class="preis-desc">Mehrere Abteilungen, APIs und KI-Workflows in einem Setup.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">â‚¬</span><span class="p-num-big">3.500</span></div>
+        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">3.500</span></div>
         <div class="p-div"></div>
-        <ul class="p-features"><li>Architektur + Umsetzung</li><li>Monitoring + Alerting</li><li>Schulung fÃ¼r Ihr Team</li></ul>
+        <ul class="p-features"><li>Architektur + Umsetzung</li><li>Monitoring + Alerting</li><li>Schulung für Ihr Team</li></ul>
         <a href="#kontakt" class="p-btn">Beispiel anfragen</a>
       </div>
     </div>
-    <p class="preis-note r">Endpreise hÃ¤ngen vom Umfang, den Integrationen und der gewÃ¼nschten Betriebssicherheit ab.</p>
+    <p class="preis-note r">Endpreise hängen vom Umfang, den Integrationen und der gewünschten Betriebssicherheit ab.</p>
   </div>
 </section>
 
-<!-- â•â•â• KONTAKT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="kontakt" id="kontakt">
   <div class="wrap">
     <div class="kontakt-card r">
       <div class="sec-label">Kontakt</div>
-      <h2 class="sec-h2">Bereit fÃ¼r mehr<br><em>Effizienz mit KI?</em></h2>
+      <h2 class="sec-h2">Bereit für mehr<br><em>Effizienz mit KI?</em></h2>
       <div class="kontakt-grid">
         <div>
-          <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:400px;">Vereinbaren Sie ein kostenloses ErstgesprÃ¤ch oder senden Sie uns direkt Ihre KI-Anfrage.</p>
+          <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:400px;">Vereinbaren Sie ein kostenloses Erstgespräch oder senden Sie uns direkt Ihre KI-Anfrage.</p>
           <a href="mailto:frederik.ernst27@gmail.com" class="k-email">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
             frederik.ernst27@gmail.com
           </a>
           <div class="k-checks">
-            <div class="k-check"><div class="k-chk">âœ“</div>Klares Value Proposition GesprÃ¤ch</div>
-            <div class="k-check"><div class="k-chk">âœ“</div>Cases &amp; Referenzen auf Anfrage</div>
-            <div class="k-check"><div class="k-chk">âœ“</div>Konkrete KI-Leistungen + Resultate</div>
-            <div class="k-check"><div class="k-chk">âœ“</div>Self-Hosted oder Cloud â€” Ihre Wahl</div>
-            <div class="k-check"><div class="k-chk">âœ“</div>Schnelle Reaktion: &lt; 2 Stunden (werktags)</div>
+            <div class="k-check"><div class="k-chk">✓</div>Klares Value-Proposition-Gespräch</div>
+            <div class="k-check"><div class="k-chk">✓</div>Cases &amp; Referenzen auf Anfrage</div>
+            <div class="k-check"><div class="k-chk">✓</div>Konkrete KI-Leistungen + Resultate</div>
+            <div class="k-check"><div class="k-chk">✓</div>Self-Hosted oder Cloud — Ihre Wahl</div>
+            <div class="k-check"><div class="k-chk">✓</div>Schnelle Reaktion: &lt; 2 Stunden (werktags)</div>
           </div>
         </div>
         <div>
@@ -933,10 +818,10 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
             </div>
             <div class="f-row" style="margin-top:20px;">
               <div class="f-group"><label class="f-label">Unternehmen *</label><input type="text" name="unternehmen" class="f-input" placeholder="Ihr Unternehmen" required></div>
-              <div class="f-group"><label class="f-label">Monatlicher Umsatz</label><input type="text" name="umsatz" class="f-input" placeholder="z. B. 50.000 â‚¬"></div>
+              <div class="f-group"><label class="f-label">Monatlicher Umsatz</label><input type="text" name="umsatz" class="f-input" placeholder="z. B. 50.000 €"></div>
             </div>
             <div class="f-group" style="margin-top:20px;"><label class="f-label">Was soll automatisiert werden? *</label><input type="text" name="automatisierung" class="f-input" placeholder="z. B. Lead-Qualifizierung, CRM-Workflows" required></div>
-            <div class="f-group" style="margin-top:20px;"><label class="f-label">Weitere Details</label><textarea class="f-textarea" name="details" placeholder="Optional: weitere Infos, Ziele, Deadline, Hosting-PrÃ¤ferenz"></textarea></div>
+            <div class="f-group" style="margin-top:20px;"><label class="f-label">Weitere Details</label><textarea class="f-textarea" name="details" placeholder="Optional: weitere Infos, Ziele, Deadline, Hosting-Präferenz"></textarea></div>
             <button type="submit" class="f-submit">
               Anfrage senden
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -949,40 +834,35 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-
-<!-- â•â•â• FORSCHUNG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="forschung" id="ueber">
   <div class="wrap">
     <div class="forschung-card r">
-      <!-- glow orb -->
       <div class="forschung-orb"></div>
-
       <div class="forschung-left">
-        <div class="sec-label">Ãœber den GrÃ¼nder</div>
+        <div class="sec-label">Über den Gründer</div>
         <h2 class="sec-h2" style="margin-bottom:24px;">An der <em>Forschungsfront</em><br>der KI-Automatisierung</h2>
         <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          AutomateX Solutions entstand nicht am ReiÃŸbrett â€” sondern direkt aus aktiver Forschungsarbeit. Als Teil des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der FakultÃ¤t fÃ¼r Wirtschaftsinformatik der UniversitÃ¤t Duisburg-Essen arbeite ich tÃ¤glich an der Schnittstelle zwischen Wissenschaft und praxisnaher KI-Implementierung.
+          AutomateX Solutions entstand nicht am Reißbrett — sondern direkt aus aktiver Forschungsarbeit. Als Teil des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der Fakultät für Wirtschaftsinformatik der Universität Duisburg-Essen arbeite ich täglich an der Schnittstelle zwischen Wissenschaft und praxisnaher KI-Implementierung.
         </p>
         <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          Was das bedeutet: Ich verfolge neue KI-Modelle, Automatisierungsarchitekturen und Prozessinnovationen nicht als Hobby â€” sondern als Bestandteil meiner wissenschaftlichen Arbeit. Jede LÃ¶sung, die AutomateX liefert, ist durchdrungen von aktuellem Forschungsstand und echten Erkenntnissen aus dem Lab.
+          Was das bedeutet: Ich verfolge neue KI-Modelle, Automatisierungsarchitekturen und Prozessinnovationen nicht als Hobby — sondern als Bestandteil meiner wissenschaftlichen Arbeit. Jede Lösung, die AutomateX liefert, ist durchdrungen von aktuellem Forschungsstand und echten Erkenntnissen aus dem Lab.
         </p>
 
         <div class="forschung-tags">
           <span class="f-tag">ERP-Implementierung</span>
           <span class="f-tag">KI-Prozessoptimierung</span>
           <span class="f-tag">Wirtschaftsinformatik</span>
-          <span class="f-tag">UniversitÃ¤t Duisburg-Essen</span>
+          <span class="f-tag">Universität Duisburg-Essen</span>
           <span class="f-tag">Process Innovation Lab</span>
         </div>
 
         <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="forschung-li-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          Auf LinkedIn ansehen â€” Frederik Ernst
+          Auf LinkedIn ansehen — Frederik Ernst
         </a>
       </div>
 
       <div class="forschung-right">
-        <!-- UDE research badge card -->
         <div class="forschung-badge-card">
           <div class="fbc-top">
             <div class="fbc-logo">
@@ -990,11 +870,11 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
             </div>
             <div class="fbc-status">
               <span class="fbc-dot"></span>
-              <span>Aktiv Â· Seit Juli 2025</span>
+              <span>Aktiv · Seit Juli 2025</span>
             </div>
           </div>
           <div class="fbc-role">Process Innovation &amp;<br>Automation Lab (PIA)</div>
-          <div class="fbc-uni">UniversitÃ¤t Duisburg-Essen<br><span style="color:var(--muted);font-size:13px;">FakultÃ¤t fÃ¼r Wirtschaftsinformatik Â· Hybrid</span></div>
+          <div class="fbc-uni">Universität Duisburg-Essen<br><span style="color:var(--muted);font-size:13px;">Fakultät für Wirtschaftsinformatik · Hybrid</span></div>
           <div class="fbc-divider"></div>
           <div class="fbc-skills-label">Forschungsschwerpunkte</div>
           <div class="fbc-skills">
@@ -1005,7 +885,6 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
           </div>
         </div>
 
-        <!-- floating stat chips -->
         <div class="fbc-chip fbc-chip-1">
           <div class="fbc-chip-dot"></div>
           <span>Aktuelle KI-Forschung</span>
@@ -1019,39 +898,38 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-<!-- â•â•â• FAQ â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section class="faq" id="faq">
   <div class="wrap">
     <div class="faq-card r">
       <div class="sec-label">FAQ</div>
-      <h2 class="sec-h2">HÃ¤ufig gestellte<br><em>Fragen</em></h2>
+      <h2 class="sec-h2">Häufig gestellte<br><em>Fragen</em></h2>
       <div class="faq-grid">
         <div>
           <div class="faq-item">
             <div class="faq-q">Was ist KI-Prozessautomatisierung? <div class="faq-ico">+</div></div>
-            <div class="faq-a">KI-Prozessautomatisierung verbindet kÃ¼nstliche Intelligenz mit modernen Workflow-Technologien, um repetitive Aufgaben vollautomatisch zu erledigen. Die Systeme lernen kontinuierlich dazu und werden mit der Zeit effizienter.</div>
+            <div class="faq-a">KI-Prozessautomatisierung verbindet künstliche Intelligenz mit modernen Workflow-Technologien, um repetitive Aufgaben vollautomatisch zu erledigen. Die Systeme lernen kontinuierlich dazu und werden mit der Zeit effizienter.</div>
           </div>
           <div class="faq-item">
             <div class="faq-q">Wie lange dauert eine Implementierung? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Je nach KomplexitÃ¤t dauert die Implementierung 1â€“4 Wochen. Einfachere KI-Automatisierungen kÃ¶nnen oft innerhalb weniger Tage live gehen. Nach dem ersten GesprÃ¤ch erhalten Sie eine transparente Zeitplanung.</div>
+            <div class="faq-a">Je nach Komplexität dauert die Implementierung 1–4 Wochen. Einfachere KI-Automatisierungen können oft innerhalb weniger Tage live gehen. Nach dem ersten Gespräch erhalten Sie eine transparente Zeitplanung.</div>
           </div>
           <div class="faq-item">
             <div class="faq-q">Bietet ihr laufende Wartung an? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ja, wir bieten monatliche Wartungspakete inklusive Support, Updates und proaktivem Monitoring aller KI-Systeme. Sie konzentrieren sich auf Ihr KerngeschÃ¤ft â€” wir kÃ¼mmern uns um den Rest.</div>
+            <div class="faq-a">Ja, wir bieten monatliche Wartungspakete inklusive Support, Updates und proaktivem Monitoring aller KI-Systeme. Sie konzentrieren sich auf Ihr Kerngeschäft — wir kümmern uns um den Rest.</div>
           </div>
         </div>
         <div>
           <div class="faq-item">
-            <div class="faq-q">KÃ¶nnen wir alles selbst hosten? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ja â€” das ist sogar unsere Standard-Empfehlung. Alle KI-Systeme und Automatisierungs-Pipelines kÃ¶nnen vollstÃ¤ndig auf Ihrer eigenen Infrastruktur (On-Premise oder private Cloud) betrieben werden. Ihre Daten verlassen dabei nie Ihr Unternehmen.</div>
+            <div class="faq-q">Können wir alles selbst hosten? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Ja — das ist sogar unsere Standard-Empfehlung. Alle KI-Systeme und Automatisierungs-Pipelines können vollständig auf Ihrer eigenen Infrastruktur betrieben werden. Ihre Daten verlassen dabei nie Ihr Unternehmen.</div>
           </div>
           <div class="faq-item">
-            <div class="faq-q">Sind die LÃ¶sungen DSGVO-konform? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ja. Durch den Self-Hosted-Ansatz und den ausschlieÃŸlichen Betrieb auf EU-Servern sind alle unsere KI-LÃ¶sungen vollstÃ¤ndig DSGVO-konform. Kein Vendor-Lock-in, volle DatensouverÃ¤nitÃ¤t.</div>
+            <div class="faq-q">Sind die Lösungen DSGVO-konform? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Ja. Durch den Self-Hosted-Ansatz und den Betrieb auf EU-Servern sind unsere KI-Lösungen DSGVO-konform. Kein Vendor-Lock-in, volle Datensouveränität.</div>
           </div>
           <div class="faq-item">
-            <div class="faq-q">Was kostet ein KI-ErstgesprÃ¤ch? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Das ErstgesprÃ¤ch ist vollstÃ¤ndig kostenlos und unverbindlich. Wir analysieren gemeinsam Ihren Use Case und zeigen auf, welche KI-AutomatisierungslÃ¶sungen fÃ¼r Ihr Unternehmen sinnvoll sind.</div>
+            <div class="faq-q">Was kostet ein KI-Erstgespräch? <div class="faq-ico">+</div></div>
+            <div class="faq-a">Das Erstgespräch ist vollständig kostenlos und unverbindlich. Wir analysieren gemeinsam Ihren Use Case und zeigen auf, welche KI-Automatisierungslösungen für Ihr Unternehmen sinnvoll sind.</div>
           </div>
         </div>
       </div>
@@ -1059,7 +937,6 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   </div>
 </section>
 
-<!-- â•â•â• FOOTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <footer>
   <div class="footer-top">
     <div>
@@ -1067,11 +944,11 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         <img src="logo.png" alt="AutomateX" style="width:32px;height:32px;object-fit:contain;opacity:.95;">
         Automate<span>X</span>
       </a>
-      <p class="f-tagline">Ihr Partner fÃ¼r professionelle KI-Prozessautomatisierung. Made in Germany. DSGVO-konform. Self-Hosted.</p>
+      <p class="f-tagline">Ihr Partner für professionelle KI-Prozessautomatisierung. Made in Germany. DSGVO-konform. Self-Hosted.</p>
       <a href="mailto:frederik.ernst27@gmail.com" class="f-mail">frederik.ernst27@gmail.com</a>
       <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="f-linkedin">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn &mdash; Frederik Ernst
+        LinkedIn — Frederik Ernst
       </a>
     </div>
     <div>
@@ -1090,8 +967,8 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
         <li><a href="#warum">Warum wir</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#preise">Pakete</a></li>
-        <li><a href="#ueber">Ãœber uns</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#ueber">Über uns</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
       </ul>
     </div>
     <div>
@@ -1104,45 +981,36 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
     </div>
   </div>
   <div class="footer-bottom">
-    <span>Â© 2026 AutomateX Solutions. Alle Rechte vorbehalten.</span>
-    <span style="display:flex;align-items:center;gap:5px;">Made with <span class="heart">â¤ï¸</span> in Germany</span>
+    <span>© 2026 AutomateX Solutions. Alle Rechte vorbehalten.</span>
+    <span style="display:flex;align-items:center;gap:5px;">Made with <span class="heart">♥</span> in Germany</span>
   </div>
 </footer>
 
 <script>
-/* NAV */
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
 
-/* PARALLAX */
 addEventListener('mousemove',e=>{const sw=document.getElementById('spline-wrap');if(sw){const mx=(e.clientX/innerWidth-.5)*14,my=(e.clientY/innerHeight-.5)*14;sw.style.transform=`translate(${mx*.2}px,${my*.2}px)`;}});
 
-/* REVEAL */
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');ro.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.r').forEach(el=>ro.observe(el));
 
-/* COUNT-UP */
 function countUp(el){const t=+el.dataset.t,dur=2000,s=performance.now();(function u(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t).toLocaleString('de-DE');if(p<1)requestAnimationFrame(u);})(s);}
 const cro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){countUp(e.target);cro.unobserve(e.target);}});},{threshold:.5});
 document.querySelectorAll('.cu').forEach(el=>cro.observe(el));
 
-/* SMOOTH SCROLL */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id==='#')return;e.preventDefault();const el=document.querySelector(id);if(el)el.scrollIntoView({behavior:'smooth'});});});
 
-/* FAQ ACCORDION */
 document.querySelectorAll('.faq-item').forEach(item=>{
   item.addEventListener('click',()=>{
     const isOpen=item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-ico').textContent='+';});
-    if(!isOpen){item.classList.add('open');item.querySelector('.faq-ico').textContent='âˆ’';}
+    if(!isOpen){item.classList.add('open');item.querySelector('.faq-ico').textContent='−';}
   });
 });
 
-/* CHAT LOOP */
 function restartChat(){document.querySelectorAll('.msg').forEach((m,i)=>{m.style.animation='none';m.style.opacity='0';setTimeout(()=>{const d=[1.6,2.6,3.5,4.8];m.style.animation=`msgIn .4s ${d[i]||i}s forwards`;},80);});}
 setInterval(restartChat,13000);
 </script>
 </body>
 </html>
-
-
