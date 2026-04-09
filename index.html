@@ -17,7 +17,6 @@
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
 <style>
 :root{
   --bg:#060608;
@@ -115,7 +114,7 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   white-space:nowrap;
 }
 
-.hero-content{position:relative;z-index:10;padding:100px 60px 0;max-width:680px;}
+.hero-content{position:relative;z-index:10;padding:100px 60px 0;max-width:760px;}
 .hero-brand-line{
   font-family:'JetBrains Mono',monospace;
   font-size:11px;letter-spacing:3px;text-transform:uppercase;
@@ -286,82 +285,105 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
 .ki-card{
   background:rgba(6,6,8,.96);
   border:1px solid rgba(255,255,255,.07);
-  border-radius:24px;overflow:hidden;
-  display:flex;min-height:520px;
+  border-radius:24px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(320px,430px) 1fr;
+  min-height:560px;
   position:relative;
   box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
-  clip-path:inset(0 0 0 0 round 24px);
-  transform:translateZ(0);
 }
-.ki-spotlight{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.ki-spotlight svg{
-  position:absolute;top:-40%;left:-20%;
-  width:130%;height:170%;
-  opacity:0;
-  animation:spotIn 1.2s 0.5s forwards;
-}
-@keyframes spotIn{to{opacity:1;}}
 .ki-left{
-  flex:1;padding:60px 56px;position:relative;z-index:2;
-  display:flex;flex-direction:column;justify-content:center;
+  padding:56px 44px;
+  border-right:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(180deg,rgba(79,255,176,.03),rgba(255,255,255,0));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 .ki-left .sec-label{margin-bottom:20px;}
 .ki-left .sec-h2{font-size:clamp(34px,4vw,58px);margin-bottom:18px;}
-.ki-left p{font-size:15px;color:var(--muted);line-height:1.75;max-width:380px;margin-bottom:36px;}
+.ki-left p{font-size:15px;color:var(--muted);line-height:1.75;max-width:360px;margin-bottom:32px;}
 .ki-features{display:flex;flex-direction:column;gap:0;}
-.ki-feat{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ki-feat{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);}
 .ki-feat:last-child{border-bottom:none;}
 .ki-feat-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .ki-feat-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:-.1px;margin-bottom:1px;}
 .ki-feat-desc{font-size:12.5px;color:var(--muted);}
-.ki-right{flex:1;position:relative;overflow:hidden;min-height:420px;}
-.ki-right::before{
-  content:'';position:absolute;
-  top:0;left:0;width:60px;height:100%;
-  background:linear-gradient(to right,rgba(6,6,8,1),transparent);
-  z-index:2;pointer-events:none;
+.ki-right{
+  position:relative;
+  padding:32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:
+    radial-gradient(circle at top right, rgba(79,255,176,.06), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(124,92,252,.08), transparent 30%),
+    rgba(6,6,8,.92);
 }
-.ki-right::after{
-  content:'';position:absolute;
-  bottom:0;right:0;
-  width:200px;height:60px;
-  background:linear-gradient(to top left, #060608 30%, transparent 70%);
-  z-index:6;pointer-events:none;
+.ki-slider-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;}
+.ki-slider-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.ki-slider-controls{display:flex;gap:10px;}
+.ki-slider-btn{
+  width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  transition:all .2s;
 }
-.ki-right spline-viewer{position:absolute;inset:0;width:100%;height:100%;}
+.ki-slider-btn:hover{border-color:rgba(79,255,176,.35);color:var(--accent);background:rgba(79,255,176,.06);}
+.ki-slides{position:relative;min-height:430px;}
+.ki-slide{
+  position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(10px);
+  transition:opacity .35s ease, transform .35s ease;
+}
+.ki-slide.active{opacity:1;pointer-events:auto;transform:none;}
+.ki-usecase{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;
+  font-size:12px;color:var(--accent);background:rgba(79,255,176,.08);
+  border:1px solid rgba(79,255,176,.16);border-radius:999px;padding:7px 12px;
+}
 .ki-terminal{
-  position:absolute;bottom:28px;left:20px;right:20px;z-index:5;
-  background:rgba(4,4,12,.92);
+  background:rgba(4,4,12,.94);
   border:1px solid rgba(79,255,176,.12);
-  border-radius:14px;overflow:hidden;
+  border-radius:18px;
+  overflow:hidden;
   backdrop-filter:blur(16px);
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
 .term-bar{
-  padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.05);
-  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:12px;
   background:rgba(255,255,255,.015);
 }
 .term-dots{display:flex;gap:5px;}
 .tdc{width:9px;height:9px;border-radius:50%;}
 .tdc-r{background:#ff5f57;}.tdc-y{background:#febc2e;}.tdc-g{background:#28c840;}
-.term-ttl{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
-.term-live{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);}
-.term-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
-.term-body{padding:16px;display:flex;flex-direction:column;gap:12px;}
-.msg{display:flex;gap:8px;align-items:flex-start;opacity:0;transform:translateY(6px);animation:msgIn .4s forwards;}
-.msg.u{flex-direction:row-reverse;}
-.msg:nth-child(1){animation-delay:1.6s;}.msg:nth-child(2){animation-delay:2.6s;}
-.msg:nth-child(3){animation-delay:3.5s;}.msg:nth-child(4){animation-delay:4.8s;}
-@keyframes msgIn{to{opacity:1;transform:none;}}
-.m-av{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;}
+.term-ttl{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);letter-spacing:.7px;}
+.term-live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);}
+.term-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
+.term-body{padding:18px;display:flex;flex-direction:column;gap:14px;}
+.msg{display:flex;align-items:flex-start;gap:10px;opacity:1;transform:none;animation:none;}
+.msg.u{flex-direction:row;}
+.msg.ai{flex-direction:row;}
+.m-av{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+}
 .m-av.ai{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#000;}
-.m-av.hu{background:rgba(255,255,255,.08);color:var(--muted);}
-.m-bub{max-width:80%;padding:8px 12px;border-radius:10px;font-size:12.5px;line-height:1.5;}
-.msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);border-top-left-radius:3px;}
-.msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);border-top-right-radius:3px;}
-.m-t{font-size:9px;color:var(--muted);opacity:.6;margin-top:2px;}
+.m-av.hu{background:rgba(124,92,252,.2);color:#d8d0ff;}
+.m-cont{display:flex;flex-direction:column;gap:5px;max-width:min(100%, 560px);}
+.m-label{font-size:11px;color:var(--muted);letter-spacing:.2px;}
+.m-bub{width:100%;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.6;white-space:pre-line;}
+.msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);}
+.msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);}
+.m-t{font-size:11px;color:var(--muted);opacity:.75;padding-left:2px;}
+.ki-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
+.ki-dot{
+  width:10px;height:10px;border-radius:999px;border:none;cursor:pointer;
+  background:rgba(255,255,255,.15);transition:all .2s;
+}
+.ki-dot.active{width:28px;background:var(--accent);}
+
 
 .warum{padding:0 0 140px;position:relative;z-index:2;}
 .warum-card{
@@ -511,7 +533,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 
 @media(max-width:1024px){
   nav{padding:16px 28px;} .wrap{padding:0 28px;}
-  .hero-content{padding:80px 28px 0;max-width:100%;} .hero-spline{width:50%;opacity:.3;}
+  .hero-content{padding:80px 28px 0;max-width:100%;}
   .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
   .ki-card{flex-direction:column;} .ki-right{min-height:340px;}
   .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
@@ -521,7 +543,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
   .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
 }
 @media(max-width:640px){
-  .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;} .hero-spline{display:none;}
+  .nav-links{display:none;} .hero-h1{font-size:54px;letter-spacing:-1.5px;}
   .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;}
   footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
 }
@@ -552,14 +574,7 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 </nav>
 
 <section class="hero">
-  <div class="hero-spline" id="spline-wrap">
-    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
-    <div class="spline-chip">
-      <div class="spline-chip-dot">KI</div>
-      <span class="spline-chip-text">Mit unseren KI-Systemen erstellt</span>
-    </div>
-  </div>
-  <div class="hero-content">
+    <div class="hero-content">
     <div class="hero-brand-line">Automate X Solutions</div>
     <h1 class="hero-h1">
       Mit <em>KI</em><br>Prozesse<br>automatisieren.
@@ -628,54 +643,114 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 <section class="ki-section" id="ki">
   <div class="wrap">
     <div class="ki-card r">
-      <div class="ki-spotlight">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
-          <g filter="url(#sf)">
-            <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501" transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)" fill="white" fill-opacity="0.04"/>
-          </g>
-          <defs>
-            <filter id="sf" x="0" y="0" width="3787" height="2842" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-              <feFlood flood-opacity="0" result="bg"/><feBlend mode="normal" in="SourceGraphic" in2="bg" result="shape"/>
-              <feGaussianBlur stdDeviation="151" result="blur"/>
-            </filter>
-          </defs>
-        </svg>
-      </div>
-
       <div class="ki-left">
         <div class="sec-label">KI-Agenten</div>
-        <h2 class="sec-h2"><em>Intelligente</em><br>KI, rund um die Uhr</h2>
-        <p>Unsere KI-Agenten qualifizieren Leads, beantworten Anfragen und buchen Termine — vollautomatisch. Alles läuft auf Ihrer eigenen Infrastruktur, DSGVO-konform.</p>
+        <h2 class="sec-h2"><em>Interaktive</em><br>Use Cases statt Demo-Gimmicks</h2>
+        <p>Besucher sehen direkt, wie ein AutomateX KI-Agent in echten Geschäftsprozessen arbeitet — sauber visualisiert, verständlich und ohne überladene Nebeneffekte.</p>
         <div class="ki-features">
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">⚡</div>
-            <div><div class="ki-feat-title">Schnelle Antworten</div><div class="ki-feat-desc">Reagiert in Sekunden auf neue Anfragen</div></div>
+            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">💬</div>
+            <div><div class="ki-feat-title">Klassisches Chatfenster</div><div class="ki-feat-desc">Sauber ausgerichtete Nachrichten ohne versetztes Layout</div></div>
           </div>
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">🗂️</div>
-            <div><div class="ki-feat-title">CRM-Integration</div><div class="ki-feat-desc">Automatische Übergabe in Ihr bestehendes System</div></div>
+            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">🎞️</div>
+            <div><div class="ki-feat-title">Mehrere Use Cases</div><div class="ki-feat-desc">Support, Recruiting und Lead-Handling in einer Slideshow</div></div>
           </div>
           <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">🔒</div>
-            <div><div class="ki-feat-title">Self-Hosted &amp; DSGVO-konform</div><div class="ki-feat-desc">Daten verlassen nie Ihr Unternehmen</div></div>
+            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">✅</div>
+            <div><div class="ki-feat-title">Klarer Business-Nutzen</div><div class="ki-feat-desc">Konkrete Ergebnisse statt generischer KI-Versprechen</div></div>
           </div>
         </div>
       </div>
 
       <div class="ki-right">
-        <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
-        <div class="ki-terminal">
-          <div class="term-bar">
-            <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
-            <div class="term-ttl">AutomateX · KI-Agent</div>
-            <div class="term-live">Online</div>
+        <div class="ki-slider-head">
+          <div class="ki-slider-label">Live-Demos für typische AutomateX-Use-Cases</div>
+          <div class="ki-slider-controls">
+            <button class="ki-slider-btn" type="button" data-ki-prev aria-label="Vorheriger Chat">←</button>
+            <button class="ki-slider-btn" type="button" data-ki-next aria-label="Nächster Chat">→</button>
           </div>
-          <div class="term-body">
-            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Bitte übernimm neue Kontaktanfragen direkt in meinen Kalender und priorisiere wichtige Leads.</div></div></div>
-            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">✅ Erledigt. Neue Anfragen werden jetzt geprüft, priorisiert und direkt in das System übertragen.</div><div class="m-t">Workflow aktiv</div></div></div>
-            <div class="msg u"><div class="m-av hu">K</div><div><div class="m-bub">Und was passiert bei qualifizierten Anfragen?</div></div></div>
-            <div class="msg ai"><div class="m-av ai">AX</div><div><div class="m-bub">✅ Qualifizierte Anfragen im Kalender übernommen. Fehlende Angaben frage ich automatisch nach und dokumentiere alles im CRM.</div><div class="m-t">Live im Einsatz</div></div></div>
-          </div>
+        </div>
+
+        <div class="ki-slides">
+          <article class="ki-slide active" data-ki-slide>
+            <div class="ki-usecase">📦 Kundenservice automatisieren</div>
+            <div class="ki-terminal">
+              <div class="term-bar">
+                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
+                <div class="term-ttl">AutomateX · KI-Agent 🟢 Online</div>
+                <div class="term-live">Support</div>
+              </div>
+              <div class="term-body">
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Wir bekommen täglich 200+ Support-Anfragen.
+Kann die KI die häufigsten Fragen selbst beantworten?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ Analyse abgeschlossen. Eure Top-3 Anfragen:
+• 34% — „Wo ist meine Bestellung?“
+• 22% — „Wie kann ich retournieren?“
+• 18% — „Rechnung erneut zusenden“
+
+Diese 3 Kategorien kann ich vollautomatisch beantworten. Das spart euch ca. 74% der Tickets.</div><div class="m-t">Workflow aktiv</div></div></div>
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Und was ist mit komplexen Anfragen?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ Komplexe Fälle eskaliere ich sofort an euer Team — mit vollständiger Zusammenfassung, Kundendaten und Lösungsvorschlag.
+Kein Kontext geht verloren.</div><div class="m-t">Live im Einsatz</div></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="ki-slide" data-ki-slide>
+            <div class="ki-usecase">🧑‍💼 Recruiting & Bewerber-Vorfilterung</div>
+            <div class="ki-terminal">
+              <div class="term-bar">
+                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
+                <div class="term-ttl">AutomateX · KI-Agent 🟢 Online</div>
+                <div class="term-live">Recruiting</div>
+              </div>
+              <div class="term-body">
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Wir haben 3 offene Stellen und bekommen massenhaft Bewerbungen. Kannst du vorfiltern?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ 47 neue Bewerbungen analysiert:
+• 12 erfüllen alle Muss-Kriterien
+• 8 sind Teilmatches — zur manuellen Prüfung markiert
+• 27 passen nicht — höfliche Absage bereits versendet
+
+📋 Top 3 Kandidaten mit Profil-Zusammenfassung stehen in eurem Dashboard bereit.</div><div class="m-t">Workflow aktiv</div></div></div>
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Können die Top-Kandidaten direkt einen Termin buchen?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ Bereits erledigt. Alle 3 haben einen Calendly-Link mit freien Interview-Slots erhalten. Zwei haben schon gebucht. 🎯</div><div class="m-t">Live im Einsatz</div></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="ki-slide" data-ki-slide>
+            <div class="ki-usecase">📅 Lead-Management & Terminierung</div>
+            <div class="ki-terminal">
+              <div class="term-bar">
+                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
+                <div class="term-ttl">AutomateX · KI-Agent 🟢 Online</div>
+                <div class="term-live">Sales</div>
+              </div>
+              <div class="term-body">
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Ich habe gerade eine Anfrage über das Kontaktformular bekommen. Kannst du die übernehmen?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ Anfrage erkannt. Der Lead wurde analysiert:
+• Branche: E-Commerce
+• Unternehmensgröße: 50–100 Mitarbeiter
+• Bedarf: Automatisierung im Kundenservice
+• Lead-Score: 87/100 — Hohe Priorität
+
+📅 Termin wurde automatisch vorgeschlagen. Warte auf Bestätigung des Interessenten.</div><div class="m-t">Workflow aktiv</div></div></div>
+                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Kunde</div><div class="m-bub">Was passiert, wenn er nicht antwortet?</div></div></div>
+                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX</div><div class="m-bub">✅ Follow-up ist eingeplant:
+• Nach 24h: Persönliche Erinnerung per E-Mail
+• Nach 72h: Alternativer Terminvorschlag
+• Alles dokumentiert im CRM.
+Du musst nichts tun.</div><div class="m-t">Live im Einsatz</div></div></div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="ki-dots">
+          <button class="ki-dot active" type="button" data-ki-dot="0" aria-label="Slide 1"></button>
+          <button class="ki-dot" type="button" data-ki-dot="1" aria-label="Slide 2"></button>
+          <button class="ki-dot" type="button" data-ki-dot="2" aria-label="Slide 3"></button>
         </div>
       </div>
     </div>
@@ -990,8 +1065,6 @@ footer{border-top:1px solid var(--line);padding:60px 60px 36px;position:relative
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
 
-addEventListener('mousemove',e=>{const sw=document.getElementById('spline-wrap');if(sw){const mx=(e.clientX/innerWidth-.5)*14,my=(e.clientY/innerHeight-.5)*14;sw.style.transform=`translate(${mx*.2}px,${my*.2}px)`;}});
-
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');ro.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.r').forEach(el=>ro.observe(el));
 
@@ -1009,8 +1082,31 @@ document.querySelectorAll('.faq-item').forEach(item=>{
   });
 });
 
-function restartChat(){document.querySelectorAll('.msg').forEach((m,i)=>{m.style.animation='none';m.style.opacity='0';setTimeout(()=>{const d=[1.6,2.6,3.5,4.8];m.style.animation=`msgIn .4s ${d[i]||i}s forwards`;},80);});}
-setInterval(restartChat,13000);
+const kiSlides=[...document.querySelectorAll('[data-ki-slide]')];
+const kiDots=[...document.querySelectorAll('[data-ki-dot]')];
+const kiPrev=document.querySelector('[data-ki-prev]');
+const kiNext=document.querySelector('[data-ki-next]');
+let kiIndex=0;
+let kiTimer=null;
+
+function showKiSlide(index){
+  kiIndex=(index+kiSlides.length)%kiSlides.length;
+  kiSlides.forEach((slide,i)=>slide.classList.toggle('active',i===kiIndex));
+  kiDots.forEach((dot,i)=>dot.classList.toggle('active',i===kiIndex));
+}
+
+function restartKiTimer(){
+  if(kiTimer) clearInterval(kiTimer);
+  kiTimer=setInterval(()=>showKiSlide(kiIndex+1),7000);
+}
+
+if(kiSlides.length){
+  kiPrev?.addEventListener('click',()=>{showKiSlide(kiIndex-1);restartKiTimer();});
+  kiNext?.addEventListener('click',()=>{showKiSlide(kiIndex+1);restartKiTimer();});
+  kiDots.forEach((dot,i)=>dot.addEventListener('click',()=>{showKiSlide(i);restartKiTimer();}));
+  showKiSlide(0);
+  restartKiTimer();
+}
 </script>
 </body>
 </html>
