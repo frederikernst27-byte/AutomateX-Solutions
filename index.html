@@ -13,8 +13,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutomateX — KI-gestützte Prozessautomatisierung. Made in Germany.</title>
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="logo1.png">
+<link rel="shortcut icon" href="logo1.png">
+<link rel="apple-touch-icon" href="logo1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
@@ -36,25 +37,35 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
 
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  padding:14px 38px;display:flex;align-items:center;justify-content:space-between;
+  position:fixed;top:18px;left:24px;right:24px;z-index:800;
+  padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
   transition:all .5s;
+  background:rgba(10,10,14,.48);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  backdrop-filter:blur(22px) saturate(160%);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 14px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
 }
-nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom:1px solid var(--line);}
-.logo{display:flex;align-items:center;gap:0;text-decoration:none;}
-.logo img{width:38px;height:38px;object-fit:contain;}
-.nav-links{display:flex;align-items:center;gap:40px;list-style:none;}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:.5px;transition:color .2s;}
-.nav-links a:hover{color:var(--text);}
+nav::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.015) 38%,rgba(79,255,176,.03) 70%,rgba(124,92,252,.05));
+}
+nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-shadow:0 18px 56px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);}
+.logo{position:relative;z-index:1;display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{width:48px;height:48px;object-fit:contain;border-radius:14px;background:rgba(255,255,255,.04);padding:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
+.nav-links{position:relative;z-index:1;display:flex;align-items:center;gap:16px;list-style:none;padding:7px 12px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.3px;transition:all .2s;padding:10px 14px;border-radius:12px;}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05);}
 .nav-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(79,255,176,.1);border:1px solid rgba(79,255,176,.25);
-  border-radius:6px;padding:8px 16px;color:var(--accent);
-  font-size:12px;font-weight:500;text-decoration:none;letter-spacing:.3px;
-  transition:all .25s;
+  position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,255,176,.12);border:1px solid rgba(79,255,176,.28);
+  border-radius:14px;padding:11px 18px;color:var(--accent);
+  font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.2px;
+  transition:all .25s;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
-.nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);}
-.nav-li{color:var(--muted);transition:color .2s;display:flex;align-items:center;}
+.nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);transform:translateY(-1px);}
+.nav-li{position:relative;z-index:1;color:var(--muted);transition:color .2s;display:flex;align-items:center;padding:8px;}
 .nav-li:hover{color:var(--accent);}
 
 .hero{
@@ -115,15 +126,20 @@ nav.scrolled{background:rgba(6,6,8,.92);backdrop-filter:blur(30px);border-bottom
   white-space:nowrap;
 }
 
-.hero-content{position:relative;z-index:10;padding:88px 48px 0;max-width:680px;}
+.hero-content{position:relative;z-index:10;padding:120px 48px 0;max-width:680px;}
+.hero-logo-showcase{display:flex;align-items:center;gap:18px;margin-bottom:28px;opacity:0;animation:up .9s .08s forwards;}
+.hero-logo-frame{width:84px;height:84px;border-radius:24px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(16px);box-shadow:0 18px 40px rgba(0,0,0,.25);}
+.hero-logo-frame img{width:66px;height:66px;object-fit:contain;}
 .hero-brand-line{
   font-family:'JetBrains Mono',monospace;
   font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:24px;
+  color:var(--muted);margin-bottom:10px;
   opacity:0;animation:up .9s .15s forwards;
   display:flex;align-items:center;gap:12px;
 }
 .hero-brand-line::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;}
+.hero-brand-name{font-family:'Cormorant Garamond',serif;font-size:30px;letter-spacing:-.8px;line-height:1;color:var(--text);opacity:0;animation:up .9s .2s forwards;}
+.hero-brand-name span{color:var(--accent);}
 .hero-h1{
   font-family:'Cormorant Garamond',serif;font-weight:300;
   font-size:clamp(50px,6.8vw,90px);line-height:.92;letter-spacing:-2px;
@@ -534,8 +550,8 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
 ::-webkit-scrollbar-thumb:hover{background:rgba(79,255,176,.28);}
 
 @media(max-width:1024px){
-  nav{padding:14px 24px;} .wrap{padding:0 24px;}
-  .hero-content{padding:76px 24px 0;max-width:100%;} .hero-spline{width:46%;opacity:.28;}
+  nav{top:14px;left:16px;right:16px;padding:10px 12px;} .wrap{padding:0 24px;}
+  .hero-content{padding:110px 24px 0;max-width:100%;} .hero-spline{width:46%;opacity:.28;}
   .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
   .ki-card{grid-template-columns:1fr;} .ki-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);} .ki-right{min-height:340px;}
   .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
@@ -545,7 +561,7 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
   .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
 }
 @media(max-width:640px){
-  .nav-links{display:none;} .hero-h1{font-size:44px;letter-spacing:-1.2px;} .hero-spline{display:none;}
+  .nav-links{display:none;} .hero-h1{font-size:44px;letter-spacing:-1.2px;} .hero-spline{display:none;} .hero-logo-frame{width:72px;height:72px;} .hero-logo-frame img{width:56px;height:56px;} .hero-brand-name{font-size:26px;}
   .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;} .ki-right{padding:18px;} .ki-slides{min-height:620px;} .ki-terminal{min-height:480px;} .term-body{min-height:420px;}
   footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
 }
@@ -584,7 +600,13 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
     </div>
   </div>
   <div class="hero-content">
-    <div class="hero-brand-line">Automate X Solutions</div>
+    <div class="hero-logo-showcase">
+      <div class="hero-logo-frame"><img src="logo1.png" alt="AutomateX Logo"></div>
+      <div>
+        <div class="hero-brand-line">Automate X Solutions</div>
+        <div class="hero-brand-name">Automate<span>X</span></div>
+      </div>
+    </div>
     <h1 class="hero-h1">
       Mit <em>KI</em><br>Prozesse<br>automatisieren.
       <span class="sml">Business skalieren.</span>
