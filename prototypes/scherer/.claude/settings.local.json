@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(curl -s http://localhost:8000/api/stats)",
+      "Bash(start http://localhost:8000)",
+      "Bash(curl -s http://localhost:8000/api/runs/6)",
+      "Bash(cmd /c \"taskkill /F /IM python.exe\")"
+    ]
+  }
+}

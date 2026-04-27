@@ -12,10 +12,11 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomateX — KI-gestützte Prozessautomatisierung. Made in Germany.</title>
-<link rel="icon" type="image/png" sizes="32x32" href="small-logo.png">
-<link rel="shortcut icon" href="small-logo.png">
-<link rel="apple-touch-icon" href="small-logo.png">
+<title>AutomateX — KI-Automatisierung aus Forschung und Praxis</title>
+<meta name="description" content="AutomateX Solutions entwickelt KI-Automatisierungen fuer Unternehmen. Gegruendet von Frederik Ernst, verbunden mit Forschung an der Universitaet Duisburg-Essen und dem Process Innovation & Automation Lab.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/small-logo.png">
+<link rel="shortcut icon" href="assets/brand/small-logo.png">
+<link rel="apple-touch-icon" href="assets/brand/small-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
@@ -166,6 +167,21 @@ nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-s
   display:flex;align-items:center;gap:24px;flex-wrap:wrap;
   opacity:0;animation:up .9s .7s forwards;
 }
+.hero-proof{
+  margin-top:42px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+  max-width:600px;opacity:0;animation:up .9s .9s forwards;
+}
+.hero-proof-item{
+  min-height:92px;padding:16px 14px;border-radius:16px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.hero-proof-k{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+}
+.hero-proof-v{font-size:13px;line-height:1.45;color:var(--text);}
+.hero-proof-v span{color:var(--accent);}
 .btn-primary{
   display:inline-flex;align-items:center;gap:9px;
   background:var(--accent);color:#000;
@@ -217,6 +233,19 @@ nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-s
   top:-150px;right:-100px;pointer-events:none;
 }
 .forschung-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+.founder-line{
+  display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;
+  margin-bottom:28px;padding:14px;border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;background:rgba(255,255,255,.025);
+}
+.founder-avatar{
+  width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(79,255,176,.14),rgba(124,92,252,.12));
+  border:1px solid rgba(79,255,176,.18);
+  font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--text);
+}
+.founder-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:-.3px;line-height:1.1;}
+.founder-meta{font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px;}
 .f-tag{
   font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;
   text-transform:uppercase;color:var(--muted);
@@ -262,6 +291,10 @@ nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-s
 .fbc-skills-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
 .fbc-skills{display:flex;flex-wrap:wrap;gap:7px;}
 .fbc-skills span{font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
+.fbc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;}
+.fbc-metric{border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;background:rgba(255,255,255,.025);}
+.fbc-metric strong{display:block;font-family:'Cormorant Garamond',serif;font-size:25px;line-height:1;color:var(--text);font-weight:300;margin-bottom:5px;}
+.fbc-metric span{font-size:11px;color:var(--muted);line-height:1.35;}
 .fbc-chip{
   position:absolute;display:flex;align-items:center;gap:7px;
   background:rgba(4,4,12,.95);border:1px solid rgba(79,255,176,.2);
@@ -558,6 +591,7 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
   .hero-content{padding:110px 24px 0;max-width:100%;} .hero-spline{width:46%;opacity:.28;}
   .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
   .ki-card{grid-template-columns:1fr;} .ki-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);} .ki-right{min-height:340px;}
+  .hero-proof{grid-template-columns:1fr;max-width:460px;}
   .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
   .prozess-card{grid-template-columns:1fr 1fr;} .preise-grid{grid-template-columns:1fr;}
   .faq-grid{grid-template-columns:1fr;} .footer-top{grid-template-columns:1fr 1fr;}
@@ -575,7 +609,7 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
 
 <nav id="nav">
   <a href="index.html" class="logo">
-    <img src="small-logo.png" alt="AutomateX Solutions Logo">
+    <img src="assets/brand/small-logo.png" alt="AutomateX Solutions Logo">
     <div class="logo-mark">
       <div class="logo-kicker">Automate X Solutions</div>
       <div class="logo-wordmark">Automate<span>X</span></div>
@@ -585,7 +619,8 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
     <li><a href="#leistungen">Leistungen</a></li>
     <li><a href="#prozess">Prozess</a></li>
     <li><a href="#preise">Preise</a></li>
-    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="routenplanung-test.html">Routing-Demo</a></li>
+    <li><a href="#ueber">Forschung</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:16px;">
@@ -609,18 +644,18 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
   </div>
   <div class="hero-content">
     <div class="hero-logo-showcase">
-      <div class="hero-logo-frame"><img src="logo.png" alt="AutomateX Logo"></div>
+      <div class="hero-logo-frame"><img src="assets/brand/logo.png" alt="AutomateX Logo"></div>
       <div>
-        <div class="hero-brand-line">Automate X Solutions</div>
+        <div class="hero-brand-line">Research-backed AI Automation</div>
         <div class="hero-brand-name">Automate<span>X</span></div>
       </div>
     </div>
     <h1 class="hero-h1">
       Mit <em>KI</em><br>Prozesse<br>automatisieren.
-      <span class="sml">Business skalieren.</span>
+      <span class="sml">Gebaut aus Forschung und Praxis.</span>
     </h1>
     <p class="hero-sub">
-      Wir entwickeln <strong>maßgeschneiderte KI-Automatisierungslösungen</strong> für Unternehmen, die Effizienz neu definieren. Automatisieren Sie repetitive Tasks mit moderner KI — und fokussieren Sie sich aufs Wesentliche.
+      AutomateX Solutions entwickelt <strong>maßgeschneiderte KI-Automatisierungslösungen</strong> für Unternehmen. Gegründet von Frederik Ernst, verbunden mit aktiver Forschung an der Universität Duisburg-Essen und dem Process Innovation &amp; Automation Lab.
     </p>
     <div class="hero-actions">
       <a href="#kontakt" class="btn-primary">
@@ -631,6 +666,28 @@ footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative
         Leistungen ansehen
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
+      <a href="#ueber" class="btn-ghost">
+        Forschung ansehen
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="routenplanung-test.html" class="btn-ghost">
+        Routing-Demo öffnen
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="hero-proof">
+      <div class="hero-proof-item">
+        <div class="hero-proof-k">Forschung</div>
+        <div class="hero-proof-v"><span>PIA Lab</span><br>Process Innovation &amp; Automation</div>
+      </div>
+      <div class="hero-proof-item">
+        <div class="hero-proof-k">Universität</div>
+        <div class="hero-proof-v">Universität<br>Duisburg-Essen</div>
+      </div>
+      <div class="hero-proof-item">
+        <div class="hero-proof-k">Profil</div>
+        <div class="hero-proof-v"><span>Frederik Ernst</span><br>LinkedIn verknüpft</div>
+      </div>
     </div>
   </div>
 </section>
@@ -954,12 +1011,19 @@ Du musst nichts tun.</div><div class="m-t">Live im Einsatz</div></div></div>
       <div class="forschung-orb"></div>
       <div class="forschung-left">
         <div class="sec-label">Über den Gründer</div>
+        <div class="founder-line">
+          <div class="founder-avatar">FE</div>
+          <div>
+            <div class="founder-name">Frederik Ernst</div>
+            <div class="founder-meta">AutomateX Solutions · KI-Automatisierung · Forschung an der Universität Duisburg-Essen</div>
+          </div>
+        </div>
         <h2 class="sec-h2" style="margin-bottom:24px;">An der <em>Forschungsfront</em><br>der KI-Automatisierung</h2>
         <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          AutomateX Solutions entstand nicht am Reißbrett — sondern direkt aus aktiver Forschungsarbeit. Als Teil des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der Fakultät für Wirtschaftsinformatik der Universität Duisburg-Essen arbeite ich täglich an der Schnittstelle zwischen Wissenschaft und praxisnaher KI-Implementierung.
+          AutomateX Solutions ist als Brücke zwischen wissenschaftlicher Arbeit und konkreter Umsetzung entstanden. Im Umfeld des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der Universität Duisburg-Essen beschäftige ich mich mit Prozessinnovation, ERP-Systemen und der Frage, wie KI in realen Unternehmensabläufen zuverlässig Wert schafft.
         </p>
         <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          Was das bedeutet: Ich verfolge neue KI-Modelle, Automatisierungsarchitekturen und Prozessinnovationen nicht als Hobby — sondern als Bestandteil meiner wissenschaftlichen Arbeit. Jede Lösung, die AutomateX liefert, ist durchdrungen von aktuellem Forschungsstand und echten Erkenntnissen aus dem Lab.
+          Der Anspruch: keine oberflächlichen KI-Demos, sondern robuste Automatisierungen mit messbarem Nutzen. Neue Modelle, Agenten-Architekturen und Integrationsmuster werden erst dann interessant, wenn sie in Support, Vertrieb, ERP, Routing oder Backoffice-Prozessen verlässlich funktionieren.
         </p>
 
         <div class="forschung-tags">
@@ -996,6 +1060,10 @@ Du musst nichts tun.</div><div class="m-t">Live im Einsatz</div></div></div>
             <span>Prozessautomatisierung</span>
             <span>KI-Integration</span>
             <span>Enterprise Resource Planning</span>
+          </div>
+          <div class="fbc-metrics">
+            <div class="fbc-metric"><strong>PIA</strong><span>Process Innovation &amp; Automation Lab</span></div>
+            <div class="fbc-metric"><strong>UDE</strong><span>Universität Duisburg-Essen</span></div>
           </div>
         </div>
 
@@ -1055,7 +1123,7 @@ Du musst nichts tun.</div><div class="m-t">Live im Einsatz</div></div></div>
   <div class="footer-top">
     <div>
       <a href="index.html" class="f-brand-name" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <img src="logo.png" alt="AutomateX" style="width:32px;height:32px;object-fit:contain;opacity:.95;">
+        <img src="assets/brand/logo.png" alt="AutomateX" style="width:32px;height:32px;object-fit:contain;opacity:.95;">
         Automate<span>X</span>
       </a>
       <p class="f-tagline">Ihr Partner für professionelle KI-Prozessautomatisierung. Made in Germany. DSGVO-konform. Self-Hosted.</p>
