@@ -1,1208 +1,841 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TQ84TE2ZNS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-TQ84TE2ZNS');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomateX — KI-Routenoptimierung fuer Disposition und Tourenplanung</title>
-<meta name="description" content="AutomateX Solutions optimiert Touren, Stopps, Fahrer und Zeitfenster mit KI. Fuer Disposition, Serviceflotten, Lieferlogistik und regionale Aussendienstteams.">
+<title>AutomateX - KI-Routenoptimierung fuer Disposition</title>
+<meta name="description" content="KI-Routenoptimierung fuer Disposition, Serviceflotten und Lieferlogistik. Stopps, Fahrer, Zeitfenster und Live-Aenderungen automatisch besser planen.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/small-logo.png">
 <link rel="shortcut icon" href="assets/brand/small-logo.png">
 <link rel="apple-touch-icon" href="assets/brand/small-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#060608;
-  --card:#0d0d10;
-  --card2:#111115;
-  --accent:#4fffb0;
-  --accent2:#7c5cfc;
-  --accent3:#00d4ff;
-  --text:#f0f0f8;
-  --muted:#606072;
-  --line:rgba(255,255,255,0.06);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
-
-nav{
-  position:fixed;top:18px;left:24px;right:24px;z-index:800;
-  padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
-  transition:all .5s;
-  background:rgba(10,10,14,.48);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;
-  backdrop-filter:blur(22px) saturate(160%);
-  -webkit-backdrop-filter:blur(22px) saturate(160%);
-  box-shadow:0 14px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
-}
-nav::before{
-  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.015) 38%,rgba(79,255,176,.03) 70%,rgba(124,92,252,.05));
-}
-nav.scrolled{background:rgba(8,8,12,.68);border-color:rgba(255,255,255,.1);box-shadow:0 18px 56px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);}
-.logo{position:relative;z-index:1;display:flex;align-items:center;gap:14px;text-decoration:none;min-width:260px;}
-.logo img{width:54px;height:54px;object-fit:contain;border-radius:14px;background:rgba(255,255,255,.04);padding:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);}
-.logo-mark{display:flex;flex-direction:column;justify-content:center;gap:2px;}
-.logo-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(255,255,255,.34);line-height:1;}
-.logo-wordmark{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:.95;letter-spacing:-.7px;color:var(--text);}
-.logo-wordmark span{color:var(--accent);}
-.nav-links{position:relative;z-index:1;display:flex;align-items:center;gap:16px;list-style:none;padding:7px 12px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.3px;transition:all .2s;padding:10px 14px;border-radius:12px;}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05);}
-.nav-cta{
-  position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;
-  background:rgba(79,255,176,.12);border:1px solid rgba(79,255,176,.28);
-  border-radius:14px;padding:11px 18px;color:var(--accent);
-  font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.2px;
-  transition:all .25s;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-}
-.nav-cta:hover{background:rgba(79,255,176,.18);border-color:rgba(79,255,176,.5);transform:translateY(-1px);}
-.nav-li{position:relative;z-index:1;color:var(--muted);transition:color .2s;display:flex;align-items:center;padding:8px;}
-.nav-li:hover{color:var(--accent);}
-
-.hero{
-  position:relative;min-height:100vh;
-  display:flex;align-items:center;
-  overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;
-  width:900px;height:900px;border-radius:50%;
-  background:radial-gradient(circle,rgba(79,255,176,.07) 0%,transparent 65%);
-  top:-200px;right:-100px;pointer-events:none;z-index:0;
-  animation:glow 10s ease-in-out infinite;
-}
-.hero::after{
-  content:'';position:absolute;
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(124,92,252,.07) 0%,transparent 65%);
-  bottom:-150px;left:20%;pointer-events:none;z-index:0;
-  animation:glow 14s 3s ease-in-out infinite;
-}
-@keyframes glow{0%,100%{transform:scale(1) translate(0,0);}50%{transform:scale(1.08) translate(-20px,20px);}}
-
-.hero-spline{
-  position:absolute;right:0;top:0;width:58%;height:100%;z-index:1;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 32%);
-  mask-image:linear-gradient(to right,transparent 0%,black 32%);
-}
-.hero-spline spline-viewer{width:100%;height:100%;}
-.hero-spline::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:280px;
-  background:linear-gradient(to top,var(--bg),transparent);pointer-events:none;
-  z-index:2;
-}
-.spline-chip{
-  position:absolute;
-  bottom:22px;right:22px;
-  z-index:10;pointer-events:none;
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(6,6,8,.80);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid rgba(79,255,176,.2);
-  border-radius:100px;
-  padding:7px 14px 7px 9px;
-  animation:up .8s 1.4s both;
-}
-.spline-chip-dot{
-  width:18px;height:18px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:8px;font-weight:900;color:#000;
-}
-.spline-chip-text{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;letter-spacing:1.4px;text-transform:uppercase;
-  color:rgba(255,255,255,.5);
-  white-space:nowrap;
+:root {
+  --green: #41b878;
+  --green-dark: #118878;
+  --lime: #d9ff55;
+  --purple: #574296;
+  --purple-dark: #46347e;
+  --purple-soft: #f0ecfb;
+  --mint: #e8f7f1;
+  --ink: #16222f;
+  --muted: #66727f;
+  --line: #e5e2dc;
+  --paper: #fffdf8;
+  --cream: #f7f3ea;
+  --coral: #ff6868;
+  --shadow: 0 24px 70px rgba(34, 44, 55, .14);
 }
 
-.hero-content{position:relative;z-index:10;padding:120px 48px 0;max-width:680px;}
-.hero-logo-showcase{display:flex;align-items:center;gap:18px;margin-bottom:28px;opacity:0;animation:up .9s .08s forwards;}
-.hero-logo-frame{width:132px;height:132px;border-radius:32px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(16px);box-shadow:0 18px 40px rgba(0,0,0,.25);}
-.hero-logo-frame img{width:108px;height:108px;object-fit:contain;}
-.hero-brand-line{
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:10px;
-  opacity:0;animation:up .9s .15s forwards;
-  display:flex;align-items:center;gap:12px;
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
 }
-.hero-brand-line::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0;}
-.hero-brand-name{font-family:'Cormorant Garamond',serif;font-size:36px;letter-spacing:-.9px;line-height:1;color:var(--text);opacity:0;animation:up .9s .2s forwards;}
-.hero-brand-name span{color:var(--accent);}
-.hero-h1{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:clamp(50px,6.8vw,90px);line-height:.92;letter-spacing:-2px;
-  margin-bottom:32px;
-  opacity:0;animation:up .9s .3s forwards;
-}
-.hero-h1 em{font-style:italic;color:var(--accent);}
-.hero-h1 .sml{
-  font-size:clamp(24px,3.1vw,40px);color:var(--muted);
-  font-weight:300;display:block;margin-top:14px;
-  letter-spacing:0;font-style:normal;
-}
-.hero-sub{
-  font-size:15px;color:var(--muted);line-height:1.68;
-  max-width:460px;margin-bottom:48px;
-  opacity:0;animation:up .9s .5s forwards;
-}
-.hero-sub strong{color:var(--text);font-weight:500;}
-.hero-actions{
-  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
-  opacity:0;animation:up .9s .7s forwards;
-}
-.hero-proof{
-  margin-top:42px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
-  max-width:600px;opacity:0;animation:up .9s .9s forwards;
-}
-.hero-proof-item{
-  min-height:92px;padding:16px 14px;border-radius:16px;
-  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-}
-.hero-proof-k{
-  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.6px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:8px;
-}
-.hero-proof-v{font-size:13px;line-height:1.45;color:var(--text);}
-.hero-proof-v span{color:var(--accent);}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:9px;
-  background:var(--accent);color:#000;
-  font-weight:700;font-size:14px;letter-spacing:.3px;
-  padding:14px 30px;border-radius:8px;text-decoration:none;
-  border:none;cursor:pointer;transition:all .25s;
-}
-.btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 48px rgba(79,255,176,.22);}
-.btn-primary:hover svg{transform:translateX(4px);}
-.btn-primary svg{transition:transform .25s;}
-.btn-ghost{
-  color:var(--muted);font-size:14px;text-decoration:none;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:color .25s;letter-spacing:.3px;
-}
-.btn-ghost:hover{color:var(--text);}
-@keyframes up{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
 
-.wrap{max-width:1080px;margin:0 auto;padding:0 44px;}
-.sec-label{
-  display:flex;align-items:center;gap:14px;
-  font-family:'JetBrains Mono',monospace;font-size:11px;
-  letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:22px;
+.shell { width: min(1260px, calc(100% - 48px)); margin: 0 auto; }
+.nav-wrap {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: none;
 }
-.sec-label::before{content:'';width:24px;height:1px;background:var(--accent);flex-shrink:0;}
-.sec-h2{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:clamp(32px,4.3vw,56px);line-height:.98;letter-spacing:-1.6px;margin-bottom:16px;
+.nav {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 12px 18px;
+  border-radius: 34px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(22,34,47,.08);
+  box-shadow: 0 14px 40px rgba(22,34,47,.12);
+  backdrop-filter: blur(18px);
+  pointer-events: auto;
 }
-.sec-h2 em{font-style:italic;color:var(--accent);}
-.sec-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:460px;}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  color: var(--green);
+  font-size: 30px;
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+.brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: var(--purple);
+  padding: 7px;
+}
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.links a { text-decoration: none; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 0;
+  padding: 14px 22px;
+  min-height: 46px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  white-space: nowrap;
+}
+.pill:hover { transform: translateY(-2px); }
+.pill.green { background: var(--green); color: white; box-shadow: 0 14px 30px rgba(65,184,120,.24); }
+.pill.purple { background: var(--purple); color: white; box-shadow: 0 14px 30px rgba(87,66,150,.22); }
+.pill.light { background: white; color: var(--purple); border: 2px solid rgba(87,66,150,.18); }
+.menu-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  font-size: 27px;
+  font-weight: 900;
+}
 
-.r{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
-.r.go{opacity:1;transform:none;}
-.r.d1{transition-delay:.07s;}.r.d2{transition-delay:.14s;}.r.d3{transition-delay:.21s;}
-.r.d4{transition-delay:.28s;}.r.d5{transition-delay:.35s;}.r.d6{transition-delay:.42s;}
-
-.forschung{padding:0 0 140px;position:relative;z-index:2;}
-.forschung-card{
-  background:var(--card);border:1px solid rgba(255,255,255,.07);
-  border-radius:24px;padding:72px 64px;
-  position:relative;overflow:hidden;
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
-}
-.forschung-orb{
-  position:absolute;width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(79,255,176,.055) 0%,transparent 65%);
-  top:-150px;right:-100px;pointer-events:none;
-}
-.forschung-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
-.founder-line{
-  display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;
-  margin-bottom:28px;padding:14px;border:1px solid rgba(255,255,255,.06);
-  border-radius:16px;background:rgba(255,255,255,.025);
-}
-.founder-avatar{
-  width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,rgba(79,255,176,.14),rgba(124,92,252,.12));
-  border:1px solid rgba(79,255,176,.18);
-  font-family:'Cormorant Garamond',serif;font-size:25px;color:var(--text);
-}
-.founder-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:-.3px;line-height:1.1;}
-.founder-meta{font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px;}
-.f-tag{
-  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;
-  text-transform:uppercase;color:var(--muted);
-  border:1px solid var(--line);border-radius:100px;
-  padding:5px 12px;transition:all .25s;
-}
-.f-tag:hover{border-color:rgba(79,255,176,.3);color:var(--accent);}
-.forschung-li-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.22);
-  border-radius:8px;padding:12px 22px;color:var(--accent);
-  font-size:14px;font-weight:500;text-decoration:none;letter-spacing:.3px;
-  transition:all .25s;
-}
-.forschung-li-btn:hover{background:rgba(79,255,176,.15);border-color:var(--accent);transform:translateY(-2px);}
-.forschung-right{position:relative;}
-.forschung-badge-card{
-  background:rgba(4,4,12,.95);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;padding:32px;
-  box-shadow:0 30px 80px rgba(0,0,0,.5);
-  position:relative;overflow:hidden;
-}
-.forschung-badge-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(79,255,176,.4),transparent);
-}
-.fbc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
-.fbc-logo{
-  width:44px;height:44px;border-radius:10px;
-  background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.18);
-  display:flex;align-items:center;justify-content:center;
-}
-.fbc-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
-.fbc-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:blink 2s infinite;}
-.fbc-role{
-  font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:20px;letter-spacing:-.3px;line-height:1.3;
-  margin-bottom:12px;color:var(--text);
-}
-.fbc-uni{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px;}
-.fbc-divider{height:1px;background:var(--line);margin-bottom:20px;}
-.fbc-skills-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-.fbc-skills{display:flex;flex-wrap:wrap;gap:7px;}
-.fbc-skills span{font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
-.fbc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;}
-.fbc-metric{border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;background:rgba(255,255,255,.025);}
-.fbc-metric strong{display:block;font-family:'Cormorant Garamond',serif;font-size:25px;line-height:1;color:var(--text);font-weight:300;margin-bottom:5px;}
-.fbc-metric span{font-size:11px;color:var(--muted);line-height:1.35;}
-.fbc-chip{
-  position:absolute;display:flex;align-items:center;gap:7px;
-  background:rgba(4,4,12,.95);border:1px solid rgba(79,255,176,.2);
-  border-radius:100px;padding:8px 14px;font-size:11px;font-weight:500;
-  backdrop-filter:blur(12px);white-space:nowrap;
-  box-shadow:0 8px 30px rgba(0,0,0,.5);color:var(--text);
-}
-.fbc-chip-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:blink 2s infinite;}
-.fbc-chip-1{top:-18px;left:20px;animation:fc 4s ease-in-out infinite;}
-.fbc-chip-2{bottom:-18px;right:20px;animation:fc 5s 1s ease-in-out infinite;}
-@keyframes fc{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
-
-.leistungen{padding:110px 0;position:relative;z-index:2;}
-.leistungen-top{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:72px;}
-.leistung-row{
-  display:grid;grid-template-columns:52px 44px 1fr 1fr;
-  align-items:center;gap:32px;
-  padding:26px 0;border-bottom:1px solid var(--line);
-  cursor:default;position:relative;transition:all .3s;
-}
-.leistung-row::after{
-  content:'';position:absolute;left:0;bottom:-1px;right:0;height:1px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  transform:scaleX(0);transform-origin:left;transition:transform .45s;
-}
-.leistung-row:hover::after{transform:scaleX(1);}
-.leistung-row:first-child{border-top:1px solid var(--line);}
-.leistung-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;}
-.leistung-icon{
-  width:40px;height:40px;border-radius:9px;
-  background:rgba(79,255,176,.06);border:1px solid rgba(79,255,176,.1);
-  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
-}
-.leistung-title{
-  font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:21px;letter-spacing:-.3px;transition:color .3s;
-}
-.leistung-row:hover .leistung-title{color:var(--accent);}
-.leistung-desc{font-size:14px;color:var(--muted);line-height:1.6;}
-
-.ki-section{padding:0 0 110px;position:relative;z-index:2;}
-.ki-card{
-  background:rgba(6,6,8,.96);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:24px;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:minmax(280px,360px) 1fr;
-  min-height:500px;
-  position:relative;
-  box-shadow:0 40px 120px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
-}
-.ki-left{
-  padding:42px 32px;
-  border-right:1px solid rgba(255,255,255,.06);
-  background:linear-gradient(180deg,rgba(79,255,176,.03),rgba(255,255,255,0));
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.ki-left .sec-label{margin-bottom:20px;}
-.ki-left .sec-h2{font-size:clamp(28px,3.4vw,46px);margin-bottom:14px;}
-.ki-left p{font-size:13px;color:var(--muted);line-height:1.7;max-width:320px;margin-bottom:24px;}
-.ki-features{display:flex;flex-direction:column;gap:0;}
-.ki-feat{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-.ki-feat:last-child{border-bottom:none;}
-.ki-feat-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.ki-feat-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15px;letter-spacing:-.1px;margin-bottom:1px;}
-.ki-feat-desc{font-size:11.5px;color:var(--muted);}
-.ki-right{
-  position:relative;
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+.hero {
+  min-height: 760px;
+  padding: 118px 0 0;
   background:
-    radial-gradient(circle at top right, rgba(79,255,176,.06), transparent 35%),
-    radial-gradient(circle at bottom left, rgba(124,92,252,.08), transparent 30%),
-    rgba(6,6,8,.92);
+    radial-gradient(circle at 78% 18%, rgba(217,255,85,.28), transparent 28rem),
+    linear-gradient(135deg, #f7f3ea, #fffdf8 58%, #edf8f2);
+  position: relative;
+  overflow: hidden;
 }
-.ki-slider-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;}
-.ki-slider-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);}
-.ki-slider-controls{display:flex;gap:10px;}
-.ki-slider-btn{
-  width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-  transition:all .2s;
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 92px;
+  right: -36px;
+  width: min(980px, 70vw);
+  height: 620px;
+  border-radius: 34px;
+  background:
+    linear-gradient(90deg, rgba(247,243,234,.82), rgba(247,243,234,.22) 36%, rgba(255,255,255,.05)),
+    url("assets/route-demo-preview.png") center 72% / cover no-repeat;
+  box-shadow: var(--shadow);
+  opacity: .92;
 }
-.ki-slider-btn:hover{border-color:rgba(79,255,176,.35);color:var(--accent);background:rgba(79,255,176,.06);}
-.ki-slides{position:relative;min-height:500px;}
-.ki-slide{
-  position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(10px);
-  transition:opacity .35s ease, transform .35s ease;
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 155px;
+  background: linear-gradient(to bottom, transparent, var(--paper));
+  pointer-events: none;
 }
-.ki-slide.active{opacity:1;pointer-events:auto;transform:none;}
-.ki-usecase{
-  display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;
-  font-size:11px;color:var(--accent);background:rgba(79,255,176,.08);
-  border:1px solid rgba(79,255,176,.16);border-radius:999px;padding:6px 11px;
+.hero-card {
+  position: relative;
+  z-index: 2;
+  width: min(430px, 100%);
+  margin-top: 82px;
+  margin-left: clamp(0px, 4vw, 54px);
+  padding: 42px 40px;
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(87,66,150,.98), rgba(70,52,126,.96));
+  color: white;
+  box-shadow: 0 34px 90px rgba(22,34,47,.32);
 }
-.ki-terminal{
-  background:rgba(4,4,12,.94);
-  min-height:430px;
-  border:1px solid rgba(79,255,176,.12);
-  border-radius:18px;
-  overflow:hidden;
-  backdrop-filter:blur(16px);
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
+.hero-card h1 {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  font-size: clamp(42px, 5.4vw, 64px);
+  line-height: .92;
+  letter-spacing: -.055em;
 }
-.term-bar{
-  padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);
-  display:flex;align-items:center;gap:12px;
-  background:rgba(255,255,255,.015);
+.hero-card p {
+  margin: 24px 0 0;
+  color: rgba(255,255,255,.88);
+  font-size: 18px;
 }
-.term-dots{display:flex;gap:5px;}
-.tdc{width:9px;height:9px;border-radius:50%;}
-.tdc-r{background:#ff5f57;}.tdc-y{background:#febc2e;}.tdc-g{background:#28c840;}
-.term-ttl{flex:1;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);letter-spacing:.6px;}
-.term-live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);}
-.term-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite;}
-.term-body{padding:12px;display:flex;flex-direction:column;gap:9px;min-height:372px;}
-.msg{display:flex;align-items:flex-start;gap:8px;opacity:1;transform:none;animation:none;}
-.msg.u{flex-direction:row;}
-.msg.ai{flex-direction:row;}
-.m-av{
-  width:22px;height:22px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
 }
-.m-av.ai{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#000;}
-.m-av.hu{background:rgba(124,92,252,.2);color:#d8d0ff;}
-.m-cont{display:flex;flex-direction:column;gap:4px;max-width:min(100%, 560px);}
-.m-label{font-size:9px;color:var(--muted);letter-spacing:.2px;}
-.m-bub{width:100%;padding:9px 11px;border-radius:13px;font-size:10.5px;line-height:1.42;white-space:pre-line;}
-.msg.u .m-bub{background:rgba(124,92,252,.14);border:1px solid rgba(124,92,252,.18);}
-.msg.ai .m-bub{background:rgba(79,255,176,.07);border:1px solid rgba(79,255,176,.1);}
-.m-t{font-size:9px;color:var(--muted);opacity:.75;padding-left:2px;}
-.ki-dots{display:flex;justify-content:center;gap:8px;margin-top:14px;}
-.ki-dot{
-  width:10px;height:10px;border-radius:999px;border:none;cursor:pointer;
-  background:rgba(255,255,255,.15);transition:all .2s;
+.hero-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 28px;
 }
-.ki-dot.active{width:28px;background:var(--accent);}
+.mini-badge {
+  min-height: 78px;
+  border-radius: 20px;
+  padding: 13px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.16);
+  font-size: 13px;
+  font-weight: 700;
+}
+.mini-badge strong {
+  display: block;
+  color: var(--lime);
+  font-family: "Nunito", sans-serif;
+  font-size: 21px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.trust-row {
+  padding: 82px 0 62px;
+  text-align: center;
+}
+.section-title {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  font-size: clamp(31px, 3vw, 46px);
+  line-height: 1;
+  letter-spacing: -.045em;
+  color: #6b7076;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-top: 38px;
+}
+.trust-chip {
+  min-height: 78px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  color: #8b8d91;
+  background: #fbfaf6;
+  border: 1px solid rgba(22,34,47,.07);
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: -.02em;
+}
 
+.feature-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+  border-radius: 32px;
+  box-shadow: var(--shadow);
+}
+.feature-card {
+  min-height: 355px;
+  position: relative;
+  padding: 34px 32px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+}
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,.12)),
+    var(--bg);
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(1px);
+  z-index: -1;
+}
+.feature-card.one { --bg: radial-gradient(circle at 70% 20%, #48d58d, transparent 26%), linear-gradient(135deg,#0f8678,#243d4d); }
+.feature-card.two { --bg: radial-gradient(circle at 70% 20%, #d9ff55, transparent 28%), linear-gradient(135deg,#574296,#118878); }
+.feature-card.three { --bg: radial-gradient(circle at 70% 20%, #ff6868, transparent 28%), linear-gradient(135deg,#2d3848,#574296); }
+.feature-card h3 {
+  margin: 0 0 8px;
+  font-family: "Nunito", sans-serif;
+  font-size: 29px;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+.feature-card p { margin: 0; color: rgba(255,255,255,.84); }
+.feature-card a {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+}
+.dot-arrow {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  font-size: 14px;
+  line-height: 1;
+}
 
-.warum{padding:0 0 110px;position:relative;z-index:2;}
-.warum-card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:24px;padding:72px 64px;
-  position:relative;overflow:hidden;
+.why {
+  padding: 112px 0 40px;
 }
-.warum-card::before{
-  content:'';position:absolute;
-  width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(124,92,252,.06) 0%,transparent 65%);
-  bottom:-100px;right:-100px;pointer-events:none;
+.why h2 {
+  text-align: center;
+  margin-bottom: 74px;
+  color: #5c6470;
 }
-.warum-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:64px;}
-.warum-list{display:flex;flex-direction:column;}
-.warum-item{display:grid;grid-template-columns:38px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--line);transition:all .3s;}
-.warum-item:first-child{border-top:1px solid var(--line);}
-.warum-item:hover{padding-left:6px;}
-.w-icon{width:34px;height:34px;border-radius:8px;background:rgba(79,255,176,.06);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px;transition:background .3s;}
-.warum-item:hover .w-icon{background:rgba(79,255,176,.11);}
-.w-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:-.2px;margin-bottom:5px;}
-.w-desc{font-size:14px;color:var(--muted);line-height:1.65;}
-.kpi-strip{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1;}
-.kpi-item{padding:36px 0;border-bottom:1px solid var(--line);padding-right:36px;}
-.kpi-item:nth-child(2n){padding-right:0;padding-left:36px;border-left:1px solid var(--line);}
-.kpi-item:nth-last-child(-n+2){border-bottom:none;}
-.kpi-accent-line{display:block;width:20px;height:2px;background:var(--accent);margin-bottom:18px;}
-.kpi-n{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:68px;letter-spacing:-4px;line-height:1;color:var(--text);margin-bottom:5px;display:flex;align-items:baseline;gap:1px;}
-.kpi-em{font-size:36px;color:var(--accent);font-style:normal;letter-spacing:-1.5px;}
-.kpi-sm{font-size:24px;color:var(--muted);font-style:normal;letter-spacing:-1px;}
-.kpi-l{font-size:13px;color:var(--muted);letter-spacing:.3px;}
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+  margin: 0 0 86px;
+}
+.split:nth-child(even) .copy { order: 2; }
+.copy h3, .panel h3 {
+  margin: 0 0 16px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  color: var(--purple);
+  font-size: clamp(29px, 3vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -.05em;
+}
+.copy p, .panel p {
+  margin: 0;
+  color: #374151;
+  max-width: 520px;
+}
+.visual-card {
+  min-height: 360px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--mint);
+  position: relative;
+}
+.visual-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+  object-position: center top;
+}
+.route-illustration {
+  height: 100%;
+  min-height: 360px;
+  padding: 28px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(65,184,120,.22), transparent 22%),
+    radial-gradient(circle at 80% 78%, rgba(87,66,150,.15), transparent 26%),
+    #edf8f2;
+}
+.route-board {
+  width: min(440px, 100%);
+  border-radius: 28px;
+  background: white;
+  padding: 22px;
+  box-shadow: 0 28px 70px rgba(22,34,47,.13);
+}
+.route-line {
+  height: 11px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--green-dark), var(--green), var(--lime));
+  margin: 18px 0;
+}
+.route-stop {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-weight: 800;
+}
+.route-stop:last-child { border-bottom: 0; }
+.route-stop span:first-child {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+}
+.route-stop small { color: var(--muted); font-weight: 700; }
+.panel {
+  width: min(480px, 100%);
+  border-radius: 30px;
+  background: var(--purple-soft);
+  padding: 40px;
+  margin-left: auto;
+}
+.checks {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 0;
+}
+.check {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 11px;
+  align-items: start;
+  color: var(--purple);
+  font-weight: 800;
+}
+.check::before {
+  content: "✓";
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: white;
+  color: var(--green);
+  font-weight: 900;
+}
 
-.prozess{padding:0 0 110px;position:relative;z-index:2;}
-.prozess-card{
-  background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;
-  display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;
-  margin-top:64px;
+.cta-band {
+  padding: 112px 0;
+  text-align: center;
 }
-.p-step{
-  padding:48px 36px;border-right:1px solid var(--line);
-  position:relative;overflow:hidden;transition:background .4s;
+.cta-band h2 {
+  margin: 0 auto 24px;
+  max-width: 870px;
+  font-family: "Nunito", sans-serif;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: .98;
+  letter-spacing: -.055em;
+  color: var(--purple);
 }
-.p-step:last-child{border-right:none;}
-.p-step:hover{background:rgba(79,255,176,.02);}
-.p-big{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:90px;letter-spacing:-5px;line-height:1;color:rgba(79,255,176,.05);margin-bottom:24px;transition:color .4s;}
-.p-step:hover .p-big{color:rgba(79,255,176,.09);}
-.p-num{position:absolute;top:24px;right:28px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
-.p-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:-.3px;margin-bottom:12px;}
-.p-desc{font-size:14px;color:var(--muted);line-height:1.7;}
+.cta-band p {
+  margin: 0 auto 28px;
+  max-width: 690px;
+  color: var(--muted);
+}
+.cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
-.preise{padding:0 0 110px;position:relative;z-index:2;}
-.preise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px;}
-.preis-card{
-  background:var(--card);border:1px solid rgba(255,255,255,.07);
-  border-radius:20px;padding:44px 36px;position:relative;overflow:hidden;
-  transition:transform .35s, border-color .35s, box-shadow .35s;
+.benefits {
+  background: var(--purple-soft);
+  padding: 96px 0;
 }
-.preis-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.12);box-shadow:0 32px 80px rgba(0,0,0,.4);}
-.preis-card.featured{
-  background:rgba(79,255,176,.04);
-  border-color:rgba(79,255,176,.25);
+.benefit-grid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 70px;
+  align-items: start;
 }
-.preis-card.featured::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+.benefit-grid h2 {
+  text-align: left;
+  color: var(--purple);
+  margin-bottom: 20px;
 }
-.p-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:block;}
-.preis-card.featured .p-tag{color:var(--accent);}
-.preis-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;letter-spacing:-.2px;margin-bottom:8px;}
-.preis-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;min-height:42px;}
-.preis-amount{display:flex;align-items:baseline;gap:3px;margin-bottom:4px;}
-.p-from{font-size:13px;color:var(--muted);}
-.p-cur{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:19px;color:var(--muted);align-self:flex-start;margin-top:5px;}
-.p-num-big{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:58px;letter-spacing:-3px;line-height:1;color:var(--text);}
-.p-div{height:1px;background:var(--line);margin:26px 0;}
-.p-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
-.p-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);}
-.p-features li::before{content:'';width:16px;height:16px;border-radius:50%;background:rgba(79,255,176,.08);border:1px solid rgba(79,255,176,.2);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 13l4 4L19 7' stroke='%234fffb0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:10px;background-repeat:no-repeat;background-position:center;}
-.p-btn{display:block;text-align:center;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:12px 24px;font-size:13px;font-weight:500;color:var(--text);letter-spacing:.3px;transition:all .25s;}
-.p-btn:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.04);}
-.preis-card.featured .p-btn{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
-.preis-card.featured .p-btn:hover{background:#fff;border-color:#fff;box-shadow:0 8px 32px rgba(79,255,176,.2);}
-.preis-note{text-align:center;font-size:13px;color:var(--muted);opacity:.5;margin-top:20px;}
+.benefit-list {
+  display: grid;
+  gap: 28px;
+}
+.benefit-item {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 20px;
+}
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  background: white;
+  color: var(--purple);
+  font-family: "Nunito", sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+}
+.benefit-item h3 {
+  margin: 0 0 6px;
+  font-family: "Nunito", sans-serif;
+  color: var(--purple);
+  font-size: 27px;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+.benefit-item p { margin: 0; color: #3f4350; }
 
-.kontakt{padding:0 0 110px;position:relative;z-index:2;}
-.kontakt-card{
-  background:var(--card);border:1px solid rgba(255,255,255,.07);
-  border-radius:24px;padding:72px 64px;
-  position:relative;overflow:hidden;
+.faq {
+  padding: 100px 0;
 }
-.kontakt-card::before{
-  content:'';position:absolute;
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(79,255,176,.05) 0%,transparent 65%);
-  top:-200px;right:-100px;pointer-events:none;
+.faq h2 { color: var(--purple); margin-bottom: 28px; }
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
-.kontakt-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px;}
-.k-email{display:inline-flex;align-items:center;gap:9px;color:var(--accent);font-size:15px;text-decoration:none;margin-bottom:36px;letter-spacing:.2px;transition:opacity .2s;}
-.k-email:hover{opacity:.65;}
-.k-checks{display:flex;flex-direction:column;gap:12px;margin-bottom:48px;}
-.k-check{display:flex;align-items:center;gap:12px;font-size:14.5px;color:var(--muted);}
-.k-chk{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:1px solid rgba(79,255,176,.25);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--accent);font-weight:700;}
-.f-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-.f-group{padding-bottom:20px;border-bottom:1px solid var(--line);}
-.f-label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
-.f-input,.f-textarea{width:100%;background:transparent;border:none;outline:none;font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;padding:0;line-height:1.6;caret-color:var(--accent);}
-.f-textarea{resize:vertical;min-height:72px;}
-.f-input::placeholder,.f-textarea::placeholder{color:rgba(255,255,255,.16);}
-.f-submit{margin-top:32px;display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#000;font-weight:700;font-size:14px;letter-spacing:.3px;padding:14px 32px;border-radius:8px;border:none;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;}
-.f-submit:hover{background:#fff;transform:translateY(-2px);box-shadow:0 14px 44px rgba(79,255,176,.22);}
-.f-submit:hover svg{transform:translateX(4px);}
-.f-submit svg{transition:transform .25s;}
-.f-rt{margin-top:14px;font-size:12px;color:var(--muted);opacity:.45;letter-spacing:.3px;}
-
-.faq{padding:0 0 110px;position:relative;z-index:2;}
-.faq-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:72px 64px;}
-.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px;}
-.faq-item{border-bottom:1px solid var(--line);cursor:pointer;}
-.faq-item:first-child{border-top:1px solid var(--line);}
-.faq-q{padding:22px 0;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;letter-spacing:-.2px;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;}
-.faq-ico{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:17px;transition:all .25s;line-height:1;}
-.faq-item:hover .faq-ico,.faq-item.open .faq-ico{border-color:rgba(79,255,176,.3);color:var(--accent);}
-.faq-a{font-size:14px;color:var(--muted);line-height:1.75;overflow:hidden;max-height:0;transition:max-height .4s ease,padding .3s ease;padding-bottom:0;}
-.faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
-
-footer{border-top:1px solid var(--line);padding:46px 44px 28px;position:relative;z-index:2;}
-.footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:64px;margin-bottom:48px;}
-.f-brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--text);letter-spacing:.3px;margin-bottom:12px;text-decoration:none;display:inline-block;}
-.f-brand-name span{color:var(--accent);}
-.f-tagline{font-size:14px;color:var(--muted);line-height:1.7;max-width:260px;margin-bottom:20px;}
-.f-mail{font-size:13px;color:var(--accent);text-decoration:none;opacity:.75;transition:opacity .2s;}
-.f-mail:hover{opacity:1;}
-.f-linkedin{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);text-decoration:none;margin-top:12px;opacity:.65;transition:all .2s;}
-.f-linkedin:hover{color:var(--accent);opacity:1;}
-.f-heading{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
-.f-links{list-style:none;display:flex;flex-direction:column;gap:11px;}
-.f-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s;}
-.f-links a:hover{color:var(--text);}
-.footer-bottom{border-top:1px solid var(--line);padding-top:24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);opacity:.4;}
-.heart{color:#ff4757;}
-
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:rgba(79,255,176,.12);border-radius:3px;}
-::-webkit-scrollbar-thumb:hover{background:rgba(79,255,176,.28);}
-
-@media(max-width:1024px){
-  nav{top:14px;left:16px;right:16px;padding:10px 12px;} .wrap{padding:0 24px;}
-  .hero-content{padding:110px 24px 0;max-width:100%;} .hero-spline{width:46%;opacity:.28;}
-  .leistungen-top,.warum-grid,.kontakt-grid,.forschung-card{grid-template-columns:1fr;gap:40px;}
-  .ki-card{grid-template-columns:1fr;} .ki-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);} .ki-right{min-height:340px;}
-  .hero-proof{grid-template-columns:1fr;max-width:460px;}
-  .leistung-row{grid-template-columns:46px 42px 1fr;} .leistung-desc{display:none;}
-  .prozess-card{grid-template-columns:1fr 1fr;} .preise-grid{grid-template-columns:1fr;}
-  .faq-grid{grid-template-columns:1fr;} .footer-top{grid-template-columns:1fr 1fr;}
-  .kpi-item:nth-child(2n){padding-left:28px;} .kpi-item{padding-right:28px;}
-  .warum-card,.kontakt-card,.faq-card,.forschung-card{padding:40px 28px;}
+.faq-card {
+  min-height: 260px;
+  border-radius: 22px;
+  background: var(--purple-soft);
+  border: 1px solid rgba(87,66,150,.12);
+  padding: 28px;
 }
-@media(max-width:640px){
-  .nav-links{display:none;} .hero-h1{font-size:44px;letter-spacing:-1.2px;} .hero-spline{display:none;} .hero-logo-frame{width:96px;height:96px;} .hero-logo-frame img{width:74px;height:74px;} .hero-brand-name{font-size:30px;} .logo{min-width:auto;} .logo-mark{display:none;}
-  .prozess-card,.kpi-strip{grid-template-columns:1fr;} .kpi-item:nth-child(2n){padding-left:0;border-left:none;} .f-row{grid-template-columns:1fr;} .ki-right{padding:18px;} .ki-slides{min-height:620px;} .ki-terminal{min-height:480px;} .term-body{min-height:420px;}
-  footer{padding:40px 20px 24px;} .footer-top{grid-template-columns:1fr;}
+.faq-card h3 {
+  margin: 0 0 12px;
+  color: var(--purple);
+  font-family: "Nunito", sans-serif;
+  font-size: 25px;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+.faq-card p { margin: 0; color: #3f4350; }
+
+footer {
+  min-height: 560px;
+  background: var(--purple);
+  color: white;
+  padding: 84px 0 36px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  font-size: 32px;
+  color: white;
+  text-decoration: none;
+}
+.footer-brand img {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: white;
+  padding: 7px;
+}
+.footer-panel {
+  display: grid;
+  gap: 14px;
+}
+.footer-panel .pill {
+  width: 100%;
+}
+.footer-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 34px;
+}
+.footer-links h4 {
+  margin: 0 0 12px;
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
+}
+.footer-links a {
+  display: block;
+  color: rgba(255,255,255,.88);
+  text-decoration: none;
+  margin: 7px 0;
+}
+.footer-bottom {
+  margin-top: 170px;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 14px;
+  color: rgba(255,255,255,.72);
+}
+
+@media (max-width: 980px) {
+  .links { display: none; }
+  .hero {
+    min-height: auto;
+    padding-bottom: 72px;
+  }
+  .hero::before { width: 110vw; right: -32vw; opacity: .38; }
+  .hero-card { margin: 72px auto 0; }
+  .trust-grid, .feature-strip, .split, .benefit-grid, .faq-grid, .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature-strip { border-radius: 26px; }
+  .split:nth-child(even) .copy { order: initial; }
+  .panel { margin-left: 0; }
+}
+
+@media (max-width: 640px) {
+  .shell { width: min(100% - 28px, 1260px); }
+  .nav { width: min(100% - 24px, 1180px); min-height: 64px; padding: 9px 12px; }
+  .brand { font-size: 24px; }
+  .brand img { width: 38px; height: 38px; }
+  .nav-actions .pill.purple { display: none; }
+  .hero { padding-top: 92px; }
+  .hero-card { padding: 32px 26px; border-radius: 28px; }
+  .hero-badges { grid-template-columns: 1fr; }
+  .trust-row { padding-top: 54px; }
+  .feature-card { min-height: 285px; }
+  .why, .cta-band, .benefits, .faq { padding: 70px 0; }
+  .footer-links, .footer-bottom { grid-template-columns: 1fr; flex-direction: column; }
+  .footer-bottom { margin-top: 80px; }
 }
 </style>
 </head>
 <body>
-
-<nav id="nav">
-  <a href="index.html" class="logo">
-    <img src="assets/brand/small-logo.png" alt="AutomateX Solutions Logo">
-    <div class="logo-mark">
-      <div class="logo-kicker">Automate X Solutions</div>
-      <div class="logo-wordmark">Automate<span>X</span></div>
-    </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#leistungen">Funktionen</a></li>
-    <li><a href="#prozess">Ablauf</a></li>
-    <li><a href="#preise">Pakete</a></li>
-    <li><a href="routenplanung-test.html">Routing-Demo</a></li>
-    <li><a href="#ueber">Forschung</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
-  </ul>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="nav-li" title="LinkedIn — Frederik Ernst">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+<div class="nav-wrap">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <img src="assets/brand/small-logo.png" alt="AutomateX Logo">
+      automatex
     </a>
-    <a href="#kontakt" class="nav-cta">
-      Routing-Analyse
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </a>
-  </div>
-</nav>
+    <div class="links">
+      <a href="#funktionen">Funktionen</a>
+      <a href="#vorteile">Vorteile</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="routenplanung-test.html">Demo</a>
+    </div>
+    <div class="nav-actions">
+      <a class="pill purple" href="#kontakt">Analyse</a>
+      <div class="menu-mark">≡</div>
+    </div>
+  </nav>
+</div>
 
-<section class="hero">
-  <div class="hero-spline" id="spline-wrap">
-    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="none"></spline-viewer>
-    <div class="spline-chip">
-      <div class="spline-chip-dot">KI</div>
-      <span class="spline-chip-text">Mit unseren KI-Systemen erstellt</span>
+<header class="hero">
+  <div class="shell">
+    <div class="hero-card">
+      <h1>Routenplanung. Spürbar einfacher.</h1>
+      <p>Jetzt Tourdaten eingeben und in wenigen Schritten sehen, wie KI Stopps, Fahrer, Zeitfenster und Eilaufträge besser verteilt.</p>
+      <div class="hero-actions">
+        <a class="pill green" href="#kontakt">Routenanalyse anfragen</a>
+        <a class="pill light" href="routenplanung-test.html">Live-Demo öffnen</a>
+      </div>
+      <div class="hero-badges">
+        <div class="mini-badge"><strong>Live</strong> Neuplanung bei Absage, Stau oder Eilauftrag</div>
+        <div class="mini-badge"><strong>CSV</strong> Start mit einfacher Tagesliste möglich</div>
+      </div>
     </div>
   </div>
-  <div class="hero-content">
-    <div class="hero-logo-showcase">
-      <div class="hero-logo-frame"><img src="assets/brand/logo.png" alt="AutomateX Logo"></div>
+</header>
+
+<main>
+  <section class="trust-row">
+    <div class="shell">
+      <h2 class="section-title">Aus Tageslisten werden planbare Touren</h2>
+      <div class="trust-grid">
+        <div class="trust-chip">CSV</div>
+        <div class="trust-chip">Gmail</div>
+        <div class="trust-chip">Fahrer</div>
+        <div class="trust-chip">Stopps</div>
+        <div class="trust-chip">Zeitfenster</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell" id="funktionen">
+    <div class="feature-strip">
+      <article class="feature-card one">
+        <h3>Touren automatisch planen</h3>
+        <p>Stopps clustern, Reihenfolge berechnen und Fahrtzeiten mit Zeitfenstern abgleichen.</p>
+        <a href="#ablauf">Mehr erfahren <span class="dot-arrow">›</span></a>
+      </article>
+      <article class="feature-card two">
+        <h3>Änderungen live einbauen</h3>
+        <p>Absagen, neue Termine und Verkehrsfaktoren werden in die Resttour eingerechnet.</p>
+        <a href="routenplanung-test.html">Demo ansehen <span class="dot-arrow">›</span></a>
+      </article>
+      <article class="feature-card three">
+        <h3>Fahrer besser auslasten</h3>
+        <p>Kapazitäten, Schichten, Startpunkte und Prioritäten werden pro Route berücksichtigt.</p>
+        <a href="#kontakt">Analyse starten <span class="dot-arrow">›</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="why" id="vorteile">
+    <div class="shell">
+      <h2 class="section-title">Warum Dispositionsteams AutomateX nutzen</h2>
+      <div class="split">
+        <div class="copy">
+          <h3>Planung, die auf echte Einschränkungen reagiert</h3>
+          <p>Die KI beachtet nicht nur Distanz. Sie prüft Zeitfenster, Servicezeiten, Prioritätskunden, Fahrerprofile und Fahrzeugkapazitäten. So entstehen Touren, die im Alltag funktionieren.</p>
+        </div>
+        <div class="visual-card">
+          <div class="route-illustration">
+            <div class="route-board">
+              <strong style="font-family: Nunito, sans-serif; font-size: 24px; color: var(--purple);">Optimierte Resttour</strong>
+              <div class="route-line"></div>
+              <div class="route-stop"><span>1</span><div>Duisburg Süd<br><small>09:20 - 09:40</small></div><small>12 km</small></div>
+              <div class="route-stop"><span>2</span><div>Essen Hafen<br><small>10:15 - 10:45</small></div><small>24 km</small></div>
+              <div class="route-stop"><span>3</span><div>Bochum Service<br><small>12:30 - 13:00</small></div><small>41 km</small></div>
+              <div class="route-stop"><span>4</span><div>Dortmund Eilauftrag<br><small>14:10 - 14:35</small></div><small>58 km</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="copy">
+          <h3>Aus Absagen werden automatisch neue Vorschläge</h3>
+          <p>Wenn ein Termin per Mail abgesagt wird, kann die Demo den betroffenen Stopp erkennen, entfernen und die verbleibende Route neu sortieren. Freie Zeitfenster werden für passende Aufträge nutzbar.</p>
+        </div>
+        <div class="visual-card">
+          <img src="assets/route-demo-preview.png" alt="AutomateX Routing-Demo mit Karte und Stopps">
+        </div>
+      </div>
+
+      <div class="split" id="ablauf">
+        <div class="copy">
+          <h3>Vom Pilot zur produktiven Routing-KI</h3>
+          <p>Wir starten pragmatisch mit einer Tagesliste. Danach werden echte Regeln ergänzt: Fahrer, Fahrzeuge, Regionen, Prioritäten und Integrationen. Der Nutzen wird über Kilometer, Fahrzeit und Planungsaufwand gemessen.</p>
+        </div>
+        <div class="panel">
+          <h3>Typischer Ablauf</h3>
+          <div class="checks">
+            <div class="check">Tagesliste oder CSV bereitstellen</div>
+            <div class="check">Stopps und Zeitfenster optimieren lassen</div>
+            <div class="check">Vorher-nachher-Kennzahlen vergleichen</div>
+            <div class="check">Demo mit euren Routenregeln erweitern</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" id="kontakt">
+    <div class="shell">
+      <h2>Erhalten Sie in wenigen Klicks eine unverbindliche Routing-Einschätzung</h2>
+      <p>Beschreiben Sie Ihre Tourenplanung oder senden Sie eine typische Tagesliste. Wir prüfen, wo KI-Routenoptimierung zuerst Wirkung zeigt.</p>
+      <div class="cta-actions">
+        <a class="pill green" href="mailto:frederik.ernst27@gmail.com?subject=Routing-Analyse%20AutomateX">Routing-Analyse anfragen</a>
+        <a class="pill purple" href="routenplanung-test.html">Live-Demo testen</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <div class="shell benefit-grid">
       <div>
-        <div class="hero-brand-line">AI Route Optimization</div>
-        <div class="hero-brand-name">Automate<span>X</span></div>
+        <h2 class="section-title">Warum AutomateX?</h2>
+        <p>Routenoptimierung lohnt sich, wenn Disposition jeden Tag mit kurzfristigen Änderungen, engen Zeitfenstern und vielen Stopps arbeitet. AutomateX verbindet eine einfache Oberfläche mit nachvollziehbaren KI-Entscheidungen.</p>
       </div>
-    </div>
-    <h1 class="hero-h1">
-      Touren mit <em>KI</em><br>planen.
-      <span class="sml">Weniger Kilometer. Bessere Auslastung.</span>
-    </h1>
-    <p class="hero-sub">
-      AutomateX Solutions entwickelt <strong>KI-Routenoptimierung</strong> für Disposition, Serviceflotten und Lieferteams. Aus Aufträgen, Zeitfenstern, Fahrerprofilen und Fahrzeugkapazitäten entstehen automatisch bessere Tourenpläne.
-    </p>
-    <div class="hero-actions">
-      <a href="#kontakt" class="btn-primary">
-        Route analysieren lassen
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="#leistungen" class="btn-ghost">
-        Funktionen ansehen
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="#ueber" class="btn-ghost">
-        Forschungsansatz
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="routenplanung-test.html" class="btn-ghost">
-        Live-Demo öffnen
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-    <div class="hero-proof">
-      <div class="hero-proof-item">
-        <div class="hero-proof-k">Optimierung</div>
-        <div class="hero-proof-v"><span>Multi-Stop-Routing</span><br>Zeitfenster, Kapazitäten, Prioritäten</div>
-      </div>
-      <div class="hero-proof-item">
-        <div class="hero-proof-k">Einsatz</div>
-        <div class="hero-proof-v">Disposition<br>Service &amp; Lieferung</div>
-      </div>
-      <div class="hero-proof-item">
-        <div class="hero-proof-k">Basis</div>
-        <div class="hero-proof-v"><span>Forschung + Praxis</span><br>UDE / PIA Lab</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="leistungen" id="leistungen">
-  <div class="wrap">
-    <div class="leistungen-top">
-      <div>
-        <div class="sec-label r">Routenoptimierung</div>
-        <h2 class="sec-h2 r d1">Alles fuer bessere<br><em>Tourenplanung</em></h2>
-      </div>
-      <p class="sec-sub r d2">Eine spezialisierte KI-Loesung fuer Unternehmen, die taeglich Stopps, Fahrer, Fahrzeuge und Zeitfenster koordinieren muessen.</p>
-    </div>
-    <div>
-      <div class="leistung-row r">
-        <div class="leistung-num">01</div><div class="leistung-icon">🗺️</div>
-        <div class="leistung-title">Automatische Tourenplanung</div>
-        <div class="leistung-desc">Auftraege importieren, Stopps clustern und sinnvolle Touren erzeugen. Die KI beruecksichtigt Distanzen, Prioritaeten, Regionen und operative Regeln.</div>
-      </div>
-      <div class="leistung-row r d1">
-        <div class="leistung-num">02</div><div class="leistung-icon">⏱️</div>
-        <div class="leistung-title">Zeitfenster &amp; SLA-Regeln</div>
-        <div class="leistung-desc">Lieferfenster, Servicezeiten, Pausen, Prioritaetskunden und feste Termine werden in der Planung automatisch eingehalten.</div>
-      </div>
-      <div class="leistung-row r d2">
-        <div class="leistung-num">03</div><div class="leistung-icon">🚚</div>
-        <div class="leistung-title">Fahrer- &amp; Fahrzeugzuordnung</div>
-        <div class="leistung-desc">Kapazitaeten, Fahrzeugtypen, Qualifikationen, Startpunkte und Schichtzeiten werden pro Fahrer oder Fahrzeug in die optimale Route eingerechnet.</div>
-      </div>
-      <div class="leistung-row r d3">
-        <div class="leistung-num">04</div><div class="leistung-icon">🧠</div>
-        <div class="leistung-title">KI-Dispatcher</div>
-        <div class="leistung-desc">Der KI-Dispatcher begruendet Entscheidungen, erkennt Konflikte und schlaegt Alternativen vor, wenn ein Stopp nicht in eine bestehende Tour passt.</div>
-      </div>
-      <div class="leistung-row r d4">
-        <div class="leistung-num">05</div><div class="leistung-icon">📍</div>
-        <div class="leistung-title">Live-Anpassungen</div>
-        <div class="leistung-desc">Neue Auftraege, Ausfaelle, Verspaetungen oder kurzfristige Prioritaeten koennen in bestehende Touren neu eingerechnet werden.</div>
-      </div>
-      <div class="leistung-row r d5">
-        <div class="leistung-num">06</div><div class="leistung-icon">📊</div>
-        <div class="leistung-title">Kosten- &amp; Kilometeranalyse</div>
-        <div class="leistung-desc">Vorher-nachher-Vergleich fuer Kilometer, Fahrzeit, Auslastung und manuelle Planungszeit. So wird der Nutzen der Optimierung messbar.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ki-section" id="ki">
-  <div class="wrap">
-    <div class="ki-card r">
-      <div class="ki-left">
-        <div class="sec-label">KI-Dispatcher</div>
-        <h2 class="sec-h2"><em>Touren</em><br>live neu planen</h2>
-        <p>Der KI-Dispatcher verarbeitet Absagen, Eilauftraege und Verkehrsaenderungen und berechnet die verbleibende Route neu, ohne dass die Disposition alles manuell umsortieren muss.</p>
-        <div class="ki-features">
-          <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(79,255,176,.07);">💬</div>
-            <div><div class="ki-feat-title">Disposition per Sprache</div><div class="ki-feat-desc">Anweisungen wie "Eilauftrag in Essen bis 15 Uhr" werden in Routenaktionen uebersetzt</div></div>
-          </div>
-          <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(124,92,252,.07);">🎞️</div>
-            <div><div class="ki-feat-title">Live-Konflikte erkennen</div><div class="ki-feat-desc">Zeitfenster, Fahrzeit und Prioritaeten werden gegen die aktuelle Tour geprueft</div></div>
-          </div>
-          <div class="ki-feat">
-            <div class="ki-feat-icon" style="background:rgba(0,212,255,.07);">✅</div>
-            <div><div class="ki-feat-title">Messbare Einsparung</div><div class="ki-feat-desc">Kilometer, Fahrzeit und Auslastung werden vor und nach der Optimierung verglichen</div></div>
-          </div>
+      <div class="benefit-list">
+        <div class="benefit-item">
+          <div class="benefit-icon">1</div>
+          <div><h3>Schneller starten</h3><p>Der erste Test funktioniert mit CSV und Beispielrouten, ohne direkt ein großes Systemprojekt zu starten.</p></div>
         </div>
-      </div>
-
-      <div class="ki-right">
-        <div class="ki-slider-head">
-          <div class="ki-slider-label">Live-Szenarien fuer Tourenplanung</div>
-          <div class="ki-slider-controls">
-            <button class="ki-slider-btn" type="button" data-ki-prev aria-label="Vorheriger Chat">←</button>
-            <button class="ki-slider-btn" type="button" data-ki-next aria-label="Nächster Chat">→</button>
-          </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">2</div>
+          <div><h3>Messbarer Nutzen</h3><p>Kilometer, Fahrzeit, Planänderungen und Auslastung werden transparent gegenübergestellt.</p></div>
         </div>
-
-        <div class="ki-slides">
-          <article class="ki-slide active" data-ki-slide>
-            <div class="ki-usecase">🚚 Eilauftrag in laufende Tour einfuegen</div>
-            <div class="ki-terminal">
-              <div class="term-bar">
-                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
-                <div class="term-ttl">AutomateX · Routing-KI online</div>
-                <div class="term-live">Disposition</div>
-              </div>
-              <div class="term-body">
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Disposition</div><div class="m-bub">Neuer Eilauftrag in Essen, muss vor 15:00 Uhr erledigt werden. Passt das noch in Tour 2?</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">✅ Auftrag kann eingefuegt werden.
-Beste Position: nach Stopp 4
-Zusatzstrecke: +6,8 km
-Neue Ankunft: 14:32 Uhr
-SLA bleibt eingehalten.</div><div class="m-t">Route neu berechnet</div></div></div>
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Disposition</div><div class="m-bub">Was passiert mit dem letzten Termin?</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">Der letzte Termin verschiebt sich um 11 Minuten, bleibt aber im Zeitfenster. Ich empfehle Tour 2 statt Tour 1, weil Fahrer und Fahrzeugkapazitaet besser passen.</div><div class="m-t">Konfliktfrei</div></div></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="ki-slide" data-ki-slide>
-            <div class="ki-usecase">📩 Absage aus Gmail verarbeitet</div>
-            <div class="ki-terminal">
-              <div class="term-bar">
-                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
-                <div class="term-ttl">AutomateX · Routing-KI online</div>
-                <div class="term-live">Gmail</div>
-              </div>
-              <div class="term-body">
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Gmail</div><div class="m-bub">Kunde Mueller sagt Termin heute krankheitsbedingt ab.</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">✅ Absage erkannt.
-Stopp "Mueller" wurde aus der laufenden Route entfernt.
-Resttour neu geplant:
-• 18,4 km weniger
-• 27 Minuten frei
-• Pausenfenster automatisch verschoben</div><div class="m-t">Gmail-Monitoring aktiv</div></div></div>
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Disposition</div><div class="m-bub">Kann ein offener Auftrag nachruecken?</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">Ja. Auftrag "Ersatzteil Bochum" passt in das frei gewordene Fenster und reduziert Leerfahrt um weitere 9 Minuten.</div><div class="m-t">Vorschlag bereit</div></div></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="ki-slide" data-ki-slide>
-            <div class="ki-usecase">⏱️ Zeitfenster-Konflikt aufloesen</div>
-            <div class="ki-terminal">
-              <div class="term-bar">
-                <div class="term-dots"><div class="tdc tdc-r"></div><div class="tdc tdc-y"></div><div class="tdc tdc-g"></div></div>
-                <div class="term-ttl">AutomateX · Routing-KI online</div>
-                <div class="term-live">SLA</div>
-              </div>
-              <div class="term-body">
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Disposition</div><div class="m-bub">Tour 3 reisst das Zeitfenster bei Kunde Scherer um 19 Minuten. Was ist die beste Alternative?</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">✅ Drei Optionen geprueft.
-Empfehlung: Stopp mit Fahrer 1 tauschen.
-Ergebnis:
-• Scherer wieder im Zeitfenster
-• Gesamtstrecke +2,1 km
-• Keine weitere SLA-Verletzung</div><div class="m-t">Optimierungsvorschlag</div></div></div>
-                <div class="msg u"><div class="m-av hu">👤</div><div class="m-cont"><div class="m-label">Disposition</div><div class="m-bub">Warum nicht einfach Reihenfolge aendern?</div></div></div>
-                <div class="msg ai"><div class="m-av ai">🤖</div><div class="m-cont"><div class="m-label">AX Routing</div><div class="m-bub">Eine reine Reihenfolge-Aenderung erzeugt zwei neue Konflikte. Der Fahrer-Tausch ist stabiler und haelt alle relevanten Zeitfenster ein.</div><div class="m-t">Begruendung erzeugt</div></div></div>
-              </div>
-            </div>
-          </article>
+        <div class="benefit-item">
+          <div class="benefit-icon">3</div>
+          <div><h3>Live-Änderungen</h3><p>Neue Aufträge, Absagen und Verkehrslagen werden in der laufenden Tour sichtbar.</p></div>
         </div>
-
-        <div class="ki-dots">
-          <button class="ki-dot active" type="button" data-ki-dot="0" aria-label="Slide 1"></button>
-          <button class="ki-dot" type="button" data-ki-dot="1" aria-label="Slide 2"></button>
-          <button class="ki-dot" type="button" data-ki-dot="2" aria-label="Slide 3"></button>
+        <div class="benefit-item">
+          <div class="benefit-icon">4</div>
+          <div><h3>Forschung trifft Praxis</h3><p>Die Lösung entsteht aus praktischer Umsetzung und Forschung zu Prozessinnovation an der Universität Duisburg-Essen.</p></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="warum" id="warum">
-  <div class="wrap">
-    <div class="warum-card r">
-      <div class="sec-label">Warum Routen-KI</div>
-      <h2 class="sec-h2">Disposition ohne<br><em>Planungschaos</em></h2>
-      <div class="warum-grid">
-        <div class="warum-list">
-          <div class="warum-item r">
-            <div class="w-icon">🧭</div>
-            <div><div class="w-title">Touren statt Bauchgefühl</div><div class="w-desc">Die Planung basiert auf Distanz, Fahrzeit, Zeitfenstern, Kapazitäten und Prioritäten statt auf manueller Reihenfolge.</div></div>
-          </div>
-          <div class="warum-item r d1">
-            <div class="w-icon">⚡</div>
-            <div><div class="w-title">Schnelle Neuplanung</div><div class="w-desc">Absagen, Staus und Eilaufträge werden nicht erst am Tagesende sichtbar, sondern direkt in der laufenden Tour verarbeitet.</div></div>
-          </div>
-          <div class="warum-item r d2">
-            <div class="w-icon">🚚</div>
-            <div><div class="w-title">Bessere Auslastung</div><div class="w-desc">Fahrer und Fahrzeuge werden so verteilt, dass Leerfahrten sinken und vorhandene Kapazitäten besser genutzt werden.</div></div>
-          </div>
-          <div class="warum-item r d3">
-            <div class="w-icon">🔐</div>
-            <div><div class="w-title">Kontrollierbar &amp; DSGVO-bewusst</div><div class="w-desc">Die Lösung kann mit klaren Datenflüssen, minimalen Berechtigungen und EU-/Self-Hosted-Optionen aufgebaut werden.</div></div>
-          </div>
-        </div>
-        <div>
-          <p class="sec-sub r" style="margin-bottom:44px;">Der Nutzen wird über operative Kennzahlen gemessen: Kilometer, Fahrzeit, pünktliche Stopps, Auslastung und manuelle Dispositionszeit.</p>
-          <div class="kpi-strip r d1">
-            <div class="kpi-item">
-              <span class="kpi-accent-line"></span>
-              <div class="kpi-n"><span class="cu" data-t="18">0</span><span class="kpi-em">%</span></div>
-              <div class="kpi-l">Potenzial bei Fahrstrecke</div>
-            </div>
-            <div class="kpi-item">
-              <span class="kpi-accent-line"></span>
-              <div class="kpi-n">Live</div>
-              <div class="kpi-l">Neuplanung bei Änderungen</div>
-            </div>
-            <div class="kpi-item">
-              <span class="kpi-accent-line"></span>
-              <div class="kpi-n">&lt;60<span class="kpi-sm">s</span></div>
-              <div class="kpi-l">Route neu berechnen</div>
-            </div>
-            <div class="kpi-item">
-              <span class="kpi-accent-line"></span>
-              <div class="kpi-n">CSV</div>
-              <div class="kpi-l">Import aus Tageslisten</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="prozess" id="prozess">
-  <div class="wrap">
-    <div class="sec-label r">Ablauf</div>
-    <h2 class="sec-h2 r d1">Von Tagesliste zu optimierter Tour</h2>
-    <p class="sec-sub r d2">Wir starten mit euren echten Routen, messen den Status quo und bauen daraus eine belastbare Optimierungslogik.</p>
-    <div class="prozess-card r">
-      <div class="p-step"><div class="p-num">01</div><div class="p-big">01</div><div class="p-title">Routendaten</div><div class="p-desc">Wir importieren Beispiel-Tageslisten, Stopps, Startpunkte, Zeitfenster, Servicezeiten und Fahrer-/Fahrzeugregeln.</div></div>
-      <div class="p-step"><div class="p-num">02</div><div class="p-big">02</div><div class="p-title">Optimierungslogik</div><div class="p-desc">Die KI priorisiert Ziele wie weniger Kilometer, pünktliche Termine, bessere Auslastung oder SLA-Schutz.</div></div>
-      <div class="p-step"><div class="p-num">03</div><div class="p-big">03</div><div class="p-title">Pilot-Touren</div><div class="p-desc">Mit echten Tourdaten vergleichen wir manuelle Planung gegen KI-Vorschläge und messen konkrete Einsparungen.</div></div>
-      <div class="p-step"><div class="p-num">04</div><div class="p-big">04</div><div class="p-title">Integration</div><div class="p-desc">CSV, API, Gmail-Absagen oder bestehende Systeme werden angebunden, damit Disposition und Fahrer im Alltag profitieren.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="preise" id="preise">
-  <div class="wrap">
-    <div class="sec-label r">Pakete</div>
-    <h2 class="sec-h2 r d1">Start mit echten<br><em>Tourdaten</em></h2>
-    <p class="sec-sub r d2">Die Pakete sind auf Routenoptimierung zugeschnitten: Analyse, Pilot und produktive Integration.</p>
-    <div class="preise-grid">
-      <div class="preis-card r d1">
-        <span class="p-tag">Standard</span>
-        <div class="preis-title">Routenanalyse</div>
-        <div class="preis-desc">Für Unternehmen, die wissen wollen, wo Kilometer und Planungszeit verloren gehen.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">900</span></div>
-        <div class="p-div"></div>
-        <ul class="p-features"><li>Import einer Tagesliste</li><li>Vorher-nachher-Auswertung</li><li>Optimierungspotenzial als Report</li></ul>
-        <a href="#kontakt" class="p-btn">Anfrage stellen</a>
-      </div>
-      <div class="preis-card featured r d2">
-        <span class="p-tag">Beliebt</span>
-        <div class="preis-title">Routing-Pilot</div>
-        <div class="preis-desc">Interaktive Demo mit euren Stopps, Zeitfenstern und Dispositionsregeln.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">1.900</span></div>
-        <div class="p-div"></div>
-        <ul class="p-features"><li>Multi-Stop-Routing</li><li>Live-Änderungen und Eilaufträge</li><li>CSV-Import und Demo-Übergabe</li></ul>
-        <a href="#kontakt" class="p-btn">Anfrage stellen</a>
-      </div>
-      <div class="preis-card r d3">
-        <span class="p-tag">Komplex</span>
-        <div class="preis-title">Produktive Integration</div>
-        <div class="preis-desc">Routing-KI mit Systemanbindung, Monitoring und Betriebskonzept.</div>
-        <div class="preis-amount"><span class="p-from">ab </span><span class="p-cur">€</span><span class="p-num-big">3.500</span></div>
-        <div class="p-div"></div>
-        <ul class="p-features"><li>API- oder Systemanbindung</li><li>Fahrer-/Fahrzeuglogik</li><li>Schulung fuer Disposition</li></ul>
-        <a href="#kontakt" class="p-btn">Beispiel anfragen</a>
-      </div>
-    </div>
-    <p class="preis-note r">Endpreise hängen von Anzahl der Stopps, Systemanbindungen, Fahrerlogik und Betriebsmodell ab.</p>
-  </div>
-</section>
-
-<section class="kontakt" id="kontakt">
-  <div class="wrap">
-    <div class="kontakt-card r">
-      <div class="sec-label">Kontakt</div>
-      <h2 class="sec-h2">Bereit für bessere<br><em>Touren?</em></h2>
-      <div class="kontakt-grid">
-        <div>
-          <p style="font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:400px;">Senden Sie eine typische Tagesliste oder beschreiben Sie Ihre Tourenplanung. Wir prüfen, wo KI-Routenoptimierung messbar helfen kann.</p>
-          <a href="mailto:frederik.ernst27@gmail.com" class="k-email">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-            frederik.ernst27@gmail.com
-          </a>
-          <div class="k-checks">
-            <div class="k-check"><div class="k-chk">✓</div>Analyse von Stopps, Zeitfenstern und Tourregeln</div>
-            <div class="k-check"><div class="k-chk">✓</div>Konkreter Kilometer- und Zeitvergleich</div>
-            <div class="k-check"><div class="k-chk">✓</div>Live-Demo mit realistischen Änderungen</div>
-            <div class="k-check"><div class="k-chk">✓</div>CSV, API oder manuelle Tagesliste möglich</div>
-            <div class="k-check"><div class="k-chk">✓</div>Schnelle Reaktion: &lt; 2 Stunden werktags</div>
-          </div>
-        </div>
-        <div>
-          <form action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://automate-x-solutions.de/#kontakt">
-            <div class="f-row">
-              <div class="f-group"><label class="f-label">Name *</label><input type="text" name="name" class="f-input" placeholder="Ihr Name" required></div>
-              <div class="f-group"><label class="f-label">E-Mail *</label><input type="email" name="email" class="f-input" placeholder="ihre@email.de" required></div>
-            </div>
-            <div class="f-row" style="margin-top:20px;">
-              <div class="f-group"><label class="f-label">Unternehmen *</label><input type="text" name="unternehmen" class="f-input" placeholder="Ihr Unternehmen" required></div>
-              <div class="f-group"><label class="f-label">Stopps pro Tag</label><input type="text" name="stopps" class="f-input" placeholder="z. B. 35 Stopps"></div>
-            </div>
-            <div class="f-group" style="margin-top:20px;"><label class="f-label">Was soll optimiert werden? *</label><input type="text" name="routenproblem" class="f-input" placeholder="z. B. Lieferroute, Serviceeinsätze, Außendienst" required></div>
-            <div class="f-group" style="margin-top:20px;"><label class="f-label">Weitere Details</label><textarea class="f-textarea" name="details" placeholder="Optional: Zeitfenster, Fahreranzahl, Fahrzeuge, Region, aktuelle Planung"></textarea></div>
-            <button type="submit" class="f-submit">
-              Routing-Anfrage senden
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-          </form>
-          <div class="f-rt">Reaktionszeit: in der Regel unter 2 Stunden (werktags).</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="forschung" id="ueber">
-  <div class="wrap">
-    <div class="forschung-card r">
-      <div class="forschung-orb"></div>
-      <div class="forschung-left">
-        <div class="sec-label">Über den Gründer</div>
-        <div class="founder-line">
-          <div class="founder-avatar">FE</div>
-          <div>
-            <div class="founder-name">Frederik Ernst</div>
-            <div class="founder-meta">AutomateX Solutions · KI-Routenoptimierung · Forschung an der Universität Duisburg-Essen</div>
-          </div>
-        </div>
-        <h2 class="sec-h2" style="margin-bottom:24px;">Routenoptimierung<br>mit <em>wissenschaftlicher</em> Basis</h2>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          AutomateX Solutions verbindet praktische Tourenplanung mit Forschung zu Prozessinnovation und Automatisierung. Im Umfeld des <strong style="color:var(--text);">Process Innovation &amp; Automation Lab (PIA)</strong> an der Universität Duisburg-Essen beschäftige ich mich damit, wie KI operative Abläufe wirklich verbessert.
-        </p>
-        <p style="font-size:16px;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:40px;">
-          Der Fokus dieser Seite ist bewusst eng: bessere Touren, weniger Leerfahrten, stabile Zeitfenster und nachvollziehbare Entscheidungen für die Disposition. KI wird nicht als Selbstzweck eingesetzt, sondern als Werkzeug für konkrete Routenentscheidungen.
-        </p>
-
-        <div class="forschung-tags">
-          <span class="f-tag">Tourenplanung</span>
-          <span class="f-tag">KI-Routenoptimierung</span>
-          <span class="f-tag">Wirtschaftsinformatik</span>
-          <span class="f-tag">Universität Duisburg-Essen</span>
-          <span class="f-tag">Process Innovation Lab</span>
-        </div>
-
-        <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="forschung-li-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          Auf LinkedIn ansehen — Frederik Ernst
-        </a>
-      </div>
-
-      <div class="forschung-right">
-        <div class="forschung-badge-card">
-          <div class="fbc-top">
-            <div class="fbc-logo">
-              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--accent);">UDE</span>
-            </div>
-            <div class="fbc-status">
-              <span class="fbc-dot"></span>
-              <span>Aktiv · Seit Juli 2025</span>
-            </div>
-          </div>
-          <div class="fbc-role">Process Innovation &amp;<br>Automation Lab (PIA)</div>
-          <div class="fbc-uni">Universität Duisburg-Essen<br><span style="color:var(--muted);font-size:13px;">Fakultät für Wirtschaftsinformatik · Hybrid</span></div>
-          <div class="fbc-divider"></div>
-          <div class="fbc-skills-label">Schwerpunkte</div>
-          <div class="fbc-skills">
-            <span>Routing-Logik</span>
-            <span>Tourenoptimierung</span>
-            <span>KI-Dispatcher</span>
-            <span>Zeitfenster-Optimierung</span>
-          </div>
-          <div class="fbc-metrics">
-            <div class="fbc-metric"><strong>PIA</strong><span>Process Innovation &amp; Automation Lab</span></div>
-            <div class="fbc-metric"><strong>UDE</strong><span>Universität Duisburg-Essen</span></div>
-          </div>
-        </div>
-
-        <div class="fbc-chip fbc-chip-1">
-          <div class="fbc-chip-dot"></div>
-          <span>Aktuelle Routing-KI</span>
-        </div>
-        <div class="fbc-chip fbc-chip-2" style="border-color:rgba(124,92,252,.3);">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7c5cfc" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          <span style="color:#7c5cfc;">Wissenschaftliche Basis</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="wrap">
-    <div class="faq-card r">
-      <div class="sec-label">FAQ</div>
-      <h2 class="sec-h2">Häufig gestellte<br><em>Fragen</em></h2>
+  <section class="faq">
+    <div class="shell">
+      <h2 class="section-title">Häufige Fragen</h2>
       <div class="faq-grid">
-        <div>
-          <div class="faq-item">
-            <div class="faq-q">Was ist KI-Routenoptimierung? <div class="faq-ico">+</div></div>
-            <div class="faq-a">KI-Routenoptimierung berechnet aus Stopps, Zeitfenstern, Servicezeiten, Fahrerregeln und Fahrzeugdaten bessere Touren. Ziel ist weniger Fahrzeit, weniger Kilometer und stabilere Terminplanung.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Welche Daten werden benötigt? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Für den Start reichen meist eine Tagesliste mit Stopps, Adressen, Zeitfenstern und Servicezeiten. Für bessere Ergebnisse kommen Fahrer, Fahrzeuge, Kapazitäten und Prioritäten hinzu.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Kann die Route während des Tages neu geplant werden? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ja. Genau dafür ist die Demo gebaut: Absagen, Eilaufträge oder Verkehrsfaktoren können in eine laufende Tour eingerechnet werden.</div>
-          </div>
-        </div>
-        <div>
-          <div class="faq-item">
-            <div class="faq-q">Funktioniert das mit bestehenden Systemen? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ja. Der Einstieg kann über CSV erfolgen. Danach sind API-Anbindungen, Tourenplanungssysteme, Kalender, Gmail-Absagen oder eigene Dispositionsdaten möglich.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Was ist mit Datenschutz? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Die Lösung kann mit minimalen Berechtigungen und klaren Datenflüssen aufgebaut werden. Für Gmail nutzt die Demo nur Leserechte, produktiv kann ein Backend oder Self-Hosted-Setup ergänzt werden.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Was kostet die erste Routenanalyse? <div class="faq-ico">+</div></div>
-            <div class="faq-a">Ein erstes Gespräch ist kostenlos. Eine konkrete Analyse mit echten Tourdaten startet als eigenes Paket, damit Nutzen und Aufwand nachvollziehbar bleiben.</div>
-          </div>
-        </div>
+        <article class="faq-card">
+          <h3>Welche Daten braucht ihr?</h3>
+          <p>Für den Start reichen Stopps, Adressen, Zeitfenster und Servicezeiten. Fahrer und Fahrzeuge verbessern die Optimierung.</p>
+        </article>
+        <article class="faq-card">
+          <h3>Kann ich die Demo sofort testen?</h3>
+          <p>Ja. Die Routing-Demo ist verlinkt und zeigt Live-Neuplanung, CSV-Import und Gmail-Absagen als Prototyp.</p>
+        </article>
+        <article class="faq-card">
+          <h3>Was passiert bei Gmail OAuth?</h3>
+          <p>Für Gmail muss in Google Cloud die aktuelle Origin als Authorized JavaScript origin eingetragen sein.</p>
+        </article>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>
-  <div class="footer-top">
-    <div>
-      <a href="index.html" class="f-brand-name" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-        <img src="assets/brand/logo.png" alt="AutomateX" style="width:32px;height:32px;object-fit:contain;opacity:.95;">
-        Automate<span>X</span>
-      </a>
-      <p class="f-tagline">KI-Routenoptimierung fuer Disposition, Serviceflotten und Lieferlogistik. Made in Germany.</p>
-      <a href="mailto:frederik.ernst27@gmail.com" class="f-mail">frederik.ernst27@gmail.com</a>
-      <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener" class="f-linkedin">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn — Frederik Ernst
-      </a>
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="index.html">
+          <img src="assets/brand/small-logo.png" alt="AutomateX Logo">
+          automatex
+        </a>
+        <p style="max-width: 460px; color: rgba(255,255,255,.82); margin-top: 20px;">KI-Routenoptimierung für Disposition, Serviceflotten und Lieferlogistik. Weniger Kilometer, weniger manuelle Planung, bessere Reaktion auf Änderungen.</p>
+      </div>
+      <div class="footer-panel">
+        <a class="pill green" href="mailto:frederik.ernst27@gmail.com?subject=Routing-Analyse%20AutomateX">Routing-Analyse anfragen</a>
+        <a class="pill light" href="tel:+491772988022">+49 177 2988022</a>
+        <a class="pill light" href="routenplanung-test.html">Live-Demo öffnen</a>
+      </div>
     </div>
-    <div>
-      <div class="f-heading">Routing</div>
-      <ul class="f-links">
-        <li><a href="#leistungen">Tourenplanung</a></li>
-        <li><a href="#leistungen">Zeitfenster</a></li>
-        <li><a href="#leistungen">Fahrerzuordnung</a></li>
-        <li><a href="#leistungen">KI-Dispatcher</a></li>
-        <li><a href="#leistungen">Live-Neuplanung</a></li>
-      </ul>
+    <div class="footer-links">
+      <div>
+        <h4>Quicklinks</h4>
+        <a href="#funktionen">Funktionen</a>
+        <a href="#vorteile">Vorteile</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="routenplanung-test.html">Demo</a>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </div>
-    <div>
-      <div class="f-heading">Unternehmen</div>
-      <ul class="f-links">
-        <li><a href="#warum">Warum wir</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#preise">Pakete</a></li>
-        <li><a href="#ueber">Über uns</a></li>
-        <li><a href="#kontakt">Kontakt</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <span>© 2026 AutomateX Solutions</span>
+      <span>KI-Routenoptimierung aus Essen</span>
     </div>
-    <div>
-      <div class="f-heading">Rechtliches</div>
-      <ul class="f-links">
-        <li><a href="impressum.html">Impressum</a></li>
-        <li><a href="datenschutz.html">Datenschutz</a></li>
-        <li><a href="https://soft-deploy.vercel.app" target="_blank">soft-deploy.vercel.app</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 AutomateX Solutions. Alle Rechte vorbehalten.</span>
-    <span style="display:flex;align-items:center;gap:5px;">Made with <span class="heart">♥</span> in Germany</span>
   </div>
 </footer>
-
-<script>
-const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
-
-addEventListener('mousemove',e=>{const sw=document.getElementById('spline-wrap');if(sw){const mx=(e.clientX/innerWidth-.5)*14,my=(e.clientY/innerHeight-.5)*14;sw.style.transform=`translate(${mx*.2}px,${my*.2}px)`;}});
-
-const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('go');ro.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.r').forEach(el=>ro.observe(el));
-
-function countUp(el){const t=+el.dataset.t,dur=2000,s=performance.now();(function u(now){const p=Math.min((now-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t).toLocaleString('de-DE');if(p<1)requestAnimationFrame(u);})(s);}
-const cro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){countUp(e.target);cro.unobserve(e.target);}});},{threshold:.5});
-document.querySelectorAll('.cu').forEach(el=>cro.observe(el));
-
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id==='#')return;e.preventDefault();const el=document.querySelector(id);if(el)el.scrollIntoView({behavior:'smooth'});});});
-
-document.querySelectorAll('.faq-item').forEach(item=>{
-  item.addEventListener('click',()=>{
-    const isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-ico').textContent='+';});
-    if(!isOpen){item.classList.add('open');item.querySelector('.faq-ico').textContent='−';}
-  });
-});
-
-const kiSlides=[...document.querySelectorAll('[data-ki-slide]')];
-const kiDots=[...document.querySelectorAll('[data-ki-dot]')];
-const kiPrev=document.querySelector('[data-ki-prev]');
-const kiNext=document.querySelector('[data-ki-next]');
-let kiIndex=0;
-let kiTimer=null;
-
-function showKiSlide(index){
-  kiIndex=(index+kiSlides.length)%kiSlides.length;
-  kiSlides.forEach((slide,i)=>slide.classList.toggle('active',i===kiIndex));
-  kiDots.forEach((dot,i)=>dot.classList.toggle('active',i===kiIndex));
-}
-
-if(kiSlides.length){
-  kiPrev?.addEventListener('click',()=>showKiSlide(kiIndex-1));
-  kiNext?.addEventListener('click',()=>showKiSlide(kiIndex+1));
-  kiDots.forEach((dot,i)=>dot.addEventListener('click',()=>showKiSlide(i)));
-  showKiSlide(0);
-}
-</script>
 </body>
 </html>
-
