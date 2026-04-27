@@ -763,6 +763,11 @@
             </div>
             <p class="hint" id="gmailStatus">Nicht verbunden. Für Gmail wird OAuth mit Leserechten benötigt.</p>
             <p class="hint" id="gmailOriginHint"></p>
+            <p class="hint">
+              Bei <strong>redirect_uri_mismatch</strong>: In Google Cloud muss genau die oben angezeigte Origin als
+              <strong>Authorized JavaScript origin</strong> im OAuth Client vom Typ <strong>Web application</strong>
+              eingetragen sein.
+            </p>
           </div>
         </details>
 
@@ -1906,7 +1911,7 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
       const origin = location.origin && location.origin !== "null" ? location.origin : "file://";
       const secureEnough = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
       els.gmailOriginHint.textContent = secureEnough
-        ? `Aktuelle Origin für Google Cloud: ${origin}`
+        ? `Aktuelle Origin für Google Cloud: ${origin}. Diese URL exakt unter "Authorized JavaScript origins" eintragen. Kein Slash am Ende.`
         : `Aktuelle Origin ist nicht OAuth-tauglich: ${origin}. Nutze HTTPS oder localhost.`;
     }
 

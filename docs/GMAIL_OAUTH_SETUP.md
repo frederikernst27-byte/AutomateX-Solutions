@@ -36,8 +36,38 @@ http://127.0.0.1:8080
 Vercel Origin nach Deployment:
 
 ```text
-https://<deine-vercel-domain>
+https://automatex-six.vercel.app
+https://automatex-frederikernst27-bytes-projects.vercel.app
 ```
+
+Falls eine eigene Domain genutzt wird, muss sie ebenfalls exakt eingetragen werden, zum Beispiel:
+
+```text
+https://automate-x-solutions.de
+```
+
+Wichtig: Bei Google Identity Services wird fuer diese Demo die Origin verwendet, nicht der komplette Seitenpfad. Also ohne `/routenplanung-test.html` und ohne Slash am Ende eintragen.
+
+## Fehler 400: redirect_uri_mismatch
+
+Dieser Fehler bedeutet, dass die aktuelle Website-Origin nicht zum OAuth Client passt.
+
+Checkliste:
+
+1. In Google Cloud Console das richtige Projekt oeffnen.
+2. APIs & Services -> Credentials -> OAuth 2.0 Client IDs.
+3. Client-Typ muss `Web application` sein.
+4. Unter `Authorized JavaScript origins` die aktuelle Origin exakt eintragen.
+5. Fuer die Live-Demo mindestens eintragen:
+
+```text
+https://automatex-six.vercel.app
+```
+
+6. Speichern und 1-5 Minuten warten.
+7. Demo neu laden und Gmail erneut verbinden.
+
+Wenn weiterhin `redirect_uri_mismatch` erscheint, in den Google-Fehlerdetails die angezeigte `redirect_uri` kopieren und die Origin davon ebenfalls im OAuth Client erlauben.
 
 ## Demo-Nutzung
 
