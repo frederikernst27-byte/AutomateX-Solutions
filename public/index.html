@@ -76,6 +76,8 @@ button,input,textarea,select{font:inherit;}
 .btn.green{background:var(--green);color:white;}
 .btn.rose{background:var(--rose);color:white;}
 .btn.small{min-height:34px;padding:8px 13px;font-size:13px;}
+.step-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.step-hint{font-size:12px;font-weight:800;color:rgba(255,255,255,.58);}
 
 /* HERO */
 .hero{padding:26px 0 60px;}
@@ -440,12 +442,27 @@ h2 em{font-style:normal;color:var(--green);}
 .map-info-box .info-title{font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
 .map-info-box .info-body{color:var(--muted);line-height:1.5;}
 #map{
+  position:relative;
+  overflow:hidden;
   border-radius:24px;
   border:1px solid var(--line);
   box-shadow:var(--shadow);
   flex:1;
   min-height:520px;
+  background:#dfe8d8 url("https://tile.openstreetmap.org/11/1063/681.png") center/cover no-repeat;
 }
+#map .static-map{position:absolute;inset:0;overflow:hidden;border-radius:inherit;background:#dfe8d8;}
+#map .static-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);opacity:.9;}
+#map .static-tiles img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(.95);}
+#map .static-map::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(8,9,21,.16));}
+#map .static-route-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+#map .static-route{fill:none;stroke:var(--green);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 8px 16px rgba(22,182,127,.2));}
+#map .static-route.detour{stroke:#f59e0b;stroke-dasharray:8 6;}
+#map .static-dot{position:absolute;left:var(--x);top:var(--y);z-index:2;width:36px;height:36px;transform:translate(-50%,-50%);display:grid;place-items:center;border-radius:50%;border:3px solid white;background:var(--green);color:white;font-weight:900;box-shadow:0 8px 22px rgba(8,9,21,.26);}
+#map .static-dot.new{background:var(--rose);}
+#map .static-dot.warn{background:#f59e0b;}
+#map .static-dot.depot{background:var(--ink);border-radius:12px;}
+#map .static-caption{position:absolute;left:16px;bottom:16px;z-index:3;padding:9px 12px;border-radius:13px;background:rgba(255,255,255,.9);color:var(--ink);font-size:12px;font-weight:900;}
 @keyframes markerPop{from{transform:scale(0) translateY(10px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
 .leaflet-marker-icon.new-marker{animation:markerPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 
@@ -509,13 +526,15 @@ h2 em{font-style:normal;color:var(--green);}
 .mail-card b{display:block;color:white;font-size:14px;}
 .mail-card span{display:block;margin-top:3px;color:rgba(255,255,255,.62);font-size:13px;}
 .mail-card small{display:block;margin-top:8px;color:rgba(255,255,255,.45);font-weight:800;font-size:11px;}
-.candidate-card{padding:12px;overflow:hidden;}
+.candidate-card{padding:12px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,background .25s ease;}
+.candidate-card.active,.candidate-card.selected{transform:translateX(6px);border-color:rgba(22,182,127,.42);background:rgba(22,182,127,.1);}
+.candidate-card.selected{border-color:rgba(215,255,114,.58);background:rgba(215,255,114,.12);}
 .candidate-card strong{display:flex;justify-content:space-between;color:white;font-size:13px;}
 .match{height:6px;margin-top:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;}
 .match span{display:block;height:100%;width:0;background:var(--green);transition:width .7s ease;}
-.sync-board.running .candidate-card.best .match span{width:92%;}
-.sync-board.running .candidate-card.mid .match span{width:68%;background:var(--lime);}
-.sync-board.running .candidate-card.low .match span{width:43%;background:var(--rose);}
+.candidate-card.measured .match span{width:var(--match-width,0%);}
+.candidate-card.mid .match span{background:var(--lime);}
+.candidate-card.low .match span{background:var(--rose);}
 .sync-stage{display:grid;grid-template-rows:390px auto;background:#0d1321;}
 .sync-map{position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1);background:#dfe8d8;}
 .sync-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);opacity:.78;}
@@ -525,8 +544,8 @@ h2 em{font-style:normal;color:var(--green);}
 .workflow-old,.workflow-new{fill:none;stroke-linecap:round;stroke-linejoin:round;}
 .workflow-old{stroke:rgba(8,9,21,.52);stroke-width:4;transition:opacity .4s ease;}
 .workflow-new{stroke:var(--green);stroke-width:6;stroke-dasharray:650;stroke-dashoffset:650;filter:drop-shadow(0 8px 16px rgba(22,182,127,.28));}
-.sync-board.running .workflow-old{opacity:.24;}
-.sync-board.running .workflow-new{animation:drawRoute 1.7s ease forwards .8s;}
+.sync-board.has-route .workflow-old{opacity:.24;}
+.sync-board.has-route .workflow-new{animation:drawRoute 2.6s ease forwards;}
 @keyframes drawRoute{to{stroke-dashoffset:0;}}
 .sync-stop{
   position:absolute;left:var(--x);top:var(--y);z-index:2;
@@ -538,10 +557,10 @@ h2 em{font-style:normal;color:var(--green);}
 .sync-stop.depot{background:var(--ink);}
 .sync-stop.cancelled{background:var(--rose);}
 .sync-stop.inserted{background:var(--lime);color:var(--ink);opacity:0;transform:translate(-50%,-50%) scale(.55);}
-.sync-board.running .sync-stop.cancelled::after{
+.sync-board.has-cancel .sync-stop.cancelled::after{
   content:"";position:absolute;width:54px;height:4px;background:white;transform:rotate(-24deg);box-shadow:0 0 0 2px var(--rose);
 }
-.sync-board.running .sync-stop.inserted{animation:insertStop .62s cubic-bezier(.2,.9,.2,1.25) forwards 1.35s;}
+.sync-board.has-insert .sync-stop.inserted{animation:insertStop .62s cubic-bezier(.2,.9,.2,1.25) forwards;}
 .sync-label{
   position:absolute;left:16px;bottom:16px;z-index:3;
   padding:9px 12px;border-radius:13px;
@@ -554,18 +573,20 @@ h2 em{font-style:normal;color:var(--green);}
   position:relative;
   display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;
   padding:12px;color:white;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease;
 }
+.sync-route-row.is-focus{transform:translateX(5px);border-color:rgba(22,182,127,.5);background:rgba(22,182,127,.12);}
 .sync-route-row .num{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(22,182,127,.18);color:var(--green);font-weight:900;}
 .sync-route-row strong{display:block;font-size:14px;}
 .sync-route-row small{color:rgba(255,255,255,.56);font-size:12px;font-weight:700;}
 .sync-route-row.cancel{background:rgba(240,130,154,.1);border-color:rgba(240,130,154,.35);}
-.sync-board.running .sync-route-row.cancel::after{
+.sync-board.has-cancel .sync-route-row.cancel::after{
   content:"";position:absolute;left:56px;right:14px;top:50%;height:3px;background:var(--rose);
   transform:scaleX(0);transform-origin:left;animation:strike .58s ease forwards .55s;
 }
 @keyframes strike{to{transform:scaleX(1);}}
 .sync-route-row.insert{display:none;background:rgba(215,255,114,.1);border-color:rgba(215,255,114,.34);}
-.sync-board.running .sync-route-row.insert{display:grid;animation:slideIn .55s ease both 1.2s;}
+.sync-board.has-insert .sync-route-row.insert{display:grid;animation:slideIn .55s ease both;}
 .sync-log{border-left:1px solid rgba(255,255,255,.1);align-content:start;}
 .sync-log .log-line{min-height:62px;padding:11px;opacity:.44;transition:opacity .25s,border-color .25s,background .25s;}
 .sync-log .log-line.active{opacity:1;border-color:rgba(22,182,127,.42);background:rgba(22,182,127,.1);}
@@ -617,7 +638,12 @@ textarea{
   padding:14px;border-radius:14px;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.08);
+  opacity:.48;
+  transition:opacity .25s ease,border-color .25s ease,background .25s ease,transform .25s ease;
 }
+.step.active,.step.done{opacity:1;}
+.step.active{border-color:rgba(22,182,127,.5);background:rgba(22,182,127,.11);transform:translateX(4px);}
+.step.done{border-color:rgba(255,255,255,.14);}
 .step b{
   width:34px;height:34px;border-radius:50%;
   display:grid;place-items:center;
@@ -1124,9 +1150,9 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         </div>
         <div class="sync-head"><span>Cluster-Auswahl</span><span class="sync-count">3</span></div>
         <div class="candidate-stack">
-          <div class="candidate-card best"><strong>Gelsenkirchen Ersatzslot <span>92%</span></strong><div class="match"><span></span></div></div>
-          <div class="candidate-card mid"><strong>Duisburg vorziehen <span>68%</span></strong><div class="match"><span></span></div></div>
-          <div class="candidate-card low"><strong>Bochum sofort <span>43%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card best" data-sync-candidate="best" style="--match-width:92%;"><strong>Gelsenkirchen Ersatzslot <span>92%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card mid" data-sync-candidate="mid" style="--match-width:68%;"><strong>Duisburg vorziehen <span>68%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card low" data-sync-candidate="low" style="--match-width:43%;"><strong>Bochum sofort <span>43%</span></strong><div class="match"><span></span></div></div>
         </div>
       </aside>
       <div class="sync-stage">
@@ -1156,14 +1182,21 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         </div>
         <div class="sync-bottom">
           <div class="sync-route">
-            <div class="sync-head"><span>Route heute</span><button class="btn green small" id="syncStart" type="button">Absage verarbeiten</button></div>
+            <div class="sync-head">
+              <span>Route heute</span>
+              <div class="step-controls">
+                <span class="step-hint" id="syncStepHint">Schritt 1 von 8</span>
+                <button class="btn green small" id="syncStart" type="button">Nächster Schritt</button>
+                <button class="btn small" id="syncReset" type="button">Zurücksetzen</button>
+              </div>
+            </div>
             <div class="route-list">
-              <div class="sync-route-row"><span class="num">D</span><div><strong>AutomateX HQ, Duisburg</strong><small>Start 08:00</small></div><small>Depot</small></div>
-              <div class="sync-route-row"><span class="num">1</span><div><strong>Essen Nord</strong><small>09:20 - 09:45 · bestätigt</small></div><small>12 km</small></div>
-              <div class="sync-route-row cancel"><span class="num">2</span><div><strong>Bottrop Zentrallager</strong><small>11:30 · Absage erkannt</small></div><small>entfernen</small></div>
-              <div class="sync-route-row insert"><span class="num">N</span><div><strong>Gelsenkirchen Ersatzslot</strong><small>10:55 - 11:35 · aus Cluster gewählt</small></div><small>neu</small></div>
-              <div class="sync-route-row"><span class="num">3</span><div><strong>Duisburg Service</strong><small>12:05 - 12:40 · Anschlussweg kurz</small></div><small>29 km</small></div>
-              <div class="sync-route-row"><span class="num">4</span><div><strong>Bochum Eilauftrag</strong><small>13:25 - 14:05 · priorisiert</small></div><small>46 km</small></div>
+              <div class="sync-route-row" data-sync-route="depot"><span class="num">D</span><div><strong>AutomateX HQ, Duisburg</strong><small>Start 08:00</small></div><small>Depot</small></div>
+              <div class="sync-route-row" data-sync-route="essen"><span class="num">1</span><div><strong>Essen Nord</strong><small>09:20 - 09:45 · bestätigt</small></div><small>12 km</small></div>
+              <div class="sync-route-row cancel" data-sync-route="cancel"><span class="num">2</span><div><strong>Bottrop Zentrallager</strong><small>11:30 · Absage erkannt</small></div><small>entfernen</small></div>
+              <div class="sync-route-row insert" data-sync-route="insert"><span class="num">N</span><div><strong>Gelsenkirchen Ersatzslot</strong><small>10:55 - 11:35 · aus Cluster gewählt</small></div><small>neu</small></div>
+              <div class="sync-route-row" data-sync-route="duisburg"><span class="num">3</span><div><strong>Duisburg Service</strong><small>12:05 - 12:40 · Anschlussweg kurz</small></div><small>29 km</small></div>
+              <div class="sync-route-row" data-sync-route="bochum"><span class="num">4</span><div><strong>Bochum Eilauftrag</strong><small>13:25 - 14:05 · priorisiert</small></div><small>46 km</small></div>
             </div>
           </div>
           <div class="sync-log">
@@ -1191,7 +1224,7 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
       <div class="map-panel">
         <div class="map-panel-header">
           <h3>Szenarien</h3>
-          <p>Klicken um Route live anzupassen</p>
+          <p>Schrittweise klicken und jede Änderung beobachten</p>
         </div>
         <div class="scenario-list">
           <button class="scenario-btn active" data-scenario="start" type="button">
@@ -1223,6 +1256,10 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
             </div>
           </button>
         </div>
+        <div class="demo-controls" style="padding:0 16px 12px;margin-top:0;">
+          <button class="btn green small" id="mapNextStep" type="button">Nächster Kartenschritt</button>
+          <button class="btn ghost small" id="mapResetStep" type="button">Zurücksetzen</button>
+        </div>
         <div class="map-info-box" id="mapInfoBox">
           <div class="info-title">Ausgangslage</div>
           <div class="info-body">Route für heute: 5 Stopps im Ruhrgebiet, bereits nach Zeitfenster und Distanz optimiert. Gesamtstrecke: 87 km.</div>
@@ -1248,12 +1285,13 @@ unser Termin bei Kunde Bottrop Zentrallager um 11:30 Uhr fällt heute aus. Bitte
 Viele Grüße
 Disposition</textarea>
       <div class="demo-controls">
-        <button class="btn green" id="runDemo" type="button">Absage verarbeiten</button>
+        <button class="btn green" id="runDemo" type="button">Nächster KI-Schritt</button>
         <button class="btn ghost" id="resetDemo" type="button">Beispiel laden</button>
       </div>
     </div>
     <div class="demo-output">
       <h3>KI-Reaktion des Systems</h3>
+      <div class="step-hint" id="emailStepHint" style="margin-bottom:12px;">Schritt 1 von 5</div>
       <div class="timeline" id="demoSteps">
         <div class="step"><b>1</b><div><strong>E-Mail analysiert</strong><span>Bottrop Zentrallager um 11:30 als Absage erkannt.</span></div></div>
         <div class="step"><b>2</b><div><strong>Route angepasst</strong><span>Bottrop entfernt, freie Zeit vor Mittag gefunden.</span></div></div>
@@ -1464,100 +1502,131 @@ const sampleMail = document.getElementById("demoMail").value;
 const steps = document.getElementById("demoSteps");
 const answer = document.getElementById("aiAnswer");
 const runButton = document.getElementById("runDemo");
+const emailStepHint = document.getElementById("emailStepHint");
+const emailDemoSteps = [
+  {
+    title: "E-Mail gelesen",
+    text: "Das System erkennt Absender, Betreff und den Satz zur Absage.",
+    answer: "Feld 1: Eingang erkannt. Die Absage-E-Mail ist jetzt als relevantes Dispositionssignal markiert."
+  },
+  {
+    title: "Stopp zugeordnet",
+    text: "Bottrop Zentrallager um 11:30 wird eindeutig dem heutigen Stopp 2 zugeordnet.",
+    answer: "Feld 2: Der betroffene Termin ist gefunden. Bottrop wird als zu entfernender Stopp vorbereitet."
+  },
+  {
+    title: "Route geändert",
+    text: "Der Bottrop-Stopp wird gestrichen und das Zeitfenster vor Mittag wird frei.",
+    answer: "Feld 3: Die Route reagiert. Ein freier Slot von 11:15 bis 12:15 entsteht."
+  },
+  {
+    title: "Cluster durchsucht",
+    text: "Neue Aufträge, E-Mails und Stopps in der Nähe werden nach Passung bewertet.",
+    answer: "Feld 4: Die KI prüft Alternativen. Gelsenkirchen passt am besten in Zeitfenster und Route."
+  },
+  {
+    title: "Neuer Stopp eingesetzt",
+    text: "Gelsenkirchen wird vorgeschlagen, die Resttour wird aktualisiert und die Zeiten bleiben stabil.",
+    answer: "Feld 5: Neuer Plan aktiv. Die Absage ist verarbeitet, ein passender Ersatzslot ist eingesetzt."
+  }
+];
+let emailStep = 0;
 
-function setSteps(items) {
+function setSteps(items, activeIndex = 0) {
   steps.innerHTML = items.map((item, i) => `
-    <div class="step"><b>${i+1}</b><div><strong>${item.title}</strong><span>${item.text}</span></div></div>
+    <div class="step ${i < activeIndex ? "done" : ""} ${i === activeIndex ? "active" : ""}"><b>${i+1}</b><div><strong>${item.title}</strong><span>${item.text}</span></div></div>
   `).join("");
 }
 
-async function runDemo() {
-  const email = document.getElementById("demoMail").value.trim();
-  runButton.disabled = true;
-  runButton.textContent = "KI analysiert...";
-  answer.textContent = "E-Mail wird analysiert und Route wird neu berechnet...";
-  try {
-    const res = await fetch("/api/route-demo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Demo fehlgeschlagen.");
-    setSteps(data.steps);
-    const mode = data.aiMode ? "live" : "local";
-    answer.textContent = data.summary + "\n\n" + (data.modeLabel || (data.aiMode ? "KI-Modus: OpenRouter aktiv." : "Lokaler Demo-Modus aktiv."));
-    const badge = document.createElement("span");
-    badge.className = "ai-mode-badge " + mode;
-    badge.textContent = data.aiMode ? "KI aktiv (OpenRouter)" : "Lokaler Modus";
-    answer.appendChild(document.createElement("br"));
-    answer.appendChild(badge);
-  } catch(err) {
-    answer.textContent = "Fehler: " + err.message;
-  } finally {
-    runButton.disabled = false;
-    runButton.textContent = "Absage verarbeiten";
+function renderEmailStep(index) {
+  emailStep = Math.max(0, Math.min(index, emailDemoSteps.length - 1));
+  setSteps(emailDemoSteps, emailStep);
+  answer.textContent = emailDemoSteps[emailStep].answer;
+  emailStepHint.textContent = `Schritt ${emailStep + 1} von ${emailDemoSteps.length}`;
+  runButton.textContent = emailStep === emailDemoSteps.length - 1 ? "Demo neu starten" : "Nächster KI-Schritt";
+}
+
+function runDemo() {
+  if (emailStep === emailDemoSteps.length - 1) {
+    renderEmailStep(0);
+    return;
   }
+  renderEmailStep(emailStep + 1);
 }
 
 runButton.addEventListener("click", runDemo);
 document.getElementById("resetDemo").addEventListener("click", () => {
   document.getElementById("demoMail").value = sampleMail;
-  setSteps([
-    { title: "E-Mail analysiert", text: "Bottrop Zentrallager um 11:30 als Absage erkannt." },
-    { title: "Route angepasst", text: "Bottrop entfernt, freie Zeit vor Mittag gefunden." },
-    { title: "KI-Vorschlag", text: "Bochum Eilauftrag vorziehen und Duisburg danach fahren." }
-  ]);
-  answer.textContent = "Bereit. Klicken Sie auf \"Absage verarbeiten\", um die KI zu starten.";
+  renderEmailStep(0);
 });
+renderEmailStep(0);
 
 /* ===== LIVE WORKFLOW ===== */
 const syncBoard = document.getElementById("syncBoard");
 const syncButton = document.getElementById("syncStart");
+const syncReset = document.getElementById("syncReset");
+const syncStepHint = document.getElementById("syncStepHint");
 const syncMapLabel = document.getElementById("syncMapLabel");
 const syncLogLines = Array.from(document.querySelectorAll("#live-workflow .log-line"));
 const syncMailCards = Array.from(document.querySelectorAll("#live-workflow .mail-card"));
+const syncCandidateCards = Array.from(document.querySelectorAll("#live-workflow .candidate-card"));
+const syncRouteRows = Array.from(document.querySelectorAll("#live-workflow .sync-route-row"));
 const syncPhases = [
-  { delay: 0, status: "E-Mail dem Stop Bottrop zugeordnet", log: 0, mail: "cancel" },
-  { delay: 760, status: "Stop 2 gestrichen · Zeitfenster frei", log: 1, mail: "cancel" },
-  { delay: 1450, status: "Cluster bewertet: E-Mails, neue Stops, Verkehr", log: 2, mail: "new" },
-  { delay: 2200, status: "Neuer Stop N in die laufende Route eingefügt", log: 3, mail: "new" },
-  { delay: 3000, status: "Neue Resttour aktiv · Zeiten live aktualisiert", log: 4, mail: "traffic" }
+  { status: "1/8 Absage-E-Mail erkannt: Bottrop 11:30 ist betroffen.", log: 0, mail: "cancel", route: "cancel" },
+  { status: "2/8 Anrufnotiz geprüft: Essen bleibt bestätigt.", log: 0, mail: "call", route: "essen" },
+  { status: "3/8 Verkehrssignal gelesen: A40 beeinflusst die Resttour.", log: 2, mail: "traffic", route: "bochum" },
+  { status: "4/8 Neuer Auftrag gefunden: Gelsenkirchen kommt als Ersatz in Frage.", log: 2, mail: "new", route: "insert" },
+  { status: "5/8 Kandidat Bochum geprüft: 43 Prozent, nicht passend genug.", log: 2, candidate: "low" },
+  { status: "6/8 Kandidat Duisburg geprüft: 68 Prozent, möglich aber schwächer.", log: 2, candidate: "mid" },
+  { status: "7/8 Gelsenkirchen gewinnt den Clustervergleich mit 92 Prozent.", log: 3, candidate: "best", hasCancel: true, hasInsert: true },
+  { status: "8/8 Neue Route aktiv: Bottrop gestrichen, Gelsenkirchen eingesetzt, Zeiten aktualisiert.", log: 4, mail: "new", candidate: "best", hasCancel: true, hasInsert: true, hasRoute: true, route: "insert" }
 ];
-let syncTimers = [];
-function clearSyncTimers() {
-  syncTimers.forEach((timer) => window.clearTimeout(timer));
-  syncTimers = [];
-}
+let syncStep = 0;
+const candidateOrder = ["low", "mid", "best"];
 function setSyncLog(index) {
   syncLogLines.forEach((line, lineIndex) => line.classList.toggle("active", lineIndex <= index));
 }
 function setSyncMail(type) {
   syncMailCards.forEach((card) => card.classList.toggle("active", card.dataset.syncMail === type));
 }
-function runSyncWorkflow() {
-  if (!syncBoard || !syncButton) return;
-  clearSyncTimers();
-  syncBoard.classList.remove("running");
-  void syncBoard.offsetWidth;
-  syncBoard.classList.add("running");
-  syncButton.disabled = true;
-  syncButton.textContent = "System arbeitet";
-  syncPhases.forEach((phase) => {
-    syncTimers.push(window.setTimeout(() => {
-      syncMapLabel.textContent = phase.status;
-      setSyncLog(phase.log);
-      setSyncMail(phase.mail);
-    }, phase.delay));
+function setSyncCandidate(type) {
+  syncCandidateCards.forEach((card) => {
+    const rank = card.dataset.syncCandidate;
+    const isMeasured = type && candidateOrder.indexOf(rank) <= candidateOrder.indexOf(type);
+    card.classList.toggle("measured", Boolean(isMeasured));
+    card.classList.toggle("active", rank === type);
+    card.classList.toggle("selected", type === "best" && rank === "best");
   });
-  syncTimers.push(window.setTimeout(() => {
-    syncButton.disabled = false;
-    syncButton.textContent = "Absage erneut verarbeiten";
-  }, 3900));
+}
+function setSyncRoute(type) {
+  syncRouteRows.forEach((row) => row.classList.toggle("is-focus", row.dataset.syncRoute === type));
+}
+function renderSyncStep(index) {
+  if (!syncBoard || !syncButton) return;
+  syncStep = Math.max(0, Math.min(index, syncPhases.length - 1));
+  const phase = syncPhases[syncStep];
+  syncBoard.classList.toggle("has-cancel", Boolean(phase.hasCancel));
+  syncBoard.classList.toggle("has-insert", Boolean(phase.hasInsert));
+  syncBoard.classList.remove("has-route");
+  if (phase.hasRoute) {
+    void syncBoard.offsetWidth;
+    syncBoard.classList.add("has-route");
+  }
+  syncMapLabel.textContent = phase.status;
+  setSyncLog(phase.log);
+  setSyncMail(phase.mail);
+  setSyncCandidate(phase.candidate);
+  setSyncRoute(phase.route);
+  syncStepHint.textContent = `Schritt ${syncStep + 1} von ${syncPhases.length}`;
+  syncButton.textContent = syncStep === syncPhases.length - 1 ? "Demo neu starten" : "Nächster Schritt";
+}
+function runSyncWorkflow() {
+  renderSyncStep(syncStep === syncPhases.length - 1 ? 0 : syncStep + 1);
 }
 if (syncButton) {
   syncButton.addEventListener("click", runSyncWorkflow);
-  window.addEventListener("load", () => window.setTimeout(runSyncWorkflow, 900));
+  syncReset.addEventListener("click", () => renderSyncStep(0));
+  renderSyncStep(0);
 }
 
 /* ===== CONTACT FORM ===== */
@@ -1618,6 +1687,8 @@ const SCENARIOS = {
   }
 };
 
+const MAP_SEQUENCE = ["start", "cancel", "new-customer", "traffic"];
+let mapStepIndex = 0;
 let map, currentMarkers = [], currentPolyline = null, trafficPolyline = null;
 
 function initMap() {
@@ -1670,21 +1741,75 @@ function makeDepotIcon() {
   });
 }
 
-function loadScenario(key, animate = true) {
-  const scenario = SCENARIOS[key];
-  if (!scenario) return;
-
-  // Update buttons
+function updateScenarioUI(key, scenario) {
   document.querySelectorAll(".scenario-btn").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.scenario === key);
   });
-
-  // Update info box
-  const info = scenario.info;
   document.getElementById("mapInfoBox").innerHTML = `
-    <div class="info-title">${info.title}</div>
-    <div class="info-body">${info.body}</div>
+    <div class="info-title">${scenario.info.title}</div>
+    <div class="info-body">${scenario.info.body}</div>
   `;
+}
+
+function renderStaticScenario(key) {
+  const scenario = SCENARIOS[key];
+  if (!scenario) return;
+  mapStepIndex = Math.max(0, MAP_SEQUENCE.indexOf(key));
+  updateScenarioUI(key, scenario);
+  const positions = {
+    0: ["18%","72%"],
+    1: ["42%","44%"],
+    2: ["36%","32%"],
+    3: ["76%","44%"],
+    4: ["28%","62%"],
+    5: ["58%","34%"],
+    99: ["50%","42%"]
+  };
+  const routePoints = scenario.stops
+    .filter(stop => !stop.isWarning)
+    .map(stop => positions[stop.id])
+    .filter(Boolean)
+    .map(([x, y]) => `${parseFloat(x)},${parseFloat(y)}`)
+    .join(" ");
+  const dots = scenario.stops.map((stop) => {
+    const pos = positions[stop.id];
+    if (!pos) return "";
+    const classes = ["static-dot"];
+    if (stop.id === 0) classes.push("depot");
+    if (stop.id === 5) classes.push("new");
+    if (stop.isWarning) classes.push("warn");
+    const label = stop.id === 0 ? "D" : stop.isWarning ? "!" : stop.id === 5 ? "N" : stop.id;
+    return `<div class="${classes.join(" ")}" style="--x:${pos[0]};--y:${pos[1]};" title="${stop.label}">${label}</div>`;
+  }).join("");
+  document.getElementById("map").innerHTML = `
+    <div class="static-map">
+      <div class="static-tiles" aria-hidden="true">
+        <img src="https://tile.openstreetmap.org/11/1062/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1063/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1064/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1062/681.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1063/681.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1064/681.png" alt="">
+      </div>
+      <svg class="static-route-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <polyline class="static-route ${scenario.detour ? "detour" : ""}" points="${routePoints}"></polyline>
+      </svg>
+      ${dots}
+      <div class="static-caption">OpenStreetMap aktiv · Schritt ${mapStepIndex + 1} von ${MAP_SEQUENCE.length}</div>
+    </div>
+  `;
+}
+
+function loadScenario(key, animate = true) {
+  const scenario = SCENARIOS[key];
+  if (!scenario) return;
+  mapStepIndex = Math.max(0, MAP_SEQUENCE.indexOf(key));
+  if (!window.L || !map) {
+    renderStaticScenario(key);
+    return;
+  }
+
+  updateScenarioUI(key, scenario);
 
   // Clear old markers and polylines
   currentMarkers.forEach(m => map.removeLayer(m));
@@ -1759,9 +1884,25 @@ document.querySelectorAll(".scenario-btn").forEach(btn => {
   btn.addEventListener("click", () => loadScenario(btn.dataset.scenario, true));
 });
 
+const mapNextStep = document.getElementById("mapNextStep");
+const mapResetStep = document.getElementById("mapResetStep");
+if (mapNextStep) {
+  mapNextStep.addEventListener("click", () => {
+    mapStepIndex = (mapStepIndex + 1) % MAP_SEQUENCE.length;
+    loadScenario(MAP_SEQUENCE[mapStepIndex], true);
+  });
+}
+if (mapResetStep) {
+  mapResetStep.addEventListener("click", () => loadScenario("start", true));
+}
+
 // Init map when page loads
 if (document.getElementById("map")) {
-  initMap();
+  if (window.L) {
+    initMap();
+  } else {
+    renderStaticScenario("start");
+  }
 }
 </script>
 </body>
