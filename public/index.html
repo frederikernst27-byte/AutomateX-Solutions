@@ -93,15 +93,6 @@ button,input,textarea,select{font:inherit;}
   background-repeat:no-repeat;
   box-shadow:var(--shadow);
 }
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(87,149,255,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(87,149,255,.06) 1px, transparent 1px);
-  background-size:48px 48px;
-  pointer-events:none;
-  opacity:.72;
-}
 .hero-glow{
   position:absolute;
   width:600px;height:600px;
@@ -115,32 +106,6 @@ button,input,textarea,select{font:inherit;}
   bottom:-80px;left:-60px;
   background:radial-gradient(circle, rgba(87,149,255,.12) 0%, transparent 70%);
   pointer-events:none;
-}
-
-/* Animated route lines in hero */
-.route-svg{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-  opacity:.35;
-}
-.route-path{
-  stroke-dasharray:800;
-  stroke-dashoffset:800;
-  animation:drawRoute 3.5s ease-out forwards;
-}
-.route-path.delay1{animation-delay:.6s;}
-.route-path.delay2{animation-delay:1.4s;}
-@keyframes drawRoute{to{stroke-dashoffset:0;}}
-.pulse-dot{
-  animation:pulseDot 2s ease-in-out infinite;
-}
-.pulse-dot.d2{animation-delay:.7s;}
-.pulse-dot.d3{animation-delay:1.5s;}
-.pulse-dot.d4{animation-delay:2.1s;}
-@keyframes pulseDot{
-  0%,100%{opacity:.5;r:4;}
-  50%{opacity:1;r:7;}
 }
 
 .hero-copy{
@@ -388,6 +353,32 @@ h2 em{font-style:normal;color:var(--green);}
   color:var(--green-dark);
   font-size:11px;font-weight:800;
 }
+.research-note{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:.58fr 1fr;
+  gap:22px;
+  align-items:center;
+  padding:28px;
+  border-radius:24px;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:0 18px 55px rgba(15,23,42,.08);
+}
+.research-note h3{
+  margin:0;
+  color:var(--ink);
+  font-size:clamp(24px,3vw,38px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.research-note h3 em{font-style:normal;color:var(--green);}
+.research-note p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+  font-weight:560;
+}
 
 /* MAP DEMO SECTION */
 .map-section{padding:80px 0;background:var(--soft);}
@@ -476,26 +467,6 @@ h2 em{font-style:normal;color:var(--green);}
 }
 .journey-card h3,.problem-card h3,.coop-card h3{margin:0 0 8px;color:var(--ink);font-size:20px;letter-spacing:-.04em;line-height:1.12;}
 .journey-card p,.problem-card p,.coop-card p{margin:0;color:var(--muted);}
-.proof-strip{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px;}
-.proof-shot{
-  position:relative;
-  min-height:270px;
-  overflow:hidden;
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,.78);
-  background:#111827;
-  box-shadow:0 18px 60px rgba(15,23,42,.14);
-}
-.proof-shot::before{
-  content:"";
-  position:absolute;inset:0;
-  background:
-    linear-gradient(180deg,rgba(8,9,21,.18),rgba(8,9,21,.82)),
-    var(--proof-img) center/cover no-repeat;
-}
-.proof-shot div{position:absolute;left:22px;right:22px;bottom:22px;color:white;}
-.proof-shot h3{margin:0 0 6px;font-size:22px;letter-spacing:-.04em;}
-.proof-shot p{margin:0;color:rgba(255,255,255,.68);}
 .problem-grid{grid-template-columns:repeat(3,1fr);}
 .problem-icon{
   width:44px;height:44px;border-radius:14px;
@@ -556,6 +527,7 @@ h2 em{font-style:normal;color:var(--green);}
 .workflow-new{stroke:var(--green);stroke-width:6;stroke-dasharray:650;stroke-dashoffset:650;filter:drop-shadow(0 8px 16px rgba(22,182,127,.28));}
 .sync-board.running .workflow-old{opacity:.24;}
 .sync-board.running .workflow-new{animation:drawRoute 1.7s ease forwards .8s;}
+@keyframes drawRoute{to{stroke-dashoffset:0;}}
 .sync-stop{
   position:absolute;left:var(--x);top:var(--y);z-index:2;
   width:36px;height:36px;transform:translate(-50%,-50%);
@@ -776,8 +748,8 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
 /* RESPONSIVE */
 @media(max-width:980px){
   .links{display:none;}
-  .ki-grid,.ablauf-grid,.faq-grid,.journey-grid,.problem-grid,.cooperation-grid,.proof-strip,.sync-board,.sync-bottom,.vision-band{grid-template-columns:1fr;}
-  .dynamic-grid,.appt-grid,.contact-inner{grid-template-columns:1fr;}
+  .ki-grid,.ablauf-grid,.faq-grid,.journey-grid,.problem-grid,.cooperation-grid,.sync-board,.sync-bottom,.vision-band{grid-template-columns:1fr;}
+  .dynamic-grid,.appt-grid,.research-note,.contact-inner{grid-template-columns:1fr;}
   .sync-rail{border-right:0;border-bottom:1px solid rgba(255,255,255,.1);}
   .sync-stage{grid-template-rows:340px auto;}
   .sync-log{border-left:0;border-top:1px solid rgba(255,255,255,.1);}
@@ -807,7 +779,6 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
   .stat{width:calc(50% - 8px);padding:14px 12px;}
   .stat-val{font-size:28px;}
   .stat-label{font-size:12px;}
-  .proof-shot{min-height:230px;}
   .section,.demo,.map-section,.dynamic-section,.appt-section,.live-sync{padding:58px 0;}
   .footer-links,.footer-bottom{flex-direction:column;}
 }
@@ -837,26 +808,8 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
 <header class="hero">
   <div class="shell">
     <div class="hero-frame">
-      <div class="hero-grid"></div>
       <div class="hero-glow"></div>
       <div class="hero-glow2"></div>
-
-      <!-- Animated route lines -->
-      <svg class="route-svg" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice">
-        <path class="route-path" d="M 180 580 Q 320 420 480 300 Q 620 200 780 160 Q 900 130 1040 180" fill="none" stroke="#16b67f" stroke-width="2"/>
-        <path class="route-path delay1" d="M 100 620 Q 250 500 400 400 Q 600 280 820 220 Q 980 180 1100 250" fill="none" stroke="#5795ff" stroke-width="1.5"/>
-        <path class="route-path delay2" d="M 200 640 Q 450 500 650 380 Q 820 280 950 300 Q 1050 320 1150 280" fill="none" stroke="#16b67f" stroke-width="1.5" opacity=".6"/>
-        <!-- Stop dots -->
-        <circle class="pulse-dot" cx="480" cy="300" r="5" fill="#16b67f"/>
-        <circle class="pulse-dot d2" cx="780" cy="160" r="5" fill="#16b67f"/>
-        <circle class="pulse-dot d3" cx="1040" cy="180" r="5" fill="#5795ff"/>
-        <circle class="pulse-dot d4" cx="650" cy="380" r="5" fill="#16b67f"/>
-        <!-- Start/end markers -->
-        <circle cx="180" cy="580" r="7" fill="none" stroke="#16b67f" stroke-width="2"/>
-        <circle cx="180" cy="580" r="3" fill="#16b67f"/>
-        <circle cx="1040" cy="180" r="7" fill="none" stroke="#5795ff" stroke-width="2"/>
-        <circle cx="1040" cy="180" r="3" fill="#5795ff"/>
-      </svg>
 
       <div class="hero-copy">
         <div class="eyebrow">
@@ -952,20 +905,6 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         <p>KI-gestützte Routenplanung für Handwerksbetriebe hat einen klaren Marktbedarf und einen konkreten Pilotnutzen.</p>
       </article>
     </div>
-    <div class="proof-strip" aria-label="Nachweise aus den ersten Projekten">
-      <article class="proof-shot" style="--proof-img:url('assets/proof-automation.png');">
-        <div>
-          <h3>Automatisierungsprototypen</h3>
-          <p>Erste Systeme konnten Produktseiten prüfen, Preise erkennen, Warenkörbe bearbeiten und Ergebnisse protokollieren.</p>
-        </div>
-      </article>
-      <article class="proof-shot" style="--proof-img:url('assets/proof-website.png');">
-        <div>
-          <h3>Erste Website-Projekte</h3>
-          <p>Aus einfachen Websites wurde der nächste Schritt: operative Prozesse sichtbar verbessern.</p>
-        </div>
-      </article>
-    </div>
   </div>
 </section>
 
@@ -993,80 +932,6 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         <h3>Keine Dynamik</h3>
         <p>Bei Absagen oder Änderungen muss die gesamte Route oft neu berechnet werden. Genau dort setzt die KI an.</p>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- LIVE WORKFLOW -->
-<section class="live-sync" id="live-workflow">
-  <div class="shell">
-    <div class="section-head">
-      <div class="section-kicker">E-Mail-Reihe · Route neu geplant</div>
-      <h2>Eine Absage kommt rein – das System <em>arbeitet live.</em></h2>
-      <p class="section-sub">Aus mehreren E-Mails, Stopps und Routensignalen wird der passende Ersatz gesucht, eine Route gestrichen und ein neuer Stop eingesetzt.</p>
-    </div>
-    <div class="sync-board" id="syncBoard" aria-label="Animierter Live-Ablauf für Absage und Routenänderung">
-      <aside class="sync-rail">
-        <div class="sync-head"><span>E-Mail-Reihe und Signale</span><span class="sync-count">4</span></div>
-        <div class="mail-stack">
-          <div class="mail-card active" data-sync-mail="cancel"><b>Absage: Bottrop 11:30</b><span>Termin fällt heute aus. Fahrer nicht schicken.</span><small>Disposition · gerade eben</small></div>
-          <div class="mail-card" data-sync-mail="new"><b>Neuer Auftrag: Gelsenkirchen</b><span>Passt zwischen 10:45 und 12:15 in die Tour.</span><small>Kunde · vor 6 min</small></div>
-          <div class="mail-card" data-sync-mail="traffic"><b>Verkehr: A40 langsam</b><span>Prognose verschiebt Anschlusswege Richtung Bochum.</span><small>Verkehrsdaten · live</small></div>
-          <div class="mail-card" data-sync-mail="call"><b>Anrufnotiz: Essen bestätigt</b><span>Zeitfenster bleibt 09:20 bis 09:45.</span><small>Büro · vor 12 min</small></div>
-        </div>
-        <div class="sync-head"><span>Cluster-Auswahl</span><span class="sync-count">3</span></div>
-        <div class="candidate-stack">
-          <div class="candidate-card best"><strong>Gelsenkirchen Ersatzslot <span>92%</span></strong><div class="match"><span></span></div></div>
-          <div class="candidate-card mid"><strong>Duisburg vorziehen <span>68%</span></strong><div class="match"><span></span></div></div>
-          <div class="candidate-card low"><strong>Bochum sofort <span>43%</span></strong><div class="match"><span></span></div></div>
-        </div>
-      </aside>
-      <div class="sync-stage">
-        <div class="sync-map">
-          <div class="sync-tiles" aria-hidden="true">
-            <img src="https://tile.openstreetmap.org/11/1062/680.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1063/680.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1064/680.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1065/680.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1062/681.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1063/681.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1064/681.png" alt="">
-            <img src="https://tile.openstreetmap.org/11/1065/681.png" alt="">
-          </div>
-          <svg class="workflow-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <polyline class="workflow-old" points="12,84 47,74 38,41 15,64 76,62"></polyline>
-            <polyline class="workflow-new" points="12,84 15,64 58,46 47,74 76,62"></polyline>
-          </svg>
-          <div class="sync-stop depot" style="--x:12%;--y:84%;">D</div>
-          <div class="sync-stop" style="--x:47%;--y:74%;">1</div>
-          <div class="sync-stop cancelled" style="--x:38%;--y:41%;">2</div>
-          <div class="sync-stop" style="--x:15%;--y:64%;">3</div>
-          <div class="sync-stop" style="--x:76%;--y:62%;">4</div>
-          <div class="sync-stop inserted" style="--x:58%;--y:46%;">N</div>
-          <div class="sync-label" id="syncMapLabel">OpenStreetMap aktiv · Originalroute sichtbar</div>
-          <a class="sync-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap-Mitwirkende</a>
-        </div>
-        <div class="sync-bottom">
-          <div class="sync-route">
-            <div class="sync-head"><span>Route heute</span><button class="btn green small" id="syncStart" type="button">Absage verarbeiten</button></div>
-            <div class="route-list">
-              <div class="sync-route-row"><span class="num">D</span><div><strong>AutomateX HQ, Duisburg</strong><small>Start 08:00</small></div><small>Depot</small></div>
-              <div class="sync-route-row"><span class="num">1</span><div><strong>Essen Nord</strong><small>09:20 - 09:45 · bestätigt</small></div><small>12 km</small></div>
-              <div class="sync-route-row cancel"><span class="num">2</span><div><strong>Bottrop Zentrallager</strong><small>11:30 · Absage erkannt</small></div><small>entfernen</small></div>
-              <div class="sync-route-row insert"><span class="num">N</span><div><strong>Gelsenkirchen Ersatzslot</strong><small>10:55 - 11:35 · aus Cluster gewählt</small></div><small>neu</small></div>
-              <div class="sync-route-row"><span class="num">3</span><div><strong>Duisburg Service</strong><small>12:05 - 12:40 · Anschlussweg kurz</small></div><small>29 km</small></div>
-              <div class="sync-route-row"><span class="num">4</span><div><strong>Bochum Eilauftrag</strong><small>13:25 - 14:05 · priorisiert</small></div><small>46 km</small></div>
-            </div>
-          </div>
-          <div class="sync-log">
-            <div class="log-line active"><b>1. Eingang lesen</b><span>E-Mail-Absage wird Bottrop zugeordnet.</span></div>
-            <div class="log-line"><b>2. Route streichen</b><span>Der betroffene Stop wird entfernt.</span></div>
-            <div class="log-line"><b>3. Cluster durchsuchen</b><span>E-Mails, Aufträge und Verkehr werden bewertet.</span></div>
-            <div class="log-line"><b>4. Ersatz einsetzen</b><span>Gelsenkirchen passt in das Zeitfenster.</span></div>
-            <div class="log-line"><b>5. Live reagieren</b><span>Resttour und Ankunftszeiten werden aktualisiert.</span></div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1233,6 +1098,84 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         </div>
       </div>
     </div>
+    <div class="research-note">
+      <h3>Wir arbeiten an der <em>Forschungsfront.</em></h3>
+      <p>AutomateX entsteht nah an Prozessinnovation, Automatisierung und praktischer Forschung. Durch meine Arbeit am Lehrstuhl von Prof. Dr. Ralf Plattfaut im Process Innovation &amp; Automation Lab der Universität Duisburg-Essen fließt aktuelles Wissen direkt in die Idee ein: KI soll nicht nur beeindruckend aussehen, sondern reale Abläufe messbar verbessern.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE WORKFLOW -->
+<section class="live-sync" id="live-workflow">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">E-Mail-Reihe · Route neu geplant</div>
+      <h2>Eine Absage kommt rein – das System <em>arbeitet live.</em></h2>
+      <p class="section-sub">Aus mehreren E-Mails, Stopps und Routensignalen wird der passende Ersatz gesucht, eine Route gestrichen und ein neuer Stop eingesetzt.</p>
+    </div>
+    <div class="sync-board" id="syncBoard" aria-label="Animierter Live-Ablauf für Absage und Routenänderung">
+      <aside class="sync-rail">
+        <div class="sync-head"><span>E-Mail-Reihe und Signale</span><span class="sync-count">4</span></div>
+        <div class="mail-stack">
+          <div class="mail-card active" data-sync-mail="cancel"><b>Absage: Bottrop 11:30</b><span>Termin fällt heute aus. Fahrer nicht schicken.</span><small>Disposition · gerade eben</small></div>
+          <div class="mail-card" data-sync-mail="new"><b>Neuer Auftrag: Gelsenkirchen</b><span>Passt zwischen 10:45 und 12:15 in die Tour.</span><small>Kunde · vor 6 min</small></div>
+          <div class="mail-card" data-sync-mail="traffic"><b>Verkehr: A40 langsam</b><span>Prognose verschiebt Anschlusswege Richtung Bochum.</span><small>Verkehrsdaten · live</small></div>
+          <div class="mail-card" data-sync-mail="call"><b>Anrufnotiz: Essen bestätigt</b><span>Zeitfenster bleibt 09:20 bis 09:45.</span><small>Büro · vor 12 min</small></div>
+        </div>
+        <div class="sync-head"><span>Cluster-Auswahl</span><span class="sync-count">3</span></div>
+        <div class="candidate-stack">
+          <div class="candidate-card best"><strong>Gelsenkirchen Ersatzslot <span>92%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card mid"><strong>Duisburg vorziehen <span>68%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card low"><strong>Bochum sofort <span>43%</span></strong><div class="match"><span></span></div></div>
+        </div>
+      </aside>
+      <div class="sync-stage">
+        <div class="sync-map">
+          <div class="sync-tiles" aria-hidden="true">
+            <img src="https://tile.openstreetmap.org/11/1062/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1063/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1064/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1065/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1062/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1063/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1064/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1065/681.png" alt="">
+          </div>
+          <svg class="workflow-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <polyline class="workflow-old" points="12,84 47,74 38,41 15,64 76,62"></polyline>
+            <polyline class="workflow-new" points="12,84 15,64 58,46 47,74 76,62"></polyline>
+          </svg>
+          <div class="sync-stop depot" style="--x:12%;--y:84%;">D</div>
+          <div class="sync-stop" style="--x:47%;--y:74%;">1</div>
+          <div class="sync-stop cancelled" style="--x:38%;--y:41%;">2</div>
+          <div class="sync-stop" style="--x:15%;--y:64%;">3</div>
+          <div class="sync-stop" style="--x:76%;--y:62%;">4</div>
+          <div class="sync-stop inserted" style="--x:58%;--y:46%;">N</div>
+          <div class="sync-label" id="syncMapLabel">OpenStreetMap aktiv · Originalroute sichtbar</div>
+          <a class="sync-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap-Mitwirkende</a>
+        </div>
+        <div class="sync-bottom">
+          <div class="sync-route">
+            <div class="sync-head"><span>Route heute</span><button class="btn green small" id="syncStart" type="button">Absage verarbeiten</button></div>
+            <div class="route-list">
+              <div class="sync-route-row"><span class="num">D</span><div><strong>AutomateX HQ, Duisburg</strong><small>Start 08:00</small></div><small>Depot</small></div>
+              <div class="sync-route-row"><span class="num">1</span><div><strong>Essen Nord</strong><small>09:20 - 09:45 · bestätigt</small></div><small>12 km</small></div>
+              <div class="sync-route-row cancel"><span class="num">2</span><div><strong>Bottrop Zentrallager</strong><small>11:30 · Absage erkannt</small></div><small>entfernen</small></div>
+              <div class="sync-route-row insert"><span class="num">N</span><div><strong>Gelsenkirchen Ersatzslot</strong><small>10:55 - 11:35 · aus Cluster gewählt</small></div><small>neu</small></div>
+              <div class="sync-route-row"><span class="num">3</span><div><strong>Duisburg Service</strong><small>12:05 - 12:40 · Anschlussweg kurz</small></div><small>29 km</small></div>
+              <div class="sync-route-row"><span class="num">4</span><div><strong>Bochum Eilauftrag</strong><small>13:25 - 14:05 · priorisiert</small></div><small>46 km</small></div>
+            </div>
+          </div>
+          <div class="sync-log">
+            <div class="log-line active"><b>1. Eingang lesen</b><span>E-Mail-Absage wird Bottrop zugeordnet.</span></div>
+            <div class="log-line"><b>2. Route streichen</b><span>Der betroffene Stop wird entfernt.</span></div>
+            <div class="log-line"><b>3. Cluster durchsuchen</b><span>E-Mails, Aufträge und Verkehr werden bewertet.</span></div>
+            <div class="log-line"><b>4. Ersatz einsetzen</b><span>Gelsenkirchen passt in das Zeitfenster.</span></div>
+            <div class="log-line"><b>5. Live reagieren</b><span>Resttour und Ankunftszeiten werden aktualisiert.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1321,33 +1264,6 @@ Disposition</textarea>
   </div>
 </section>
 
-<!-- ABLAUF -->
-<section class="section" id="ablauf">
-  <div class="shell">
-    <div class="section-head">
-      <div class="section-kicker">Ablauf</div>
-      <h2>In drei Schritten zur<br><em>optimierten Pilottour.</em></h2>
-    </div>
-    <div class="ablauf-grid">
-      <div class="ablauf-card">
-        <div class="ablauf-num">1</div>
-        <h3>Tagesliste importieren</h3>
-        <p>CSV, Excel oder ein direkter Export aus dem bestehenden System. Die KI liest Zeitfenster, Adressen und Prioritäten automatisch aus.</p>
-      </div>
-      <div class="ablauf-card">
-        <div class="ablauf-num">2</div>
-        <h3>Regeln &amp; Automatisierungen konfigurieren</h3>
-        <p>Zeitfenster, Servicezeiten, Fahrerprofil und wie aggressiv die KI freie Slots mit Terminvorschlägen füllen soll – alles einstellbar.</p>
-      </div>
-      <div class="ablauf-card">
-        <div class="ablauf-num">3</div>
-        <h3>Nutzen messen</h3>
-        <p>Kilometer, Fahrzeit, Planungsaufwand und automatisch gebuchte Zusatztermine – vorher/nachher transparent verglichen.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FAQ -->
 <section class="section" id="fragen" style="background:var(--soft);">
   <div class="shell">
@@ -1380,6 +1296,33 @@ Disposition</textarea>
         <h3>Für wen ist AutomateX geeignet?</h3>
         <p>Für Handwerksbetriebe, Serviceflotten und Dispositionsteams, die täglich mehrere Fahrer mit 5–50 Stopps koordinieren und dabei mit Absagen, Eilaufträgen und Zeitdruck umgehen müssen.</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABLAUF -->
+<section class="section" id="ablauf">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Ablauf</div>
+      <h2>In drei Schritten zur<br><em>optimierten Pilottour.</em></h2>
+    </div>
+    <div class="ablauf-grid">
+      <div class="ablauf-card">
+        <div class="ablauf-num">1</div>
+        <h3>Tagesliste importieren</h3>
+        <p>CSV, Excel oder ein direkter Export aus dem bestehenden System. Die KI liest Zeitfenster, Adressen und Prioritäten automatisch aus.</p>
+      </div>
+      <div class="ablauf-card">
+        <div class="ablauf-num">2</div>
+        <h3>Regeln &amp; Automatisierungen konfigurieren</h3>
+        <p>Zeitfenster, Servicezeiten, Fahrerprofil und wie aggressiv die KI freie Slots mit Terminvorschlägen füllen soll – alles einstellbar.</p>
+      </div>
+      <div class="ablauf-card">
+        <div class="ablauf-num">3</div>
+        <h3>Nutzen messen</h3>
+        <p>Kilometer, Fahrzeit, Planungsaufwand und automatisch gebuchte Zusatztermine – vorher/nachher transparent verglichen.</p>
+      </div>
     </div>
   </div>
 </section>
