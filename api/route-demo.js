@@ -1,4 +1,4 @@
-const MODEL = "meta-llama/llama-3.2-3b-instruct:free";
+const MODEL = "openrouter/free";
 
 function fallbackPlan(email) {
   const lower = String(email || "").toLowerCase();
@@ -24,6 +24,14 @@ function fallbackPlan(email) {
     summary:
       `AutomateX wuerde ${cancelledStop} streichen, die frei gewordene Zeit vor Mittag nutzen und ${urgentStop} nach vorne ziehen. ` +
       "Die Resttour bleibt nachvollziehbar: erst der priorisierte Auftrag, danach die naechsten Stopps mit kurzen Anschlusswegen."
+  };
+}
+
+function fallbackResponse(email, fallbackMode, modeLabel) {
+  return {
+    ...fallbackPlan(email),
+    fallbackMode,
+    modeLabel
   };
 }
 
@@ -67,11 +75,14 @@ module.exports = async function handler(req, res) {
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    return res.status(200).json(fallbackPlan(email));
+    return res.status(200).json(fallbackResponse(
+      email,
+      "missing-key",
+      "Lokaler Demo-Modus: OPENROUTER_API_KEY ist nicht gesetzt."
+    ));
   }
 
   try {
-    const fallback = fallbackPlan(email);
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -84,6 +95,7 @@ module.exports = async function handler(req, res) {
         model: MODEL,
         temperature: 0.2,
         max_tokens: 420,
+        response_format: { type: "json_object" },
         messages: [
           {
             role: "system",
@@ -102,11 +114,21 @@ module.exports = async function handler(req, res) {
       })
     });
 
-    const payload = await response.json();
+    const responseBody = await response.text();
+    let payload = null;
+    try {
+      payload = JSON.parse(responseBody);
+    } catch {}
+
     if (!response.ok) {
+      const isRateLimit = response.status === 429;
+      const modeLabel = isRateLimit
+        ? "OpenRouter ist aktiv, aber das Free-Rate-Limit ist gerade erreicht. Die Demo zeigt deshalb den lokalen Plan."
+        : `OpenRouter war nicht verfuegbar (${response.status}). Die Demo zeigt deshalb den lokalen Plan.`;
+
       return res.status(200).json({
-        ...fallback,
-        summary: fallback.summary + `\n\nOpenRouter war nicht verfuegbar (${response.status}).`
+        ...fallbackResponse(email, isRateLimit ? "rate-limit" : "openrouter-error", modeLabel),
+        summary: fallbackPlan(email).summary + `\n\n${modeLabel}`
       });
     }
 
@@ -114,22 +136,30 @@ module.exports = async function handler(req, res) {
     const parsed = extractJsonObject(content);
     if (!parsed?.steps || !parsed?.summary) {
       return res.status(200).json({
-        ...fallback,
-        summary: fallback.summary + "\n\nOpenRouter-Antwort war kein gueltiges JSON, deshalb wurde der lokale Fallback verwendet."
+        ...fallbackResponse(
+          email,
+          "invalid-json",
+          "OpenRouter ist aktiv, aber die Antwort hatte kein gueltiges JSON. Die Demo zeigt deshalb den lokalen Plan."
+        ),
+        summary: fallbackPlan(email).summary + "\n\nOpenRouter ist aktiv, aber die Antwort hatte kein gueltiges JSON. Die Demo zeigt deshalb den lokalen Plan."
       });
     }
 
     return res.status(200).json({
       aiMode: true,
       model: MODEL,
+      modeLabel: "KI-Modus: OpenRouter aktiv.",
       steps: parsed.steps.slice(0, 3),
       summary: parsed.summary
     });
   } catch (error) {
-    const fallback = fallbackPlan(email);
     return res.status(200).json({
-      ...fallback,
-      summary: fallback.summary + "\n\nOpenRouter-Fallback aktiv: " + error.message
+      ...fallbackResponse(
+        email,
+        "request-error",
+        "OpenRouter konnte gerade nicht erreicht werden. Die Demo zeigt deshalb den lokalen Plan."
+      ),
+      summary: fallbackPlan(email).summary + "\n\nOpenRouter konnte gerade nicht erreicht werden. Die Demo zeigt deshalb den lokalen Plan."
     });
   }
 };

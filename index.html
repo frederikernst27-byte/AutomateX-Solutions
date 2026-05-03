@@ -520,8 +520,8 @@ footer {
       <div class="demo-panel">
         <div class="section-kicker">Live-Demo</div>
         <h2>E-Mail rein, Route neu geplant.</h2>
-        <p>Nutzen Sie die Beispiel-Absage oder schreiben Sie eine eigene Nachricht. Mit OPENROUTER_API_KEY in Vercel antwortet die Demo ueber OpenRouter; ohne Key laeuft ein lokaler Fallback.</p>
-        <div class="demo-note">OpenRouter-Modell: <strong>meta-llama/llama-3.2-3b-instruct:free</strong>. Den Key in Vercel unter Project Settings - Environment Variables als <strong>OPENROUTER_API_KEY</strong> eintragen.</div>
+        <p>Nutzen Sie die Beispiel-Absage oder schreiben Sie eine eigene Nachricht. Mit OPENROUTER_API_KEY in Vercel antwortet die Demo ueber OpenRouter; bei Rate-Limits bleibt sie mit einem lokalen Plan nutzbar.</p>
+        <div class="demo-note">OpenRouter-Modell: <strong>openrouter/free</strong>. Den Key in Vercel unter Project Settings - Environment Variables als <strong>OPENROUTER_API_KEY</strong> eintragen.</div>
         <textarea id="demoMail">Betreff: Terminabsage heute
 
 Hallo AutomateX,
@@ -581,7 +581,7 @@ Disposition</textarea>
       <h2>Routing-Pilot fuer Ihr Team starten.</h2>
       <p style="max-width:680px;margin:16px auto 24px;color:var(--muted);">Senden Sie eine Beispiel-Tagesliste oder beschreiben Sie, wo Ihre Disposition aktuell Zeit verliert.</p>
       <div class="hero-actions">
-        <a class="btn green" href="mailto:frederik.ernst27@gmail.com?subject=Routing-Analyse%20AutomateX">Routing-Analyse anfragen</a>
+        <a class="btn green" href="mailto:frederik.ernst27@gmail.com?subject=Routing-Analyse%20AutomateX&body=Hallo%20Frederik%2C%0A%0Aich%20interessiere%20mich%20fuer%20eine%20Routing-Analyse%20mit%20AutomateX.%0A%0AAktuelle%20Situation%3A%20%0AAnzahl%20Stopps%20pro%20Tag%3A%20%0AWichtige%20Zeitfenster%20oder%20Regeln%3A%20%0A%0ABitte%20melde%20dich%20mit%20einem%20Vorschlag%20fuer%20die%20naechsten%20Schritte.%0A%0AViele%20Gruesse">Routing-Analyse anfragen</a>
         <a class="btn ghost" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Frederik Ernst auf LinkedIn</a>
       </div>
     </div>
@@ -612,7 +612,7 @@ Disposition</textarea>
     </div>
     <div class="footer-bottom">
       <span>© 2026 AutomateX Solutions</span>
-      <span>OPENROUTER_API_KEY in Vercel eintragen, um die KI-Demo live zu aktivieren.</span>
+      <span>OPENROUTER_API_KEY in Vercel eintragen, um die KI-Demo live zu aktivieren; bei Rate-Limits laeuft die Demo lokal weiter.</span>
     </div>
   </div>
 </footer>
@@ -643,7 +643,7 @@ async function runDemo() {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "Demo konnte nicht ausgefuehrt werden.");
     setSteps(data.steps);
-    answer.textContent = data.summary + (data.aiMode ? "\n\nKI-Modus: OpenRouter aktiv." : "\n\nFallback-Modus: OPENROUTER_API_KEY ist noch nicht gesetzt.");
+    answer.textContent = data.summary + "\n\n" + (data.modeLabel || (data.aiMode ? "KI-Modus: OpenRouter aktiv." : "Lokaler Demo-Modus aktiv."));
   } catch (error) {
     answer.textContent = "Fehler: " + error.message;
   } finally {
