@@ -84,9 +84,13 @@ button,input,textarea,select{font:inherit;}
   position:relative;overflow:hidden;
   border-radius:28px;
   border:1px solid rgba(255,255,255,.9);
-  background:
-    linear-gradient(135deg, rgba(13,17,23,.94) 0%, rgba(17,24,39,.92) 42%, rgba(8,16,32,.94) 100%),
-    url("https://tile.openstreetmap.org/10/531/340.png") center / 256px 256px repeat;
+  background-image:
+    radial-gradient(circle at 68% 25%, rgba(22,182,127,.22), transparent 28rem),
+    linear-gradient(135deg, rgba(7,9,18,.96) 0%, rgba(8,16,32,.84) 48%, rgba(7,9,18,.72) 100%),
+    url("assets/hero-service-route.webp");
+  background-position:center,center,center 48%;
+  background-size:cover,cover,cover;
+  background-repeat:no-repeat;
   box-shadow:var(--shadow);
 }
 .hero-grid{
@@ -96,6 +100,7 @@ button,input,textarea,select{font:inherit;}
     linear-gradient(90deg, rgba(87,149,255,.06) 1px, transparent 1px);
   background-size:48px 48px;
   pointer-events:none;
+  opacity:.72;
 }
 .hero-glow{
   position:absolute;
@@ -1504,7 +1509,7 @@ Disposition</textarea>
     </div>
     <div class="footer-bottom">
       <span>© 2026 AutomateX Solutions – Frederik Ernst</span>
-      <span>KI-Routenplanung · Powered by OpenRouter &amp; OpenStreetMap</span>
+      <span>KI-Routenplanung · OpenStreetMap · Hero-Foto: USDA Public Domain</span>
     </div>
   </div>
 </footer>
