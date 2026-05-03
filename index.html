@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutomateX - KI-Routenplanung fuer Disposition</title>
-<meta name="description" content="AutomateX optimiert Touren, reagiert auf Absagen per E-Mail und zeigt Dispositionsteams bessere Routen in Minuten.">
+<title>AutomateX – KI-Routenplanung für Handwerk & Disposition</title>
+<meta name="description" content="AutomateX optimiert Touren mit KI, reagiert automatisch auf Absagen und schlägt im Hintergrund neue Termine vor – damit Ihre Fahrer immer die kürzeste Route fahren.">
 <link rel="icon" type="image/png" sizes="32x32" href="public/assets/brand/small-logo.png">
 <link rel="shortcut icon" href="public/assets/brand/small-logo.png">
 <link rel="apple-touch-icon" href="public/assets/brand/small-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
 :root {
   --ink: #070912;
@@ -24,583 +25,1119 @@
   --lime: #d7ff72;
   --blue: #5795ff;
   --night: #080915;
+  --rose: #f0829a;
   --shadow: 0 28px 90px rgba(15,23,42,.14);
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  color: var(--text);
-  background:
-    radial-gradient(circle at 6% 0%, rgba(87,149,255,.16), transparent 28rem),
-    linear-gradient(180deg, #eef3f9 0%, #fbfcff 46%, #f5f8fc 100%);
-  font-family: "DM Sans", sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  color:var(--text);
+  background: linear-gradient(180deg,#eef3f9 0%,#fbfcff 46%,#f5f8fc 100%);
+  font-family:"DM Sans",sans-serif;
+  font-size:16px;
+  line-height:1.55;
 }
-a { color: inherit; }
-button, input, textarea { font: inherit; }
-.shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-.nav {
-  position: sticky;
-  top: 18px;
-  z-index: 50;
-  width: min(1120px, calc(100% - 32px));
-  margin: 18px auto 0;
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255,255,255,.84);
-  border-radius: 22px;
-  background: rgba(255,255,255,.82);
-  box-shadow: 0 18px 50px rgba(15,23,42,.1);
-  backdrop-filter: blur(22px);
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--ink);
-  font-weight: 900;
-  letter-spacing: -.04em;
-  text-decoration: none;
-}
-.brand img { width: 34px; height: 34px; border-radius: 10px; }
-.links { display: flex; align-items: center; gap: 28px; font-size: 13px; font-weight: 700; }
-.links a { text-decoration: none; color: #202633; }
-.links a:hover { color: var(--green-dark); }
-.nav-actions { display: flex; align-items: center; gap: 10px; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 11px 18px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--ink);
-  color: white;
-  font-weight: 800;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-}
-.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(15,23,42,.16); }
-.btn.ghost { background: white; color: var(--ink); border: 1px solid var(--line); }
-.btn.green { background: var(--green); color: white; }
-.btn.small { min-height: 34px; padding: 8px 13px; font-size: 13px; }
+a{color:inherit;}
+button,input,textarea,select{font:inherit;}
+.shell{width:min(1160px,calc(100% - 40px));margin:0 auto;}
 
-.hero {
-  padding: 26px 0 60px;
+/* NAV */
+.nav{
+  position:sticky;top:18px;z-index:50;
+  width:min(1120px,calc(100% - 32px));
+  margin:18px auto 0;
+  min-height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:10px 14px;
+  border:1px solid rgba(255,255,255,.84);
+  border-radius:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 18px 50px rgba(15,23,42,.1);
+  backdrop-filter:blur(22px);
 }
-.hero-frame {
-  min-height: 650px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 28px;
-  border: 1px solid rgba(255,255,255,.9);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.78) 72%),
-    url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Workshop_Tools_%28Unsplash%29.jpg/1280px-Workshop_Tools_%28Unsplash%29.jpg") center / cover no-repeat;
-  box-shadow: var(--shadow);
+.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);font-weight:900;letter-spacing:-.04em;text-decoration:none;}
+.brand img{width:34px;height:34px;border-radius:10px;}
+.links{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:700;}
+.links a{text-decoration:none;color:#202633;}
+.links a:hover{color:var(--green-dark);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:11px 18px;
+  border:0;border-radius:999px;
+  background:var(--ink);color:white;
+  font-weight:800;text-decoration:none;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,background .18s;
 }
-.hero-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 78% 22%, rgba(215,255,114,.28), transparent 20rem),
-    linear-gradient(180deg, rgba(244,247,251,.1), rgba(244,247,251,.86) 62%, rgba(244,247,251,.96));
-  pointer-events: none;
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,23,42,.16);}
+.btn.ghost{background:white;color:var(--ink);border:1px solid var(--line);}
+.btn.green{background:var(--green);color:white;}
+.btn.rose{background:var(--rose);color:white;}
+.btn.small{min-height:34px;padding:8px 13px;font-size:13px;}
+
+/* HERO */
+.hero{padding:26px 0 60px;}
+.hero-frame{
+  min-height:680px;
+  position:relative;overflow:hidden;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.9);
+  background: linear-gradient(135deg, #0d1117 0%, #111827 40%, #0c1a2e 70%, #081020 100%);
+  box-shadow:var(--shadow);
 }
-.hero-copy {
-  position: relative;
-  z-index: 2;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 84px 28px 0;
-  text-align: center;
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(87,149,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(87,149,255,.06) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
 }
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 16px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.78);
-  color: #304156;
-  font-size: 12px;
-  font-weight: 800;
-  box-shadow: 0 10px 30px rgba(15,23,42,.08);
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  top:-100px;right:-100px;
+  background:radial-gradient(circle, rgba(22,182,127,.15) 0%, transparent 70%);
+  pointer-events:none;
 }
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 5px rgba(22,182,127,.13);
-}
-h1 {
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(44px, 7vw, 88px);
-  font-weight: 900;
-  line-height: .91;
-  letter-spacing: -.07em;
-}
-.hero-copy p {
-  max-width: 580px;
-  margin: 22px auto 0;
-  color: #344054;
-  font-size: 18px;
-}
-.hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-.dashboard {
-  position: relative;
-  z-index: 2;
-  width: min(920px, calc(100% - 40px));
-  margin: 54px auto 0;
-  border-radius: 26px;
-  background: rgba(255,255,255,.9);
-  border: 1px solid rgba(255,255,255,.92);
-  box-shadow: 0 30px 80px rgba(15,23,42,.16);
-  overflow: hidden;
-}
-.dash-top {
-  min-height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--line);
-}
-.dash-title { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--ink); }
-.dash-title span {
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  background: var(--ink);
-  color: white;
-}
-.dash-search { flex: 1; max-width: 320px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 13px; }
-.dash-grid {
-  display: grid;
-  grid-template-columns: 190px 1fr 230px;
-  gap: 16px;
-  padding: 16px;
-}
-.side-menu, .metric-card, .route-card, .ai-card {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: white;
-}
-.side-menu { padding: 12px; display: grid; gap: 7px; align-content: start; }
-.side-menu div { padding: 10px 11px; border-radius: 12px; color: #596273; font-size: 13px; font-weight: 800; }
-.side-menu div:first-child { background: var(--ink); color: white; }
-.metric-card { padding: 16px; }
-.metric-label { color: var(--muted); font-size: 12px; font-weight: 800; }
-.metric-value { margin-top: 5px; color: var(--ink); font-size: 31px; line-height: 1; font-weight: 900; letter-spacing: -.05em; }
-.bars { display: flex; align-items: end; gap: 9px; height: 132px; margin-top: 22px; }
-.bar { flex: 1; border-radius: 999px 999px 6px 6px; background: linear-gradient(180deg, var(--green), #bdf861); }
-.bar:nth-child(1){height:44%}.bar:nth-child(2){height:58%}.bar:nth-child(3){height:36%}.bar:nth-child(4){height:76%}.bar:nth-child(5){height:52%}.bar:nth-child(6){height:88%}
-.route-card { padding: 16px; }
-.route-row { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); }
-.route-row:last-child { border-bottom: 0; }
-.route-row b { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e9f8f2; color: var(--green-dark); font-size: 13px; }
-.route-row strong { color: var(--ink); font-size: 14px; }
-.route-row small { color: var(--muted); font-weight: 700; }
-.ai-card { padding: 16px; background: #f7fbff; }
-.ai-score {
-  width: 142px;
-  height: 142px;
-  margin: 16px auto;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: conic-gradient(var(--green) 0 82%, #dce7f1 82% 100%);
-}
-.ai-score span {
-  width: 94px;
-  height: 94px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: white;
-  color: var(--ink);
-  font-size: 30px;
-  font-weight: 900;
+.hero-glow2{
+  position:absolute;
+  width:400px;height:400px;
+  bottom:-80px;left:-60px;
+  background:radial-gradient(circle, rgba(87,149,255,.12) 0%, transparent 70%);
+  pointer-events:none;
 }
 
-.logos { padding: 34px 0 64px; text-align: center; color: #737b8a; }
-.logos p { margin: 0 0 22px; font-size: 13px; }
-.logo-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-.logo-chip {
-  min-height: 58px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  background: rgba(255,255,255,.65);
-  border: 1px solid rgba(15,23,42,.07);
-  font-weight: 900;
-  color: #6b7280;
+/* Animated route lines in hero */
+.route-svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  opacity:.35;
+}
+.route-path{
+  stroke-dasharray:800;
+  stroke-dashoffset:800;
+  animation:drawRoute 3.5s ease-out forwards;
+}
+.route-path.delay1{animation-delay:.6s;}
+.route-path.delay2{animation-delay:1.4s;}
+@keyframes drawRoute{to{stroke-dashoffset:0;}}
+.pulse-dot{
+  animation:pulseDot 2s ease-in-out infinite;
+}
+.pulse-dot.d2{animation-delay:.7s;}
+.pulse-dot.d3{animation-delay:1.5s;}
+.pulse-dot.d4{animation-delay:2.1s;}
+@keyframes pulseDot{
+  0%,100%{opacity:.5;r:4;}
+  50%{opacity:1;r:7;}
 }
 
-.section { padding: 78px 0; }
-.section-head { max-width: 760px; margin: 0 auto 36px; text-align: center; }
-.section-kicker { color: var(--green-dark); font-size: 12px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
-h2 { margin: 10px 0 0; color: var(--ink); font-size: clamp(34px, 5vw, 58px); line-height: .96; letter-spacing: -.065em; }
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.card {
-  min-height: 280px;
-  border-radius: 24px;
-  padding: 24px;
-  background: rgba(255,255,255,.76);
-  border: 1px solid rgba(15,23,42,.08);
-  box-shadow: 0 18px 50px rgba(15,23,42,.08);
+.hero-copy{
+  position:relative;z-index:2;
+  max-width:760px;
+  margin:0 auto;
+  padding:96px 28px 0;
+  text-align:center;
 }
-.card h3 { margin: 0 0 10px; color: var(--ink); font-size: 25px; line-height: 1; letter-spacing: -.04em; }
-.card p { margin: 0; color: var(--muted); }
-.card-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 15px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 52px;
-  background: #e9f8f2;
-  color: var(--green-dark);
-  font-weight: 900;
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  margin-bottom:20px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(22,182,127,.15);
+  border:1px solid rgba(22,182,127,.3);
+  color:#7ef0c3;
+  font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(22,182,127,.2),0 0 12px rgba(22,182,127,.5);}
+h1{
+  margin:0;
+  color:white;
+  font-size:clamp(40px,6.5vw,82px);
+  font-weight:900;
+  line-height:.93;
+  letter-spacing:-.06em;
+}
+h1 em{font-style:normal;color:var(--green);}
+.hero-copy p{
+  max-width:600px;
+  margin:24px auto 0;
+  color:rgba(255,255,255,.72);
+  font-size:18px;
+  line-height:1.6;
+}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px;}
+
+/* Hero stats */
+.hero-stats{
+  position:relative;z-index:2;
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+  margin-top:52px;
+  padding:0 28px 52px;
+}
+.stat{
+  text-align:center;
+  padding:20px 28px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);
+}
+.stat-val{font-size:34px;font-weight:900;letter-spacing:-.05em;color:white;}
+.stat-val em{font-style:normal;color:var(--green);}
+.stat-label{color:rgba(255,255,255,.6);font-size:13px;font-weight:700;margin-top:4px;}
+
+/* TRUST BAR */
+.trust{padding:38px 0 60px;text-align:center;}
+.trust p{margin:0 0 20px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.trust-row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;}
+.trust-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;
+  border-radius:14px;
+  background:white;
+  border:1px solid var(--line);
+  font-size:13px;font-weight:800;color:#404c5e;
+  box-shadow:0 4px 14px rgba(15,23,42,.05);
+}
+.trust-chip svg{color:var(--green);}
+
+/* KI SECTION */
+.section{padding:80px 0;}
+.section-head{max-width:780px;margin:0 auto 48px;text-align:center;}
+.section-kicker{color:var(--green-dark);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+h2{margin:0;color:var(--ink);font-size:clamp(32px,5vw,56px);line-height:.96;letter-spacing:-.065em;}
+h2 em{font-style:normal;color:var(--green);}
+.section-sub{margin:16px auto 0;max-width:620px;color:var(--muted);font-size:17px;}
+
+/* KI Feature cards */
+.ki-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.ki-card{
+  border-radius:24px;
+  padding:28px;
+  background:white;
+  border:1px solid rgba(15,23,42,.07);
+  box-shadow:0 12px 40px rgba(15,23,42,.06);
+  transition:transform .2s,box-shadow .2s;
+}
+.ki-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(15,23,42,.1);}
+.ki-icon{
+  width:52px;height:52px;border-radius:16px;
+  display:grid;place-items:center;
+  margin-bottom:20px;
+  font-size:22px;
+}
+.ki-icon.green{background:#e8f8f1;}
+.ki-icon.blue{background:#eef4ff;}
+.ki-icon.rose{background:#fef0f3;}
+.ki-card h3{margin:0 0 10px;color:var(--ink);font-size:22px;letter-spacing:-.04em;line-height:1.1;}
+.ki-card p{margin:0;color:var(--muted);line-height:1.6;}
+.ki-tag{
+  display:inline-block;
+  margin-top:14px;
+  padding:5px 11px;
+  border-radius:8px;
+  background:var(--soft);
+  color:var(--green-dark);
+  font-size:12px;font-weight:800;
 }
 
-.demo {
-  padding: 86px 0;
+/* DYNAMIC SECTION */
+.dynamic-section{
+  padding:80px 0;
+  background:var(--night);
+  color:white;
 }
-.demo-grid {
-  display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  gap: 22px;
-  align-items: stretch;
+.dynamic-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:52px;
+  align-items:center;
 }
-.demo-panel {
-  border-radius: 28px;
-  padding: 24px;
-  background: rgba(255,255,255,.82);
-  border: 1px solid rgba(15,23,42,.08);
-  box-shadow: var(--shadow);
+.dynamic-copy h2{color:white;}
+.dynamic-copy h2 em{color:var(--green);}
+.dynamic-copy .section-kicker{color:rgba(22,182,127,.9);}
+.dynamic-list{display:grid;gap:16px;margin-top:28px;}
+.dynamic-item{
+  display:grid;
+  grid-template-columns:44px 1fr;
+  gap:14px;
+  align-items:start;
+  padding:18px;
+  border-radius:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
 }
-.demo-panel h2 { text-align: left; font-size: clamp(34px, 4vw, 54px); }
-.demo-panel p { color: var(--muted); }
-.demo-note {
-  border-radius: 18px;
-  padding: 16px;
-  background: #eef7ff;
-  color: #2d4562;
-  font-size: 14px;
-  font-weight: 700;
+.dynamic-num{
+  width:44px;height:44px;
+  border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(22,182,127,.15);
+  color:var(--green);
+  font-weight:900;font-size:16px;
 }
-textarea {
-  width: 100%;
-  min-height: 164px;
-  resize: vertical;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 16px;
-  color: var(--text);
-  background: white;
+.dynamic-item strong{display:block;color:white;margin-bottom:4px;font-size:16px;}
+.dynamic-item span{color:rgba(255,255,255,.65);font-size:14px;line-height:1.5;}
+
+/* Brain visual */
+.brain-box{
+  position:relative;
+  border-radius:28px;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  padding:32px;
 }
-.demo-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-.demo-output {
-  min-height: 100%;
-  border-radius: 28px;
-  padding: 24px;
-  background: var(--night);
-  color: white;
-  box-shadow: 0 28px 90px rgba(8,9,21,.26);
+.brain-title{color:var(--green);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;}
+.flow-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:10px;
+  animation:slideIn .4s ease both;
 }
-.demo-output h3 { margin: 0 0 18px; font-size: 26px; letter-spacing: -.04em; }
-.timeline { display: grid; gap: 12px; }
-.step {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 12px;
-  align-items: start;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.08);
+.flow-item:nth-child(2){animation-delay:.15s;}
+.flow-item:nth-child(3){animation-delay:.3s;}
+.flow-item:nth-child(4){animation-delay:.45s;}
+.flow-item:nth-child(5){animation-delay:.6s;}
+@keyframes slideIn{from{opacity:0;transform:translateX(12px);}to{opacity:1;transform:none;}}
+.flow-icon{font-size:18px;flex-shrink:0;}
+.flow-text{font-size:14px;color:rgba(255,255,255,.85);}
+.flow-text strong{color:white;}
+.flow-badge{
+  margin-left:auto;flex-shrink:0;
+  padding:4px 9px;
+  border-radius:8px;
+  font-size:11px;font-weight:800;
 }
-.step b {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--green);
-  color: white;
+.badge-green{background:rgba(22,182,127,.2);color:var(--green);}
+.badge-blue{background:rgba(87,149,255,.2);color:#7ab3ff;}
+.badge-rose{background:rgba(240,130,154,.2);color:#f0829a;}
+.badge-amber{background:rgba(245,158,11,.2);color:#fbbf24;}
+
+/* APPOINTMENT AUTO SECTION */
+.appt-section{
+  padding:80px 0;
+  background:linear-gradient(135deg, #eef8f4 0%, #f0f7ff 100%);
 }
-.step strong { display: block; margin-bottom: 3px; }
-.step span { color: rgba(255,255,255,.72); font-size: 14px; }
-.ai-answer {
-  margin-top: 16px;
-  padding: 16px;
-  border-radius: 18px;
-  background: rgba(215,255,114,.1);
-  border: 1px solid rgba(215,255,114,.22);
-  color: rgba(255,255,255,.86);
-  white-space: pre-wrap;
+.appt-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
+}
+.appt-visual{
+  border-radius:28px;
+  overflow:hidden;
+  background:white;
+  border:1px solid rgba(22,182,127,.2);
+  box-shadow:0 24px 80px rgba(15,23,42,.1);
+}
+.appt-header{
+  padding:16px 20px;
+  background:var(--ink);
+  display:flex;align-items:center;gap:10px;
+}
+.appt-header-dot{width:10px;height:10px;border-radius:50%;}
+.appt-body{padding:20px;}
+.appt-route{display:grid;gap:6px;margin-bottom:16px;}
+.appt-stop{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  border-radius:12px;
+  background:var(--soft);
+  font-size:14px;
+}
+.appt-stop .stop-num{
+  width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--green);color:white;
+  font-size:12px;font-weight:900;flex-shrink:0;
+}
+.appt-stop .stop-name{font-weight:700;color:var(--ink);}
+.appt-stop .stop-time{margin-left:auto;color:var(--muted);font-size:12px;font-weight:700;}
+.appt-new{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px;
+  border-radius:14px;
+  background:rgba(22,182,127,.08);
+  border:1px solid rgba(22,182,127,.25);
+}
+.appt-new-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.appt-new-text{font-size:13px;color:#1a4a35;}
+.appt-new-text strong{display:block;font-size:14px;color:var(--green-dark);margin-bottom:3px;}
+.appt-label{
+  display:inline-block;
+  margin-top:8px;
+  padding:4px 8px;
+  border-radius:6px;
+  background:rgba(22,182,127,.15);
+  color:var(--green-dark);
+  font-size:11px;font-weight:800;
 }
 
-.split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: center;
+/* MAP DEMO SECTION */
+.map-section{padding:80px 0;background:var(--soft);}
+.map-layout{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:20px;
+  align-items:stretch;
+  min-height:560px;
 }
-.photo {
-  min-height: 420px;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(8,9,21,.08), rgba(8,9,21,.56)),
-    url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/The_Workshop_%28Unsplash%29.jpg/1280px-The_Workshop_%28Unsplash%29.jpg") center / cover no-repeat;
-  box-shadow: var(--shadow);
+.map-panel{
+  border-radius:24px;
+  background:white;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;flex-direction:column;
 }
-.copy-list { display: grid; gap: 14px; }
-.copy-item {
-  padding: 18px;
-  border-radius: 18px;
-  background: white;
-  border: 1px solid var(--line);
+.map-panel-header{
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  background:var(--ink);
+  color:white;
 }
-.copy-item strong { color: var(--ink); display: block; margin-bottom: 4px; }
-.copy-item span { color: var(--muted); }
+.map-panel-header h3{margin:0 0 4px;font-size:17px;letter-spacing:-.03em;}
+.map-panel-header p{margin:0;font-size:12px;color:rgba(255,255,255,.6);font-weight:600;}
+.scenario-list{padding:16px;display:grid;gap:10px;flex:1;}
+.scenario-btn{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px;
+  border-radius:14px;
+  border:1.5px solid var(--line);
+  background:white;
+  cursor:pointer;
+  text-align:left;
+  transition:all .2s;
+}
+.scenario-btn:hover{border-color:var(--green);background:#f0fbf7;}
+.scenario-btn.active{border-color:var(--green);background:#e8f8f1;}
+.scenario-btn.active .s-icon{background:var(--green);color:white;}
+.s-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:grid;place-items:center;flex-shrink:0;
+  background:var(--soft);
+  font-size:16px;
+  transition:all .2s;
+}
+.s-text strong{display:block;font-size:14px;color:var(--ink);margin-bottom:2px;}
+.s-text span{font-size:12px;color:var(--muted);}
+.map-info-box{
+  margin:0 16px 16px;
+  padding:14px;
+  border-radius:14px;
+  background:var(--soft);
+  border:1px solid var(--line);
+  font-size:13px;
+  min-height:72px;
+}
+.map-info-box .info-title{font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.map-info-box .info-body{color:var(--muted);line-height:1.5;}
+#map{
+  border-radius:24px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  flex:1;
+  min-height:520px;
+}
+@keyframes markerPop{from{transform:scale(0) translateY(10px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
+.leaflet-marker-icon.new-marker{animation:markerPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 
-.faq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.faq-card { border-radius: 20px; padding: 22px; background: white; border: 1px solid var(--line); }
-.faq-card h3 { margin: 0 0 8px; color: var(--ink); line-height: 1.05; }
-.faq-card p { margin: 0; color: var(--muted); }
-
-footer {
-  margin-top: 50px;
-  padding: 64px 0 34px;
-  background: var(--night);
-  color: white;
+/* DEMO EMAIL SECTION */
+.demo{padding:80px 0;}
+.demo-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:stretch;}
+.demo-panel{
+  border-radius:28px;padding:28px;
+  background:white;
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:var(--shadow);
 }
-.footer-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: start; }
-.footer-brand { display: inline-flex; align-items: center; gap: 10px; font-size: 28px; font-weight: 900; letter-spacing: -.05em; text-decoration: none; }
-.footer-brand img { width: 42px; height: 42px; border-radius: 13px; }
-.footer-grid p { max-width: 520px; color: rgba(255,255,255,.7); }
-.footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.footer-links h4 { margin: 0 0 10px; }
-.footer-links a { display: block; margin: 7px 0; color: rgba(255,255,255,.75); text-decoration: none; }
-.footer-links a:hover { color: white; }
-.footer-bottom { display: flex; justify-content: space-between; gap: 18px; margin-top: 54px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.55); font-size: 14px; }
-
-@media (max-width: 980px) {
-  .links { display: none; }
-  .hero-frame { min-height: auto; padding-bottom: 34px; }
-  .dash-grid, .cards, .demo-grid, .split, .faq-grid, .footer-grid { grid-template-columns: 1fr; }
-  .side-menu { display: none; }
-  .logo-row { grid-template-columns: repeat(2, 1fr); }
+.demo-panel h2{text-align:left;font-size:clamp(30px,3.5vw,46px);}
+.demo-panel p{color:var(--muted);}
+.demo-note{
+  border-radius:14px;padding:14px 16px;
+  background:#eef7ff;color:#2d4562;
+  font-size:13px;font-weight:700;
+  margin-bottom:16px;
 }
-@media (max-width: 640px) {
-  .shell { width: min(100% - 24px, 1160px); }
-  .nav { width: min(100% - 20px, 1120px); top: 10px; margin-top: 10px; }
-  .nav-actions .btn { display: none; }
-  .hero-copy { padding-top: 54px; }
-  h1 { font-size: clamp(42px, 15vw, 72px); }
-  .dashboard { width: calc(100% - 20px); }
-  .dash-top { align-items: flex-start; flex-direction: column; }
-  .dash-search { max-width: 100%; width: 100%; }
-  .section, .demo { padding: 58px 0; }
-  .footer-links, .footer-bottom { grid-template-columns: 1fr; flex-direction: column; }
+textarea{
+  width:100%;min-height:164px;resize:vertical;
+  border:1px solid var(--line);border-radius:14px;
+  padding:14px;color:var(--text);background:white;
+}
+.demo-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.demo-output{
+  border-radius:28px;padding:28px;
+  background:var(--night);color:white;
+  box-shadow:0 28px 90px rgba(8,9,21,.26);
+  display:flex;flex-direction:column;
+}
+.demo-output h3{margin:0 0 18px;font-size:24px;letter-spacing:-.04em;}
+.timeline{display:grid;gap:10px;}
+.step{
+  display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;
+  padding:14px;border-radius:14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+}
+.step b{
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--green);color:white;
+  font-size:14px;
+}
+.step strong{display:block;margin-bottom:3px;}
+.step span{color:rgba(255,255,255,.68);font-size:14px;}
+.ai-answer{
+  margin-top:16px;padding:16px;
+  border-radius:14px;
+  background:rgba(215,255,114,.07);
+  border:1px solid rgba(215,255,114,.18);
+  color:rgba(255,255,255,.82);
+  white-space:pre-wrap;
+  font-size:14px;
+  flex:1;
+}
+.ai-mode-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;
+  padding:6px 12px;border-radius:8px;
+  font-size:12px;font-weight:800;
+}
+.ai-mode-badge.live{background:rgba(22,182,127,.15);color:var(--green);}
+.ai-mode-badge.local{background:rgba(87,149,255,.12);color:#7ab3ff;}
+
+/* ABLAUF */
+.ablauf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.ablauf-card{
+  border-radius:22px;padding:28px;
+  background:white;
+  border:1px solid var(--line);
+  box-shadow:0 8px 30px rgba(15,23,42,.05);
+}
+.ablauf-num{
+  width:48px;height:48px;border-radius:16px;
+  display:grid;place-items:center;
+  background:var(--ink);color:white;
+  font-size:20px;font-weight:900;
+  margin-bottom:18px;
+}
+.ablauf-card h3{margin:0 0 8px;color:var(--ink);font-size:20px;letter-spacing:-.04em;}
+.ablauf-card p{margin:0;color:var(--muted);}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.faq-card{border-radius:20px;padding:24px;background:white;border:1px solid var(--line);}
+.faq-card h3{margin:0 0 8px;color:var(--ink);font-size:17px;line-height:1.15;}
+.faq-card p{margin:0;color:var(--muted);font-size:14px;}
+
+/* CONTACT FORM */
+.contact-section{
+  padding:80px 0;
+  background:linear-gradient(135deg,var(--ink) 0%,#0d1f3c 100%);
+  color:white;
+}
+.contact-inner{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:52px;
+  align-items:start;
+}
+.contact-copy h2{color:white;margin-bottom:16px;}
+.contact-copy h2 em{color:var(--green);}
+.contact-copy p{color:rgba(255,255,255,.7);max-width:480px;}
+.contact-points{display:grid;gap:12px;margin-top:24px;}
+.contact-point{
+  display:flex;align-items:center;gap:12px;
+  color:rgba(255,255,255,.8);
+  font-size:14px;font-weight:700;
+}
+.contact-point span{font-size:18px;}
+.contact-form{
+  background:white;border-radius:24px;
+  padding:32px;
+  box-shadow:0 24px 80px rgba(0,0,0,.25);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  background:white;
+  transition:border-color .2s;
+  outline:none;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--green);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.form-submit{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  background:var(--ink);
+  color:white;
+  font-size:16px;font-weight:800;
+  border:0;cursor:pointer;
+  transition:background .2s,transform .2s;
+}
+.form-submit:hover{background:var(--green-dark);transform:translateY(-1px);}
+.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
+.form-success{
+  display:none;
+  padding:20px;border-radius:14px;
+  background:#e8f8f1;
+  border:1px solid rgba(22,182,127,.3);
+  color:var(--green-dark);
+  text-align:center;
+  font-weight:700;
+}
+
+/* FOOTER */
+footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
+.footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:start;}
+.footer-brand{display:inline-flex;align-items:center;gap:10px;font-size:26px;font-weight:900;letter-spacing:-.05em;text-decoration:none;color:white;}
+.footer-brand img{width:40px;height:40px;border-radius:12px;}
+.footer-grid p{max-width:500px;color:rgba(255,255,255,.65);margin-top:12px;}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.footer-links h4{margin:0 0 10px;color:white;}
+.footer-links a{display:block;margin:7px 0;color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;}
+.footer-links a:hover{color:white;}
+.footer-bottom{display:flex;justify-content:space-between;gap:18px;margin-top:52px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:13px;}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .links{display:none;}
+  .ki-grid,.ablauf-grid,.faq-grid{grid-template-columns:1fr;}
+  .dynamic-grid,.appt-grid,.contact-inner{grid-template-columns:1fr;}
+  .map-layout{grid-template-columns:1fr;grid-template-rows:auto 420px;}
+  #map{min-height:420px;}
+  .demo-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .shell{width:min(100% - 24px,1160px);}
+  .nav{width:min(100% - 20px,1120px);top:10px;margin-top:10px;}
+  .nav-actions .btn.ghost{display:none;}
+  .hero-copy{padding-top:64px;}
+  h1{font-size:clamp(38px,13vw,68px);}
+  .hero-stats{gap:12px;}
+  .stat{padding:14px 20px;}
+  .section,.demo,.map-section,.dynamic-section,.appt-section{padding:58px 0;}
+  .footer-links,.footer-bottom{flex-direction:column;}
 }
 </style>
 </head>
 <body>
+
 <nav class="nav">
   <a class="brand" href="index.html">
     <img src="public/assets/brand/small-logo.png" alt="AutomateX Logo">
     AutomateX
   </a>
   <div class="links">
-    <a href="#funktionen">Funktionen</a>
-    <a href="#demo">Demo</a>
+    <a href="#ki-features">KI-Funktionen</a>
+    <a href="#map-demo">Live-Demo</a>
     <a href="#ablauf">Ablauf</a>
     <a href="#fragen">FAQ</a>
   </div>
   <div class="nav-actions">
     <a class="btn ghost small" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn small" href="#kontakt">Analyse</a>
+    <a class="btn green small" href="#kontakt">Kostenlose Analyse</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <header class="hero">
   <div class="shell">
     <div class="hero-frame">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-glow2"></div>
+
+      <!-- Animated route lines -->
+      <svg class="route-svg" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice">
+        <path class="route-path" d="M 180 580 Q 320 420 480 300 Q 620 200 780 160 Q 900 130 1040 180" fill="none" stroke="#16b67f" stroke-width="2"/>
+        <path class="route-path delay1" d="M 100 620 Q 250 500 400 400 Q 600 280 820 220 Q 980 180 1100 250" fill="none" stroke="#5795ff" stroke-width="1.5"/>
+        <path class="route-path delay2" d="M 200 640 Q 450 500 650 380 Q 820 280 950 300 Q 1050 320 1150 280" fill="none" stroke="#16b67f" stroke-width="1.5" opacity=".6"/>
+        <!-- Stop dots -->
+        <circle class="pulse-dot" cx="480" cy="300" r="5" fill="#16b67f"/>
+        <circle class="pulse-dot d2" cx="780" cy="160" r="5" fill="#16b67f"/>
+        <circle class="pulse-dot d3" cx="1040" cy="180" r="5" fill="#5795ff"/>
+        <circle class="pulse-dot d4" cx="650" cy="380" r="5" fill="#16b67f"/>
+        <!-- Start/end markers -->
+        <circle cx="180" cy="580" r="7" fill="none" stroke="#16b67f" stroke-width="2"/>
+        <circle cx="180" cy="580" r="3" fill="#16b67f"/>
+        <circle cx="1040" cy="180" r="7" fill="none" stroke="#5795ff" stroke-width="2"/>
+        <circle cx="1040" cy="180" r="3" fill="#5795ff"/>
+      </svg>
+
       <div class="hero-copy">
-        <div class="eyebrow"><span class="status-dot"></span> KI-Routenplanung fuer Disposition</div>
-        <h1>Planen Sie Touren, bevor der Tag kippt.</h1>
-        <p>AutomateX liest Tageslisten und Absagen, optimiert Stopps nach Zeitfenstern und zeigt sofort, welche Route jetzt sinnvoll ist.</p>
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          KI-gestützte Routenoptimierung · Live &amp; Dynamisch
+        </div>
+        <h1>Die <em>KI</em> plant<br>Ihre Touren<br>im Hintergrund.</h1>
+        <p>AutomateX lernt täglich, welche Routen am effizientesten sind – reagiert in Echtzeit auf Absagen und schlägt Ihren Fahrern automatisch neue Termine vor, die perfekt auf die bestehende Route passen.</p>
         <div class="hero-actions">
-          <a class="btn" href="#demo">Demo direkt testen</a>
-          <a class="btn ghost" href="#kontakt">Routing-Analyse anfragen</a>
+          <a class="btn green" href="#map-demo">Demo live erleben</a>
+          <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#kontakt">Kostenlose Analyse</a>
         </div>
       </div>
 
-      <div class="dashboard" aria-label="AutomateX Routing Dashboard Vorschau">
-        <div class="dash-top">
-          <div class="dash-title"><span>AX</span> Disposition heute</div>
-          <div class="dash-search">Absage E-Mail erkannt: Termin Bottrop 11:30</div>
-          <a class="btn green small" href="#demo">Neu planen</a>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-val"><em>-43%</em></div>
+          <div class="stat-label">Planungsaufwand</div>
         </div>
-        <div class="dash-grid">
-          <div class="side-menu">
-            <div>Dashboard</div><div>Touren</div><div>E-Mails</div><div>Fahrer</div><div>Reports</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Planungsaufwand reduziert</div>
-            <div class="metric-value">-43%</div>
-            <div class="bars" aria-hidden="true"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-          </div>
-          <div class="ai-card">
-            <div class="metric-label">KI-Konfidenz</div>
-            <div class="ai-score"><span>82%</span></div>
-            <p style="margin:0;color:#566273;font-weight:700;">Bottrop entfernen, Essen vorziehen, Duisburg nach 12:00 einplanen.</p>
-          </div>
-          <div></div>
-          <div class="route-card" style="grid-column: span 2;">
-            <div class="route-row"><b>1</b><div><strong>Essen Nord</strong><br><small>09:20 - 09:45</small></div><small>12 km</small></div>
-            <div class="route-row"><b>2</b><div><strong>Duisburg Service</strong><br><small>10:40 - 11:20</small></div><small>29 km</small></div>
-            <div class="route-row"><b>3</b><div><strong>Bochum Eilauftrag</strong><br><small>12:35 - 13:05</small></div><small>46 km</small></div>
-          </div>
+        <div class="stat">
+          <div class="stat-val"><em>+28%</em></div>
+          <div class="stat-label">Stopps pro Tour</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val"><em>&lt;5s</em></div>
+          <div class="stat-label">KI-Reaktionszeit</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val"><em>100%</em></div>
+          <div class="stat-label">Automatisch im Hintergrund</div>
         </div>
       </div>
     </div>
   </div>
 </header>
 
-<main>
-  <section class="logos">
-    <div class="shell">
-      <p>Geeignet fuer Teams, die jeden Morgen mit neuen Stopps, Fahrerwechseln und Absagen arbeiten.</p>
-      <div class="logo-row">
-        <div class="logo-chip">CSV</div>
-        <div class="logo-chip">E-Mail</div>
-        <div class="logo-chip">Zeitfenster</div>
-        <div class="logo-chip">Fahrer</div>
-        <div class="logo-chip">Live-Plan</div>
+<!-- TRUST BAR -->
+<section class="trust">
+  <div class="shell">
+    <p>Geeignet für Teams, die täglich mit Zeitfenstern, Absagen und neuen Aufträgen arbeiten</p>
+    <div class="trust-row">
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        CSV &amp; Excel Import
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        E-Mail Erkennung (KI)
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Echtzeit-Umplanung
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Auto-Terminvorschläge
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        OpenStreetMap Routing
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="funktionen">
-    <div class="shell">
-      <div class="section-head">
-        <div class="section-kicker">Funktionen</div>
-        <h2>Alles, was eine Tour im Alltag veraendert, wird Teil der Planung.</h2>
+<!-- KI FEATURES -->
+<section class="section" id="ki-features">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">KI-Intelligenz</div>
+      <h2>Das System lernt –<br><em>für immer bessere Routen.</em></h2>
+      <p class="section-sub">AutomateX ist kein statisches Tool. Die KI analysiert kontinuierlich Fahrverhalten, Verkehr und Kundenmuster – und wird täglich effizienter.</p>
+    </div>
+    <div class="ki-grid">
+      <div class="ki-card">
+        <div class="ki-icon green">🧠</div>
+        <h3>KI lernt optimale Routen</h3>
+        <p>Die KI erkennt langfristige Muster: Welche Reihenfolge spart am meisten Zeit? Welche Straße ist morgens langsam? Welcher Kunde braucht wirklich 30 Minuten? Das System verbessert sich mit jeder Tour automatisch.</p>
+        <div class="ki-tag">Kontinuierliches Lernen</div>
       </div>
-      <div class="cards">
-        <article class="card"><div class="card-icon">01</div><h3>Absagen verstehen</h3><p>Eine E-Mail reicht: Die KI erkennt betroffene Stopps, Zeitfenster und freie Kapazitaeten.</p></article>
-        <article class="card"><div class="card-icon">02</div><h3>Routen neu sortieren</h3><p>Stopps werden nach Entfernung, Prioritaet, Servicezeit und Fahrerprofil neu bewertet.</p></article>
-        <article class="card"><div class="card-icon">03</div><h3>Entscheidung erklaeren</h3><p>Die Demo zeigt nicht nur eine Route, sondern auch warum die Aenderung sinnvoll ist.</p></article>
+      <div class="ki-card">
+        <div class="ki-icon blue">🚦</div>
+        <h3>KI-Verkehrsvorhersage</h3>
+        <p>Historische Verkehrsdaten fließen in jede Routenberechnung ein – nicht reaktiv, sondern vorausschauend. Die KI weiß, dass die A40 montags um 7:30 Uhr staut, und plant Ihre Route bereits darum herum.</p>
+        <div class="ki-tag">Prädiktive Analyse</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon rose">📅</div>
+        <h3>Automatische Terminvorschläge</h3>
+        <p>Freie Zeitslots werden nicht verschwendet: Die KI wählt gezielt Kunden aus, die geografisch nah an der bestehenden Route liegen und in das freie Zeitfenster passen – und schickt automatisch Terminvorschläge.</p>
+        <div class="ki-tag">Hintergrund-Automatisierung</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="demo" id="demo">
-    <div class="shell demo-grid">
-      <div class="demo-panel">
-        <div class="section-kicker">Live-Demo</div>
-        <h2>E-Mail rein, Route neu geplant.</h2>
-        <p>Nutzen Sie die Beispiel-Absage oder schreiben Sie eine eigene Nachricht. Mit OPENROUTER_API_KEY in Vercel antwortet die Demo ueber OpenRouter; bei Rate-Limits bleibt sie mit einem lokalen Plan nutzbar.</p>
-        <div class="demo-note">OpenRouter-Modell: <strong>openrouter/free</strong>. Den Key in Vercel unter Project Settings - Environment Variables als <strong>OPENROUTER_API_KEY</strong> eintragen.</div>
-        <textarea id="demoMail">Betreff: Terminabsage heute
+<!-- DYNAMIC / WHY DYNAMIC -->
+<section class="dynamic-section" id="warum-dynamisch">
+  <div class="shell">
+    <div class="dynamic-grid">
+      <div class="dynamic-copy">
+        <div class="section-kicker">Warum dynamisch?</div>
+        <h2>Die KI als <em>intelligente Schaltzentrale</em> – reagiert in Echtzeit.</h2>
+        <div class="dynamic-list">
+          <div class="dynamic-item">
+            <div class="dynamic-num">→</div>
+            <div>
+              <strong>Absagen &amp; Stornierungen</strong>
+              <span>Sobald eine Absage per E-Mail eingeht, entfernt die KI den Stop, berechnet die Route neu und füllt die freie Zeit mit dem nächstbesten Termin – ohne manuellen Eingriff.</span>
+            </div>
+          </div>
+          <div class="dynamic-item">
+            <div class="dynamic-num">→</div>
+            <div>
+              <strong>Neue Aufträge &amp; Eilaufträge</strong>
+              <span>Dringende Jobs werden nahtlos in die laufende Tagesplanung integriert. Die KI findet das optimale Zeitfenster – ohne andere Termine zu gefährden.</span>
+            </div>
+          </div>
+          <div class="dynamic-item">
+            <div class="dynamic-num">→</div>
+            <div>
+              <strong>Stau &amp; Verkehrsstörungen</strong>
+              <span>Echtzeit-Verkehrsdaten fließen kontinuierlich ein. Die Route wird automatisch umgeleitet – der Fahrer merkt es erst, wenn die neue Ansage kommt.</span>
+            </div>
+          </div>
+          <div class="dynamic-item">
+            <div class="dynamic-num">→</div>
+            <div>
+              <strong>Terminplanung läuft im Hintergrund</strong>
+              <span>Wenn der Kalender eine Lücke hat, sucht die KI aktiv nach passenden Kunden in der Umgebung der Tour – und schlägt ihnen automatisch einen Termin vor. Vollautomatisch, wenn gewünscht.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="brain-box">
+        <div class="brain-title">⚡ KI-System – Live-Status</div>
+        <div class="flow-item">
+          <span class="flow-icon">📨</span>
+          <span class="flow-text"><strong>E-Mail analysiert:</strong> Absage Bottrop 11:30</span>
+          <span class="flow-badge badge-amber">Erkannt</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-icon">🗺️</span>
+          <span class="flow-text"><strong>Route neu berechnet:</strong> 3 Alternativen geprüft</span>
+          <span class="flow-badge badge-green">Optimiert</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-icon">📍</span>
+          <span class="flow-text"><strong>Freies Zeitfenster:</strong> 11:30–13:00 identifiziert</span>
+          <span class="flow-badge badge-blue">Gefunden</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-icon">🔍</span>
+          <span class="flow-text"><strong>KI sucht Neukunden</strong> in 8km Radius um Route</span>
+          <span class="flow-badge badge-blue">Läuft</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-icon">✉️</span>
+          <span class="flow-text"><strong>Terminvorschlag gesendet:</strong> Kunde Mayer, Castrop-Rauxel</span>
+          <span class="flow-badge badge-rose">Auto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTO APPOINTMENT SECTION -->
+<section class="appt-section" id="terminplanung">
+  <div class="shell">
+    <div class="appt-grid">
+      <div>
+        <div class="section-kicker">Automatische Terminplanung</div>
+        <h2>Die KI füllt<br><em>freie Slots selbst.</em></h2>
+        <p style="color:var(--muted);margin-top:16px;line-height:1.7;">Wenn durch eine Absage ein Zeitfenster frei wird, sucht das System automatisch nach Kunden, die:</p>
+        <ul style="color:var(--muted);line-height:2;padding-left:20px;">
+          <li><strong style="color:var(--ink);">Geografisch nah</strong> an der bestehenden Route liegen</li>
+          <li><strong style="color:var(--ink);">Zeitlich in den freien Slot</strong> passen (inkl. Puffer)</li>
+          <li><strong style="color:var(--ink);">Priorisiert werden</strong> nach Dringlichkeit oder Umsatzpotenzial</li>
+        </ul>
+        <p style="color:var(--muted);margin-top:16px;line-height:1.7;">Der Terminvorschlag wird automatisch an den Kunden geschickt. Sobald der Kunde zusagt, integriert die KI den neuen Stopp nahtlos in die laufende Route – <strong>ohne dass jemand eingreifen muss.</strong></p>
+        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+          <a class="btn green" href="#map-demo">Demo ansehen</a>
+          <a class="btn ghost" href="#kontakt">Analyse anfragen</a>
+        </div>
+      </div>
+      <div class="appt-visual">
+        <div class="appt-header">
+          <div class="appt-header-dot" style="background:#ff5f56;"></div>
+          <div class="appt-header-dot" style="background:#ffbd2e;margin-left:6px;"></div>
+          <div class="appt-header-dot" style="background:#27c93f;margin-left:6px;"></div>
+          <span style="margin-left:12px;font-size:13px;color:rgba(255,255,255,.7);">AutomateX · Tagesplanung</span>
+        </div>
+        <div class="appt-body">
+          <div style="font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Aktuelle Route</div>
+          <div class="appt-route">
+            <div class="appt-stop">
+              <div class="stop-num">1</div>
+              <span class="stop-name">Müller GmbH, Bochum</span>
+              <span class="stop-time">09:00 – 10:30</span>
+            </div>
+            <div class="appt-stop" style="background:#fff3f5;border:1px dashed #f0829a;opacity:.6;">
+              <div class="stop-num" style="background:#f0829a;">✕</div>
+              <span class="stop-name" style="text-decoration:line-through;color:var(--muted);">Weber &amp; Söhne, Bottrop</span>
+              <span class="stop-time" style="color:#f0829a;">Abgesagt</span>
+            </div>
+            <div class="appt-stop">
+              <div class="stop-num">2</div>
+              <span class="stop-name">Schmidt Haustechnik, Dortmund</span>
+              <span class="stop-time">12:30 – 14:00</span>
+            </div>
+            <div class="appt-stop">
+              <div class="stop-num">3</div>
+              <span class="stop-name">Fischer Service, Duisburg</span>
+              <span class="stop-time">14:30 – 16:00</span>
+            </div>
+          </div>
+          <div class="appt-new">
+            <div class="appt-new-icon">🤖</div>
+            <div class="appt-new-text">
+              <strong>KI-Terminvorschlag (automatisch)</strong>
+              Mayer GmbH, Castrop-Rauxel liegt 3,8 km von der Route entfernt. Slot 11:15–12:15 passt perfekt. Terminanfrage automatisch versendet.
+              <div class="appt-label">✓ Nahe der Route · ✓ Zeitfenster frei · ✓ Kunde priorisiert</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP DEMO -->
+<section class="map-section" id="map-demo">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Interaktive Live-Demo</div>
+      <h2>Sehen Sie, wie die <em>KI reagiert.</em></h2>
+      <p class="section-sub">Wählen Sie ein Szenario aus und beobachten Sie, wie das System die Route in Echtzeit anpasst – mit Begründung.</p>
+    </div>
+    <div class="map-layout">
+      <div class="map-panel">
+        <div class="map-panel-header">
+          <h3>🗺️ Szenarien</h3>
+          <p>Klicken um Route live anzupassen</p>
+        </div>
+        <div class="scenario-list">
+          <button class="scenario-btn active" data-scenario="start" type="button">
+            <div class="s-icon">🟢</div>
+            <div class="s-text">
+              <strong>Ausgangslage</strong>
+              <span>5 Stopps, optimierte Reihenfolge</span>
+            </div>
+          </button>
+          <button class="scenario-btn" data-scenario="cancel" type="button">
+            <div class="s-icon">❌</div>
+            <div class="s-text">
+              <strong>Absage: Bottrop 10:30</strong>
+              <span>KI entfernt Stopp &amp; plant neu</span>
+            </div>
+          </button>
+          <button class="scenario-btn" data-scenario="new-customer" type="button">
+            <div class="s-icon">✨</div>
+            <div class="s-text">
+              <strong>Neuer Kunde in der Nähe</strong>
+              <span>KI fügt nahgelegenen Termin ein</span>
+            </div>
+          </button>
+          <button class="scenario-btn" data-scenario="traffic" type="button">
+            <div class="s-icon">🚦</div>
+            <div class="s-text">
+              <strong>Stau erkannt (A40)</strong>
+              <span>KI leitet automatisch um</span>
+            </div>
+          </button>
+        </div>
+        <div class="map-info-box" id="mapInfoBox">
+          <div class="info-title">ℹ️ Ausgangslage</div>
+          <div class="info-body">Route für heute: 5 Stopps im Ruhrgebiet, bereits nach Zeitfenster und Distanz optimiert. Gesamtstrecke: 87 km.</div>
+        </div>
+      </div>
+      <div id="map"></div>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL DEMO -->
+<section class="demo" id="demo">
+  <div class="shell demo-grid">
+    <div class="demo-panel">
+      <div class="section-kicker">KI-Demo</div>
+      <h2>E-Mail rein,<br>Route neu geplant.</h2>
+      <p>Fügen Sie eine Absage-E-Mail ein – die KI analysiert, welche Stopps betroffen sind, und schlägt sofort eine neue Route vor.</p>
+      <textarea id="demoMail">Betreff: Terminabsage heute
 
 Hallo AutomateX,
-unser Termin bei Kunde Bottrop Zentrallager um 11:30 Uhr faellt heute aus. Bitte den Fahrer nicht mehr dorthin schicken. Wenn moeglich, den Eilauftrag Bochum frueher einplanen.
+unser Termin bei Kunde Bottrop Zentrallager um 11:30 Uhr fällt heute aus. Bitte den Fahrer nicht mehr dorthin schicken. Wenn möglich, den Eilauftrag Bochum früher einplanen.
 
-Viele Gruesse
+Viele Grüße
 Disposition</textarea>
-        <div class="demo-controls">
-          <button class="btn" id="runDemo" type="button">Absage verarbeiten</button>
-          <button class="btn ghost" id="resetDemo" type="button">Beispiel laden</button>
+      <div class="demo-controls">
+        <button class="btn green" id="runDemo" type="button">▶ Absage verarbeiten</button>
+        <button class="btn ghost" id="resetDemo" type="button">Beispiel laden</button>
+      </div>
+    </div>
+    <div class="demo-output">
+      <h3>🤖 KI-Reaktion des Systems</h3>
+      <div class="timeline" id="demoSteps">
+        <div class="step"><b>1</b><div><strong>E-Mail analysiert</strong><span>Bottrop Zentrallager um 11:30 als Absage erkannt.</span></div></div>
+        <div class="step"><b>2</b><div><strong>Route angepasst</strong><span>Bottrop entfernt, freie Zeit vor Mittag gefunden.</span></div></div>
+        <div class="step"><b>3</b><div><strong>KI-Vorschlag</strong><span>Bochum Eilauftrag vorziehen und Duisburg danach fahren.</span></div></div>
+      </div>
+      <div class="ai-answer" id="aiAnswer">Bereit. Klicken Sie auf "Absage verarbeiten", um die KI zu starten.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABLAUF -->
+<section class="section" id="ablauf">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Ablauf</div>
+      <h2>In drei Schritten zur<br><em>optimierten Pilottour.</em></h2>
+    </div>
+    <div class="ablauf-grid">
+      <div class="ablauf-card">
+        <div class="ablauf-num">1</div>
+        <h3>Tagesliste importieren</h3>
+        <p>CSV, Excel oder ein direkter Export aus dem bestehenden System. Die KI liest Zeitfenster, Adressen und Prioritäten automatisch aus.</p>
+      </div>
+      <div class="ablauf-card">
+        <div class="ablauf-num">2</div>
+        <h3>Regeln &amp; Automatisierungen konfigurieren</h3>
+        <p>Zeitfenster, Servicezeiten, Fahrerprofil und wie aggressiv die KI freie Slots mit Terminvorschlägen füllen soll – alles einstellbar.</p>
+      </div>
+      <div class="ablauf-card">
+        <div class="ablauf-num">3</div>
+        <h3>Nutzen messen</h3>
+        <p>Kilometer, Fahrzeit, Planungsaufwand und automatisch gebuchte Zusatztermine – vorher/nachher transparent verglichen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="fragen" style="background:var(--soft);">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">FAQ</div>
+      <h2>Häufige Fragen.</h2>
+    </div>
+    <div class="faq-grid">
+      <article class="faq-card">
+        <h3>Wie lernt die KI unsere Routen?</h3>
+        <p>Das System analysiert abgeschlossene Touren: Welche Reihenfolge hat tatsächlich am wenigsten Zeit gekostet? Diese Daten fließen in zukünftige Optimierungen ein – kontinuierlich und automatisch.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Was passiert bei einer Absage?</h3>
+        <p>Die KI erkennt Absagen in E-Mails oder direkt über die App, entfernt den Stopp sofort aus der Route und berechnet die optimale Reihenfolge für den restlichen Tag neu – in unter 5 Sekunden.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Wie funktioniert die Auto-Terminplanung?</h3>
+        <p>Nach einer Absage sucht die KI Kunden im Umkreis der bestehenden Route, die in das freie Zeitfenster passen. Auf Wunsch werden Terminvorschläge automatisch versendet – ohne manuellen Eingriff.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Welche Daten braucht das System?</h3>
+        <p>Eine einfache CSV- oder Excel-Datei mit Kundenadressen, Zeitfenstern und optionalen Prioritäten reicht für den Start. Kein aufwändiges Onboarding nötig.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Funktioniert es auch ohne Internet?</h3>
+        <p>Die Kernfunktionen laufen lokal. Für KI-E-Mail-Analyse und Verkehrsvorhersage wird eine Internetverbindung benötigt – die eigentliche Routenoptimierung aber nicht.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Für wen ist AutomateX geeignet?</h3>
+        <p>Für Handwerksbetriebe, Serviceflotten und Dispositionsteams, die täglich mehrere Fahrer mit 5–50 Stopps koordinieren und dabei mit Absagen, Eilaufträgen und Zeitdruck umgehen müssen.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-section" id="kontakt">
+  <div class="shell">
+    <div class="contact-inner">
+      <div class="contact-copy">
+        <div class="section-kicker" style="color:rgba(22,182,127,.9);">Kontakt</div>
+        <h2>Starten Sie Ihren<br><em>KI-Routing-Pilot.</em></h2>
+        <p>Schicken Sie uns Ihre Tagesliste oder beschreiben Sie, wo Ihre Disposition aktuell Zeit verliert. Wir analysieren Ihre Route kostenlos und zeigen, wie viel die KI einsparen kann.</p>
+        <div class="contact-points">
+          <div class="contact-point"><span>📍</span> Frederik Ernst, Essen (NRW)</div>
+          <div class="contact-point"><span>✉️</span> frederik.ernst27@gmail.com</div>
+          <div class="contact-point"><span>🔗</span> linkedin.com/in/frederik-ernst-64597b356</div>
+        </div>
+        <div style="margin-top:32px;">
+          <a class="btn" style="background:rgba(22,182,127,.15);color:var(--green);border:1px solid rgba(22,182,127,.3);" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Auf LinkedIn melden</a>
         </div>
       </div>
-      <div class="demo-output">
-        <h3>Reaktion des Systems</h3>
-        <div class="timeline" id="demoSteps">
-          <div class="step"><b>1</b><div><strong>E-Mail analysiert</strong><span>Bottrop Zentrallager um 11:30 als Absage erkannt.</span></div></div>
-          <div class="step"><b>2</b><div><strong>Route angepasst</strong><span>Bottrop entfernt, freie Zeit vor Mittag gefunden.</span></div></div>
-          <div class="step"><b>3</b><div><strong>KI-Vorschlag</strong><span>Bochum Eilauftrag vorziehen und Duisburg danach fahren.</span></div></div>
+      <div class="contact-form">
+        <div class="form-success" id="formSuccess">
+          ✅ Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
         </div>
-        <div class="ai-answer" id="aiAnswer">Bereit. Klicken Sie auf "Absage verarbeiten", um die Demo auszufuehren.</div>
+        <form id="contactForm" action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Routing-Analyse Anfrage – AutomateX">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_autoresponse" value="Vielen Dank für Ihre Anfrage! Ich werde mich innerhalb von 24 Stunden bei Ihnen melden. – Frederik Ernst, AutomateX">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name *</label>
+              <input type="text" name="name" placeholder="Ihr Name" required>
+            </div>
+            <div class="form-group">
+              <label>Firma</label>
+              <input type="text" name="firma" placeholder="Ihr Unternehmen">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>E-Mail *</label>
+            <input type="email" name="email" placeholder="ihre@email.de" required>
+          </div>
+          <div class="form-group">
+            <label>Anzahl Fahrer / Stopps pro Tag</label>
+            <select name="groesse">
+              <option value="">Bitte auswählen</option>
+              <option>1–2 Fahrer, 5–15 Stopps</option>
+              <option>3–5 Fahrer, 15–40 Stopps</option>
+              <option>6–10 Fahrer, 40–100 Stopps</option>
+              <option>Über 10 Fahrer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Wo verliert Ihre Disposition aktuell die meiste Zeit? *</label>
+            <textarea name="nachricht" placeholder="z.B. Absagen morgens, manuelle Umplanung, keine Zeitfenster-Übersicht..." required></textarea>
+          </div>
+          <button class="form-submit" type="submit">Kostenlose Routing-Analyse anfragen →</button>
+          <p class="form-note">Kein Spam. Keine Weitergabe Ihrer Daten. Antwort innerhalb von 24 Stunden.</p>
+        </form>
       </div>
     </div>
-  </section>
-
-  <section class="section" id="ablauf">
-    <div class="shell split">
-      <div class="photo" role="img" aria-label="Logistiklager mit Paketen"></div>
-      <div>
-        <div class="section-kicker">Ablauf</div>
-        <h2>Vom Tageschaos zur messbaren Pilotroute.</h2>
-        <div class="copy-list">
-          <div class="copy-item"><strong>1. Tagesliste importieren</strong><span>CSV, Excel oder ein einfacher Export aus dem bestehenden System reichen fuer den Start.</span></div>
-          <div class="copy-item"><strong>2. Regeln definieren</strong><span>Zeitfenster, Servicezeiten, Fahrer, Fahrzeuge und Prioritaeten werden abgebildet.</span></div>
-          <div class="copy-item"><strong>3. Nutzen messen</strong><span>Kilometer, Fahrzeit, Planungszeit und Reaktionsgeschwindigkeit werden vorher/nachher verglichen.</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="fragen">
-    <div class="shell">
-      <div class="section-head">
-        <div class="section-kicker">FAQ</div>
-        <h2>Was Sie wissen sollten.</h2>
-      </div>
-      <div class="faq-grid">
-        <article class="faq-card"><h3>Warum kam vorher 403 Forbidden?</h3><p>Ein Vercel-Dashboard-Link ist nicht die oeffentliche Website. Oeffentlich sollte die Vercel Deployment-Domain oder eigene Domain geteilt werden.</p></article>
-        <article class="faq-card"><h3>Ist OpenRouter im Frontend sichtbar?</h3><p>Nein. Der Key gehoert in die Vercel-Umgebung und wird nur von der API-Funktion genutzt.</p></article>
-        <article class="faq-card"><h3>Gibt es Impressum und Datenschutz?</h3><p>Ja. Beide Seiten sind im Footer verlinkt und liegen als eigene HTML-Dateien im public-Ordner.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="kontakt">
-    <div class="shell demo-panel" style="text-align:center;">
-      <div class="section-kicker">Kontakt</div>
-      <h2>Routing-Pilot fuer Ihr Team starten.</h2>
-      <p style="max-width:680px;margin:16px auto 24px;color:var(--muted);">Senden Sie eine Beispiel-Tagesliste oder beschreiben Sie, wo Ihre Disposition aktuell Zeit verliert.</p>
-      <div class="hero-actions">
-        <a class="btn green" href="mailto:frederik.ernst27@gmail.com?subject=Routing-Analyse%20AutomateX&body=Hallo%20Frederik%2C%0A%0Aich%20interessiere%20mich%20fuer%20eine%20Routing-Analyse%20mit%20AutomateX.%0A%0AAktuelle%20Situation%3A%20%0AAnzahl%20Stopps%20pro%20Tag%3A%20%0AWichtige%20Zeitfenster%20oder%20Regeln%3A%20%0A%0ABitte%20melde%20dich%20mit%20einem%20Vorschlag%20fuer%20die%20naechsten%20Schritte.%0A%0AViele%20Gruesse">Routing-Analyse anfragen</a>
-        <a class="btn ghost" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Frederik Ernst auf LinkedIn</a>
-      </div>
-    </div>
-  </section>
-</main>
+  </div>
+</section>
 
 <footer>
   <div class="shell">
     <div class="footer-grid">
       <div>
-        <a class="footer-brand" href="index.html"><img src="public/assets/brand/small-logo.png" alt="AutomateX Logo">AutomateX</a>
-        <p>KI-Routenplanung fuer Disposition, Serviceflotten und Lieferlogistik. Gebaut von Frederik Ernst, Essen.</p>
+        <a class="footer-brand" href="index.html">
+          <img src="public/assets/brand/small-logo.png" alt="AutomateX Logo">
+          AutomateX
+        </a>
+        <p>KI-gestützte Routenplanung für Handwerk, Serviceflotten und Disposition. Gebaut von Frederik Ernst, Essen.</p>
       </div>
       <div class="footer-links">
         <div>
           <h4>Website</h4>
-          <a href="#funktionen">Funktionen</a>
-          <a href="#demo">Demo</a>
+          <a href="#ki-features">KI-Funktionen</a>
+          <a href="#map-demo">Live-Demo</a>
           <a href="#ablauf">Ablauf</a>
+          <a href="#fragen">FAQ</a>
         </div>
         <div>
           <h4>Rechtliches</h4>
@@ -611,48 +1148,56 @@ Disposition</textarea>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 AutomateX Solutions</span>
-      <span>OPENROUTER_API_KEY in Vercel eintragen, um die KI-Demo live zu aktivieren; bei Rate-Limits laeuft die Demo lokal weiter.</span>
+      <span>© 2026 AutomateX Solutions – Frederik Ernst</span>
+      <span>KI-Routenplanung · Powered by OpenRouter &amp; OpenStreetMap</span>
     </div>
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLcE=" crossorigin=""></script>
 <script>
+/* ===== EMAIL DEMO ===== */
 const sampleMail = document.getElementById("demoMail").value;
 const steps = document.getElementById("demoSteps");
 const answer = document.getElementById("aiAnswer");
 const runButton = document.getElementById("runDemo");
 
 function setSteps(items) {
-  steps.innerHTML = items.map((item, index) => `
-    <div class="step"><b>${index + 1}</b><div><strong>${item.title}</strong><span>${item.text}</span></div></div>
+  steps.innerHTML = items.map((item, i) => `
+    <div class="step"><b>${i+1}</b><div><strong>${item.title}</strong><span>${item.text}</span></div></div>
   `).join("");
 }
 
 async function runDemo() {
   const email = document.getElementById("demoMail").value.trim();
   runButton.disabled = true;
-  runButton.textContent = "Wird verarbeitet...";
-  answer.textContent = "E-Mail wird analysiert und Route wird neu bewertet...";
+  runButton.textContent = "KI analysiert...";
+  answer.textContent = "E-Mail wird analysiert und Route wird neu berechnet...";
   try {
-    const response = await fetch("/api/route-demo", {
+    const res = await fetch("/api/route-demo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email })
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Demo konnte nicht ausgefuehrt werden.");
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Demo fehlgeschlagen.");
     setSteps(data.steps);
+    const mode = data.aiMode ? "live" : "local";
     answer.textContent = data.summary + "\n\n" + (data.modeLabel || (data.aiMode ? "KI-Modus: OpenRouter aktiv." : "Lokaler Demo-Modus aktiv."));
-  } catch (error) {
-    answer.textContent = "Fehler: " + error.message;
+    const badge = document.createElement("span");
+    badge.className = "ai-mode-badge " + mode;
+    badge.textContent = data.aiMode ? "🟢 KI aktiv (OpenRouter)" : "🔵 Lokaler Modus";
+    answer.appendChild(document.createElement("br"));
+    answer.appendChild(badge);
+  } catch(err) {
+    answer.textContent = "Fehler: " + err.message;
   } finally {
     runButton.disabled = false;
-    runButton.textContent = "Absage verarbeiten";
+    runButton.textContent = "▶ Absage verarbeiten";
   }
 }
 
-document.getElementById("runDemo").addEventListener("click", runDemo);
+runButton.addEventListener("click", runDemo);
 document.getElementById("resetDemo").addEventListener("click", () => {
   document.getElementById("demoMail").value = sampleMail;
   setSteps([
@@ -660,8 +1205,212 @@ document.getElementById("resetDemo").addEventListener("click", () => {
     { title: "Route angepasst", text: "Bottrop entfernt, freie Zeit vor Mittag gefunden." },
     { title: "KI-Vorschlag", text: "Bochum Eilauftrag vorziehen und Duisburg danach fahren." }
   ]);
-  answer.textContent = "Bereit. Klicken Sie auf \"Absage verarbeiten\", um die Demo auszufuehren.";
+  answer.textContent = "Bereit. Klicken Sie auf \"Absage verarbeiten\", um die KI zu starten.";
 });
+
+/* ===== CONTACT FORM ===== */
+const contactForm = document.getElementById("contactForm");
+const formSuccess = document.getElementById("formSuccess");
+
+// Check if returning from formsubmit redirect (fallback: listen to submit)
+contactForm.addEventListener("submit", function(e) {
+  // Let formsubmit handle it – show success optimistically after a short delay
+  setTimeout(() => {
+    formSuccess.style.display = "block";
+    contactForm.style.display = "none";
+  }, 800);
+});
+
+/* ===== MAP DEMO ===== */
+const SCENARIOS = {
+  start: {
+    info: { title: "ℹ️ Ausgangslage", body: "Optimierte Route für heute: 5 Stopps im Ruhrgebiet nach Zeitfenster und Distanz sortiert. Gesamtstrecke: ca. 87 km." },
+    stops: [
+      { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
+      { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
+      { id: 2, pos: [51.5236, 6.9228], label: "Weber & Söhne · Bottrop", color: "#16b67f", time: "11:00–12:30" },
+      { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:00–14:00" },
+      { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" }
+    ]
+  },
+  cancel: {
+    info: { title: "❌ Absage verarbeitet", body: "Weber & Söhne (Bottrop) hat abgesagt. KI entfernt den Stopp, berechnet optimale Reihenfolge neu. Freies Zeitfenster: 11:00–12:30. KI sucht passende Neukunden..." },
+    stops: [
+      { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
+      { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
+      { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "11:30–13:00" },
+      { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:00–16:00" }
+    ]
+  },
+  "new-customer": {
+    info: { title: "✨ KI-Terminvorschlag akzeptiert", body: "Mayer GmbH (Castrop-Rauxel) liegt nur 3,8 km von der Route entfernt. KI hat automatisch Terminvorschlag gesendet – Kunde hat für 11:15–12:00 zugesagt. Route optimal integriert." },
+    stops: [
+      { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
+      { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
+      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00 (Auto-Termin)" },
+      { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00" },
+      { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" }
+    ]
+  },
+  traffic: {
+    info: { title: "🚦 Stau auf A40 erkannt", body: "Echtzeit-Verkehrsdaten melden Stau auf der A40 zwischen Bochum und Dortmund. KI berechnet Alternativroute über B235/A2. Ankunft Dortmund nur 9 Minuten später – kein Zeitfenster gefährdet." },
+    stops: [
+      { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
+      { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
+      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00" },
+      { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00 (+9 Min)" },
+      { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" },
+      { id: 99, pos: [51.4970, 7.3100], label: "⚠️ Stau A40 (umgeleitet)", color: "#f59e0b", time: "Echtzeit erkannt", isWarning: true }
+    ],
+    detour: true
+  }
+};
+
+let map, currentMarkers = [], currentPolyline = null, trafficPolyline = null;
+
+function initMap() {
+  map = L.map("map", {
+    center: [51.49, 7.15],
+    zoom: 10,
+    zoomControl: true
+  });
+
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  loadScenario("start", false);
+}
+
+function makeMarkerIcon(color, num, isNew) {
+  const bg = color;
+  const inner = num !== null ? `<span style="font-size:13px;font-weight:900;color:white">${num}</span>` : `<span style="font-size:14px">⚠️</span>`;
+  return L.divIcon({
+    className: isNew ? "new-marker" : "",
+    html: `<div style="
+      width:36px;height:36px;border-radius:50%;
+      background:${bg};
+      display:grid;place-items:center;
+      box-shadow:0 4px 14px rgba(0,0,0,.3);
+      border:3px solid white;
+      transition:transform .2s;
+    ">${inner}</div>`,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -20]
+  });
+}
+
+function makeDepotIcon() {
+  return L.divIcon({
+    html: `<div style="
+      width:42px;height:42px;border-radius:12px;
+      background:#070912;
+      display:grid;place-items:center;
+      box-shadow:0 4px 14px rgba(0,0,0,.4);
+      border:3px solid white;
+      font-size:18px;
+    ">🏭</div>`,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+    popupAnchor: [0, -24]
+  });
+}
+
+function loadScenario(key, animate = true) {
+  const scenario = SCENARIOS[key];
+  if (!scenario) return;
+
+  // Update buttons
+  document.querySelectorAll(".scenario-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.scenario === key);
+  });
+
+  // Update info box
+  const info = scenario.info;
+  document.getElementById("mapInfoBox").innerHTML = `
+    <div class="info-title">${info.title}</div>
+    <div class="info-body">${info.body}</div>
+  `;
+
+  // Clear old markers and polylines
+  currentMarkers.forEach(m => map.removeLayer(m));
+  currentMarkers = [];
+  if (currentPolyline) { map.removeLayer(currentPolyline); currentPolyline = null; }
+  if (trafficPolyline) { map.removeLayer(trafficPolyline); trafficPolyline = null; }
+
+  const stops = scenario.stops;
+  const latlngs = stops.filter(s => !s.isWarning).map(s => s.pos);
+
+  // Add markers with staggered animation
+  stops.forEach((stop, idx) => {
+    const isNew = (key === "new-customer" || key === "traffic") && stop.color === "#f0829a";
+    let icon;
+    if (stop.label.startsWith("Depot")) {
+      icon = makeDepotIcon();
+    } else if (stop.isWarning) {
+      icon = makeMarkerIcon("#f59e0b", null, false);
+    } else {
+      const stopNum = stops.filter(s => !s.label.startsWith("Depot") && !s.isWarning).indexOf(stop) + 1;
+      icon = makeMarkerIcon(stop.color, stop.label.startsWith("Depot") ? "D" : stopNum, isNew && animate);
+    }
+
+    const delay = animate ? idx * 150 : 0;
+    setTimeout(() => {
+      const marker = L.marker(stop.pos, { icon }).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family:'DM Sans',sans-serif;min-width:180px;">
+          <strong style="font-size:14px;">${stop.label}</strong><br>
+          <span style="color:#667085;font-size:12px;">⏰ ${stop.time}</span>
+        </div>
+      `);
+      currentMarkers.push(marker);
+    }, delay);
+  });
+
+  // Draw route polyline
+  const routeDelay = animate ? stops.length * 150 + 100 : 0;
+  setTimeout(() => {
+    currentPolyline = L.polyline(latlngs, {
+      color: "#16b67f",
+      weight: 4,
+      opacity: .85,
+      dashArray: key === "traffic" ? "10 6" : null,
+      lineJoin: "round"
+    }).addTo(map);
+
+    // Traffic detour visualization
+    if (scenario.detour) {
+      const detourPath = [
+        [51.4818, 7.2162],
+        [51.5100, 7.2800],
+        [51.5530, 7.3110],
+        [51.5136, 7.4653]
+      ];
+      trafficPolyline = L.polyline(detourPath, {
+        color: "#f59e0b",
+        weight: 3,
+        opacity: .7,
+        dashArray: "8 5"
+      }).addTo(map);
+    }
+
+    if (animate && latlngs.length > 1) {
+      map.fitBounds(L.latLngBounds(latlngs).pad(.15), { animate: true, duration: .8 });
+    }
+  }, routeDelay);
+}
+
+// Scenario button click handlers
+document.querySelectorAll(".scenario-btn").forEach(btn => {
+  btn.addEventListener("click", () => loadScenario(btn.dataset.scenario, true));
+});
+
+// Init map when page loads
+if (document.getElementById("map")) {
+  initMap();
+}
 </script>
 </body>
 </html>
