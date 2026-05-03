@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -29,7 +29,7 @@
   --shadow: 0 28px 90px rgba(15,23,42,.14);
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{
   margin:0;
   color:var(--text);
@@ -37,6 +37,7 @@ body{
   font-family:"DM Sans",sans-serif;
   font-size:16px;
   line-height:1.55;
+  overflow-x:hidden;
 }
 a{color:inherit;}
 button,input,textarea,select{font:inherit;}
@@ -83,7 +84,9 @@ button,input,textarea,select{font:inherit;}
   position:relative;overflow:hidden;
   border-radius:28px;
   border:1px solid rgba(255,255,255,.9);
-  background: linear-gradient(135deg, #0d1117 0%, #111827 40%, #0c1a2e 70%, #081020 100%);
+  background:
+    linear-gradient(135deg, rgba(13,17,23,.94) 0%, rgba(17,24,39,.92) 42%, rgba(8,16,32,.94) 100%),
+    url("https://tile.openstreetmap.org/10/531/340.png") center / 256px 256px repeat;
   box-shadow:var(--shadow);
 }
 .hero-grid{
@@ -450,6 +453,157 @@ h2 em{font-style:normal;color:var(--green);}
 @keyframes markerPop{from{transform:scale(0) translateY(10px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
 .leaflet-marker-icon.new-marker{animation:markerPop .4s cubic-bezier(.34,1.56,.64,1) both;}
 
+/* PDF CONTENT + LIVE WORKFLOW */
+.journey-grid,.problem-grid,.cooperation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.journey-card,.problem-card,.coop-card{
+  border-radius:22px;
+  padding:24px;
+  background:white;
+  border:1px solid var(--line);
+  box-shadow:0 10px 34px rgba(15,23,42,.06);
+}
+.journey-num{
+  width:42px;height:42px;border-radius:14px;
+  display:grid;place-items:center;
+  margin-bottom:18px;
+  background:var(--ink);color:white;
+  font-weight:900;
+}
+.journey-card h3,.problem-card h3,.coop-card h3{margin:0 0 8px;color:var(--ink);font-size:20px;letter-spacing:-.04em;line-height:1.12;}
+.journey-card p,.problem-card p,.coop-card p{margin:0;color:var(--muted);}
+.proof-strip{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px;}
+.proof-shot{
+  position:relative;
+  min-height:270px;
+  overflow:hidden;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.78);
+  background:#111827;
+  box-shadow:0 18px 60px rgba(15,23,42,.14);
+}
+.proof-shot::before{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(8,9,21,.18),rgba(8,9,21,.82)),
+    var(--proof-img) center/cover no-repeat;
+}
+.proof-shot div{position:absolute;left:22px;right:22px;bottom:22px;color:white;}
+.proof-shot h3{margin:0 0 6px;font-size:22px;letter-spacing:-.04em;}
+.proof-shot p{margin:0;color:rgba(255,255,255,.68);}
+.problem-grid{grid-template-columns:repeat(3,1fr);}
+.problem-icon{
+  width:44px;height:44px;border-radius:14px;
+  display:grid;place-items:center;
+  margin-bottom:20px;
+  background:#edf9f4;
+  color:var(--green-dark);
+  font-weight:900;
+}
+.live-sync{padding:80px 0;background:var(--night);color:white;}
+.live-sync .section-head h2{color:white;}
+.live-sync .section-head .section-sub{color:rgba(255,255,255,.68);}
+.sync-board{
+  display:grid;
+  grid-template-columns:330px minmax(0,1fr);
+  min-height:650px;
+  border-radius:28px;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 30px 100px rgba(0,0,0,.28);
+}
+.sync-rail{background:rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.1);}
+.sync-head{
+  min-height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 18px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  color:white;font-weight:900;
+}
+.sync-count{padding:3px 8px;border-radius:9px;background:rgba(22,182,127,.18);color:var(--green);font-size:12px;}
+.mail-stack,.candidate-stack,.sync-log{display:grid;gap:10px;padding:16px;}
+.mail-card,.candidate-card,.sync-log .log-line,.sync-route-row{
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+}
+.mail-card{padding:13px;transition:transform .25s ease,border-color .25s ease,background .25s ease;}
+.mail-card.active{transform:translateX(6px);border-color:rgba(240,130,154,.48);background:rgba(240,130,154,.12);}
+.mail-card b{display:block;color:white;font-size:14px;}
+.mail-card span{display:block;margin-top:3px;color:rgba(255,255,255,.62);font-size:13px;}
+.mail-card small{display:block;margin-top:8px;color:rgba(255,255,255,.45);font-weight:800;font-size:11px;}
+.candidate-card{padding:12px;overflow:hidden;}
+.candidate-card strong{display:flex;justify-content:space-between;color:white;font-size:13px;}
+.match{height:6px;margin-top:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;}
+.match span{display:block;height:100%;width:0;background:var(--green);transition:width .7s ease;}
+.sync-board.running .candidate-card.best .match span{width:92%;}
+.sync-board.running .candidate-card.mid .match span{width:68%;background:var(--lime);}
+.sync-board.running .candidate-card.low .match span{width:43%;background:var(--rose);}
+.sync-stage{display:grid;grid-template-rows:390px auto;background:#0d1321;}
+.sync-map{position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1);background:#dfe8d8;}
+.sync-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);opacity:.78;}
+.sync-tiles img{width:100%;height:100%;object-fit:cover;filter:saturate(.86) contrast(.92);}
+.sync-map::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,21,.05),rgba(8,9,21,.28));}
+.workflow-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.workflow-old,.workflow-new{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.workflow-old{stroke:rgba(8,9,21,.52);stroke-width:4;transition:opacity .4s ease;}
+.workflow-new{stroke:var(--green);stroke-width:6;stroke-dasharray:650;stroke-dashoffset:650;filter:drop-shadow(0 8px 16px rgba(22,182,127,.28));}
+.sync-board.running .workflow-old{opacity:.24;}
+.sync-board.running .workflow-new{animation:drawRoute 1.7s ease forwards .8s;}
+.sync-stop{
+  position:absolute;left:var(--x);top:var(--y);z-index:2;
+  width:36px;height:36px;transform:translate(-50%,-50%);
+  display:grid;place-items:center;border-radius:50%;
+  border:3px solid white;background:var(--green);color:white;font-weight:900;font-size:13px;
+  box-shadow:0 10px 25px rgba(8,9,21,.24);
+}
+.sync-stop.depot{background:var(--ink);}
+.sync-stop.cancelled{background:var(--rose);}
+.sync-stop.inserted{background:var(--lime);color:var(--ink);opacity:0;transform:translate(-50%,-50%) scale(.55);}
+.sync-board.running .sync-stop.cancelled::after{
+  content:"";position:absolute;width:54px;height:4px;background:white;transform:rotate(-24deg);box-shadow:0 0 0 2px var(--rose);
+}
+.sync-board.running .sync-stop.inserted{animation:insertStop .62s cubic-bezier(.2,.9,.2,1.25) forwards 1.35s;}
+.sync-label{
+  position:absolute;left:16px;bottom:16px;z-index:3;
+  padding:9px 12px;border-radius:13px;
+  background:rgba(255,255,255,.9);color:var(--ink);font-size:12px;font-weight:900;
+}
+.sync-attribution{position:absolute;right:14px;bottom:14px;z-index:3;color:rgba(8,9,21,.68);font-size:11px;text-decoration:none;}
+.sync-bottom{display:grid;grid-template-columns:minmax(0,1fr)280px;}
+.sync-route{background:rgba(255,255,255,.03);}
+.sync-route-row{
+  position:relative;
+  display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;
+  padding:12px;color:white;
+}
+.sync-route-row .num{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(22,182,127,.18);color:var(--green);font-weight:900;}
+.sync-route-row strong{display:block;font-size:14px;}
+.sync-route-row small{color:rgba(255,255,255,.56);font-size:12px;font-weight:700;}
+.sync-route-row.cancel{background:rgba(240,130,154,.1);border-color:rgba(240,130,154,.35);}
+.sync-board.running .sync-route-row.cancel::after{
+  content:"";position:absolute;left:56px;right:14px;top:50%;height:3px;background:var(--rose);
+  transform:scaleX(0);transform-origin:left;animation:strike .58s ease forwards .55s;
+}
+@keyframes strike{to{transform:scaleX(1);}}
+.sync-route-row.insert{display:none;background:rgba(215,255,114,.1);border-color:rgba(215,255,114,.34);}
+.sync-board.running .sync-route-row.insert{display:grid;animation:slideIn .55s ease both 1.2s;}
+.sync-log{border-left:1px solid rgba(255,255,255,.1);align-content:start;}
+.sync-log .log-line{min-height:62px;padding:11px;opacity:.44;transition:opacity .25s,border-color .25s,background .25s;}
+.sync-log .log-line.active{opacity:1;border-color:rgba(22,182,127,.42);background:rgba(22,182,127,.1);}
+.sync-log .log-line b{display:block;color:white;font-size:13px;}
+.sync-log .log-line span{color:rgba(255,255,255,.6);font-size:12px;}
+.cooperation-grid{grid-template-columns:repeat(2,1fr);}
+.vision-band{
+  display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;
+  border-radius:28px;padding:34px;
+  background:var(--ink);color:white;
+}
+.vision-band h2{color:white;margin-bottom:8px;}
+.vision-band p{margin:0;color:rgba(255,255,255,.68);}
+.vision-band .section-kicker{color:var(--green);}
+
 /* DEMO EMAIL SECTION */
 .demo{padding:80px 0;}
 .demo-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:stretch;}
@@ -617,8 +771,11 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
 /* RESPONSIVE */
 @media(max-width:980px){
   .links{display:none;}
-  .ki-grid,.ablauf-grid,.faq-grid{grid-template-columns:1fr;}
+  .ki-grid,.ablauf-grid,.faq-grid,.journey-grid,.problem-grid,.cooperation-grid,.proof-strip,.sync-board,.sync-bottom,.vision-band{grid-template-columns:1fr;}
   .dynamic-grid,.appt-grid,.contact-inner{grid-template-columns:1fr;}
+  .sync-rail{border-right:0;border-bottom:1px solid rgba(255,255,255,.1);}
+  .sync-stage{grid-template-rows:340px auto;}
+  .sync-log{border-left:0;border-top:1px solid rgba(255,255,255,.1);}
   .map-layout{grid-template-columns:1fr;grid-template-rows:auto 420px;}
   #map{min-height:420px;}
   .demo-grid{grid-template-columns:1fr;}
@@ -629,11 +786,24 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
   .shell{width:min(100% - 24px,1160px);}
   .nav{width:min(100% - 20px,1120px);top:10px;margin-top:10px;}
   .nav-actions .btn.ghost{display:none;}
-  .hero-copy{padding-top:64px;}
-  h1{font-size:clamp(38px,13vw,68px);}
+  .nav-actions .btn.green{max-width:132px;padding-left:12px;padding-right:12px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hero-frame{border-radius:22px;}
+  .hero-copy{padding:58px 16px 0;}
+  h1{font-size:clamp(36px,11vw,46px);line-height:.98;}
+  h2{font-size:clamp(30px,9vw,38px);line-height:1.02;}
+  h1,h2{overflow-wrap:normal;}
+  .hero-copy p{font-size:16px;}
+  .hero-actions{align-items:center;flex-direction:column;}
+  .hero-actions .btn{width:min(100%,220px);white-space:normal;text-align:center;}
+  .hero-actions .btn:not(.green){display:none;}
+  .trust-row{display:grid;grid-template-columns:1fr;justify-items:stretch;}
+  .trust-chip{justify-content:center;width:100%;}
   .hero-stats{gap:12px;}
-  .stat{padding:14px 20px;}
-  .section,.demo,.map-section,.dynamic-section,.appt-section{padding:58px 0;}
+  .stat{width:calc(50% - 8px);padding:14px 12px;}
+  .stat-val{font-size:28px;}
+  .stat-label{font-size:12px;}
+  .proof-shot{min-height:230px;}
+  .section,.demo,.map-section,.dynamic-section,.appt-section,.live-sync{padding:58px 0;}
   .footer-links,.footer-bottom{flex-direction:column;}
 }
 </style>
@@ -646,10 +816,11 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     AutomateX
   </a>
   <div class="links">
+    <a href="#weg">Weg</a>
+    <a href="#problem">Problem</a>
     <a href="#ki-features">KI-Funktionen</a>
-    <a href="#map-demo">Live-Demo</a>
+    <a href="#live-workflow">Live-Demo</a>
     <a href="#ablauf">Ablauf</a>
-    <a href="#fragen">FAQ</a>
   </div>
   <div class="nav-actions">
     <a class="btn ghost small" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
@@ -690,7 +861,7 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         <h1>Die <em>KI</em> plant<br>Ihre Touren<br>im Hintergrund.</h1>
         <p>AutomateX lernt täglich, welche Routen am effizientesten sind – reagiert in Echtzeit auf Absagen und schlägt Ihren Fahrern automatisch neue Termine vor, die perfekt auf die bestehende Route passen.</p>
         <div class="hero-actions">
-          <a class="btn green" href="#map-demo">Demo live erleben</a>
+          <a class="btn green" href="#live-workflow">Demo live erleben</a>
           <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#kontakt">Kostenlose Analyse</a>
         </div>
       </div>
@@ -746,6 +917,155 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
   </div>
 </section>
 
+<!-- WEG + PROOF -->
+<section class="section" id="weg">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Unser Weg</div>
+      <h2>Von der Idee zur <em>klaren Nische.</em></h2>
+      <p class="section-sub">AutomateX kommt aus Prozessinnovation und Automatisierung. Aus ersten Projekten entstand der Fokus auf KI-gestützte Routenplanung für Handwerksbetriebe.</p>
+    </div>
+    <div class="journey-grid">
+      <article class="journey-card">
+        <div class="journey-num">1</div>
+        <h3>Prozessinnovation</h3>
+        <p>Automatisierungen sind die Kernkompetenz: ein breites Skillset, vielseitig einsetzbar und jetzt bewusst fokussiert.</p>
+      </article>
+      <article class="journey-card">
+        <div class="journey-num">2</div>
+        <h3>Erste Erfolge</h3>
+        <p>Eine Website für 50 Euro umgesetzt und erste Automatisierungsprototypen gebaut. Daraus entstand der Blick für echte Abläufe.</p>
+      </article>
+      <article class="journey-card">
+        <div class="journey-num">3</div>
+        <h3>Mentoren-Feedback</h3>
+        <p>Der klare Rat: Nischen definieren, gezielte Landing Pages entwickeln und mit Fokus wachsen.</p>
+      </article>
+      <article class="journey-card">
+        <div class="journey-num">4</div>
+        <h3>Nische identifiziert</h3>
+        <p>KI-gestützte Routenplanung für Handwerksbetriebe hat einen klaren Marktbedarf und einen konkreten Pilotnutzen.</p>
+      </article>
+    </div>
+    <div class="proof-strip" aria-label="Nachweise aus den ersten Projekten">
+      <article class="proof-shot" style="--proof-img:url('assets/proof-automation.png');">
+        <div>
+          <h3>Automatisierungsprototypen</h3>
+          <p>Erste Systeme konnten Produktseiten prüfen, Preise erkennen, Warenkörbe bearbeiten und Ergebnisse protokollieren.</p>
+        </div>
+      </article>
+      <article class="proof-shot" style="--proof-img:url('assets/proof-website.png');">
+        <div>
+          <h3>Erste Website-Projekte</h3>
+          <p>Aus einfachen Websites wurde der nächste Schritt: operative Prozesse sichtbar verbessern.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem" style="background:var(--soft);">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Das Problem im Handwerk</div>
+      <h2>Planung ist oft manuell, langsam und bricht bei Änderungen.</h2>
+      <p class="section-sub">In den meisten Handwerksbetrieben übernimmt eine einzige Person die gesamte Routenplanung – manuell, zeitintensiv und fehleranfällig.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="problem-card">
+        <div class="problem-icon">01</div>
+        <h3>Aufwendige Planung</h3>
+        <p>Manuelle Koordination kostet täglich wertvolle Arbeitszeit, die im operativen Betrieb fehlt.</p>
+      </article>
+      <article class="problem-card">
+        <div class="problem-icon">02</div>
+        <h3>Große Zeitfenster</h3>
+        <p>Kunden erhalten ungenaue Zeitangaben. Das macht Planung unzuverlässig und senkt die Kundenzufriedenheit.</p>
+      </article>
+      <article class="problem-card">
+        <div class="problem-icon">03</div>
+        <h3>Keine Dynamik</h3>
+        <p>Bei Absagen oder Änderungen muss die gesamte Route oft neu berechnet werden. Genau dort setzt die KI an.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE WORKFLOW -->
+<section class="live-sync" id="live-workflow">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">E-Mail-Reihe · Route neu geplant</div>
+      <h2>Eine Absage kommt rein – das System <em>arbeitet live.</em></h2>
+      <p class="section-sub">Aus mehreren E-Mails, Stopps und Routensignalen wird der passende Ersatz gesucht, eine Route gestrichen und ein neuer Stop eingesetzt.</p>
+    </div>
+    <div class="sync-board" id="syncBoard" aria-label="Animierter Live-Ablauf für Absage und Routenänderung">
+      <aside class="sync-rail">
+        <div class="sync-head"><span>E-Mail-Reihe und Signale</span><span class="sync-count">4</span></div>
+        <div class="mail-stack">
+          <div class="mail-card active" data-sync-mail="cancel"><b>Absage: Bottrop 11:30</b><span>Termin fällt heute aus. Fahrer nicht schicken.</span><small>Disposition · gerade eben</small></div>
+          <div class="mail-card" data-sync-mail="new"><b>Neuer Auftrag: Gelsenkirchen</b><span>Passt zwischen 10:45 und 12:15 in die Tour.</span><small>Kunde · vor 6 min</small></div>
+          <div class="mail-card" data-sync-mail="traffic"><b>Verkehr: A40 langsam</b><span>Prognose verschiebt Anschlusswege Richtung Bochum.</span><small>Verkehrsdaten · live</small></div>
+          <div class="mail-card" data-sync-mail="call"><b>Anrufnotiz: Essen bestätigt</b><span>Zeitfenster bleibt 09:20 bis 09:45.</span><small>Büro · vor 12 min</small></div>
+        </div>
+        <div class="sync-head"><span>Cluster-Auswahl</span><span class="sync-count">3</span></div>
+        <div class="candidate-stack">
+          <div class="candidate-card best"><strong>Gelsenkirchen Ersatzslot <span>92%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card mid"><strong>Duisburg vorziehen <span>68%</span></strong><div class="match"><span></span></div></div>
+          <div class="candidate-card low"><strong>Bochum sofort <span>43%</span></strong><div class="match"><span></span></div></div>
+        </div>
+      </aside>
+      <div class="sync-stage">
+        <div class="sync-map">
+          <div class="sync-tiles" aria-hidden="true">
+            <img src="https://tile.openstreetmap.org/11/1062/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1063/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1064/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1065/680.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1062/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1063/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1064/681.png" alt="">
+            <img src="https://tile.openstreetmap.org/11/1065/681.png" alt="">
+          </div>
+          <svg class="workflow-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <polyline class="workflow-old" points="12,84 47,74 38,41 15,64 76,62"></polyline>
+            <polyline class="workflow-new" points="12,84 15,64 58,46 47,74 76,62"></polyline>
+          </svg>
+          <div class="sync-stop depot" style="--x:12%;--y:84%;">D</div>
+          <div class="sync-stop" style="--x:47%;--y:74%;">1</div>
+          <div class="sync-stop cancelled" style="--x:38%;--y:41%;">2</div>
+          <div class="sync-stop" style="--x:15%;--y:64%;">3</div>
+          <div class="sync-stop" style="--x:76%;--y:62%;">4</div>
+          <div class="sync-stop inserted" style="--x:58%;--y:46%;">N</div>
+          <div class="sync-label" id="syncMapLabel">OpenStreetMap aktiv · Originalroute sichtbar</div>
+          <a class="sync-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap-Mitwirkende</a>
+        </div>
+        <div class="sync-bottom">
+          <div class="sync-route">
+            <div class="sync-head"><span>Route heute</span><button class="btn green small" id="syncStart" type="button">Absage verarbeiten</button></div>
+            <div class="route-list">
+              <div class="sync-route-row"><span class="num">D</span><div><strong>AutomateX HQ, Duisburg</strong><small>Start 08:00</small></div><small>Depot</small></div>
+              <div class="sync-route-row"><span class="num">1</span><div><strong>Essen Nord</strong><small>09:20 - 09:45 · bestätigt</small></div><small>12 km</small></div>
+              <div class="sync-route-row cancel"><span class="num">2</span><div><strong>Bottrop Zentrallager</strong><small>11:30 · Absage erkannt</small></div><small>entfernen</small></div>
+              <div class="sync-route-row insert"><span class="num">N</span><div><strong>Gelsenkirchen Ersatzslot</strong><small>10:55 - 11:35 · aus Cluster gewählt</small></div><small>neu</small></div>
+              <div class="sync-route-row"><span class="num">3</span><div><strong>Duisburg Service</strong><small>12:05 - 12:40 · Anschlussweg kurz</small></div><small>29 km</small></div>
+              <div class="sync-route-row"><span class="num">4</span><div><strong>Bochum Eilauftrag</strong><small>13:25 - 14:05 · priorisiert</small></div><small>46 km</small></div>
+            </div>
+          </div>
+          <div class="sync-log">
+            <div class="log-line active"><b>1. Eingang lesen</b><span>E-Mail-Absage wird Bottrop zugeordnet.</span></div>
+            <div class="log-line"><b>2. Route streichen</b><span>Der betroffene Stop wird entfernt.</span></div>
+            <div class="log-line"><b>3. Cluster durchsuchen</b><span>E-Mails, Aufträge und Verkehr werden bewertet.</span></div>
+            <div class="log-line"><b>4. Ersatz einsetzen</b><span>Gelsenkirchen passt in das Zeitfenster.</span></div>
+            <div class="log-line"><b>5. Live reagieren</b><span>Resttour und Ankunftszeiten werden aktualisiert.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- KI FEATURES -->
 <section class="section" id="ki-features">
   <div class="shell">
@@ -756,19 +1076,19 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     </div>
     <div class="ki-grid">
       <div class="ki-card">
-        <div class="ki-icon green">🧠</div>
+        <div class="ki-icon green">AI</div>
         <h3>KI lernt optimale Routen</h3>
         <p>Die KI erkennt langfristige Muster: Welche Reihenfolge spart am meisten Zeit? Welche Straße ist morgens langsam? Welcher Kunde braucht wirklich 30 Minuten? Das System verbessert sich mit jeder Tour automatisch.</p>
         <div class="ki-tag">Kontinuierliches Lernen</div>
       </div>
       <div class="ki-card">
-        <div class="ki-icon blue">🚦</div>
+        <div class="ki-icon blue">TR</div>
         <h3>KI-Verkehrsvorhersage</h3>
         <p>Historische Verkehrsdaten fließen in jede Routenberechnung ein – nicht reaktiv, sondern vorausschauend. Die KI weiß, dass die A40 montags um 7:30 Uhr staut, und plant Ihre Route bereits darum herum.</p>
         <div class="ki-tag">Prädiktive Analyse</div>
       </div>
       <div class="ki-card">
-        <div class="ki-icon rose">📅</div>
+        <div class="ki-icon rose">SL</div>
         <h3>Automatische Terminvorschläge</h3>
         <p>Freie Zeitslots werden nicht verschwendet: Die KI wählt gezielt Kunden aus, die geografisch nah an der bestehenden Route liegen und in das freie Zeitfenster passen – und schickt automatisch Terminvorschläge.</p>
         <div class="ki-tag">Hintergrund-Automatisierung</div>
@@ -816,29 +1136,29 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         </div>
       </div>
       <div class="brain-box">
-        <div class="brain-title">⚡ KI-System – Live-Status</div>
+        <div class="brain-title">KI-System – Live-Status</div>
         <div class="flow-item">
-          <span class="flow-icon">📨</span>
+          <span class="flow-icon">01</span>
           <span class="flow-text"><strong>E-Mail analysiert:</strong> Absage Bottrop 11:30</span>
           <span class="flow-badge badge-amber">Erkannt</span>
         </div>
         <div class="flow-item">
-          <span class="flow-icon">🗺️</span>
+          <span class="flow-icon">02</span>
           <span class="flow-text"><strong>Route neu berechnet:</strong> 3 Alternativen geprüft</span>
           <span class="flow-badge badge-green">Optimiert</span>
         </div>
         <div class="flow-item">
-          <span class="flow-icon">📍</span>
+          <span class="flow-icon">03</span>
           <span class="flow-text"><strong>Freies Zeitfenster:</strong> 11:30–13:00 identifiziert</span>
           <span class="flow-badge badge-blue">Gefunden</span>
         </div>
         <div class="flow-item">
-          <span class="flow-icon">🔍</span>
+          <span class="flow-icon">04</span>
           <span class="flow-text"><strong>KI sucht Neukunden</strong> in 8km Radius um Route</span>
           <span class="flow-badge badge-blue">Läuft</span>
         </div>
         <div class="flow-item">
-          <span class="flow-icon">✉️</span>
+          <span class="flow-icon">05</span>
           <span class="flow-text"><strong>Terminvorschlag gesendet:</strong> Kunde Mayer, Castrop-Rauxel</span>
           <span class="flow-badge badge-rose">Auto</span>
         </div>
@@ -898,7 +1218,7 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
             </div>
           </div>
           <div class="appt-new">
-            <div class="appt-new-icon">🤖</div>
+            <div class="appt-new-icon">AI</div>
             <div class="appt-new-text">
               <strong>KI-Terminvorschlag (automatisch)</strong>
               Mayer GmbH, Castrop-Rauxel liegt 3,8 km von der Route entfernt. Slot 11:15–12:15 passt perfekt. Terminanfrage automatisch versendet.
@@ -922,33 +1242,33 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     <div class="map-layout">
       <div class="map-panel">
         <div class="map-panel-header">
-          <h3>🗺️ Szenarien</h3>
+          <h3>Szenarien</h3>
           <p>Klicken um Route live anzupassen</p>
         </div>
         <div class="scenario-list">
           <button class="scenario-btn active" data-scenario="start" type="button">
-            <div class="s-icon">🟢</div>
+            <div class="s-icon">1</div>
             <div class="s-text">
               <strong>Ausgangslage</strong>
               <span>5 Stopps, optimierte Reihenfolge</span>
             </div>
           </button>
           <button class="scenario-btn" data-scenario="cancel" type="button">
-            <div class="s-icon">❌</div>
+            <div class="s-icon">2</div>
             <div class="s-text">
               <strong>Absage: Bottrop 10:30</strong>
               <span>KI entfernt Stopp &amp; plant neu</span>
             </div>
           </button>
           <button class="scenario-btn" data-scenario="new-customer" type="button">
-            <div class="s-icon">✨</div>
+            <div class="s-icon">3</div>
             <div class="s-text">
               <strong>Neuer Kunde in der Nähe</strong>
               <span>KI fügt nahgelegenen Termin ein</span>
             </div>
           </button>
           <button class="scenario-btn" data-scenario="traffic" type="button">
-            <div class="s-icon">🚦</div>
+            <div class="s-icon">4</div>
             <div class="s-text">
               <strong>Stau erkannt (A40)</strong>
               <span>KI leitet automatisch um</span>
@@ -956,7 +1276,7 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
           </button>
         </div>
         <div class="map-info-box" id="mapInfoBox">
-          <div class="info-title">ℹ️ Ausgangslage</div>
+          <div class="info-title">Ausgangslage</div>
           <div class="info-body">Route für heute: 5 Stopps im Ruhrgebiet, bereits nach Zeitfenster und Distanz optimiert. Gesamtstrecke: 87 km.</div>
         </div>
       </div>
@@ -980,12 +1300,12 @@ unser Termin bei Kunde Bottrop Zentrallager um 11:30 Uhr fällt heute aus. Bitte
 Viele Grüße
 Disposition</textarea>
       <div class="demo-controls">
-        <button class="btn green" id="runDemo" type="button">▶ Absage verarbeiten</button>
+        <button class="btn green" id="runDemo" type="button">Absage verarbeiten</button>
         <button class="btn ghost" id="resetDemo" type="button">Beispiel laden</button>
       </div>
     </div>
     <div class="demo-output">
-      <h3>🤖 KI-Reaktion des Systems</h3>
+      <h3>KI-Reaktion des Systems</h3>
       <div class="timeline" id="demoSteps">
         <div class="step"><b>1</b><div><strong>E-Mail analysiert</strong><span>Bottrop Zentrallager um 11:30 als Absage erkannt.</span></div></div>
         <div class="step"><b>2</b><div><strong>Route angepasst</strong><span>Bottrop entfernt, freie Zeit vor Mittag gefunden.</span></div></div>
@@ -1059,6 +1379,41 @@ Disposition</textarea>
   </div>
 </section>
 
+<!-- KOOPERATIONEN + VISION -->
+<section class="section" id="kooperation">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Kooperationspotenziale</div>
+      <h2>Wachstum über echte <em>Schnittmengen.</em></h2>
+      <p class="section-sub">Die Lösung ist als Pilot klar genug, um Gespräche mit Mentoren, Partnern und angrenzenden Mobilitätsprojekten konkret zu machen.</p>
+    </div>
+    <div class="cooperation-grid">
+      <article class="coop-card">
+        <h3>Mentor-Kooperation</h3>
+        <p>Konkrete Zusammenarbeit ist möglich, sobald die Lösung überzeugt. Der erste Schritt ist bereits eingeleitet.</p>
+      </article>
+      <article class="coop-card">
+        <h3>Uni Ride Kooperation</h3>
+        <p>Eine Partnerschaft ist in Sicht, weil es gemeinsame Schnittmengen in der dynamischen Routenoptimierung gibt.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="vision">
+  <div class="shell vision-band">
+    <div>
+      <div class="section-kicker">Langfristige Vision</div>
+      <h2>Mehrere digitale Nischen, eine skalierbare Digitalstrategie.</h2>
+      <p>Die KI-Routenplanung ist die erste fokussierte Nische, aber nicht die letzte. Das breite AutomateX-Skillset soll langfristig mehrere digitale Innovationsfelder erschließen und gezielt wachsen.</p>
+    </div>
+    <div class="hero-actions" style="margin:0;">
+      <a class="btn green" href="#kontakt">Pilot anfragen</a>
+      <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#live-workflow">Demo ansehen</a>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT FORM -->
 <section class="contact-section" id="kontakt">
   <div class="shell">
@@ -1068,9 +1423,9 @@ Disposition</textarea>
         <h2>Starten Sie Ihren<br><em>KI-Routing-Pilot.</em></h2>
         <p>Schicken Sie uns Ihre Tagesliste oder beschreiben Sie, wo Ihre Disposition aktuell Zeit verliert. Wir analysieren Ihre Route kostenlos und zeigen, wie viel die KI einsparen kann.</p>
         <div class="contact-points">
-          <div class="contact-point"><span>📍</span> Frederik Ernst, Essen (NRW)</div>
-          <div class="contact-point"><span>✉️</span> frederik.ernst27@gmail.com</div>
-          <div class="contact-point"><span>🔗</span> linkedin.com/in/frederik-ernst-64597b356</div>
+          <div class="contact-point"><span>Ort</span> Frederik Ernst, Essen (NRW)</div>
+          <div class="contact-point"><span>Mail</span> frederik.ernst27@gmail.com</div>
+          <div class="contact-point"><span>Web</span> linkedin.com/in/frederik-ernst-64597b356</div>
         </div>
         <div style="margin-top:32px;">
           <a class="btn" style="background:rgba(22,182,127,.15);color:var(--green);border:1px solid rgba(22,182,127,.3);" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Auf LinkedIn melden</a>
@@ -1078,7 +1433,7 @@ Disposition</textarea>
       </div>
       <div class="contact-form">
         <div class="form-success" id="formSuccess">
-          ✅ Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
+          Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
         </div>
         <form id="contactForm" action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="Routing-Analyse Anfrage – AutomateX">
@@ -1186,14 +1541,14 @@ async function runDemo() {
     answer.textContent = data.summary + "\n\n" + (data.modeLabel || (data.aiMode ? "KI-Modus: OpenRouter aktiv." : "Lokaler Demo-Modus aktiv."));
     const badge = document.createElement("span");
     badge.className = "ai-mode-badge " + mode;
-    badge.textContent = data.aiMode ? "🟢 KI aktiv (OpenRouter)" : "🔵 Lokaler Modus";
+    badge.textContent = data.aiMode ? "KI aktiv (OpenRouter)" : "Lokaler Modus";
     answer.appendChild(document.createElement("br"));
     answer.appendChild(badge);
   } catch(err) {
     answer.textContent = "Fehler: " + err.message;
   } finally {
     runButton.disabled = false;
-    runButton.textContent = "▶ Absage verarbeiten";
+    runButton.textContent = "Absage verarbeiten";
   }
 }
 
@@ -1207,6 +1562,55 @@ document.getElementById("resetDemo").addEventListener("click", () => {
   ]);
   answer.textContent = "Bereit. Klicken Sie auf \"Absage verarbeiten\", um die KI zu starten.";
 });
+
+/* ===== LIVE WORKFLOW ===== */
+const syncBoard = document.getElementById("syncBoard");
+const syncButton = document.getElementById("syncStart");
+const syncMapLabel = document.getElementById("syncMapLabel");
+const syncLogLines = Array.from(document.querySelectorAll("#live-workflow .log-line"));
+const syncMailCards = Array.from(document.querySelectorAll("#live-workflow .mail-card"));
+const syncPhases = [
+  { delay: 0, status: "E-Mail dem Stop Bottrop zugeordnet", log: 0, mail: "cancel" },
+  { delay: 760, status: "Stop 2 gestrichen · Zeitfenster frei", log: 1, mail: "cancel" },
+  { delay: 1450, status: "Cluster bewertet: E-Mails, neue Stops, Verkehr", log: 2, mail: "new" },
+  { delay: 2200, status: "Neuer Stop N in die laufende Route eingefügt", log: 3, mail: "new" },
+  { delay: 3000, status: "Neue Resttour aktiv · Zeiten live aktualisiert", log: 4, mail: "traffic" }
+];
+let syncTimers = [];
+function clearSyncTimers() {
+  syncTimers.forEach((timer) => window.clearTimeout(timer));
+  syncTimers = [];
+}
+function setSyncLog(index) {
+  syncLogLines.forEach((line, lineIndex) => line.classList.toggle("active", lineIndex <= index));
+}
+function setSyncMail(type) {
+  syncMailCards.forEach((card) => card.classList.toggle("active", card.dataset.syncMail === type));
+}
+function runSyncWorkflow() {
+  if (!syncBoard || !syncButton) return;
+  clearSyncTimers();
+  syncBoard.classList.remove("running");
+  void syncBoard.offsetWidth;
+  syncBoard.classList.add("running");
+  syncButton.disabled = true;
+  syncButton.textContent = "System arbeitet";
+  syncPhases.forEach((phase) => {
+    syncTimers.push(window.setTimeout(() => {
+      syncMapLabel.textContent = phase.status;
+      setSyncLog(phase.log);
+      setSyncMail(phase.mail);
+    }, phase.delay));
+  });
+  syncTimers.push(window.setTimeout(() => {
+    syncButton.disabled = false;
+    syncButton.textContent = "Absage erneut verarbeiten";
+  }, 3900));
+}
+if (syncButton) {
+  syncButton.addEventListener("click", runSyncWorkflow);
+  window.addEventListener("load", () => window.setTimeout(runSyncWorkflow, 900));
+}
 
 /* ===== CONTACT FORM ===== */
 const contactForm = document.getElementById("contactForm");
@@ -1224,7 +1628,7 @@ contactForm.addEventListener("submit", function(e) {
 /* ===== MAP DEMO ===== */
 const SCENARIOS = {
   start: {
-    info: { title: "ℹ️ Ausgangslage", body: "Optimierte Route für heute: 5 Stopps im Ruhrgebiet nach Zeitfenster und Distanz sortiert. Gesamtstrecke: ca. 87 km." },
+    info: { title: "Ausgangslage", body: "Optimierte Route für heute: 5 Stopps im Ruhrgebiet nach Zeitfenster und Distanz sortiert. Gesamtstrecke: ca. 87 km." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
@@ -1234,7 +1638,7 @@ const SCENARIOS = {
     ]
   },
   cancel: {
-    info: { title: "❌ Absage verarbeitet", body: "Weber & Söhne (Bottrop) hat abgesagt. KI entfernt den Stopp, berechnet optimale Reihenfolge neu. Freies Zeitfenster: 11:00–12:30. KI sucht passende Neukunden..." },
+    info: { title: "Absage verarbeitet", body: "Weber & Söhne (Bottrop) hat abgesagt. KI entfernt den Stopp, berechnet optimale Reihenfolge neu. Freies Zeitfenster: 11:00–12:30. KI sucht passende Neukunden..." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
@@ -1243,24 +1647,24 @@ const SCENARIOS = {
     ]
   },
   "new-customer": {
-    info: { title: "✨ KI-Terminvorschlag akzeptiert", body: "Mayer GmbH (Castrop-Rauxel) liegt nur 3,8 km von der Route entfernt. KI hat automatisch Terminvorschlag gesendet – Kunde hat für 11:15–12:00 zugesagt. Route optimal integriert." },
+    info: { title: "KI-Terminvorschlag akzeptiert", body: "Mayer GmbH (Castrop-Rauxel) liegt nur 3,8 km von der Route entfernt. KI hat automatisch Terminvorschlag gesendet – Kunde hat für 11:15–12:00 zugesagt. Route optimal integriert." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
-      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00 (Auto-Termin)" },
+      { id: 5, pos: [51.5530, 7.3110], label: "NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00 (Auto-Termin)" },
       { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00" },
       { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" }
     ]
   },
   traffic: {
-    info: { title: "🚦 Stau auf A40 erkannt", body: "Echtzeit-Verkehrsdaten melden Stau auf der A40 zwischen Bochum und Dortmund. KI berechnet Alternativroute über B235/A2. Ankunft Dortmund nur 9 Minuten später – kein Zeitfenster gefährdet." },
+    info: { title: "Stau auf A40 erkannt", body: "Echtzeit-Verkehrsdaten melden Stau auf der A40 zwischen Bochum und Dortmund. KI berechnet Alternativroute über B235/A2. Ankunft Dortmund nur 9 Minuten später – kein Zeitfenster gefährdet." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
-      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00" },
+      { id: 5, pos: [51.5530, 7.3110], label: "NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00" },
       { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00 (+9 Min)" },
       { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" },
-      { id: 99, pos: [51.4970, 7.3100], label: "⚠️ Stau A40 (umgeleitet)", color: "#f59e0b", time: "Echtzeit erkannt", isWarning: true }
+      { id: 99, pos: [51.4970, 7.3100], label: "Stau A40 (umgeleitet)", color: "#f59e0b", time: "Echtzeit erkannt", isWarning: true }
     ],
     detour: true
   }
@@ -1285,7 +1689,7 @@ function initMap() {
 
 function makeMarkerIcon(color, num, isNew) {
   const bg = color;
-  const inner = num !== null ? `<span style="font-size:13px;font-weight:900;color:white">${num}</span>` : `<span style="font-size:14px">⚠️</span>`;
+  const inner = num !== null ? `<span style="font-size:13px;font-weight:900;color:white">${num}</span>` : `<span style="font-size:13px;font-weight:900;color:white">!</span>`;
   return L.divIcon({
     className: isNew ? "new-marker" : "",
     html: `<div style="
@@ -1311,7 +1715,7 @@ function makeDepotIcon() {
       box-shadow:0 4px 14px rgba(0,0,0,.4);
       border:3px solid white;
       font-size:18px;
-    ">🏭</div>`,
+    ">D</div>`,
     iconSize: [42, 42],
     iconAnchor: [21, 21],
     popupAnchor: [0, -24]
