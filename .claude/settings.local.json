@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(gh repo:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__list_projects",
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_project_url",
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_publishable_keys",
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__apply_migration"
     ]
   }
 }
