@@ -1021,10 +1021,6 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
         </div>
       </div>
     </div>
-    <div class="research-note">
-      <h3>Wir arbeiten an der <em>Forschungsfront.</em></h3>
-      <p>AutomateX entsteht nah an Prozessinnovation, Automatisierung und praktischer Forschung. Durch meine Arbeit am Lehrstuhl von Prof. Dr. Ralf Plattfaut im Process Innovation &amp; Automation Lab der Universität Duisburg-Essen fließt aktuelles Wissen direkt in die Idee ein: KI soll nicht nur beeindruckend aussehen, sondern reale Abläufe messbar verbessern.</p>
-    </div>
   </div>
 </section>
 
@@ -1163,6 +1159,14 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     </div>
   </div>
 </section>
+
+<!-- FORSCHUNG NOTE -->
+<div style="background:var(--soft);padding:40px 0;">
+  <div class="shell" style="max-width:720px;text-align:center;">
+    <h3 style="font-size:1.4rem;margin:0 0 12px;">Wir arbeiten an der <em style="color:var(--green);">Forschungsfront.</em></h3>
+    <p style="color:var(--muted);line-height:1.7;margin:0;">AutomateX entsteht nah an Prozessinnovation, Automatisierung und praktischer Forschung. Aus dem Process Innovation &amp; Automation Lab der Universität Duisburg-Essen fließt aktuelles Wissen direkt in die Idee ein: KI soll nicht nur beeindruckend aussehen, sondern reale Abläufe messbar verbessern.</p>
+  </div>
+</div>
 
 <!-- CONTACT FORM -->
 <section class="contact-section" id="kontakt">
@@ -1505,10 +1509,6 @@ function loadScenario(key, animate = true) {
       }).addTo(map);
     }
 
-    if (!map._initialViewSet) {
-      map._initialViewSet = true;
-      map.setView([51.49, 7.15], 10, { animate: false });
-    }
   }, routeDelay);
 }
 
