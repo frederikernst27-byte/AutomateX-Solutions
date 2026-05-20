@@ -7,6 +7,9 @@ import { useState } from "react";
 const NAV = [
   { href: "/dashboard", label: "Heutige Stops", icon: "📍" },
   { href: "/dashboard/route", label: "Karte & Route", icon: "🗺️" },
+  { href: "/dashboard/import", label: "Excel-Import", icon: "📊" },
+  { href: "/dashboard/inbox", label: "KI-Inbox", icon: "📧" },
+  { href: "/dashboard/settings", label: "Einstellungen", icon: "⚙️" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
