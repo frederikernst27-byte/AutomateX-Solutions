@@ -7,7 +7,8 @@
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_project_url",
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_publishable_keys",
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__apply_migration",
-      "mcp__ef0a7355-705f-423e-8682-e098f98dfa70__list_teams"
+      "mcp__ef0a7355-705f-423e-8682-e098f98dfa70__list_teams",
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__execute_sql"
     ]
   }
 }
