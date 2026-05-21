@@ -17,21 +17,38 @@ export default function RegisterPage() {
     setError(""); setLoading(true);
     const sb = createClient();
 
-    // 1. Register user
     const { data: authData, error: authErr } = await sb.auth.signUp({
-      email: form.email, password: form.password
+      email: form.email,
+      password: form.password,
     });
-    if (authErr || !authData.user) { setError(authErr?.message ?? "Fehler"); setLoading(false); return; }
+    if (authErr || !authData.user) {
+      setError(authErr?.message ?? "Registrierung fehlgeschlagen.");
+      setLoading(false);
+      return;
+    }
 
-    // 2. Create organization
-    const slug = form.company.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
-    const { data: org, error: orgErr } = await sb.from("organizations")
-      .insert({ name: form.company, slug: `${slug}-${Date.now()}` })
-      .select().single();
-    if (orgErr || !org) { setError("Organisation konnte nicht erstellt werden."); setLoading(false); return; }
+    // Ensure we have an active session before calling the RPC.
+    // If email confirmation is enabled in Supabase Auth, signUp won't return a session.
+    const { data: session } = await sb.auth.getSession();
+    if (!session.session) {
+      // Try sign-in immediately (works when email confirmation is disabled)
+      const { error: signInErr } = await sb.auth.signInWithPassword({
+        email: form.email, password: form.password,
+      });
+      if (signInErr) {
+        setError("Bitte E-Mail bestätigen und dann erneut anmelden.");
+        setLoading(false);
+        return;
+      }
+    }
 
-    // 3. Create membership
-    await sb.from("org_members").insert({ org_id: org.id, user_id: authData.user.id, role: "owner" });
+    // Use server-side RPC (SECURITY DEFINER) that atomically creates org + member
+    const { error: rpcErr } = await sb.rpc("setup_org_for_user", { p_name: form.company });
+    if (rpcErr) {
+      setError("Organisation konnte nicht erstellt werden: " + rpcErr.message);
+      setLoading(false);
+      return;
+    }
 
     router.push("/dashboard");
     router.refresh();
