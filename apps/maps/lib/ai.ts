@@ -1,5 +1,3 @@
-import Anthropic from "@anthropic-ai/sdk";
-
 const SYSTEM_PROMPT = `Du bist ein präziser Email-Parser für einen deutschen Handwerksbetrieb.
 Analysiere die Email und entscheide, was sie für die Tourenplanung bedeutet.
 
@@ -33,25 +31,36 @@ export interface EmailParseResult {
 }
 
 export async function parseEmailWithAI(subject: string, from: string, body: string): Promise<EmailParseResult | null> {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.warn("ANTHROPIC_API_KEY not set – using heuristic fallback");
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    console.warn("OPENROUTER_API_KEY not set – using heuristic fallback");
     return heuristicParse(subject, from, body);
   }
   try {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
     const today = new Date().toISOString().split("T")[0];
     const sys = SYSTEM_PROMPT.replace("{{TODAY}}", today);
 
-    const msg = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 800,
-      system: sys,
-      messages: [{
-        role: "user",
-        content: `Von: ${from}\nBetreff: ${subject}\n\n${body.slice(0, 4000)}`
-      }]
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://maps.automate-x-solutions.de",
+        "X-Title": "AutomateX Maps"
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-3.3-70b-instruct:free",
+        max_tokens: 800,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: `Von: ${from}\nBetreff: ${subject}\n\n${body.slice(0, 4000)}` }
+        ]
+      })
     });
-    const text = msg.content.filter(b => b.type === "text").map(b => (b as { text: string }).text).join("");
+
+    if (!res.ok) throw new Error(`OpenRouter ${res.status}: ${await res.text()}`);
+    const json = await res.json();
+    const text: string = json.choices?.[0]?.message?.content ?? "";
     const clean = text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
     return JSON.parse(clean) as EmailParseResult;
   } catch (e) {
