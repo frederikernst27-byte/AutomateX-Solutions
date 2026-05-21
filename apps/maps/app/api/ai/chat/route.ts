@@ -11,7 +11,12 @@ export async function POST(req: NextRequest) {
     const { messages } = await req.json() as { messages: ChatMessage[] };
     if (!messages?.length) return NextResponse.json({ error: "Keine Nachrichten" }, { status: 400 });
 
-    const { data: member } = await sb.from("org_members").select("org_id, organizations(name)").eq("user_id", user.id).single();
+    let { data: member } = await sb.from("org_members").select("org_id, organizations(name)").eq("user_id", user.id).single();
+    if (!member) {
+      await sb.rpc("setup_org_for_user", { p_name: user.email?.split("@")[0] ?? "Betrieb" });
+      const { data: newMember } = await sb.from("org_members").select("org_id, organizations(name)").eq("user_id", user.id).single();
+      member = newMember;
+    }
     if (!member) return NextResponse.json({ error: "Keine Organisation" }, { status: 403 });
 
     const today = new Date().toISOString().split("T")[0];

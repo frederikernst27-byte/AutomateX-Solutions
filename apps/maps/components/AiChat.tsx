@@ -39,7 +39,8 @@ export default function AiChat() {
         body: JSON.stringify({ messages: newMessages.filter(m => m.role !== "assistant" || newMessages.indexOf(m) > 0) }),
       });
       const data = await res.json();
-      setMessages(prev => [...prev, { role: "assistant", content: data.reply ?? "Fehler beim Antworten." }]);
+      const reply = data.reply ?? (res.ok ? "Ich bin gerade nicht verfügbar." : "Bitte erneut anmelden und versuchen.");
+      setMessages(prev => [...prev, { role: "assistant", content: reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "Verbindungsfehler. Bitte versuche es erneut." }]);
     } finally {

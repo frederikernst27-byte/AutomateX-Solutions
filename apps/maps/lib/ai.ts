@@ -13,16 +13,27 @@ async function callOpenRouter(
     ? [{ role: "system", content: systemPrompt }, ...messages]
     : messages;
 
-  const res = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": "https://maps.automate-x-solutions.de",
-      "X-Title": "AutomateX Maps",
-    },
-    body: JSON.stringify({ model: FREE_MODEL, max_tokens: maxTokens, messages: allMessages }),
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 9000);
+
+  let res: Response;
+  try {
+    res = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://maps.automate-x-solutions.de",
+        "X-Title": "AutomateX Maps",
+      },
+      body: JSON.stringify({ model: FREE_MODEL, max_tokens: maxTokens, messages: allMessages }),
+      signal: controller.signal,
+    });
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!res.ok) return null;
   const data = await res.json();
