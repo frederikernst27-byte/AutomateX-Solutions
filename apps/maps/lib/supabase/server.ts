@@ -9,9 +9,13 @@ export async function createClient() {
     {
       cookies: {
         getAll() { return cookieStore.getAll(); },
-        setAll(toSet) {
-          try { toSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); }
-          catch { /* read-only context */ }
+        setAll(toSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>) {
+          try {
+            toSet.forEach(({ name, value, options }) =>
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              cookieStore.set(name, value, options as any)
+            );
+          } catch { /* read-only context (Server Components) */ }
         }
       }
     }

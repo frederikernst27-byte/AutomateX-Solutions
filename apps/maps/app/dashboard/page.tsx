@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { geocode } from "@/lib/routing";
+import { generateRouteChangeMessage } from "@/lib/ai";
 
 interface Stop {
   id: string; name: string; address: string;
@@ -26,25 +27,30 @@ export default function DashboardPage() {
   const [geocoding, setGeocoding] = useState(false);
   const [form, setForm] = useState({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today() });
   const [error, setError] = useState("");
-
-  const sb = createClient();
+  const sbRef = useRef(createClient());
+  const sb = sbRef.current;
 
   const loadOrgAndStops = useCallback(async () => {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
     const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-    if (!member) return;
+    if (!member) { setLoading(false); return; }
     setOrgId(member.org_id);
     const { data } = await sb.from("stops").select("*")
-      .eq("org_id", member.org_id)
-      .eq("scheduled_date", today())
-      .order("priority", { ascending: false })
-      .order("time_from", { ascending: true });
+      .eq("org_id", member.org_id).eq("scheduled_date", today())
+      .order("priority", { ascending: false }).order("time_from", { ascending: true });
     setStops(data ?? []);
     setLoading(false);
   }, []);
 
-  useEffect(() => { loadOrgAndStops(); }, [loadOrgAndStops]);
+  useEffect(() => {
+    loadOrgAndStops();
+    // Real-time subscription for dashboard too
+    const channel = sb.channel("dashboard-stops-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "stops" }, () => loadOrgAndStops())
+      .subscribe();
+    return () => { channel.unsubscribe(); };
+  }, [loadOrgAndStops]);
 
   function setF(key: string, val: string) { setForm(f => ({ ...f, [key]: val })); }
 
@@ -54,23 +60,50 @@ export default function DashboardPage() {
     setGeocoding(true); setError("");
     const coords = await geocode(form.address);
     setGeocoding(false);
-    const { error: err } = await sb.from("stops").insert({
+    const { data: stop, error: err } = await sb.from("stops").insert({
       org_id: orgId,
       name: form.name, address: form.address,
       lat: coords?.lat ?? null, lng: coords?.lng ?? null,
       time_from: form.time_from || null, time_to: form.time_to || null,
       notes: form.notes || null, priority: parseInt(form.priority),
       scheduled_date: form.scheduled_date, status: "pending"
-    });
+    }).select().single();
     if (err) { setError(err.message); return; }
+
+    // Create driver notification
+    if (stop) {
+      const message = await generateRouteChangeMessage("stop_added", form.name, form.address, stops.length + 1);
+      await sb.from("driver_notifications").insert({
+        org_id: orgId,
+        type: "stop_added",
+        title: "Neuer Stop hinzugefügt",
+        message,
+        data: { stop_id: stop.id },
+      });
+    }
+
     setForm({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today() });
     setShowForm(false);
     loadOrgAndStops();
   }
 
   async function updateStatus(id: string, status: Stop["status"]) {
+    const stop = stops.find(s => s.id === id);
     await sb.from("stops").update({ status }).eq("id", id);
     setStops(s => s.map(x => x.id === id ? { ...x, status } : x));
+
+    // Notify driver when stop cancelled
+    if (status === "cancelled" && stop && orgId) {
+      const remaining = stops.filter(s => s.id !== id && s.status !== "cancelled").length;
+      const message = await generateRouteChangeMessage("stop_cancelled", stop.name, stop.address, remaining);
+      await sb.from("driver_notifications").insert({
+        org_id: orgId,
+        type: "stop_cancelled",
+        title: "Stop abgesagt",
+        message,
+        data: { stop_id: id },
+      });
+    }
   }
 
   async function deleteStop(id: string) {
@@ -79,13 +112,23 @@ export default function DashboardPage() {
     setStops(s => s.filter(x => x.id !== id));
   }
 
-  const counts = { pending: stops.filter(s => s.status === "pending").length, done: stops.filter(s => s.status === "done").length, cancelled: stops.filter(s => s.status === "cancelled").length };
+  const counts = {
+    pending: stops.filter(s => s.status === "pending").length,
+    done: stops.filter(s => s.status === "done").length,
+    cancelled: stops.filter(s => s.status === "cancelled").length
+  };
 
   return (
     <>
       <div className="page-header" style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
         <div>
-          <div className="section-kicker">Heute · {new Date().toLocaleDateString("de-DE", { weekday:"long", day:"numeric", month:"long" })}</div>
+          <div className="section-kicker">
+            Heute · {new Date().toLocaleDateString("de-DE", { weekday:"long", day:"numeric", month:"long" })}
+            <span style={{ marginLeft:8, display:"inline-flex", alignItems:"center", gap:4 }}>
+              <span style={{ width:6, height:6, borderRadius:"50%", background:"var(--green)", display:"inline-block", animation:"pulse 2s infinite" }} />
+              <span style={{ fontSize:10, color:"var(--green)" }}>Live</span>
+            </span>
+          </div>
           <h1>Heutige Stops</h1>
           <p>Verwalten Sie Ihre Kunden-Stops für heute</p>
         </div>
@@ -173,15 +216,12 @@ export default function DashboardPage() {
                   <span style={{ display:"block", marginTop:2 }}>🕐 {stop.time_from ?? "?"} – {stop.time_to ?? "?"}</span>
                 )}
                 {stop.notes && <span style={{ display:"block", marginTop:2, fontStyle:"italic" }}>💬 {stop.notes}</span>}
-                {!stop.lat && <span style={{ display:"block", color:"var(--rose)", fontSize:11, marginTop:2 }}>⚠ Kein Koordinaten – Route kann diesen Stop evtl. nicht anzeigen</span>}
+                {!stop.lat && <span style={{ display:"block", color:"var(--rose)", fontSize:11, marginTop:2 }}>⚠ Keine Koordinaten</span>}
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end", flexShrink:0 }}>
                 <span className={`stop-badge ${stop.status}`}>{STATUS_LABELS[stop.status]}</span>
-                <select
-                  value={stop.status}
-                  onChange={e => updateStatus(stop.id, e.target.value as Stop["status"])}
-                  style={{ fontSize:11, padding:"3px 6px", borderRadius:8, border:"1px solid var(--line)", cursor:"pointer" }}
-                >
+                <select value={stop.status} onChange={e => updateStatus(stop.id, e.target.value as Stop["status"])}
+                  style={{ fontSize:11, padding:"3px 6px", borderRadius:8, border:"1px solid var(--line)", cursor:"pointer" }}>
                   <option value="pending">Ausstehend</option>
                   <option value="in_progress">Unterwegs</option>
                   <option value="done">Erledigt</option>
@@ -193,6 +233,8 @@ export default function DashboardPage() {
           ))}
         </div>
       )}
+
+      <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}`}</style>
     </>
   );
 }

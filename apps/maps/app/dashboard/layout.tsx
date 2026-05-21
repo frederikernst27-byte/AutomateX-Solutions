@@ -9,6 +9,7 @@ const NAV = [
   { href: "/dashboard/route", label: "Karte & Route", icon: "🗺️" },
   { href: "/dashboard/import", label: "Excel-Import", icon: "📊" },
   { href: "/dashboard/inbox", label: "KI-Inbox", icon: "📧" },
+  { href: "/dashboard/insights", label: "KI-Erkenntnisse", icon: "🧠" },
   { href: "/dashboard/settings", label: "Einstellungen", icon: "⚙️" },
 ];
 

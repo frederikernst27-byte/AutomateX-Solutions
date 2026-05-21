@@ -1,4 +1,5 @@
 "use client";
+import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 
 export interface MapStop {
@@ -20,7 +21,6 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
 
-    // Dynamic Leaflet import (no SSR)
     import("leaflet").then(L => {
       if (!ref.current || mapRef.current) return;
 
@@ -32,15 +32,16 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
       mapRef.current = map;
 
       L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://openstreetmap.org">OSM</a>',
         maxZoom: 19
       }).addTo(map);
 
       stops.forEach(stop => {
         const color = stop.status === "done" ? "#16b67f" : stop.status === "cancelled" ? "#f0829a" : stop.status === "in_progress" ? "#d7ff72" : "#070912";
+        const textColor = stop.status === "in_progress" ? "#070912" : "white";
         const icon = L.divIcon({
           className: "",
-          html: `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.3);display:grid;place-items:center;font-weight:900;font-size:13px;color:${stop.status==="in_progress"?"#070912":"white"}">${stop.index}</div>`,
+          html: `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.3);display:grid;place-items:center;font-weight:900;font-size:13px;color:${textColor}">${stop.index}</div>`,
           iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -22]
         });
         const marker = L.marker([stop.lat, stop.lng], { icon }).addTo(map);
@@ -56,6 +57,9 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
         const bounds = L.latLngBounds(stops.map(s => [s.lat, s.lng]));
         map.fitBounds(bounds.pad(.15), { animate: false });
       }
+
+      // Fix tiles in flex/grid containers
+      setTimeout(() => map.invalidateSize(), 100);
     });
 
     return () => {
@@ -66,11 +70,5 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
     };
   }, []);
 
-  // Update markers when stops change
-  useEffect(() => {
-    if (!mapRef.current) return;
-    // Re-render handled by key-based remount in parent
-  }, [stops, routePolyline]);
-
-  return <div ref={ref} className={className} />;
+  return <div ref={ref} className={className} style={{ position: "relative" }} />;
 }
