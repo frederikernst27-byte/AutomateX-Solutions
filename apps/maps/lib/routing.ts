@@ -2,11 +2,15 @@ export interface LatLng { lat: number; lng: number; }
 
 export async function geocode(address: string): Promise<LatLng | null> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     const q = encodeURIComponent(address + ", Deutschland");
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=de`,
-      { headers: { "User-Agent": "AutomateX-Maps/1.0" } }
+      { signal: controller.signal }
     );
+    clearTimeout(timeout);
+    if (!res.ok) return null;
     const data = await res.json();
     if (!data.length) return null;
     return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
@@ -18,9 +22,12 @@ export interface Stop { id: string; name: string; lat: number; lng: number; }
 export async function optimizeRoute(stops: Stop[]): Promise<{ orderedStops: Stop[]; distanceKm: number; durationMin: number } | null> {
   if (stops.length < 2) return { orderedStops: stops, distanceKm: 0, durationMin: 0 };
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     const coords = stops.map(s => `${s.lng},${s.lat}`).join(";");
     const url = `https://router.project-osrm.org/trip/v1/driving/${coords}?roundtrip=false&source=first&destination=last&annotations=false`;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeout);
     const data = await res.json();
     if (data.code !== "Ok" || !data.trips?.length) return null;
     const trip = data.trips[0];
@@ -39,7 +46,6 @@ export async function optimizeRoute(stops: Stop[]): Promise<{ orderedStops: Stop
 }
 
 export function getRoutePolyline(geometry: string): Array<[number, number]> {
-  // OSRM returns encoded polyline – decode it
   const coords: Array<[number, number]> = [];
   let lat = 0, lng = 0, i = 0;
   const str = geometry;

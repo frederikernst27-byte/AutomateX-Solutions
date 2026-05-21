@@ -1,4 +1,5 @@
 "use client";
+import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 
 export interface MapStop {
@@ -20,7 +21,6 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
   useEffect(() => {
     if (!ref.current || mapRef.current) return;
 
-    // Dynamic Leaflet import (no SSR)
     import("leaflet").then(L => {
       if (!ref.current || mapRef.current) return;
 
@@ -35,6 +35,9 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
         attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>',
         maxZoom: 19
       }).addTo(map);
+
+      // Force invalidate size after mount to ensure tiles render correctly
+      setTimeout(() => map.invalidateSize(), 100);
 
       stops.forEach(stop => {
         const color = stop.status === "done" ? "#16b67f" : stop.status === "cancelled" ? "#f0829a" : stop.status === "in_progress" ? "#d7ff72" : "#070912";
@@ -64,13 +67,8 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
         mapRef.current = null;
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update markers when stops change
-  useEffect(() => {
-    if (!mapRef.current) return;
-    // Re-render handled by key-based remount in parent
-  }, [stops, routePolyline]);
-
-  return <div ref={ref} className={className} />;
+  return <div ref={ref} className={className} style={{ position: "relative" }} />;
 }
