@@ -6,15 +6,26 @@ export async function GET() {
   const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URL!));
-  let { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-  if (!member) {
-    // Auto-create org for users who don't have one yet
-    await sb.rpc("setup_org_for_user", { p_name: user.email?.split("@")[0] ?? "Betrieb" });
-    const { data: newMember } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-    member = newMember;
+
+  // Use SECURITY DEFINER RPC with explicit user_id to bypass auth.uid() / RLS issues
+  // when the JWT is expired in PostgREST context (getUser() refreshes via HTTP separately)
+  const { data: orgRows, error: orgErr } = await sb.rpc("get_org_for_user", { p_user_id: user.id });
+  let orgId: string | null = (orgRows as Array<{ org_id: string }> | null)?.[0]?.org_id ?? null;
+
+  if (!orgId) {
+    // Create org if user has none
+    const { data: newOrgId } = await sb.rpc("setup_org_for_user", {
+      p_name: user.email?.split("@")[0] ?? "Betrieb",
+      p_user_id: user.id,
+    });
+    orgId = newOrgId as string | null;
   }
-  if (!member) return NextResponse.json({ error: "Organisation konnte nicht erstellt werden" }, { status: 500 });
-  // Encode org_id in state so we know which org to bind on callback
-  const state = Buffer.from(JSON.stringify({ org_id: member.org_id, user_id: user.id })).toString("base64url");
+
+  if (!orgId) {
+    console.error("gmail/auth: no org for user", user.id, orgErr);
+    return NextResponse.json({ error: "Keine Organisation gefunden" }, { status: 500 });
+  }
+
+  const state = Buffer.from(JSON.stringify({ org_id: orgId, user_id: user.id })).toString("base64url");
   return NextResponse.redirect(getAuthUrl(state));
 }

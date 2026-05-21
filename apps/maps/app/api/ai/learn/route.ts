@@ -9,13 +9,14 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: "Nicht angemeldet" }, { status: 401 });
 
     const body = await req.json() as { issue_type?: string; stop_id?: string; notes?: string };
-    const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-    if (!member) return NextResponse.json({ error: "Keine Organisation" }, { status: 403 });
+    const { data: orgRows } = await sb.rpc("get_org_for_user", { p_user_id: user.id });
+    const orgRow = (orgRows as Array<{ org_id: string; org_name: string; role: string }> | null)?.[0] ?? null;
+    if (!orgRow) return NextResponse.json({ error: "Keine Organisation" }, { status: 403 });
 
     // If feedback payload provided, store it
     if (body.issue_type) {
       await sb.from("route_feedback").insert({
-        org_id: member.org_id,
+        org_id: orgRow.org_id,
         stop_id: body.stop_id ?? null,
         issue_type: body.issue_type,
         notes: body.notes ?? null,
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     // Process unprocessed feedback into insights
     const { data: feedbackRows } = await sb.from("route_feedback")
       .select("*, stops(name, address)")
-      .eq("org_id", member.org_id)
+      .eq("org_id", orgRow.org_id)
       .eq("ai_processed", false)
       .order("created_at", { ascending: false })
       .limit(20);
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const { data: existingInsights } = await sb.from("route_insights")
       .select("title")
-      .eq("org_id", member.org_id);
+      .eq("org_id", orgRow.org_id);
 
     const feedback: FeedbackEntry[] = feedbackRows.map(f => ({
       issue_type: f.issue_type ?? "other",
@@ -53,14 +54,14 @@ export async function POST(req: NextRequest) {
 
     if (newInsights.length > 0) {
       await sb.from("route_insights").insert(
-        newInsights.map(i => ({ ...i, org_id: member.org_id }))
+        newInsights.map(i => ({ ...i, org_id: orgRow.org_id }))
       );
     }
 
     // Mark feedback as processed
     await sb.from("route_feedback")
       .update({ ai_processed: true })
-      .eq("org_id", member.org_id)
+      .eq("org_id", orgRow.org_id)
       .eq("ai_processed", false);
 
     return NextResponse.json({ ok: true, insights: newInsights.length });

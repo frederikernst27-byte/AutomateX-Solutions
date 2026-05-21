@@ -8,24 +8,25 @@ export async function POST() {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return NextResponse.json({ error: "Nicht angemeldet" }, { status: 401 });
 
-    const { data: member } = await sb.from("org_members").select("org_id, organizations(name)").eq("user_id", user.id).single();
-    if (!member) return NextResponse.json({ error: "Keine Organisation" }, { status: 403 });
+    const { data: orgRows } = await sb.rpc("get_org_for_user", { p_user_id: user.id });
+    const orgRow = (orgRows as Array<{ org_id: string; org_name: string; role: string }> | null)?.[0] ?? null;
+    if (!orgRow) return NextResponse.json({ error: "Keine Organisation" }, { status: 403 });
 
     const today = new Date().toISOString().split("T")[0];
     const { data: stops } = await sb.from("stops")
       .select("name, address")
-      .eq("org_id", member.org_id)
+      .eq("org_id", orgRow.org_id)
       .eq("scheduled_date", today)
       .neq("status", "cancelled");
 
     if (!stops?.length) return NextResponse.json({ suggestions: [] });
 
-    const orgName = (member.organizations as { name?: string } | null)?.name ?? "Betrieb";
+    const orgName = orgRow.org_name ?? "Betrieb";
     const suggestions = await generateEmailSuggestions(stops, orgName);
 
     if (suggestions.length > 0) {
       await sb.from("email_suggestions").insert(
-        suggestions.map(s => ({ ...s, org_id: member.org_id }))
+        suggestions.map(s => ({ ...s, org_id: orgRow.org_id }))
       );
     }
 
@@ -42,12 +43,13 @@ export async function GET() {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return NextResponse.json({ suggestions: [] });
 
-    const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-    if (!member) return NextResponse.json({ suggestions: [] });
+    const { data: orgRows } = await sb.rpc("get_org_for_user", { p_user_id: user.id });
+    const orgRow = (orgRows as Array<{ org_id: string; org_name: string; role: string }> | null)?.[0] ?? null;
+    if (!orgRow) return NextResponse.json({ suggestions: [] });
 
     const { data } = await sb.from("email_suggestions")
       .select("*")
-      .eq("org_id", member.org_id)
+      .eq("org_id", orgRow.org_id)
       .eq("status", "draft")
       .order("created_at", { ascending: false })
       .limit(10);

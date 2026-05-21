@@ -7,10 +7,11 @@ export async function POST() {
   const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: "auth" }, { status: 401 });
-  const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
-  if (!member) return NextResponse.json({ error: "no_org" }, { status: 400 });
+  const { data: orgRows } = await sb.rpc("get_org_for_user", { p_user_id: user.id });
+  const orgRow = (orgRows as Array<{ org_id: string; org_name: string; role: string }> | null)?.[0] ?? null;
+  if (!orgRow) return NextResponse.json({ error: "no_org" }, { status: 400 });
 
-  const { data: integration } = await sb.from("gmail_integrations").select("*").eq("org_id", member.org_id).single();
+  const { data: integration } = await sb.from("gmail_integrations").select("*").eq("org_id", orgRow.org_id).single();
   if (!integration) return NextResponse.json({ error: "not_connected" }, { status: 400 });
 
   // Refresh token if needed
