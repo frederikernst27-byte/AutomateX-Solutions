@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 interface Integration { id: string; email_address: string; last_synced_at: string | null; }
 
-export default function SettingsPage() {
+function SettingsContent() {
   const params = useSearchParams();
   const [integration, setIntegration] = useState<Integration | null>(null);
   const [loading, setLoading] = useState(true);
@@ -96,5 +96,13 @@ export default function SettingsPage() {
         )}
       </div>
     </>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense fallback={<div style={{ color: "var(--muted)", padding: 40, textAlign: "center" }}>Lädt…</div>}>
+      <SettingsContent />
+    </Suspense>
   );
 }
