@@ -1,19 +1,23 @@
 "use client";
-export const dynamic = "force-dynamic";
-
-import { useEffect, useState, useCallback, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Integration { id: string; email_address: string; last_synced_at: string | null; }
 
-function SettingsContent() {
-  const params = useSearchParams();
+export default function SettingsPage() {
   const [integration, setIntegration] = useState<Integration | null>(null);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<string | null>(null);
+  const [connected, setConnected] = useState(false);
+  const [urlError, setUrlError] = useState<string | null>(null);
   const sb = createClient();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setConnected(params.get("connected") === "1");
+    setUrlError(params.get("error"));
+  }, []);
 
   const load = useCallback(async () => {
     const { data: { user } } = await sb.auth.getUser();
@@ -46,9 +50,6 @@ function SettingsContent() {
     setIntegration(null);
   }
 
-  const connected = params.get("connected") === "1";
-  const error = params.get("error");
-
   return (
     <>
       <div className="page-header">
@@ -58,7 +59,7 @@ function SettingsContent() {
       </div>
 
       {connected && <div className="success-msg">✓ Gmail erfolgreich verbunden.</div>}
-      {error && <div className="error-msg">Fehler: {error}</div>}
+      {urlError && <div className="error-msg">Fehler: {urlError}</div>}
 
       <div className="card">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
@@ -98,13 +99,5 @@ function SettingsContent() {
         )}
       </div>
     </>
-  );
-}
-
-export default function SettingsPage() {
-  return (
-    <Suspense fallback={<div style={{ color: "var(--muted)", padding: 40, textAlign: "center" }}>Lädt…</div>}>
-      <SettingsContent />
-    </Suspense>
   );
 }
