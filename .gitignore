@@ -1,0 +1,15 @@
+.vercel
+.env
+**/.env
+__pycache__/
+**/__pycache__/
+*.pyc
+*.db
+*.log
+server-8080*.log
+sync/AutomateX-Solutions-sync/
+# Node modules
+node_modules/
+.next/
+dist/
+
