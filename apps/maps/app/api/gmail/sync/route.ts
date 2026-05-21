@@ -35,7 +35,7 @@ export async function POST() {
 
     for (const msgRef of messages) {
       // Skip already-processed
-      const { data: existing } = await sb.from("email_queue").select("id").eq("org_id", member.org_id).eq("gmail_message_id", msgRef.id).maybeSingle();
+      const { data: existing } = await sb.from("email_queue").select("id").eq("org_id", orgRow.org_id).eq("gmail_message_id", msgRef.id).maybeSingle();
       if (existing) { skipped++; continue; }
 
       const fullMsg = await fetchEmail(msgRef.id, accessToken);
@@ -48,7 +48,7 @@ export async function POST() {
       const isRelevant = parsed.intent !== "other" && parsed.confidence >= 0.45;
 
       await sb.from("email_queue").insert({
-        org_id: member.org_id,
+        org_id: orgRow.org_id,
         gmail_message_id: msgRef.id,
         sender: from,
         subject,
