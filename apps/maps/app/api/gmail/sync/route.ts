@@ -1,33 +1,22 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { fetchEmail, listRecentMessages, refreshAccessToken, extractEmailContent } from "@/lib/gmail";
+import { fetchEmail, listRecentMessages, extractEmailContent, getUserProfile } from "@/lib/gmail";
 import { parseEmailWithAI } from "@/lib/ai";
 
-export async function POST() {
+export async function POST(req: Request) {
   const sb = await createClient();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return NextResponse.json({ error: "auth" }, { status: 401 });
   const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
   if (!member) return NextResponse.json({ error: "no_org" }, { status: 400 });
 
-  const { data: integration } = await sb.from("gmail_integrations").select("*").eq("org_id", member.org_id).single();
-  if (!integration) return NextResponse.json({ error: "not_connected" }, { status: 400 });
-
-  // Refresh token if needed
-  let accessToken = integration.access_token as string;
-  if (!integration.expires_at || new Date(integration.expires_at) < new Date()) {
-    try {
-      const refreshed = await refreshAccessToken(integration.refresh_token);
-      accessToken = refreshed.access_token;
-      const expires = new Date(Date.now() + (refreshed.expires_in - 60) * 1000).toISOString();
-      await sb.from("gmail_integrations").update({ access_token: accessToken, expires_at: expires }).eq("id", integration.id);
-    } catch (e) {
-      return NextResponse.json({ error: "refresh_failed", details: String(e) }, { status: 500 });
-    }
-  }
+  const body = await req.json().catch(() => ({})) as { accessToken?: string };
+  const accessToken = body.accessToken;
+  if (!accessToken) return NextResponse.json({ error: "not_connected" }, { status: 400 });
 
   // Fetch messages
   try {
+    const profile = await getUserProfile(accessToken);
     const list = await listRecentMessages(accessToken, "newer_than:3d -in:sent -from:no-reply -from:noreply");
     const messages = list.messages ?? [];
     let processed = 0, skipped = 0, created = 0;
@@ -62,7 +51,14 @@ export async function POST() {
       if (isRelevant) created++;
     }
 
-    await sb.from("gmail_integrations").update({ last_synced_at: new Date().toISOString() }).eq("id", integration.id);
+    await sb.from("gmail_integrations").upsert({
+      org_id: member.org_id,
+      email_address: profile.emailAddress,
+      access_token: accessToken,
+      refresh_token: "",
+      expires_at: new Date(Date.now() + 55 * 60 * 1000).toISOString(),
+      last_synced_at: new Date().toISOString()
+    }, { onConflict: "org_id" });
 
     return NextResponse.json({ ok: true, processed, skipped, queued: created, total: messages.length });
   } catch (e) {
