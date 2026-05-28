@@ -1261,7 +1261,7 @@ function closeLightbox() {
   lightboxImage.alt = "";
 }
 
-document.querySelectorAll(".shot-card[data-lightbox-src]").forEach(card => {
+document.querySelectorAll("[data-lightbox-src]").forEach(card => {
   card.addEventListener("click", () => {
     if (!lightbox || !lightboxImage || !lightboxCaption) return;
     const src = card.getAttribute("data-lightbox-src") || "";
