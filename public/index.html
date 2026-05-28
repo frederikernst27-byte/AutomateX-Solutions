@@ -141,6 +141,49 @@ h1 em{font-style:normal;color:var(--green);}
 .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px;}
 .hero-actions .btn:not(.green){background:white!important;color:var(--ink)!important;border:1px solid rgba(15,23,42,.1)!important;}
 
+/* HERO SCREENSHOT */
+.hero-screenshot-wrap{
+  position:relative;z-index:2;
+  max-width:1000px;
+  margin:48px auto 0;
+  padding:0 24px 60px;
+  text-align:center;
+}
+.hero-screenshot-browser{
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 40px 100px rgba(15,23,42,.18);
+  border:1px solid rgba(15,23,42,.1);
+  background:white;
+}
+.hero-browser-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:10px 16px;
+  background:#f1f3f5;
+  border-bottom:1px solid rgba(15,23,42,.08);
+}
+.browser-dot{
+  width:12px;height:12px;border-radius:50%;background:#e0e3e7;flex-shrink:0;
+}
+.browser-dot:nth-child(1){background:#ff5f57;}
+.browser-dot:nth-child(2){background:#febc2e;}
+.browser-dot:nth-child(3){background:#28c840;}
+.browser-url{
+  flex:1;text-align:center;
+  font-size:12px;font-weight:600;color:#8a9ab0;
+  background:white;border-radius:6px;padding:4px 12px;
+  border:1px solid rgba(15,23,42,.08);
+}
+.hero-screenshot-browser img{
+  display:block;width:100%;height:auto;
+}
+.hero-screenshot-caption{
+  margin:14px auto 0;
+  max-width:640px;
+  font-size:13px;font-weight:700;
+  color:var(--muted);
+}
+
 /* PRODUCT SCREENSHOTS */
 .product-shot-section{
   padding:88px 0;
@@ -899,6 +942,17 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
           <a class="btn green" href="#live-workflow">Demo live erleben</a>
           <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#kontakt">Kostenlose Analyse</a>
         </div>
+      </div>
+
+      <div class="hero-screenshot-wrap">
+        <div class="hero-screenshot-browser">
+          <div class="hero-browser-bar">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+            <span class="browser-url">maps.automate-x-solutions.de/dashboard</span>
+          </div>
+          <img src="assets/screenshots/automatex-demo-desktop-top.png" alt="AutomateX Dashboard – Tagesstopps und KI-Inbox" loading="lazy">
+        </div>
+        <p class="hero-screenshot-caption">Dashboard-Ansicht: Stops planen, KI-Inbox auswerten und Route mit einem Klick optimieren.</p>
       </div>
 
     </div>
