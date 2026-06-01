@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutomateX – KI-Routenplanung für Handwerk & Disposition</title>
-<meta name="description" content="AutomateX optimiert Touren mit KI, reagiert automatisch auf Absagen und schlägt im Hintergrund neue Termine vor – damit Ihre Fahrer immer die kürzeste Route fahren.">
+<meta name="description" content="AutomateX optimiert Touren mit KI. Stops lassen sich manuell anlegen oder per Excel importieren – danach berechnet das System auf Wunsch sofort die beste Route.">
 <link rel="icon" type="image/png" sizes="32x32" href="public/assets/brand/small-logo.png">
 <link rel="shortcut icon" href="public/assets/brand/small-logo.png">
 <link rel="apple-touch-icon" href="public/assets/brand/small-logo.png">
@@ -29,14 +29,15 @@
   --shadow: 0 28px 90px rgba(15,23,42,.14);
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{
   margin:0;
   color:var(--text);
-  background: linear-gradient(180deg,#eef3f9 0%,#fbfcff 46%,#f5f8fc 100%);
+  background: linear-gradient(180deg,#eef8f4 0%,#fbfffd 46%,#f5fbf8 100%);
   font-family:"DM Sans",sans-serif;
   font-size:16px;
   line-height:1.55;
+  overflow-x:hidden;
 }
 a{color:inherit;}
 button,input,textarea,select{font:inherit;}
@@ -44,9 +45,9 @@ button,input,textarea,select{font:inherit;}
 
 /* NAV */
 .nav{
-  position:sticky;top:18px;z-index:50;
+  position:sticky;top:12px;z-index:50;
   width:min(1120px,calc(100% - 32px));
-  margin:18px auto 0;
+  margin:0 auto;
   min-height:64px;
   display:flex;align-items:center;justify-content:space-between;gap:20px;
   padding:10px 14px;
@@ -75,23 +76,28 @@ button,input,textarea,select{font:inherit;}
 .btn.green{background:var(--green);color:white;}
 .btn.rose{background:var(--rose);color:white;}
 .btn.small{min-height:34px;padding:8px 13px;font-size:13px;}
+.step-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.step-hint{font-size:12px;font-weight:800;color:rgba(255,255,255,.58);}
 
 /* HERO */
-.hero{padding:26px 0 60px;}
+.hero{padding:28px 0 60px;}
 .hero-frame{
-  min-height:680px;
+  min-height:660px;
   position:relative;overflow:hidden;
-  border-radius:28px;
-  border:1px solid rgba(255,255,255,.9);
-  background: linear-gradient(135deg, #0d1117 0%, #111827 40%, #0c1a2e 70%, #081020 100%);
-  box-shadow:var(--shadow);
-}
-.hero-grid{
-  position:absolute;inset:0;
+  border-radius:0;
+  border:1px solid rgba(22,182,127,.14);
   background-image:
-    linear-gradient(rgba(87,149,255,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(87,149,255,.06) 1px, transparent 1px);
-  background-size:48px 48px;
+    linear-gradient(180deg,rgba(255,255,255,.78),rgba(232,248,241,.92)),
+    radial-gradient(circle at 50% 120%, rgba(22,182,127,.2), transparent 36rem);
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  box-shadow:0 30px 90px rgba(15,23,42,.1);
+}
+.hero-frame::before{
+  content:"";
+  position:absolute;inset:30px;
+  border:1px solid rgba(22,182,127,.18);
   pointer-events:none;
 }
 .hero-glow{
@@ -109,86 +115,112 @@ button,input,textarea,select{font:inherit;}
   pointer-events:none;
 }
 
-/* Animated route lines in hero */
-.route-svg{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  pointer-events:none;
-  opacity:.35;
-}
-.route-path{
-  stroke-dasharray:800;
-  stroke-dashoffset:800;
-  animation:drawRoute 3.5s ease-out forwards;
-}
-.route-path.delay1{animation-delay:.6s;}
-.route-path.delay2{animation-delay:1.4s;}
-@keyframes drawRoute{to{stroke-dashoffset:0;}}
-.pulse-dot{
-  animation:pulseDot 2s ease-in-out infinite;
-}
-.pulse-dot.d2{animation-delay:.7s;}
-.pulse-dot.d3{animation-delay:1.5s;}
-.pulse-dot.d4{animation-delay:2.1s;}
-@keyframes pulseDot{
-  0%,100%{opacity:.5;r:4;}
-  50%{opacity:1;r:7;}
-}
-
 .hero-copy{
   position:relative;z-index:2;
-  max-width:760px;
+  max-width:980px;
   margin:0 auto;
-  padding:96px 28px 0;
+  padding:120px 34px 0;
   text-align:center;
 }
-.eyebrow{
-  display:inline-flex;align-items:center;gap:9px;
-  margin-bottom:20px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(22,182,127,.15);
-  border:1px solid rgba(22,182,127,.3);
-  color:#7ef0c3;
-  font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(22,182,127,.2),0 0 12px rgba(22,182,127,.5);}
 h1{
   margin:0;
-  color:white;
-  font-size:clamp(40px,6.5vw,82px);
+  color:#262626;
+  font-size:clamp(52px,9.6vw,132px);
   font-weight:900;
-  line-height:.93;
-  letter-spacing:-.06em;
+  line-height:.86;
+  letter-spacing:-.075em;
 }
 h1 em{font-style:normal;color:var(--green);}
 .hero-copy p{
-  max-width:600px;
-  margin:24px auto 0;
-  color:rgba(255,255,255,.72);
+  max-width:640px;
+  margin:28px auto 0;
+  color:#52605b;
   font-size:18px;
   line-height:1.6;
 }
 .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px;}
+.hero-actions .btn:not(.green){background:white!important;color:var(--ink)!important;border:1px solid rgba(15,23,42,.1)!important;}
 
-/* Hero stats */
-.hero-stats{
-  position:relative;z-index:2;
-  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
-  margin-top:52px;
-  padding:0 28px 52px;
+/* PRODUCT SCREENSHOTS */
+.product-shot-section{
+  padding:88px 0;
+  background:linear-gradient(180deg,#f6fbf8 0%,#eef8f4 100%);
 }
-.stat{
-  text-align:center;
-  padding:20px 28px;
+.shot-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:22px;
+  align-items:start;
+}
+.shot-card{
+  border-radius:26px;
+  padding:12px;
+  background:white;
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:0 24px 80px rgba(15,23,42,.12);
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.shot-card:hover{transform:translateY(-3px);box-shadow:0 30px 90px rgba(15,23,42,.16);}
+.shot-card img{
+  display:block;
+  width:100%;
+  border-radius:18px;
+  border:1px solid rgba(15,23,42,.06);
+}
+.shot-stack{display:grid;gap:22px;}
+.shot-caption{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+}
+.shot-caption b{color:var(--ink);}
+
+.image-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+  background:rgba(7,9,18,.74);
+  backdrop-filter:blur(10px);
+}
+.image-lightbox.open{display:flex;}
+.image-lightbox img{
+  max-width:min(1200px,96vw);
+  max-height:86vh;
   border-radius:20px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  backdrop-filter:blur(12px);
+  background:white;
+  box-shadow:0 30px 120px rgba(0,0,0,.42);
 }
-.stat-val{font-size:34px;font-weight:900;letter-spacing:-.05em;color:white;}
-.stat-val em{font-style:normal;color:var(--green);}
-.stat-label{color:rgba(255,255,255,.6);font-size:13px;font-weight:700;margin-top:4px;}
+.lightbox-close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:50%;
+  background:white;
+  color:var(--ink);
+  font-size:24px;
+  font-weight:800;
+  cursor:pointer;
+}
+.lightbox-caption{
+  position:absolute;
+  left:28px;
+  right:82px;
+  bottom:20px;
+  color:white;
+  font-size:14px;
+  font-weight:800;
+  text-align:center;
+}
 
 /* TRUST BAR */
 .trust{padding:38px 0 60px;text-align:center;}
@@ -380,6 +412,32 @@ h2 em{font-style:normal;color:var(--green);}
   color:var(--green-dark);
   font-size:11px;font-weight:800;
 }
+.research-note{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:.58fr 1fr;
+  gap:22px;
+  align-items:center;
+  padding:28px;
+  border-radius:24px;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:0 18px 55px rgba(15,23,42,.08);
+}
+.research-note h3{
+  margin:0;
+  color:var(--ink);
+  font-size:clamp(24px,3vw,38px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.research-note h3 em{font-style:normal;color:var(--green);}
+.research-note p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+  font-weight:560;
+}
 
 /* MAP DEMO SECTION */
 .map-section{padding:80px 0;background:var(--soft);}
@@ -441,14 +499,165 @@ h2 em{font-style:normal;color:var(--green);}
 .map-info-box .info-title{font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
 .map-info-box .info-body{color:var(--muted);line-height:1.5;}
 #map{
+  position:relative;
+  overflow:hidden;
   border-radius:24px;
   border:1px solid var(--line);
   box-shadow:var(--shadow);
   flex:1;
   min-height:520px;
+  background:#dfe8d8 url("https://tile.openstreetmap.org/11/1063/681.png") center/cover no-repeat;
 }
+#map .static-map{position:absolute;inset:0;overflow:hidden;border-radius:inherit;background:#dfe8d8;}
+#map .static-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);opacity:.9;}
+#map .static-tiles img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(.95);}
+#map .static-map::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(8,9,21,.16));}
+#map .static-route-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+#map .static-route{fill:none;stroke:var(--green);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 8px 16px rgba(22,182,127,.2));}
+#map .static-route.detour{stroke:#f59e0b;stroke-dasharray:8 6;}
+#map .static-dot{position:absolute;left:var(--x);top:var(--y);z-index:2;width:36px;height:36px;transform:translate(-50%,-50%);display:grid;place-items:center;border-radius:50%;border:3px solid white;background:var(--green);color:white;font-weight:900;box-shadow:0 8px 22px rgba(8,9,21,.26);}
+#map .static-dot.new{background:var(--rose);}
+#map .static-dot.warn{background:#f59e0b;}
+#map .static-dot.depot{background:var(--ink);border-radius:12px;}
+#map .static-caption{position:absolute;left:16px;bottom:16px;z-index:3;padding:9px 12px;border-radius:13px;background:rgba(255,255,255,.9);color:var(--ink);font-size:12px;font-weight:900;}
 @keyframes markerPop{from{transform:scale(0) translateY(10px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
 .leaflet-marker-icon.new-marker{animation:markerPop .4s cubic-bezier(.34,1.56,.64,1) both;}
+
+/* PDF CONTENT + LIVE WORKFLOW */
+.journey-grid,.problem-grid,.cooperation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.journey-card,.problem-card,.coop-card{
+  border-radius:22px;
+  padding:24px;
+  background:white;
+  border:1px solid var(--line);
+  box-shadow:0 10px 34px rgba(15,23,42,.06);
+}
+.journey-num{
+  width:42px;height:42px;border-radius:14px;
+  display:grid;place-items:center;
+  margin-bottom:18px;
+  background:var(--ink);color:white;
+  font-weight:900;
+}
+.journey-card h3,.problem-card h3,.coop-card h3{margin:0 0 8px;color:var(--ink);font-size:20px;letter-spacing:-.04em;line-height:1.12;}
+.journey-card p,.problem-card p,.coop-card p{margin:0;color:var(--muted);}
+.problem-grid{grid-template-columns:repeat(3,1fr);}
+.problem-icon{
+  width:44px;height:44px;border-radius:14px;
+  display:grid;place-items:center;
+  margin-bottom:20px;
+  background:#edf9f4;
+  color:var(--green-dark);
+  font-weight:900;
+}
+.live-sync{padding:80px 0;background:var(--night);color:white;}
+.live-sync .section-head h2{color:white;}
+.live-sync .section-head .section-sub{color:rgba(255,255,255,.68);}
+.sync-board{
+  display:grid;
+  grid-template-columns:330px minmax(0,1fr);
+  min-height:650px;
+  border-radius:28px;
+  overflow:hidden;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 30px 100px rgba(0,0,0,.28);
+}
+.sync-rail{background:rgba(255,255,255,.04);border-right:1px solid rgba(255,255,255,.1);}
+.sync-head{
+  min-height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 18px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  color:white;font-weight:900;
+}
+.sync-count{padding:3px 8px;border-radius:9px;background:rgba(22,182,127,.18);color:var(--green);font-size:12px;}
+.mail-stack,.candidate-stack,.sync-log{display:grid;gap:10px;padding:16px;}
+.mail-card,.candidate-card,.sync-log .log-line,.sync-route-row{
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+}
+.mail-card{padding:13px;transition:transform .25s ease,border-color .25s ease,background .25s ease;}
+.mail-card.active{transform:translateX(6px);border-color:rgba(240,130,154,.48);background:rgba(240,130,154,.12);}
+.mail-card b{display:block;color:white;font-size:14px;}
+.mail-card span{display:block;margin-top:3px;color:rgba(255,255,255,.62);font-size:13px;}
+.mail-card small{display:block;margin-top:8px;color:rgba(255,255,255,.45);font-weight:800;font-size:11px;}
+.candidate-card{padding:12px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,background .25s ease;}
+.candidate-card.active,.candidate-card.selected{transform:translateX(6px);border-color:rgba(22,182,127,.42);background:rgba(22,182,127,.1);}
+.candidate-card.selected{border-color:rgba(215,255,114,.58);background:rgba(215,255,114,.12);}
+.candidate-card strong{display:flex;justify-content:space-between;color:white;font-size:13px;}
+.match{height:6px;margin-top:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;}
+.match span{display:block;height:100%;width:0;background:var(--green);transition:width .7s ease;}
+.candidate-card.measured .match span{width:var(--match-width,0%);}
+.candidate-card.mid .match span{background:var(--lime);}
+.candidate-card.low .match span{background:var(--rose);}
+.sync-stage{display:grid;grid-template-rows:390px auto;background:#0d1321;}
+.sync-map{position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1);background:#dfe8d8;}
+.sync-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);opacity:.78;}
+.sync-tiles img{width:100%;height:100%;object-fit:cover;filter:saturate(.86) contrast(.92);}
+.sync-map::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,21,.05),rgba(8,9,21,.28));}
+.workflow-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.workflow-old,.workflow-new{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.workflow-old{stroke:rgba(8,9,21,.52);stroke-width:4;transition:opacity .4s ease;}
+.workflow-new{stroke:var(--green);stroke-width:6;stroke-dasharray:650;stroke-dashoffset:650;filter:drop-shadow(0 8px 16px rgba(22,182,127,.28));}
+.sync-board.has-route .workflow-old{opacity:.24;}
+.sync-board.has-route .workflow-new{animation:drawRoute 2.6s ease forwards;}
+@keyframes drawRoute{to{stroke-dashoffset:0;}}
+.sync-stop{
+  position:absolute;left:var(--x);top:var(--y);z-index:2;
+  width:36px;height:36px;transform:translate(-50%,-50%);
+  display:grid;place-items:center;border-radius:50%;
+  border:3px solid white;background:var(--green);color:white;font-weight:900;font-size:13px;
+  box-shadow:0 10px 25px rgba(8,9,21,.24);
+}
+.sync-stop.depot{background:var(--ink);}
+.sync-stop.cancelled{background:var(--rose);}
+.sync-stop.inserted{background:var(--lime);color:var(--ink);opacity:0;transform:translate(-50%,-50%) scale(.55);}
+.sync-board.has-cancel .sync-stop.cancelled::after{
+  content:"";position:absolute;width:54px;height:4px;background:white;transform:rotate(-24deg);box-shadow:0 0 0 2px var(--rose);
+}
+.sync-board.has-insert .sync-stop.inserted{animation:insertStop .62s cubic-bezier(.2,.9,.2,1.25) forwards;}
+.sync-label{
+  position:absolute;left:16px;bottom:16px;z-index:3;
+  padding:9px 12px;border-radius:13px;
+  background:rgba(255,255,255,.9);color:var(--ink);font-size:12px;font-weight:900;
+}
+.sync-attribution{position:absolute;right:14px;bottom:14px;z-index:3;color:rgba(8,9,21,.68);font-size:11px;text-decoration:none;}
+.sync-bottom{display:grid;grid-template-columns:minmax(0,1fr)280px;}
+.sync-route{background:rgba(255,255,255,.03);}
+.sync-route-row{
+  position:relative;
+  display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;
+  padding:12px;color:white;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease;
+}
+.sync-route-row.is-focus{transform:translateX(5px);border-color:rgba(22,182,127,.5);background:rgba(22,182,127,.12);}
+.sync-route-row .num{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(22,182,127,.18);color:var(--green);font-weight:900;}
+.sync-route-row strong{display:block;font-size:14px;}
+.sync-route-row small{color:rgba(255,255,255,.56);font-size:12px;font-weight:700;}
+.sync-route-row.cancel{background:rgba(240,130,154,.1);border-color:rgba(240,130,154,.35);}
+.sync-board.has-cancel .sync-route-row.cancel::after{
+  content:"";position:absolute;left:56px;right:14px;top:50%;height:3px;background:var(--rose);
+  transform:scaleX(0);transform-origin:left;animation:strike .58s ease forwards .55s;
+}
+@keyframes strike{to{transform:scaleX(1);}}
+.sync-route-row.insert{display:none;background:rgba(215,255,114,.1);border-color:rgba(215,255,114,.34);}
+.sync-board.has-insert .sync-route-row.insert{display:grid;animation:slideIn .55s ease both;}
+.sync-log{border-left:1px solid rgba(255,255,255,.1);align-content:start;}
+.sync-log .log-line{min-height:62px;padding:11px;opacity:.44;transition:opacity .25s,border-color .25s,background .25s;}
+.sync-log .log-line.active{opacity:1;border-color:rgba(22,182,127,.42);background:rgba(22,182,127,.1);}
+.sync-log .log-line b{display:block;color:white;font-size:13px;}
+.sync-log .log-line span{color:rgba(255,255,255,.6);font-size:12px;}
+.cooperation-grid{grid-template-columns:repeat(2,1fr);}
+.vision-band{
+  display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;
+  border-radius:28px;padding:34px;
+  background:var(--ink);color:white;
+}
+.vision-band h2{color:white;margin-bottom:8px;}
+.vision-band p{margin:0;color:rgba(255,255,255,.68);}
+.vision-band .section-kicker{color:var(--green);}
 
 /* DEMO EMAIL SECTION */
 .demo{padding:80px 0;}
@@ -486,7 +695,12 @@ textarea{
   padding:14px;border-radius:14px;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.08);
+  opacity:.48;
+  transition:opacity .25s ease,border-color .25s ease,background .25s ease,transform .25s ease;
 }
+.step.active,.step.done{opacity:1;}
+.step.active{border-color:rgba(22,182,127,.5);background:rgba(22,182,127,.11);transform:translateX(4px);}
+.step.done{border-color:rgba(255,255,255,.14);}
 .step b{
   width:34px;height:34px;border-radius:50%;
   display:grid;place-items:center;
@@ -617,8 +831,12 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
 /* RESPONSIVE */
 @media(max-width:980px){
   .links{display:none;}
-  .ki-grid,.ablauf-grid,.faq-grid{grid-template-columns:1fr;}
-  .dynamic-grid,.appt-grid,.contact-inner{grid-template-columns:1fr;}
+  .ki-grid,.ablauf-grid,.faq-grid,.journey-grid,.problem-grid,.cooperation-grid,.sync-board,.sync-bottom,.vision-band{grid-template-columns:1fr;}
+  .shot-grid{grid-template-columns:1fr;}
+  .dynamic-grid,.appt-grid,.research-note,.contact-inner{grid-template-columns:1fr;}
+  .sync-rail{border-right:0;border-bottom:1px solid rgba(255,255,255,.1);}
+  .sync-stage{grid-template-rows:340px auto;}
+  .sync-log{border-left:0;border-top:1px solid rgba(255,255,255,.1);}
   .map-layout{grid-template-columns:1fr;grid-template-rows:auto 420px;}
   #map{min-height:420px;}
   .demo-grid{grid-template-columns:1fr;}
@@ -629,11 +847,20 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
   .shell{width:min(100% - 24px,1160px);}
   .nav{width:min(100% - 20px,1120px);top:10px;margin-top:10px;}
   .nav-actions .btn.ghost{display:none;}
-  .hero-copy{padding-top:64px;}
-  h1{font-size:clamp(38px,13vw,68px);}
-  .hero-stats{gap:12px;}
-  .stat{padding:14px 20px;}
-  .section,.demo,.map-section,.dynamic-section,.appt-section{padding:58px 0;}
+  .nav-actions .btn.green{max-width:132px;padding-left:12px;padding-right:12px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hero-frame{border-radius:0;min-height:620px;}
+  .hero-frame::before{inset:14px;}
+  .hero-copy{padding:76px 16px 0;}
+  h1{font-size:clamp(46px,15vw,72px);line-height:.92;}
+  h2{font-size:clamp(30px,9vw,38px);line-height:1.02;}
+  h1,h2{overflow-wrap:normal;}
+  .hero-copy p{font-size:16px;}
+  .hero-actions{align-items:center;flex-direction:column;}
+  .hero-actions .btn{width:min(100%,220px);white-space:normal;text-align:center;}
+  .hero-actions .btn:not(.green){display:none;}
+  .trust-row{display:grid;grid-template-columns:1fr;justify-items:stretch;}
+  .trust-chip{justify-content:center;width:100%;}
+  .section,.demo,.map-section,.dynamic-section,.appt-section,.live-sync{padding:58px 0;}
   .footer-links,.footer-bottom{flex-direction:column;}
 }
 </style>
@@ -646,14 +873,15 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     AutomateX
   </a>
   <div class="links">
+    <a href="#weg">Weg</a>
+    <a href="#problem">Problem</a>
     <a href="#ki-features">KI-Funktionen</a>
-    <a href="#map-demo">Live-Demo</a>
+    <a href="#live-workflow">Live-Demo</a>
     <a href="#ablauf">Ablauf</a>
-    <a href="#fragen">FAQ</a>
   </div>
   <div class="nav-actions">
     <a class="btn ghost small" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn green small" href="#kontakt">Kostenlose Analyse</a>
+    <a class="btn green small" href="#kontakt">Get in touch</a>
   </div>
 </nav>
 
@@ -661,58 +889,18 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
 <header class="hero">
   <div class="shell">
     <div class="hero-frame">
-      <div class="hero-grid"></div>
       <div class="hero-glow"></div>
       <div class="hero-glow2"></div>
 
-      <!-- Animated route lines -->
-      <svg class="route-svg" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid slice">
-        <path class="route-path" d="M 180 580 Q 320 420 480 300 Q 620 200 780 160 Q 900 130 1040 180" fill="none" stroke="#16b67f" stroke-width="2"/>
-        <path class="route-path delay1" d="M 100 620 Q 250 500 400 400 Q 600 280 820 220 Q 980 180 1100 250" fill="none" stroke="#5795ff" stroke-width="1.5"/>
-        <path class="route-path delay2" d="M 200 640 Q 450 500 650 380 Q 820 280 950 300 Q 1050 320 1150 280" fill="none" stroke="#16b67f" stroke-width="1.5" opacity=".6"/>
-        <!-- Stop dots -->
-        <circle class="pulse-dot" cx="480" cy="300" r="5" fill="#16b67f"/>
-        <circle class="pulse-dot d2" cx="780" cy="160" r="5" fill="#16b67f"/>
-        <circle class="pulse-dot d3" cx="1040" cy="180" r="5" fill="#5795ff"/>
-        <circle class="pulse-dot d4" cx="650" cy="380" r="5" fill="#16b67f"/>
-        <!-- Start/end markers -->
-        <circle cx="180" cy="580" r="7" fill="none" stroke="#16b67f" stroke-width="2"/>
-        <circle cx="180" cy="580" r="3" fill="#16b67f"/>
-        <circle cx="1040" cy="180" r="7" fill="none" stroke="#5795ff" stroke-width="2"/>
-        <circle cx="1040" cy="180" r="3" fill="#5795ff"/>
-      </svg>
-
       <div class="hero-copy">
-        <div class="eyebrow">
-          <span class="status-dot"></span>
-          KI-gestützte Routenoptimierung · Live &amp; Dynamisch
-        </div>
-        <h1>Die <em>KI</em> plant<br>Ihre Touren<br>im Hintergrund.</h1>
-        <p>AutomateX lernt täglich, welche Routen am effizientesten sind – reagiert in Echtzeit auf Absagen und schlägt Ihren Fahrern automatisch neue Termine vor, die perfekt auf die bestehende Route passen.</p>
+        <h1>AutomateX<br>Route</h1>
+        <p>Stops lassen sich manuell anlegen oder per Excel importieren. Auf Wunsch berechnet AutomateX daraus in Sekunden die beste Route, weist sie Fahrern zu und reagiert in Echtzeit auf Absagen oder neue Termine.</p>
         <div class="hero-actions">
-          <a class="btn green" href="#map-demo">Demo live erleben</a>
+          <a class="btn green" href="#live-workflow">Demo live erleben</a>
           <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#kontakt">Kostenlose Analyse</a>
         </div>
       </div>
 
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-val"><em>-43%</em></div>
-          <div class="stat-label">Planungsaufwand</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val"><em>+28%</em></div>
-          <div class="stat-label">Stopps pro Tour</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val"><em>&lt;5s</em></div>
-          <div class="stat-label">KI-Reaktionszeit</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val"><em>100%</em></div>
-          <div class="stat-label">Automatisch im Hintergrund</div>
-        </div>
-      </div>
     </div>
   </div>
 </header>
@@ -724,7 +912,15 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     <div class="trust-row">
       <div class="trust-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        CSV &amp; Excel Import
+        Manuelle Stops
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Excel Import
+      </div>
+      <div class="trust-chip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Sofort beste Route
       </div>
       <div class="trust-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -732,16 +928,63 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
       </div>
       <div class="trust-chip">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Echtzeit-Umplanung
+        Fahrer-Dispatch
       </div>
-      <div class="trust-chip">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Auto-Terminvorschläge
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SCREENSHOTS -->
+<section class="product-shot-section" id="screenshots">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Produktansicht</div>
+      <h2>So sieht AutomateX<br><em>im Einsatz aus.</em></h2>
+      <p class="section-sub">Echte Demo-Screens aus der App: Stops manuell oder per Excel importieren, KI-Inbox nutzen und die beste Route direkt an Fahrer schicken.</p>
+    </div>
+    <div class="shot-grid">
+      <figure class="shot-card" data-lightbox-src="public/assets/screenshots/automatex-demo-desktop-top.png" data-lightbox-caption="Dashboard + KI-Inbox">
+        <img src="public/assets/screenshots/automatex-demo-desktop-top.png" alt="AutomateX Dashboard mit Tagesstopps und KI-Inbox">
+        <figcaption class="shot-caption"><b>Dashboard + KI-Inbox</b><span>Stops manuell, per Excel oder aus E-Mails</span></figcaption>
+      </figure>
+      <div class="shot-stack">
+        <figure class="shot-card" data-lightbox-src="public/assets/screenshots/automatex-demo-desktop-inbox-route.png" data-lightbox-caption="Route und Dispatch">
+          <img src="public/assets/screenshots/automatex-demo-desktop-inbox-route.png" alt="AutomateX Route mit optimierter Reihenfolge">
+          <figcaption class="shot-caption"><b>Route</b><span>Beste Reihenfolge in Sekunden berechnen</span></figcaption>
+        </figure>
+        <figure class="shot-card" data-lightbox-src="public/assets/screenshots/automatex-demo-desktop-full.png" data-lightbox-caption="Vollständige Demoansicht">
+          <img src="public/assets/screenshots/automatex-demo-desktop-full.png" alt="Vollständige AutomateX Demoansicht">
+          <figcaption class="shot-caption"><b>Gesamtansicht</b><span>Import, Planung und Fahrerzuweisung in einem Workflow</span></figcaption>
+        </figure>
       </div>
-      <div class="trust-chip">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        OpenStreetMap Routing
-      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem" style="background:var(--soft);">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Das Problem im Handwerk</div>
+      <h2>Planung ist oft manuell, langsam und bricht bei Änderungen.</h2>
+      <p class="section-sub">In den meisten Handwerksbetrieben übernimmt eine einzige Person die gesamte Routenplanung – manuell, zeitintensiv und fehleranfällig.</p>
+    </div>
+    <div class="problem-grid">
+      <article class="problem-card">
+        <div class="problem-icon">01</div>
+        <h3>Aufwendige Planung</h3>
+        <p>Stops können zwar manuell entstehen, aber die Reihenfolge, Zeitfenster und Fahrerzuweisung sollten nicht jedes Mal von Hand sortiert werden müssen.</p>
+      </article>
+      <article class="problem-card">
+        <div class="problem-icon">02</div>
+        <h3>Große Zeitfenster</h3>
+        <p>Kunden erhalten ungenaue Zeitangaben. Das macht Planung unzuverlässig und senkt die Kundenzufriedenheit.</p>
+      </article>
+      <article class="problem-card">
+        <div class="problem-icon">03</div>
+        <h3>Keine Dynamik</h3>
+        <p>Bei Absagen oder Änderungen muss die gesamte Route oft neu berechnet werden. Genau dort setzt die KI an.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -756,242 +999,63 @@ footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
     </div>
     <div class="ki-grid">
       <div class="ki-card">
-        <div class="ki-icon green">🧠</div>
-        <h3>KI lernt optimale Routen</h3>
-        <p>Die KI erkennt langfristige Muster: Welche Reihenfolge spart am meisten Zeit? Welche Straße ist morgens langsam? Welcher Kunde braucht wirklich 30 Minuten? Das System verbessert sich mit jeder Tour automatisch.</p>
-        <div class="ki-tag">Kontinuierliches Lernen</div>
+        <div class="ki-icon green">AI</div>
+        <h3>Stops flexibel erfassen</h3>
+        <p>Neue Stops können direkt im System angelegt werden. Für größere Tageslisten reicht ein Excel- oder CSV-Import mit Adressen, Zeitfenstern und Prioritäten.</p>
+        <div class="ki-tag">Manuell oder Excel</div>
       </div>
       <div class="ki-card">
-        <div class="ki-icon blue">🚦</div>
-        <h3>KI-Verkehrsvorhersage</h3>
-        <p>Historische Verkehrsdaten fließen in jede Routenberechnung ein – nicht reaktiv, sondern vorausschauend. Die KI weiß, dass die A40 montags um 7:30 Uhr staut, und plant Ihre Route bereits darum herum.</p>
-        <div class="ki-tag">Prädiktive Analyse</div>
+        <div class="ki-icon blue">TR</div>
+        <h3>Beste Route sofort berechnen</h3>
+        <p>Sobald die Stops drin sind, berechnet AutomateX auf Wunsch die schnellste sinnvolle Reihenfolge nach Distanz, Zeitfenstern und Priorität.</p>
+        <div class="ki-tag">Ein Klick zur Route</div>
       </div>
       <div class="ki-card">
-        <div class="ki-icon rose">📅</div>
-        <h3>Automatische Terminvorschläge</h3>
-        <p>Freie Zeitslots werden nicht verschwendet: Die KI wählt gezielt Kunden aus, die geografisch nah an der bestehenden Route liegen und in das freie Zeitfenster passen – und schickt automatisch Terminvorschläge.</p>
-        <div class="ki-tag">Hintergrund-Automatisierung</div>
+        <div class="ki-icon rose">SL</div>
+        <h3>KI reagiert auf Änderungen</h3>
+        <p>Absagen, Eilaufträge oder neue E-Mails werden in die Planung übernommen. Die Route kann danach sofort neu optimiert und an den Fahrer geschickt werden.</p>
+        <div class="ki-tag">Dynamische Umplanung</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DYNAMIC / WHY DYNAMIC -->
-<section class="dynamic-section" id="warum-dynamisch">
-  <div class="shell">
-    <div class="dynamic-grid">
-      <div class="dynamic-copy">
-        <div class="section-kicker">Warum dynamisch?</div>
-        <h2>Die KI als <em>intelligente Schaltzentrale</em> – reagiert in Echtzeit.</h2>
-        <div class="dynamic-list">
-          <div class="dynamic-item">
-            <div class="dynamic-num">→</div>
-            <div>
-              <strong>Absagen &amp; Stornierungen</strong>
-              <span>Sobald eine Absage per E-Mail eingeht, entfernt die KI den Stop, berechnet die Route neu und füllt die freie Zeit mit dem nächstbesten Termin – ohne manuellen Eingriff.</span>
-            </div>
-          </div>
-          <div class="dynamic-item">
-            <div class="dynamic-num">→</div>
-            <div>
-              <strong>Neue Aufträge &amp; Eilaufträge</strong>
-              <span>Dringende Jobs werden nahtlos in die laufende Tagesplanung integriert. Die KI findet das optimale Zeitfenster – ohne andere Termine zu gefährden.</span>
-            </div>
-          </div>
-          <div class="dynamic-item">
-            <div class="dynamic-num">→</div>
-            <div>
-              <strong>Stau &amp; Verkehrsstörungen</strong>
-              <span>Echtzeit-Verkehrsdaten fließen kontinuierlich ein. Die Route wird automatisch umgeleitet – der Fahrer merkt es erst, wenn die neue Ansage kommt.</span>
-            </div>
-          </div>
-          <div class="dynamic-item">
-            <div class="dynamic-num">→</div>
-            <div>
-              <strong>Terminplanung läuft im Hintergrund</strong>
-              <span>Wenn der Kalender eine Lücke hat, sucht die KI aktiv nach passenden Kunden in der Umgebung der Tour – und schlägt ihnen automatisch einen Termin vor. Vollautomatisch, wenn gewünscht.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="brain-box">
-        <div class="brain-title">⚡ KI-System – Live-Status</div>
-        <div class="flow-item">
-          <span class="flow-icon">📨</span>
-          <span class="flow-text"><strong>E-Mail analysiert:</strong> Absage Bottrop 11:30</span>
-          <span class="flow-badge badge-amber">Erkannt</span>
-        </div>
-        <div class="flow-item">
-          <span class="flow-icon">🗺️</span>
-          <span class="flow-text"><strong>Route neu berechnet:</strong> 3 Alternativen geprüft</span>
-          <span class="flow-badge badge-green">Optimiert</span>
-        </div>
-        <div class="flow-item">
-          <span class="flow-icon">📍</span>
-          <span class="flow-text"><strong>Freies Zeitfenster:</strong> 11:30–13:00 identifiziert</span>
-          <span class="flow-badge badge-blue">Gefunden</span>
-        </div>
-        <div class="flow-item">
-          <span class="flow-icon">🔍</span>
-          <span class="flow-text"><strong>KI sucht Neukunden</strong> in 8km Radius um Route</span>
-          <span class="flow-badge badge-blue">Läuft</span>
-        </div>
-        <div class="flow-item">
-          <span class="flow-icon">✉️</span>
-          <span class="flow-text"><strong>Terminvorschlag gesendet:</strong> Kunde Mayer, Castrop-Rauxel</span>
-          <span class="flow-badge badge-rose">Auto</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AUTO APPOINTMENT SECTION -->
-<section class="appt-section" id="terminplanung">
-  <div class="shell">
-    <div class="appt-grid">
-      <div>
-        <div class="section-kicker">Automatische Terminplanung</div>
-        <h2>Die KI füllt<br><em>freie Slots selbst.</em></h2>
-        <p style="color:var(--muted);margin-top:16px;line-height:1.7;">Wenn durch eine Absage ein Zeitfenster frei wird, sucht das System automatisch nach Kunden, die:</p>
-        <ul style="color:var(--muted);line-height:2;padding-left:20px;">
-          <li><strong style="color:var(--ink);">Geografisch nah</strong> an der bestehenden Route liegen</li>
-          <li><strong style="color:var(--ink);">Zeitlich in den freien Slot</strong> passen (inkl. Puffer)</li>
-          <li><strong style="color:var(--ink);">Priorisiert werden</strong> nach Dringlichkeit oder Umsatzpotenzial</li>
-        </ul>
-        <p style="color:var(--muted);margin-top:16px;line-height:1.7;">Der Terminvorschlag wird automatisch an den Kunden geschickt. Sobald der Kunde zusagt, integriert die KI den neuen Stopp nahtlos in die laufende Route – <strong>ohne dass jemand eingreifen muss.</strong></p>
-        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a class="btn green" href="#map-demo">Demo ansehen</a>
-          <a class="btn ghost" href="#kontakt">Analyse anfragen</a>
-        </div>
-      </div>
-      <div class="appt-visual">
-        <div class="appt-header">
-          <div class="appt-header-dot" style="background:#ff5f56;"></div>
-          <div class="appt-header-dot" style="background:#ffbd2e;margin-left:6px;"></div>
-          <div class="appt-header-dot" style="background:#27c93f;margin-left:6px;"></div>
-          <span style="margin-left:12px;font-size:13px;color:rgba(255,255,255,.7);">AutomateX · Tagesplanung</span>
-        </div>
-        <div class="appt-body">
-          <div style="font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Aktuelle Route</div>
-          <div class="appt-route">
-            <div class="appt-stop">
-              <div class="stop-num">1</div>
-              <span class="stop-name">Müller GmbH, Bochum</span>
-              <span class="stop-time">09:00 – 10:30</span>
-            </div>
-            <div class="appt-stop" style="background:#fff3f5;border:1px dashed #f0829a;opacity:.6;">
-              <div class="stop-num" style="background:#f0829a;">✕</div>
-              <span class="stop-name" style="text-decoration:line-through;color:var(--muted);">Weber &amp; Söhne, Bottrop</span>
-              <span class="stop-time" style="color:#f0829a;">Abgesagt</span>
-            </div>
-            <div class="appt-stop">
-              <div class="stop-num">2</div>
-              <span class="stop-name">Schmidt Haustechnik, Dortmund</span>
-              <span class="stop-time">12:30 – 14:00</span>
-            </div>
-            <div class="appt-stop">
-              <div class="stop-num">3</div>
-              <span class="stop-name">Fischer Service, Duisburg</span>
-              <span class="stop-time">14:30 – 16:00</span>
-            </div>
-          </div>
-          <div class="appt-new">
-            <div class="appt-new-icon">🤖</div>
-            <div class="appt-new-text">
-              <strong>KI-Terminvorschlag (automatisch)</strong>
-              Mayer GmbH, Castrop-Rauxel liegt 3,8 km von der Route entfernt. Slot 11:15–12:15 passt perfekt. Terminanfrage automatisch versendet.
-              <div class="appt-label">✓ Nahe der Route · ✓ Zeitfenster frei · ✓ Kunde priorisiert</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MAP DEMO -->
-<section class="map-section" id="map-demo">
+<!-- FAQ -->
+<section class="section" id="fragen" style="background:var(--soft);">
   <div class="shell">
     <div class="section-head">
-      <div class="section-kicker">Interaktive Live-Demo</div>
-      <h2>Sehen Sie, wie die <em>KI reagiert.</em></h2>
-      <p class="section-sub">Wählen Sie ein Szenario aus und beobachten Sie, wie das System die Route in Echtzeit anpasst – mit Begründung.</p>
+      <div class="section-kicker">FAQ</div>
+      <h2>Häufige Fragen.</h2>
     </div>
-    <div class="map-layout">
-      <div class="map-panel">
-        <div class="map-panel-header">
-          <h3>🗺️ Szenarien</h3>
-          <p>Klicken um Route live anzupassen</p>
-        </div>
-        <div class="scenario-list">
-          <button class="scenario-btn active" data-scenario="start" type="button">
-            <div class="s-icon">🟢</div>
-            <div class="s-text">
-              <strong>Ausgangslage</strong>
-              <span>5 Stopps, optimierte Reihenfolge</span>
-            </div>
-          </button>
-          <button class="scenario-btn" data-scenario="cancel" type="button">
-            <div class="s-icon">❌</div>
-            <div class="s-text">
-              <strong>Absage: Bottrop 10:30</strong>
-              <span>KI entfernt Stopp &amp; plant neu</span>
-            </div>
-          </button>
-          <button class="scenario-btn" data-scenario="new-customer" type="button">
-            <div class="s-icon">✨</div>
-            <div class="s-text">
-              <strong>Neuer Kunde in der Nähe</strong>
-              <span>KI fügt nahgelegenen Termin ein</span>
-            </div>
-          </button>
-          <button class="scenario-btn" data-scenario="traffic" type="button">
-            <div class="s-icon">🚦</div>
-            <div class="s-text">
-              <strong>Stau erkannt (A40)</strong>
-              <span>KI leitet automatisch um</span>
-            </div>
-          </button>
-        </div>
-        <div class="map-info-box" id="mapInfoBox">
-          <div class="info-title">ℹ️ Ausgangslage</div>
-          <div class="info-body">Route für heute: 5 Stopps im Ruhrgebiet, bereits nach Zeitfenster und Distanz optimiert. Gesamtstrecke: 87 km.</div>
-        </div>
-      </div>
-      <div id="map"></div>
-    </div>
-  </div>
-</section>
-
-<!-- EMAIL DEMO -->
-<section class="demo" id="demo">
-  <div class="shell demo-grid">
-    <div class="demo-panel">
-      <div class="section-kicker">KI-Demo</div>
-      <h2>E-Mail rein,<br>Route neu geplant.</h2>
-      <p>Fügen Sie eine Absage-E-Mail ein – die KI analysiert, welche Stopps betroffen sind, und schlägt sofort eine neue Route vor.</p>
-      <textarea id="demoMail">Betreff: Terminabsage heute
-
-Hallo AutomateX,
-unser Termin bei Kunde Bottrop Zentrallager um 11:30 Uhr fällt heute aus. Bitte den Fahrer nicht mehr dorthin schicken. Wenn möglich, den Eilauftrag Bochum früher einplanen.
-
-Viele Grüße
-Disposition</textarea>
-      <div class="demo-controls">
-        <button class="btn green" id="runDemo" type="button">▶ Absage verarbeiten</button>
-        <button class="btn ghost" id="resetDemo" type="button">Beispiel laden</button>
-      </div>
-    </div>
-    <div class="demo-output">
-      <h3>🤖 KI-Reaktion des Systems</h3>
-      <div class="timeline" id="demoSteps">
-        <div class="step"><b>1</b><div><strong>E-Mail analysiert</strong><span>Bottrop Zentrallager um 11:30 als Absage erkannt.</span></div></div>
-        <div class="step"><b>2</b><div><strong>Route angepasst</strong><span>Bottrop entfernt, freie Zeit vor Mittag gefunden.</span></div></div>
-        <div class="step"><b>3</b><div><strong>KI-Vorschlag</strong><span>Bochum Eilauftrag vorziehen und Duisburg danach fahren.</span></div></div>
-      </div>
-      <div class="ai-answer" id="aiAnswer">Bereit. Klicken Sie auf "Absage verarbeiten", um die KI zu starten.</div>
+    <div class="faq-grid">
+      <article class="faq-card">
+        <h3>Wie lernt die KI unsere Routen?</h3>
+        <p>Das System analysiert abgeschlossene Touren: Welche Reihenfolge hat tatsächlich am wenigsten Zeit gekostet? Diese Daten fließen in zukünftige Optimierungen ein – kontinuierlich und automatisch.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Was passiert bei einer Absage?</h3>
+        <p>Die KI erkennt Absagen in E-Mails oder direkt über die App, entfernt den Stopp sofort aus der Route und berechnet die optimale Reihenfolge für den restlichen Tag neu – in unter 5 Sekunden.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Wie funktioniert die Auto-Terminplanung?</h3>
+        <p>Nach einer Absage sucht die KI Kunden im Umkreis der bestehenden Route, die in das freie Zeitfenster passen. Auf Wunsch werden Terminvorschläge automatisch versendet – ohne manuellen Eingriff.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Welche Daten braucht das System?</h3>
+        <p>Eine einfache CSV- oder Excel-Datei mit Kundenadressen, Zeitfenstern und optionalen Prioritäten reicht für den Start. Einzelne Stops können Sie jederzeit auch manuell im System anlegen.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Kann ich die beste Route sofort berechnen?</h3>
+        <p>Ja. Sobald Stops manuell eingetragen oder per Excel importiert wurden, kann AutomateX auf Wunsch direkt die beste Reihenfolge berechnen und die Tour an einen Fahrer schicken.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Funktioniert es auch ohne Internet?</h3>
+        <p>Die Kernfunktionen laufen lokal. Für KI-E-Mail-Analyse und Verkehrsvorhersage wird eine Internetverbindung benötigt – die eigentliche Routenoptimierung aber nicht.</p>
+      </article>
+      <article class="faq-card">
+        <h3>Für wen ist AutomateX geeignet?</h3>
+        <p>Für Handwerksbetriebe, Serviceflotten und Dispositionsteams, die täglich mehrere Fahrer mit 5–50 Stopps koordinieren und dabei mit Absagen, Eilaufträgen und Zeitdruck umgehen müssen.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -1023,41 +1087,28 @@ Disposition</textarea>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="section" id="fragen" style="background:var(--soft);">
-  <div class="shell">
-    <div class="section-head">
-      <div class="section-kicker">FAQ</div>
-      <h2>Häufige Fragen.</h2>
+<!-- VISION -->
+<section class="section" id="vision">
+  <div class="shell vision-band">
+    <div>
+      <div class="section-kicker">Langfristige Vision</div>
+      <h2>Mehrere digitale Nischen, eine skalierbare Digitalstrategie.</h2>
+      <p>Die KI-Routenplanung ist die erste fokussierte Nische, aber nicht die letzte. Das breite AutomateX-Skillset soll langfristig mehrere digitale Innovationsfelder erschließen und gezielt wachsen.</p>
     </div>
-    <div class="faq-grid">
-      <article class="faq-card">
-        <h3>Wie lernt die KI unsere Routen?</h3>
-        <p>Das System analysiert abgeschlossene Touren: Welche Reihenfolge hat tatsächlich am wenigsten Zeit gekostet? Diese Daten fließen in zukünftige Optimierungen ein – kontinuierlich und automatisch.</p>
-      </article>
-      <article class="faq-card">
-        <h3>Was passiert bei einer Absage?</h3>
-        <p>Die KI erkennt Absagen in E-Mails oder direkt über die App, entfernt den Stopp sofort aus der Route und berechnet die optimale Reihenfolge für den restlichen Tag neu – in unter 5 Sekunden.</p>
-      </article>
-      <article class="faq-card">
-        <h3>Wie funktioniert die Auto-Terminplanung?</h3>
-        <p>Nach einer Absage sucht die KI Kunden im Umkreis der bestehenden Route, die in das freie Zeitfenster passen. Auf Wunsch werden Terminvorschläge automatisch versendet – ohne manuellen Eingriff.</p>
-      </article>
-      <article class="faq-card">
-        <h3>Welche Daten braucht das System?</h3>
-        <p>Eine einfache CSV- oder Excel-Datei mit Kundenadressen, Zeitfenstern und optionalen Prioritäten reicht für den Start. Kein aufwändiges Onboarding nötig.</p>
-      </article>
-      <article class="faq-card">
-        <h3>Funktioniert es auch ohne Internet?</h3>
-        <p>Die Kernfunktionen laufen lokal. Für KI-E-Mail-Analyse und Verkehrsvorhersage wird eine Internetverbindung benötigt – die eigentliche Routenoptimierung aber nicht.</p>
-      </article>
-      <article class="faq-card">
-        <h3>Für wen ist AutomateX geeignet?</h3>
-        <p>Für Handwerksbetriebe, Serviceflotten und Dispositionsteams, die täglich mehrere Fahrer mit 5–50 Stopps koordinieren und dabei mit Absagen, Eilaufträgen und Zeitdruck umgehen müssen.</p>
-      </article>
+    <div class="hero-actions" style="margin:0;">
+      <a class="btn green" href="#kontakt">Pilot anfragen</a>
+      <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="#live-workflow">Demo ansehen</a>
     </div>
   </div>
 </section>
+
+<!-- FORSCHUNG NOTE -->
+<div style="background:var(--soft);padding:40px 0;">
+  <div class="shell" style="max-width:720px;text-align:center;">
+    <h3 style="font-size:1.4rem;margin:0 0 12px;">Wir arbeiten an der <em style="color:var(--green);">Forschungsfront.</em></h3>
+    <p style="color:var(--muted);line-height:1.7;margin:0;">AutomateX entsteht nah an Prozessinnovation, Automatisierung und praktischer Forschung. Aus dem Process Innovation &amp; Automation Lab der Universität Duisburg-Essen fließt aktuelles Wissen direkt in die Idee ein: KI soll nicht nur beeindruckend aussehen, sondern reale Abläufe messbar verbessern.</p>
+  </div>
+</div>
 
 <!-- CONTACT FORM -->
 <section class="contact-section" id="kontakt">
@@ -1068,9 +1119,9 @@ Disposition</textarea>
         <h2>Starten Sie Ihren<br><em>KI-Routing-Pilot.</em></h2>
         <p>Schicken Sie uns Ihre Tagesliste oder beschreiben Sie, wo Ihre Disposition aktuell Zeit verliert. Wir analysieren Ihre Route kostenlos und zeigen, wie viel die KI einsparen kann.</p>
         <div class="contact-points">
-          <div class="contact-point"><span>📍</span> Frederik Ernst, Essen (NRW)</div>
-          <div class="contact-point"><span>✉️</span> frederik.ernst27@gmail.com</div>
-          <div class="contact-point"><span>🔗</span> linkedin.com/in/frederik-ernst-64597b356</div>
+          <div class="contact-point"><span>Ort</span> Frederik Ernst, Essen (NRW)</div>
+          <div class="contact-point"><span>Mail</span> frederik.ernst27@gmail.com</div>
+          <div class="contact-point"><span>Web</span> linkedin.com/in/frederik-ernst-64597b356</div>
         </div>
         <div style="margin-top:32px;">
           <a class="btn" style="background:rgba(22,182,127,.15);color:var(--green);border:1px solid rgba(22,182,127,.3);" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Auf LinkedIn melden</a>
@@ -1078,7 +1129,7 @@ Disposition</textarea>
       </div>
       <div class="contact-form">
         <div class="form-success" id="formSuccess">
-          ✅ Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
+          Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
         </div>
         <form id="contactForm" action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="Routing-Analyse Anfrage – AutomateX">
@@ -1135,7 +1186,6 @@ Disposition</textarea>
         <div>
           <h4>Website</h4>
           <a href="#ki-features">KI-Funktionen</a>
-          <a href="#map-demo">Live-Demo</a>
           <a href="#ablauf">Ablauf</a>
           <a href="#fragen">FAQ</a>
         </div>
@@ -1149,63 +1199,51 @@ Disposition</textarea>
     </div>
     <div class="footer-bottom">
       <span>© 2026 AutomateX Solutions – Frederik Ernst</span>
-      <span>KI-Routenplanung · Powered by OpenRouter &amp; OpenStreetMap</span>
+      <span>KI-Routenplanung · OpenStreetMap · Hero-Foto: USDA Public Domain</span>
     </div>
   </div>
 </footer>
 
+<div class="image-lightbox" id="imageLightbox" aria-hidden="true" role="dialog" aria-label="Screenshot vergrößert">
+  <button class="lightbox-close" type="button" aria-label="Schließen">×</button>
+  <img src="" alt="">
+  <div class="lightbox-caption"></div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLcE=" crossorigin=""></script>
 <script>
-/* ===== EMAIL DEMO ===== */
-const sampleMail = document.getElementById("demoMail").value;
-const steps = document.getElementById("demoSteps");
-const answer = document.getElementById("aiAnswer");
-const runButton = document.getElementById("runDemo");
+/* ===== SCREENSHOT LIGHTBOX ===== */
+const lightbox = document.getElementById("imageLightbox");
+const lightboxImage = lightbox?.querySelector("img");
+const lightboxCaption = lightbox?.querySelector(".lightbox-caption");
+const lightboxClose = lightbox?.querySelector(".lightbox-close");
 
-function setSteps(items) {
-  steps.innerHTML = items.map((item, i) => `
-    <div class="step"><b>${i+1}</b><div><strong>${item.title}</strong><span>${item.text}</span></div></div>
-  `).join("");
+function closeLightbox() {
+  if (!lightbox || !lightboxImage) return;
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImage.src = "";
+  lightboxImage.alt = "";
 }
 
-async function runDemo() {
-  const email = document.getElementById("demoMail").value.trim();
-  runButton.disabled = true;
-  runButton.textContent = "KI analysiert...";
-  answer.textContent = "E-Mail wird analysiert und Route wird neu berechnet...";
-  try {
-    const res = await fetch("/api/route-demo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Demo fehlgeschlagen.");
-    setSteps(data.steps);
-    const mode = data.aiMode ? "live" : "local";
-    answer.textContent = data.summary + "\n\n" + (data.modeLabel || (data.aiMode ? "KI-Modus: OpenRouter aktiv." : "Lokaler Demo-Modus aktiv."));
-    const badge = document.createElement("span");
-    badge.className = "ai-mode-badge " + mode;
-    badge.textContent = data.aiMode ? "🟢 KI aktiv (OpenRouter)" : "🔵 Lokaler Modus";
-    answer.appendChild(document.createElement("br"));
-    answer.appendChild(badge);
-  } catch(err) {
-    answer.textContent = "Fehler: " + err.message;
-  } finally {
-    runButton.disabled = false;
-    runButton.textContent = "▶ Absage verarbeiten";
-  }
-}
-
-runButton.addEventListener("click", runDemo);
-document.getElementById("resetDemo").addEventListener("click", () => {
-  document.getElementById("demoMail").value = sampleMail;
-  setSteps([
-    { title: "E-Mail analysiert", text: "Bottrop Zentrallager um 11:30 als Absage erkannt." },
-    { title: "Route angepasst", text: "Bottrop entfernt, freie Zeit vor Mittag gefunden." },
-    { title: "KI-Vorschlag", text: "Bochum Eilauftrag vorziehen und Duisburg danach fahren." }
-  ]);
-  answer.textContent = "Bereit. Klicken Sie auf \"Absage verarbeiten\", um die KI zu starten.";
+document.querySelectorAll(".shot-card[data-lightbox-src]").forEach(card => {
+  card.addEventListener("click", () => {
+    if (!lightbox || !lightboxImage || !lightboxCaption) return;
+    const src = card.getAttribute("data-lightbox-src") || "";
+    const caption = card.getAttribute("data-lightbox-caption") || "AutomateX Screenshot";
+    lightboxImage.src = src;
+    lightboxImage.alt = caption;
+    lightboxCaption.textContent = caption;
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+  });
+});
+lightboxClose?.addEventListener("click", closeLightbox);
+lightbox?.addEventListener("click", event => {
+  if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeLightbox();
 });
 
 /* ===== CONTACT FORM ===== */
@@ -1224,7 +1262,7 @@ contactForm.addEventListener("submit", function(e) {
 /* ===== MAP DEMO ===== */
 const SCENARIOS = {
   start: {
-    info: { title: "ℹ️ Ausgangslage", body: "Optimierte Route für heute: 5 Stopps im Ruhrgebiet nach Zeitfenster und Distanz sortiert. Gesamtstrecke: ca. 87 km." },
+    info: { title: "Ausgangslage", body: "Optimierte Route für heute: 5 Stopps im Ruhrgebiet nach Zeitfenster und Distanz sortiert. Gesamtstrecke: ca. 87 km." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
@@ -1234,7 +1272,7 @@ const SCENARIOS = {
     ]
   },
   cancel: {
-    info: { title: "❌ Absage verarbeitet", body: "Weber & Söhne (Bottrop) hat abgesagt. KI entfernt den Stopp, berechnet optimale Reihenfolge neu. Freies Zeitfenster: 11:00–12:30. KI sucht passende Neukunden..." },
+    info: { title: "Absage verarbeitet", body: "Weber & Söhne (Bottrop) hat abgesagt. KI entfernt den Stopp, berechnet optimale Reihenfolge neu. Freies Zeitfenster: 11:00–12:30. KI sucht passende Neukunden..." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
@@ -1243,29 +1281,31 @@ const SCENARIOS = {
     ]
   },
   "new-customer": {
-    info: { title: "✨ KI-Terminvorschlag akzeptiert", body: "Mayer GmbH (Castrop-Rauxel) liegt nur 3,8 km von der Route entfernt. KI hat automatisch Terminvorschlag gesendet – Kunde hat für 11:15–12:00 zugesagt. Route optimal integriert." },
+    info: { title: "KI-Terminvorschlag akzeptiert", body: "Mayer GmbH (Castrop-Rauxel) liegt nur 3,8 km von der Route entfernt. KI hat automatisch <strong style=\"color:var(--green)\">Terminvorschlag gesendet – Kunde hat für 11:15–12:00 zugesagt. Route optimal integriert.</strong>" },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
-      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00 (Auto-Termin)" },
+      { id: 5, pos: [51.5530, 7.3110], label: "NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00 (Auto-Termin)" },
       { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00" },
       { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" }
     ]
   },
   traffic: {
-    info: { title: "🚦 Stau auf A40 erkannt", body: "Echtzeit-Verkehrsdaten melden Stau auf der A40 zwischen Bochum und Dortmund. KI berechnet Alternativroute über B235/A2. Ankunft Dortmund nur 9 Minuten später – kein Zeitfenster gefährdet." },
+    info: { title: "Stau auf A40 – KI reagiert aus Erfahrung", body: "Die KI hat durch vergangene Touren gelernt, dass es auf der A40 zwischen Bochum und Dortmund schneller ist umzufahren. Alternativroute über B235/A2 wird automatisch gewählt – Ankunft Dortmund nur 9 Minuten später, kein Zeitfenster gefährdet." },
     stops: [
       { id: 0, pos: [51.4556, 7.0116], label: "Depot", color: "#16b67f", time: "Startpunkt" },
       { id: 1, pos: [51.4818, 7.2162], label: "Müller GmbH · Bochum", color: "#16b67f", time: "09:00–10:30" },
-      { id: 5, pos: [51.5530, 7.3110], label: "✨ NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00" },
+      { id: 5, pos: [51.5530, 7.3110], label: "NEU: Mayer GmbH · Castrop-Rauxel", color: "#f0829a", time: "11:15–12:00" },
       { id: 3, pos: [51.5136, 7.4653], label: "Schmidt Haustechnik · Dortmund", color: "#16b67f", time: "12:30–14:00 (+9 Min)" },
       { id: 4, pos: [51.4344, 6.7623], label: "Fischer Service · Duisburg", color: "#16b67f", time: "14:30–16:00" },
-      { id: 99, pos: [51.4970, 7.3100], label: "⚠️ Stau A40 (umgeleitet)", color: "#f59e0b", time: "Echtzeit erkannt", isWarning: true }
+      { id: 99, pos: [51.4970, 7.3100], label: "Stau A40 (umgeleitet)", color: "#f59e0b", time: "Echtzeit erkannt", isWarning: true }
     ],
     detour: true
   }
 };
 
+const MAP_SEQUENCE = ["start", "cancel", "new-customer", "traffic"];
+let mapStepIndex = 0;
 let map, currentMarkers = [], currentPolyline = null, trafficPolyline = null;
 
 function initMap() {
@@ -1285,7 +1325,7 @@ function initMap() {
 
 function makeMarkerIcon(color, num, isNew) {
   const bg = color;
-  const inner = num !== null ? `<span style="font-size:13px;font-weight:900;color:white">${num}</span>` : `<span style="font-size:14px">⚠️</span>`;
+  const inner = num !== null ? `<span style="font-size:13px;font-weight:900;color:white">${num}</span>` : `<span style="font-size:13px;font-weight:900;color:white">!</span>`;
   return L.divIcon({
     className: isNew ? "new-marker" : "",
     html: `<div style="
@@ -1311,28 +1351,82 @@ function makeDepotIcon() {
       box-shadow:0 4px 14px rgba(0,0,0,.4);
       border:3px solid white;
       font-size:18px;
-    ">🏭</div>`,
+    ">D</div>`,
     iconSize: [42, 42],
     iconAnchor: [21, 21],
     popupAnchor: [0, -24]
   });
 }
 
-function loadScenario(key, animate = true) {
-  const scenario = SCENARIOS[key];
-  if (!scenario) return;
-
-  // Update buttons
+function updateScenarioUI(key, scenario) {
   document.querySelectorAll(".scenario-btn").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.scenario === key);
   });
-
-  // Update info box
-  const info = scenario.info;
   document.getElementById("mapInfoBox").innerHTML = `
-    <div class="info-title">${info.title}</div>
-    <div class="info-body">${info.body}</div>
+    <div class="info-title">${scenario.info.title}</div>
+    <div class="info-body">${scenario.info.body}</div>
   `;
+}
+
+function renderStaticScenario(key) {
+  const scenario = SCENARIOS[key];
+  if (!scenario) return;
+  mapStepIndex = Math.max(0, MAP_SEQUENCE.indexOf(key));
+  updateScenarioUI(key, scenario);
+  const positions = {
+    0: ["18%","72%"],
+    1: ["42%","44%"],
+    2: ["36%","32%"],
+    3: ["76%","44%"],
+    4: ["28%","62%"],
+    5: ["58%","34%"],
+    99: ["50%","42%"]
+  };
+  const routePoints = scenario.stops
+    .filter(stop => !stop.isWarning)
+    .map(stop => positions[stop.id])
+    .filter(Boolean)
+    .map(([x, y]) => `${parseFloat(x)},${parseFloat(y)}`)
+    .join(" ");
+  const dots = scenario.stops.map((stop) => {
+    const pos = positions[stop.id];
+    if (!pos) return "";
+    const classes = ["static-dot"];
+    if (stop.id === 0) classes.push("depot");
+    if (stop.id === 5) classes.push("new");
+    if (stop.isWarning) classes.push("warn");
+    const label = stop.id === 0 ? "D" : stop.isWarning ? "!" : stop.id === 5 ? "N" : stop.id;
+    return `<div class="${classes.join(" ")}" style="--x:${pos[0]};--y:${pos[1]};" title="${stop.label}">${label}</div>`;
+  }).join("");
+  document.getElementById("map").innerHTML = `
+    <div class="static-map">
+      <div class="static-tiles" aria-hidden="true">
+        <img src="https://tile.openstreetmap.org/11/1062/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1063/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1064/680.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1062/681.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1063/681.png" alt="">
+        <img src="https://tile.openstreetmap.org/11/1064/681.png" alt="">
+      </div>
+      <svg class="static-route-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <polyline class="static-route ${scenario.detour ? "detour" : ""}" points="${routePoints}"></polyline>
+      </svg>
+      ${dots}
+      <div class="static-caption">OpenStreetMap aktiv · Schritt ${mapStepIndex + 1} von ${MAP_SEQUENCE.length}</div>
+    </div>
+  `;
+}
+
+function loadScenario(key, animate = true) {
+  const scenario = SCENARIOS[key];
+  if (!scenario) return;
+  mapStepIndex = Math.max(0, MAP_SEQUENCE.indexOf(key));
+  if (!window.L || !map) {
+    renderStaticScenario(key);
+    return;
+  }
+
+  updateScenarioUI(key, scenario);
 
   // Clear old markers and polylines
   currentMarkers.forEach(m => map.removeLayer(m));
@@ -1396,9 +1490,6 @@ function loadScenario(key, animate = true) {
       }).addTo(map);
     }
 
-    if (animate && latlngs.length > 1) {
-      map.fitBounds(L.latLngBounds(latlngs).pad(.15), { animate: true, duration: .8 });
-    }
   }, routeDelay);
 }
 
@@ -1407,9 +1498,25 @@ document.querySelectorAll(".scenario-btn").forEach(btn => {
   btn.addEventListener("click", () => loadScenario(btn.dataset.scenario, true));
 });
 
+const mapNextStep = document.getElementById("mapNextStep");
+const mapResetStep = document.getElementById("mapResetStep");
+if (mapNextStep) {
+  mapNextStep.addEventListener("click", () => {
+    mapStepIndex = (mapStepIndex + 1) % MAP_SEQUENCE.length;
+    loadScenario(MAP_SEQUENCE[mapStepIndex], true);
+  });
+}
+if (mapResetStep) {
+  mapResetStep.addEventListener("click", () => loadScenario("start", true));
+}
+
 // Init map when page loads
 if (document.getElementById("map")) {
-  initMap();
+  if (window.L) {
+    initMap();
+  } else {
+    renderStaticScenario("start");
+  }
 }
 </script>
 </body>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutomateX – Ihr Digitalisierungspartner für Automatisierung, Software & KI</title>
+<meta name="description" content="AutomateX digitalisiert Ihr Geschäft: Prozessautomatisierung, Websites, Custom Software, Marketing-Automatisierung und KI-Beratung & -Umsetzung – inklusive KI mit ERP. Prototyp anfragen, wir bauen es.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/small-logo.png">
+<link rel="shortcut icon" href="assets/brand/small-logo.png">
+<link rel="apple-touch-icon" href="assets/brand/small-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #070912;
+  --text: #1f2633;
+  --muted: #667085;
+  --soft: #f4f7fb;
+  --panel: rgba(255,255,255,.78);
+  --line: rgba(15,23,42,.1);
+  --green: #16b67f;
+  --green-dark: #07845f;
+  --lime: #d7ff72;
+  --blue: #5795ff;
+  --night: #080915;
+  --rose: #f0829a;
+  --shadow: 0 28px 90px rgba(15,23,42,.14);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  margin:0;
+  color:var(--text);
+  background: linear-gradient(180deg,#eef8f4 0%,#fbfffd 46%,#f5fbf8 100%);
+  font-family:"DM Sans",sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+a{color:inherit;}
+button,input,textarea,select{font:inherit;}
+.shell{width:min(1160px,calc(100% - 40px));margin:0 auto;}
+
+/* NAV */
+.nav{
+  position:sticky;top:12px;z-index:50;
+  width:min(1120px,calc(100% - 32px));
+  margin:0 auto;
+  min-height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:10px 14px;
+  border:1px solid rgba(255,255,255,.84);
+  border-radius:22px;
+  background:rgba(255,255,255,.82);
+  box-shadow:0 18px 50px rgba(15,23,42,.1);
+  backdrop-filter:blur(22px);
+}
+.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);font-weight:900;letter-spacing:-.04em;text-decoration:none;}
+.brand img{width:34px;height:34px;border-radius:10px;}
+.links{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:700;}
+.links a{text-decoration:none;color:#202633;}
+.links a:hover{color:var(--green-dark);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:11px 18px;
+  border:0;border-radius:999px;
+  background:var(--ink);color:white;
+  font-weight:800;text-decoration:none;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,background .18s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,23,42,.16);}
+.btn.ghost{background:white;color:var(--ink);border:1px solid var(--line);}
+.btn.green{background:var(--green);color:white;}
+.btn.rose{background:var(--rose);color:white;}
+.btn.small{min-height:34px;padding:8px 13px;font-size:13px;}
+
+/* HERO */
+.hero{padding:28px 0 60px;}
+.hero-frame{
+  min-height:620px;
+  position:relative;overflow:hidden;
+  border-radius:0;
+  border:1px solid rgba(22,182,127,.14);
+  background-image:
+    linear-gradient(180deg,rgba(255,255,255,.74),rgba(232,248,241,.9)),
+    url("https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&auto=format&fit=crop");
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  box-shadow:0 30px 90px rgba(15,23,42,.1);
+}
+.hero-frame::before{
+  content:"";
+  position:absolute;inset:30px;
+  border:1px solid rgba(22,182,127,.18);
+  pointer-events:none;
+}
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  top:-100px;right:-100px;
+  background:radial-gradient(circle, rgba(22,182,127,.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;
+  width:400px;height:400px;
+  bottom:-80px;left:-60px;
+  background:radial-gradient(circle, rgba(87,149,255,.12) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-copy{
+  position:relative;z-index:2;
+  max-width:980px;
+  margin:0 auto;
+  padding:120px 34px 0;
+  text-align:center;
+}
+.hero-kicker{
+  display:inline-block;
+  margin-bottom:20px;
+  padding:7px 15px;
+  border-radius:999px;
+  background:rgba(22,182,127,.12);
+  border:1px solid rgba(22,182,127,.28);
+  color:var(--green-dark);
+  font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+}
+h1{
+  margin:0;
+  color:#1a2230;
+  font-size:clamp(46px,8vw,108px);
+  font-weight:900;
+  line-height:.9;
+  letter-spacing:-.07em;
+}
+h1 em{font-style:normal;color:var(--green);}
+.hero-copy p{
+  max-width:640px;
+  margin:28px auto 0;
+  color:#3c4a54;
+  font-size:18px;
+  line-height:1.6;
+}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px;}
+
+/* SECTIONS */
+.section{padding:80px 0;}
+.section-head{max-width:780px;margin:0 auto 48px;text-align:center;}
+.section-kicker{color:var(--green-dark);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+h2{margin:0;color:var(--ink);font-size:clamp(32px,5vw,56px);line-height:.96;letter-spacing:-.065em;}
+h2 em{font-style:normal;color:var(--green);}
+.section-sub{margin:16px auto 0;max-width:620px;color:var(--muted);font-size:17px;}
+
+/* TRUST BAR */
+.trust{padding:38px 0 12px;text-align:center;}
+.trust p{margin:0 0 20px;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.trust-row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;}
+.trust-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;
+  border-radius:14px;
+  background:white;
+  border:1px solid var(--line);
+  font-size:13px;font-weight:800;color:#404c5e;
+  box-shadow:0 4px 14px rgba(15,23,42,.05);
+}
+.trust-chip svg{color:var(--green);}
+
+/* SERVICE CARDS */
+.ki-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.ki-card{
+  border-radius:24px;
+  padding:28px;
+  background:white;
+  border:1px solid rgba(15,23,42,.07);
+  box-shadow:0 12px 40px rgba(15,23,42,.06);
+  transition:transform .2s,box-shadow .2s;
+}
+.ki-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(15,23,42,.1);}
+.ki-icon{
+  width:52px;height:52px;border-radius:16px;
+  display:grid;place-items:center;
+  margin-bottom:20px;
+  font-size:22px;font-weight:900;
+}
+.ki-icon.green{background:#e8f8f1;color:var(--green-dark);}
+.ki-icon.blue{background:#eef4ff;color:#3f6fd6;}
+.ki-icon.rose{background:#fef0f3;color:#d8537a;}
+.ki-card h3{margin:0 0 10px;color:var(--ink);font-size:22px;letter-spacing:-.04em;line-height:1.1;}
+.ki-card p{margin:0;color:var(--muted);line-height:1.6;}
+.ki-tag{
+  display:inline-block;
+  margin-top:14px;
+  padding:5px 11px;
+  border-radius:8px;
+  background:var(--soft);
+  color:var(--green-dark);
+  font-size:12px;font-weight:800;
+}
+
+/* SPLIT IMAGE BLOCKS */
+.split-section{padding:72px 0;}
+.split-section.alt{background:var(--soft);}
+.split-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:52px;
+  align-items:center;
+}
+.split-grid.reverse .split-media{order:2;}
+.split-media{
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(15,23,42,.14);
+  border:1px solid rgba(15,23,42,.06);
+  aspect-ratio:4/3;
+}
+.split-media img{width:100%;height:100%;object-fit:cover;display:block;}
+.split-copy h2{font-size:clamp(28px,3.6vw,44px);}
+.split-copy p{color:var(--muted);font-size:17px;margin:16px 0 0;line-height:1.7;}
+.split-list{display:grid;gap:10px;margin:22px 0 0;padding:0;list-style:none;}
+.split-list li{
+  display:flex;align-items:flex-start;gap:10px;
+  color:var(--text);font-weight:600;font-size:15px;
+}
+.split-list li svg{color:var(--green);flex-shrink:0;margin-top:3px;}
+
+/* DARK STATS */
+.dynamic-section{padding:80px 0;background:var(--night);color:white;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px;}
+.stat-card{
+  border-radius:22px;padding:30px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+}
+.stat-card b{display:block;color:var(--green);font-size:40px;font-weight:900;letter-spacing:-.04em;}
+.stat-card span{display:block;margin-top:8px;color:rgba(255,255,255,.7);font-size:15px;}
+.dynamic-section .section-head h2{color:white;}
+.dynamic-section .section-head .section-sub{color:rgba(255,255,255,.68);}
+.dynamic-section .section-kicker{color:rgba(22,182,127,.9);}
+
+/* VISION / PROTOTYPE BAND */
+.vision-band{
+  display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;
+  border-radius:28px;padding:40px;
+  background:var(--ink);color:white;
+}
+.vision-band h2{color:white;margin-bottom:8px;}
+.vision-band p{margin:0;color:rgba(255,255,255,.68);max-width:560px;}
+.vision-band .section-kicker{color:var(--green);}
+
+/* CONTACT FORM */
+.contact-section{
+  padding:80px 0;
+  background:linear-gradient(135deg,var(--ink) 0%,#0d1f3c 100%);
+  color:white;
+}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;}
+.contact-copy h2{color:white;margin-bottom:16px;}
+.contact-copy h2 em{color:var(--green);}
+.contact-copy p{color:rgba(255,255,255,.7);max-width:480px;}
+.contact-points{display:grid;gap:12px;margin-top:24px;}
+.contact-point{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.8);font-size:14px;font-weight:700;}
+.contact-point span{font-size:14px;color:var(--green);min-width:38px;}
+.contact-form{background:white;border-radius:24px;padding:32px;box-shadow:0 24px 80px rgba(0,0,0,.25);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--line);border-radius:12px;
+  color:var(--text);background:white;transition:border-color .2s;outline:none;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--green);}
+.form-group textarea{min-height:120px;resize:vertical;}
+.form-submit{
+  width:100%;padding:14px;border-radius:14px;
+  background:var(--ink);color:white;font-size:16px;font-weight:800;
+  border:0;cursor:pointer;transition:background .2s,transform .2s;
+}
+.form-submit:hover{background:var(--green-dark);transform:translateY(-1px);}
+.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
+.form-success{
+  display:none;padding:20px;border-radius:14px;
+  background:#e8f8f1;border:1px solid rgba(22,182,127,.3);
+  color:var(--green-dark);text-align:center;font-weight:700;
+}
+
+/* FOOTER */
+footer{margin-top:0;padding:64px 0 34px;background:var(--night);color:white;}
+.footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:start;}
+.footer-brand{display:inline-flex;align-items:center;gap:10px;font-size:26px;font-weight:900;letter-spacing:-.05em;text-decoration:none;color:white;}
+.footer-brand img{width:40px;height:40px;border-radius:12px;}
+.footer-grid p{max-width:500px;color:rgba(255,255,255,.65);margin-top:12px;}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.footer-links h4{margin:0 0 10px;color:white;}
+.footer-links a{display:block;margin:7px 0;color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;}
+.footer-links a:hover{color:white;}
+.footer-bottom{display:flex;justify-content:space-between;gap:18px;margin-top:52px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:13px;}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .links{display:none;}
+  .ki-grid,.stats-grid{grid-template-columns:1fr;}
+  .split-grid,.vision-band,.contact-inner{grid-template-columns:1fr;}
+  .split-grid.reverse .split-media{order:0;}
+  .footer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .shell{width:min(100% - 24px,1160px);}
+  .nav{width:min(100% - 20px,1120px);top:10px;}
+  .nav-actions .btn.ghost{display:none;}
+  .hero-frame{border-radius:0;min-height:560px;}
+  .hero-frame::before{inset:14px;}
+  .hero-copy{padding:76px 16px 0;}
+  h1{font-size:clamp(40px,13vw,64px);line-height:.94;}
+  h2{font-size:clamp(28px,8vw,38px);line-height:1.02;}
+  .hero-copy p{font-size:16px;}
+  .hero-actions{flex-direction:column;align-items:center;}
+  .hero-actions .btn{width:min(100%,260px);}
+  .section,.split-section,.dynamic-section,.contact-section{padding:56px 0;}
+  .footer-links,.footer-bottom{flex-direction:column;}
+  .vision-band{padding:28px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.html">
+    <img src="assets/brand/small-logo.png" alt="AutomateX Logo">
+    AutomateX
+  </a>
+  <div class="links">
+    <a href="#leistungen">Leistungen</a>
+    <a href="#ablauf">Ablauf</a>
+    <a href="#prototyp">Prototyp</a>
+    <a href="index.html">Routenplanung</a>
+  </div>
+  <div class="nav-actions">
+    <a class="btn ghost small" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn green small" href="#kontakt">Get in touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="shell">
+    <div class="hero-frame">
+      <div class="hero-glow"></div>
+      <div class="hero-glow2"></div>
+      <div class="hero-copy">
+        <span class="hero-kicker">Ihr Digitalisierungspartner</span>
+        <h1>Wir digitalisieren<br>Ihr <em>Geschäft</em>.</h1>
+        <p>Von der automatisierten Prozesskette über Websites und Custom Software bis zu KI-Beratung und -Umsetzung aller Art – auch KI direkt an Ihre ERP-Software angebunden. Sie beschreiben den Prototyp, wir bauen ihn.</p>
+        <div class="hero-actions">
+          <a class="btn green" href="#prototyp">Prototyp anfragen</a>
+          <a class="btn" style="background:rgba(255,255,255,.9);color:var(--ink);border:1px solid rgba(15,23,42,.1);" href="#leistungen">Leistungen ansehen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST BAR -->
+<section class="trust">
+  <div class="shell">
+    <p>Ein Partner für die komplette digitale Wertschöpfung</p>
+    <div class="trust-row">
+      <div class="trust-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Prozessautomatisierung</div>
+      <div class="trust-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Websites & Web-Apps</div>
+      <div class="trust-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Custom Software</div>
+      <div class="trust-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Marketing-Automatisierung</div>
+      <div class="trust-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> KI & ERP</div>
+    </div>
+  </div>
+</section>
+
+<!-- LEISTUNGEN -->
+<section class="section" id="leistungen">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">Leistungen</div>
+      <h2>Alles, was Ihr Unternehmen<br><em>digital schneller macht.</em></h2>
+      <p class="section-sub">Wir automatisieren allgemeine digitale Prozesse und bauen die Software drumherum – pragmatisch, messbar und auf Ihren Betrieb zugeschnitten.</p>
+    </div>
+    <div class="ki-grid">
+      <div class="ki-card">
+        <div class="ki-icon green">⚙️</div>
+        <h3>Digitale Prozessautomatisierung</h3>
+        <p>Wiederkehrende Abläufe – Angebote, Rechnungen, Dateneingaben, Freigaben – werden automatisiert und sauber miteinander verbunden. Weniger Handarbeit, weniger Fehler.</p>
+        <div class="ki-tag">Workflows & Schnittstellen</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon blue">🌐</div>
+        <h3>Websites & Web-Apps</h3>
+        <p>Moderne, schnelle Websites und Web-Anwendungen, die nicht nur gut aussehen, sondern Anfragen, Buchungen und Daten direkt in Ihre Prozesse einspeisen.</p>
+        <div class="ki-tag">Design & Performance</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon rose">💻</div>
+        <h3>Custom Software</h3>
+        <p>Individuelle Tools und Dashboards für genau die Aufgabe, für die es kein passendes Produkt von der Stange gibt – gebaut um Ihren Workflow herum.</p>
+        <div class="ki-tag">Maßgeschneidert</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon green">📣</div>
+        <h3>Marketing-Automatisierung</h3>
+        <p>Leads erfassen, qualifizieren und automatisch nachfassen: E-Mail-Strecken, CRM-Anbindung und Reporting, damit kein Kontakt verloren geht.</p>
+        <div class="ki-tag">Leads & CRM</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon blue">🤖</div>
+        <h3>KI-Beratung & -Umsetzung</h3>
+        <p>KI-Beratung und Umsetzung aller Art: von der ersten Idee über die passende Architektur bis zum produktiven Assistenten, der echte Aufgaben übernimmt.</p>
+        <div class="ki-tag">Strategie bis Go-Live</div>
+      </div>
+      <div class="ki-card">
+        <div class="ki-icon rose">🗄️</div>
+        <h3>KI + ERP-Integration</h3>
+        <p>Wir verbinden KI direkt mit Ihrer ERP-Software – Daten auslesen, anreichern, automatisch verbuchen und intelligente Auswertungen direkt im System.</p>
+        <div class="ki-tag">ERP-Anbindung</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT 1: AUTOMATISIERUNG -->
+<section class="split-section alt">
+  <div class="shell">
+    <div class="split-grid">
+      <div class="split-media">
+        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1000&q=80&auto=format&fit=crop" alt="Automatisierte digitale Prozesse">
+      </div>
+      <div class="split-copy">
+        <div class="section-kicker">Prozesse automatisieren</div>
+        <h2>Aus manueller Routine<br><em>wird Automatik.</em></h2>
+        <p>Wir schauen uns Ihre täglichen Abläufe an, finden die zeitfressenden Handgriffe und ersetzen sie durch verlässliche Automatisierung – integriert in die Tools, die Sie bereits nutzen.</p>
+        <ul class="split-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Anbindung an bestehende Systeme & Schnittstellen</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Automatische Daten- und Dokumentenflüsse</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Weniger Fehler, mehr Zeit für das Wesentliche</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT 2: SOFTWARE -->
+<section class="split-section">
+  <div class="shell">
+    <div class="split-grid reverse">
+      <div class="split-media">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1000&q=80&auto=format&fit=crop" alt="Custom Software und Web-Entwicklung">
+      </div>
+      <div class="split-copy">
+        <div class="section-kicker">Software & Web</div>
+        <h2>Websites und Tools,<br><em>die wirklich arbeiten.</em></h2>
+        <p>Ob Unternehmensauftritt, Kundenportal oder internes Dashboard: Wir bauen schnelle, gepflegte Software und verbinden sie mit Ihren Daten – statt isolierter Insellösungen.</p>
+        <ul class="split-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Websites, Web-Apps & Kundenportale</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Individuelle Tools statt Software von der Stange</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Direkt an Ihre Prozesse & Daten angebunden</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT 3: KI + ERP -->
+<section class="split-section alt">
+  <div class="shell">
+    <div class="split-grid">
+      <div class="split-media">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1000&q=80&auto=format&fit=crop" alt="KI mit ERP-Software und Datenauswertung">
+      </div>
+      <div class="split-copy">
+        <div class="section-kicker">KI & ERP</div>
+        <h2>KI, die in Ihrem<br><em>ERP zuhause ist.</em></h2>
+        <p>Wir bringen KI dorthin, wo Ihre Daten liegen: direkt an die ERP-Software. Belege automatisch erfassen, Stammdaten pflegen, Auswertungen auf Zuruf – und einen Assistenten, der Ihre Prozesse versteht.</p>
+        <ul class="split-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> KI-Beratung & -Umsetzung aller Art</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Anbindung an ERP- und Bestandssysteme</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Automatische Datenpflege & Reporting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABLAUF / STATS -->
+<section class="dynamic-section" id="ablauf">
+  <div class="shell">
+    <div class="section-head">
+      <div class="section-kicker">So arbeiten wir</div>
+      <h2>Vom Gespräch zum<br><em>laufenden Prototyp.</em></h2>
+      <p class="section-sub">Sie beschreiben uns Ihre Idee oder Ihr Problem – wir liefern einen funktionierenden Prototyp, den Sie anfassen und bewerten können, bevor groß investiert wird.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <b>01</b>
+        <span>Idee oder Prozess beschreiben – per LinkedIn, Mail oder im kurzen Call.</span>
+      </div>
+      <div class="stat-card">
+        <b>02</b>
+        <span>Wir bauen einen Prototyp, der die wichtigste Funktion real zeigt.</span>
+      </div>
+      <div class="stat-card">
+        <b>03</b>
+        <span>Gemeinsam bewerten, ausbauen und produktiv in Ihren Alltag bringen.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROTOTYP CTA -->
+<section class="section" id="prototyp">
+  <div class="shell vision-band">
+    <div>
+      <div class="section-kicker">Prototyp anfragen</div>
+      <h2>Beschreiben Sie es – wir bauen es.</h2>
+      <p>Egal ob Automatisierung, Website, Custom Software, Marketing oder KI mit ERP: Schicken Sie uns die Idee. Wir machen daraus einen greifbaren Prototyp – ohne lange Lastenhefte.</p>
+    </div>
+    <div class="hero-actions" style="margin:0;">
+      <a class="btn green" href="#kontakt">Jetzt anfragen</a>
+      <a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Auf LinkedIn melden</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="kontakt">
+  <div class="shell">
+    <div class="contact-inner">
+      <div class="contact-copy">
+        <div class="section-kicker" style="color:rgba(22,182,127,.9);">Kontakt</div>
+        <h2>Lassen Sie uns Ihr<br><em>Projekt starten.</em></h2>
+        <p>Beschreiben Sie kurz, was Sie digitalisieren oder automatisieren möchten. Wir melden uns mit einem konkreten Vorschlag – inklusive Idee für einen ersten Prototyp.</p>
+        <div class="contact-points">
+          <div class="contact-point"><span>Ort</span> Frederik Ernst, Essen (NRW)</div>
+          <div class="contact-point"><span>Mail</span> frederik.ernst27@gmail.com</div>
+          <div class="contact-point"><span>Web</span> linkedin.com/in/frederik-ernst-64597b356</div>
+        </div>
+        <div style="margin-top:32px;">
+          <a class="btn" style="background:rgba(22,182,127,.15);color:var(--green);border:1px solid rgba(22,182,127,.3);" href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">Auf LinkedIn melden</a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-success" id="formSuccess">
+          Vielen Dank! Ihre Anfrage wurde gesendet. Ich melde mich innerhalb von 24 Stunden.
+        </div>
+        <form id="contactForm" action="https://formsubmit.co/frederik.ernst27@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Digitalisierungs-Anfrage – AutomateX">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_autoresponse" value="Vielen Dank für Ihre Anfrage! Ich werde mich innerhalb von 24 Stunden bei Ihnen melden. – Frederik Ernst, AutomateX">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name *</label>
+              <input type="text" name="name" placeholder="Ihr Name" required>
+            </div>
+            <div class="form-group">
+              <label>Firma</label>
+              <input type="text" name="firma" placeholder="Ihr Unternehmen">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>E-Mail *</label>
+            <input type="email" name="email" placeholder="ihre@email.de" required>
+          </div>
+          <div class="form-group">
+            <label>Worum geht es?</label>
+            <select name="projektart">
+              <option value="">Bitte auswählen</option>
+              <option>Prozessautomatisierung</option>
+              <option>Website / Web-App</option>
+              <option>Custom Software</option>
+              <option>Marketing-Automatisierung</option>
+              <option>KI-Beratung & -Umsetzung</option>
+              <option>KI + ERP-Integration</option>
+              <option>Etwas anderes / Prototyp</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Was möchten Sie digitalisieren oder automatisieren? *</label>
+            <textarea name="nachricht" placeholder="z.B. Angebote automatisch erstellen, KI-Assistent fürs ERP, neue Website mit Buchungsfunktion..." required></textarea>
+          </div>
+          <button class="form-submit" type="submit">Prototyp & Beratung anfragen →</button>
+          <p class="form-note">Kein Spam. Keine Weitergabe Ihrer Daten. Antwort innerhalb von 24 Stunden.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="index.html">
+          <img src="assets/brand/small-logo.png" alt="AutomateX Logo">
+          AutomateX
+        </a>
+        <p>Ihr Digitalisierungspartner für Prozessautomatisierung, Websites, Custom Software, Marketing-Automatisierung und KI – inklusive KI mit ERP. Gebaut von Frederik Ernst, Essen.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h4>Leistungen</h4>
+          <a href="#leistungen">Automatisierung & Software</a>
+          <a href="#prototyp">Prototyp anfragen</a>
+          <a href="index.html">KI-Routenplanung</a>
+        </div>
+        <div>
+          <h4>Rechtliches</h4>
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+          <a href="https://www.linkedin.com/in/frederik-ernst-64597b356/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AutomateX Solutions – Frederik Ernst</span>
+      <span>Digitalisierung · Automatisierung · KI · Bilder: Unsplash</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== CONTACT FORM ===== */
+const contactForm = document.getElementById("contactForm");
+const formSuccess = document.getElementById("formSuccess");
+contactForm.addEventListener("submit", function() {
+  setTimeout(() => {
+    formSuccess.style.display = "block";
+    contactForm.style.display = "none";
+  }, 800);
+});
+</script>
+</body>
+</html>

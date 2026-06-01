@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { geocode } from "@/lib/routing";
+import { SKILL_CATALOG } from "@/lib/dispatch";
 
 interface Stop {
   id: string; name: string; address: string;
@@ -10,6 +11,8 @@ interface Stop {
   status: "pending" | "in_progress" | "done" | "cancelled";
   notes: string | null; priority: number;
   scheduled_date: string;
+  required_skills: string[] | null;
+  assigned_technician_id: string | null;
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -24,8 +27,9 @@ export default function DashboardPage() {
   const [orgId, setOrgId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [geocoding, setGeocoding] = useState(false);
-  const [form, setForm] = useState({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today() });
+  const [form, setForm] = useState({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today(), required_skills: [] as string[], estimated_minutes: "45", customer_email: "" });
   const [error, setError] = useState("");
+  const [techNames, setTechNames] = useState<Record<string, string>>({});
 
   const sb = createClient();
 
@@ -41,6 +45,8 @@ export default function DashboardPage() {
       .order("priority", { ascending: false })
       .order("time_from", { ascending: true });
     setStops(data ?? []);
+    const { data: techs } = await sb.from("technicians").select("id,name").eq("org_id", member.org_id);
+    setTechNames(Object.fromEntries((techs ?? []).map(t => [t.id, t.name])));
     setLoading(false);
   }, []);
 
@@ -60,10 +66,13 @@ export default function DashboardPage() {
       lat: coords?.lat ?? null, lng: coords?.lng ?? null,
       time_from: form.time_from || null, time_to: form.time_to || null,
       notes: form.notes || null, priority: parseInt(form.priority),
-      scheduled_date: form.scheduled_date, status: "pending"
+      scheduled_date: form.scheduled_date, status: "pending",
+      required_skills: form.required_skills,
+      estimated_minutes: parseInt(form.estimated_minutes) || null,
+      customer_email: form.customer_email || null
     });
     if (err) { setError(err.message); return; }
-    setForm({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today() });
+    setForm({ name: "", address: "", time_from: "", time_to: "", notes: "", priority: "0", scheduled_date: today(), required_skills: [], estimated_minutes: "45", customer_email: "" });
     setShowForm(false);
     loadOrgAndStops();
   }
@@ -129,6 +138,14 @@ export default function DashboardPage() {
                 <label>Bis</label>
                 <input type="time" value={form.time_to} onChange={e => setF("time_to", e.target.value)} />
               </div>
+              <div className="form-group">
+                <label>Dauer (Min)</label>
+                <input type="number" min={5} step={5} value={form.estimated_minutes} onChange={e => setF("estimated_minutes", e.target.value)} placeholder="45" />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Kunden-E-Mail (für Terminbenachrichtigung)</label>
+              <input type="email" value={form.customer_email} onChange={e => setF("customer_email", e.target.value)} placeholder="kunde@example.de (optional)" />
             </div>
             <div className="form-row">
               <div className="form-group">
@@ -143,6 +160,29 @@ export default function DashboardPage() {
                 <label>Notiz</label>
                 <input value={form.notes} onChange={e => setF("notes", e.target.value)} placeholder="Optional" />
               </div>
+            </div>
+            <div className="form-group">
+              <label>Benötigte Qualifikationen</label>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+                {SKILL_CATALOG.map(s => {
+                  const on = form.required_skills.includes(s);
+                  return (
+                    <button
+                      type="button"
+                      key={s}
+                      onClick={() => setForm(f => ({ ...f, required_skills: on ? f.required_skills.filter(x => x !== s) : [...f.required_skills, s] }))}
+                      style={{ borderRadius:999, padding:"4px 12px", fontSize:12, fontWeight:700, cursor:"pointer",
+                        border: on ? "1px solid var(--green)" : "1px solid var(--line)",
+                        background: on ? "var(--green)" : "var(--soft)", color: on ? "white" : "var(--ink)" }}
+                    >
+                      {on ? "✓ " : ""}{s}
+                    </button>
+                  );
+                })}
+              </div>
+              <span style={{ fontSize:11, color:"var(--muted)", display:"block", marginTop:6 }}>
+                Bestimmt, welche Techniker den Auftrag bei der automatischen Einteilung erhalten können.
+              </span>
             </div>
             <button className="btn green" type="submit" disabled={geocoding}>
               {geocoding ? "Adresse wird geokodiert…" : "Stop speichern"}
@@ -173,6 +213,16 @@ export default function DashboardPage() {
                   <span style={{ display:"block", marginTop:2 }}>🕐 {stop.time_from ?? "?"} – {stop.time_to ?? "?"}</span>
                 )}
                 {stop.notes && <span style={{ display:"block", marginTop:2, fontStyle:"italic" }}>💬 {stop.notes}</span>}
+                {(stop.required_skills?.length ?? 0) > 0 && (
+                  <span style={{ display:"flex", flexWrap:"wrap", gap:6, marginTop:6 }}>
+                    {stop.required_skills!.map(s => (
+                      <span key={s} style={{ background:"var(--soft)", border:"1px solid var(--line)", borderRadius:999, padding:"1px 9px", fontSize:11, fontWeight:700 }}>{s}</span>
+                    ))}
+                  </span>
+                )}
+                {stop.assigned_technician_id && techNames[stop.assigned_technician_id] && (
+                  <span style={{ display:"block", marginTop:4, fontSize:12, color:"var(--green)", fontWeight:700 }}>👷 {techNames[stop.assigned_technician_id]}</span>
+                )}
                 {!stop.lat && <span style={{ display:"block", color:"var(--rose)", fontSize:11, marginTop:2 }}>⚠ Kein Koordinaten – Route kann diesen Stop evtl. nicht anzeigen</span>}
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:6, alignItems:"flex-end", flexShrink:0 }}>

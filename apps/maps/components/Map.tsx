@@ -5,16 +5,20 @@ import { useEffect, useRef } from "react";
 export interface MapStop {
   id: string; name: string; address: string;
   lat: number; lng: number; status: string; index: number;
+  color?: string; // overrides the default pending-marker colour (e.g. per technician)
 }
+
+export interface RouteLine { points: Array<[number, number]>; color: string; }
 
 interface Props {
   stops: MapStop[];
   routePolyline?: Array<[number, number]>;
+  routeLines?: RouteLine[];
   className?: string;
   onStopClick?: (stop: MapStop) => void;
 }
 
-export default function Map({ stops, routePolyline, className = "map-wrap", onStopClick }: Props) {
+export default function Map({ stops, routePolyline, routeLines, className = "map-wrap", onStopClick }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<unknown>(null);
 
@@ -40,7 +44,7 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
       setTimeout(() => map.invalidateSize(), 100);
 
       stops.forEach(stop => {
-        const color = stop.status === "done" ? "#16b67f" : stop.status === "cancelled" ? "#f0829a" : stop.status === "in_progress" ? "#d7ff72" : "#070912";
+        const color = stop.status === "done" ? "#16b67f" : stop.status === "cancelled" ? "#f0829a" : stop.status === "in_progress" ? "#d7ff72" : (stop.color ?? "#070912");
         const icon = L.divIcon({
           className: "",
           html: `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.3);display:grid;place-items:center;font-weight:900;font-size:13px;color:${stop.status==="in_progress"?"#070912":"white"}">${stop.index}</div>`,
@@ -54,6 +58,9 @@ export default function Map({ stops, routePolyline, className = "map-wrap", onSt
       if (routePolyline?.length) {
         L.polyline(routePolyline, { color: "#16b67f", weight: 4, opacity: .8 }).addTo(map);
       }
+      routeLines?.forEach(line => {
+        if (line.points.length) L.polyline(line.points, { color: line.color, weight: 4, opacity: .8 }).addTo(map);
+      });
 
       if (stops.length > 1) {
         const bounds = L.latLngBounds(stops.map(s => [s.lat, s.lng]));

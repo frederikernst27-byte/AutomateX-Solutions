@@ -6,10 +6,13 @@ import type { MapStop } from "@/components/Map";
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false, loading: () => <div className="driver-map" style={{ display:"grid", placeItems:"center", background:"#0d1117", color:"rgba(255,255,255,.4)" }}>Karte lädt…</div> });
 
-interface Stop { id: string; name: string; address: string; lat: number | null; lng: number | null; status: string; time_from: string | null; time_to: string | null; notes: string | null; }
+interface Stop { id: string; name: string; address: string; lat: number | null; lng: number | null; status: string; time_from: string | null; time_to: string | null; notes: string | null; assigned_technician_id: string | null; }
+interface Technician { id: string; name: string; color: string | null; }
 
 export default function DriverPage() {
-  const [stops, setStops] = useState<Stop[]>([]);
+  const [allStops, setAllStops] = useState<Stop[]>([]);
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
+  const [driverId, setDriverId] = useState<string>("all");
   const [orgId, setOrgId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [mapKey, setMapKey] = useState(0);
@@ -17,16 +20,32 @@ export default function DriverPage() {
   const sb = createClient();
   const today = new Date().toISOString().split("T")[0];
 
+  // Restore the last selected driver on this device
+  useEffect(() => {
+    const saved = localStorage.getItem("driver-selected");
+    if (saved) setDriverId(saved);
+  }, []);
+
+  function selectDriver(id: string) {
+    setDriverId(id);
+    localStorage.setItem("driver-selected", id);
+    setMapKey(k => k + 1);
+  }
+
   const loadData = useCallback(async () => {
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
     const { data: member } = await sb.from("org_members").select("org_id").eq("user_id", user.id).single();
     if (!member) return;
     setOrgId(member.org_id);
-    const { data } = await sb.from("stops").select("*")
-      .eq("org_id", member.org_id).eq("scheduled_date", today)
-      .order("priority", { ascending: false }).order("time_from", { ascending: true });
-    setStops(data ?? []);
+    const [{ data }, { data: techs }] = await Promise.all([
+      sb.from("stops").select("*")
+        .eq("org_id", member.org_id).eq("scheduled_date", today)
+        .order("priority", { ascending: false }).order("time_from", { ascending: true }),
+      sb.from("technicians").select("id,name,color").eq("org_id", member.org_id).eq("active", true).order("name"),
+    ]);
+    setAllStops(data ?? []);
+    setTechnicians(techs ?? []);
     setLoading(false);
   }, [today]);
 
@@ -43,15 +62,20 @@ export default function DriverPage() {
     return () => { channel.unsubscribe(); };
   }, [loadData]);
 
+  // Only show the selected driver's stops (or all)
+  const stops = driverId === "all"
+    ? allStops
+    : allStops.filter(s => s.assigned_technician_id === driverId);
+
   async function markDone(id: string) {
     await sb.from("stops").update({ status: "done" }).eq("id", id);
-    setStops(s => s.map(x => x.id === id ? { ...x, status: "done" } : x));
+    setAllStops(s => s.map(x => x.id === id ? { ...x, status: "done" } : x));
     setMapKey(k => k + 1);
   }
 
   async function markInProgress(id: string) {
     await sb.from("stops").update({ status: "in_progress" }).eq("id", id);
-    setStops(s => s.map(x => x.id === id ? { ...x, status: "in_progress" } : x));
+    setAllStops(s => s.map(x => x.id === id ? { ...x, status: "in_progress" } : x));
     setMapKey(k => k + 1);
   }
 
@@ -65,6 +89,20 @@ export default function DriverPage() {
 
   const navUrl = (s: Stop) => `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.address)}`;
 
+  // Full Google-Maps route through all not-yet-done stops of the current driver,
+  // in displayed order. Origin = current location, last stop = destination,
+  // everything in between = waypoints.
+  const tripStops = [...(active ? [active] : []), ...pending];
+  function startTrip() {
+    if (tripStops.length === 0) return;
+    const addrs = tripStops.map(s => encodeURIComponent(s.address));
+    const destination = addrs[addrs.length - 1];
+    const waypoints = addrs.slice(0, -1).join("%7C");
+    let url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+    if (waypoints) url += `&waypoints=${waypoints}`;
+    window.open(url, "_blank", "noopener");
+  }
+
   return (
     <div className="driver-page">
       <div className="driver-header">
@@ -75,11 +113,28 @@ export default function DriverPage() {
             {" · "}{stops.length} Stops · {done.length} erledigt
           </div>
         </div>
-        <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-          <span style={{ width:8, height:8, borderRadius:"50%", background:"var(--green)", display:"inline-block", boxShadow:"0 0 0 3px rgba(22,182,127,.25)" }} />
-          <span style={{ fontSize:12, color:"rgba(255,255,255,.5)" }}>Live</span>
-        </div>
+        <select
+          value={driverId}
+          onChange={e => selectDriver(e.target.value)}
+          aria-label="Fahrer auswählen"
+          style={{ background:"rgba(255,255,255,.08)", color:"white", border:"1px solid rgba(255,255,255,.18)", borderRadius:10, padding:"8px 12px", fontSize:13, fontWeight:700, cursor:"pointer", maxWidth:180 }}
+        >
+          <option value="all">Alle Fahrer</option>
+          {technicians.map(t => (
+            <option key={t.id} value={t.id} style={{ color:"#111" }}>{t.name}</option>
+          ))}
+        </select>
       </div>
+
+      {/* Start full route in Google Maps */}
+      {!loading && tripStops.length > 0 && (
+        <button
+          onClick={startTrip}
+          style={{ width:"100%", background:"var(--blue)", color:"white", border:0, borderRadius:12, padding:"14px", fontSize:15, fontWeight:800, cursor:"pointer", marginBottom:14, display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}
+        >
+          🧭 Fahrt starten · {tripStops.length} Stop{tripStops.length > 1 ? "s" : ""} in Google Maps
+        </button>
+      )}
 
       {/* Map */}
       <Map key={mapKey} stops={mapStops} className="driver-map" />
