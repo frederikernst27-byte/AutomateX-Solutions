@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { createClient } from "@/lib/supabase/client";
 import { optimizeRoute, routeWithLegs, computeEtas, type EtaResult } from "@/lib/routing";
-import { buildAppointmentEmail, mailtoLink, etaPhrase } from "@/lib/notify";
+import { buildAppointmentEmail, mailtoLink, etaPhrase, hm } from "@/lib/notify";
 import type { MapStop, RouteLine } from "@/components/Map";
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false, loading: () => <div className="map-wrap" style={{ display:"grid", placeItems:"center", color:"var(--muted)" }}>Karte lädt…</div> });
@@ -12,7 +12,7 @@ interface Stop {
   id: string; name: string; address: string;
   lat: number | null; lng: number | null; status: string; priority: number;
   time_from: string | null; time_to: string | null; estimated_minutes: number | null;
-  customer_email: string | null; assigned_technician_id: string | null;
+  customer_email: string | null; assigned_technician_id: string | null; track_token: string;
 }
 interface Technician { id: string; name: string; color: string | null; }
 
@@ -109,9 +109,11 @@ export default function RoutePage() {
   async function notifyCustomer(stop: Stop, eta: EtaResult, tour: Tour) {
     if (!stop.customer_email) return;
     const etaText = etaPhrase(eta.etaHm, stop.time_from, stop.time_to);
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
     const { subject, body } = buildAppointmentEmail({
       customerName: stop.name, date: today, etaText,
       technicianName: tour.techId ? tour.techName : null, companyName: orgName,
+      trackingUrl: `${appUrl}/track/${stop.track_token}`,
     });
     // Audit trail (best-effort)
     const { data: { user } } = await sb.auth.getUser();
@@ -125,6 +127,13 @@ export default function RoutePage() {
     }
     window.open(mailtoLink(stop.customer_email, subject, body), "_blank");
     setSent(prev => new Set(prev).add(stop.id));
+  }
+
+  function copyTrackingLink(stop: Stop) {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    navigator.clipboard?.writeText(`${appUrl}/track/${stop.track_token}`);
+    setSent(prev => new Set(prev).add("link-" + stop.id));
+    setTimeout(() => setSent(prev => { const n = new Set(prev); n.delete("link-" + stop.id); return n; }), 2000);
   }
 
   // ── Map data ──
@@ -212,16 +221,22 @@ export default function RoutePage() {
                       <div style={{ fontSize:11, color:"var(--muted)", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.address}</div>
                       <div style={{ display:"flex", gap:8, alignItems:"center", marginTop:3, flexWrap:"wrap" }}>
                         <span style={{ fontSize:11, fontWeight:800, color:etaColor }}>🕐 ETA {eta?.etaHm}</span>
-                        {(s.time_from || s.time_to) && <span style={{ fontSize:11, color:"var(--muted)" }}>Fenster {s.time_from ?? "?"}–{s.time_to ?? "?"}</span>}
+                        {(s.time_from || s.time_to) && <span style={{ fontSize:11, color:"var(--muted)" }}>Fenster {hm(s.time_from) || "?"}–{hm(s.time_to) || "?"}</span>}
                         {eta?.status === "spaet" && <span style={{ fontSize:11, color:"var(--rose)", fontWeight:700 }}>⚠ {eta.deltaMin} Min zu spät</span>}
                         {eta?.status === "warten" && <span style={{ fontSize:11, color:"#ef6c00", fontWeight:700 }}>{eta.deltaMin} Min Wartezeit</span>}
                       </div>
-                      {s.customer_email && (
-                        <button onClick={() => notifyCustomer(s, eta, tour)}
-                          style={{ marginTop:6, fontSize:11, fontWeight:700, background: sent.has(s.id) ? "var(--soft)" : "var(--blue)", color: sent.has(s.id) ? "var(--muted)" : "white", border:0, borderRadius:8, padding:"4px 10px", cursor:"pointer" }}>
-                          {sent.has(s.id) ? "✓ Benachrichtigt" : "✉ Kunde benachrichtigen"}
+                      <div style={{ display:"flex", gap:8, marginTop:6, flexWrap:"wrap" }}>
+                        {s.customer_email && (
+                          <button onClick={() => notifyCustomer(s, eta, tour)}
+                            style={{ fontSize:11, fontWeight:700, background: sent.has(s.id) ? "var(--soft)" : "var(--blue)", color: sent.has(s.id) ? "var(--muted)" : "white", border:0, borderRadius:8, padding:"4px 10px", cursor:"pointer" }}>
+                            {sent.has(s.id) ? "✓ Benachrichtigt" : "✉ Kunde benachrichtigen"}
+                          </button>
+                        )}
+                        <button onClick={() => copyTrackingLink(s)}
+                          style={{ fontSize:11, fontWeight:700, background:"var(--soft)", color:"var(--ink)", border:"1px solid var(--line)", borderRadius:8, padding:"4px 10px", cursor:"pointer" }}>
+                          {sent.has("link-" + s.id) ? "✓ Kopiert" : "🔗 Tracking-Link"}
                         </button>
-                      )}
+                      </div>
                     </div>
                   </div>
                 );

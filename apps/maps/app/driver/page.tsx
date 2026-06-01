@@ -16,6 +16,10 @@ export default function DriverPage() {
   const [orgId, setOrgId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [mapKey, setMapKey] = useState(0);
+  const [sharing, setSharing] = useState(false);
+  const [locError, setLocError] = useState("");
+  const watchRef = useRef<number | null>(null);
+  const lastSentRef = useRef<number>(0);
   const channelRef = useRef<ReturnType<ReturnType<typeof createClient>["channel"]> | null>(null);
   const sb = createClient();
   const today = new Date().toISOString().split("T")[0];
@@ -61,6 +65,50 @@ export default function DriverPage() {
     channelRef.current = channel;
     return () => { channel.unsubscribe(); };
   }, [loadData]);
+
+  // ── Live location sharing ──
+  // Pushes the device GPS for the selected technician so customers can track
+  // them on the public /track page. Throttled to one update every ~12s.
+  // The "is sharing" intent is persisted per device so it auto-resumes when the
+  // driver re-opens the app (no extra tap; the GPS permission is usually still granted).
+  const startSharing = useCallback((techId: string) => {
+    if (!navigator.geolocation) { setLocError("Dieses Gerät unterstützt keine Standortermittlung."); return; }
+    setLocError("");
+    if (watchRef.current != null) navigator.geolocation.clearWatch(watchRef.current);
+    watchRef.current = navigator.geolocation.watchPosition(
+      async pos => {
+        const now = Date.now();
+        if (now - lastSentRef.current < 12000) return;
+        lastSentRef.current = now;
+        await sb.rpc("set_technician_location", { p_tech: techId, p_lat: pos.coords.latitude, p_lng: pos.coords.longitude });
+      },
+      () => setLocError("Standort konnte nicht ermittelt werden (Berechtigung?)."),
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
+    );
+    setSharing(true);
+  }, []);
+
+  const stopWatch = useCallback(() => {
+    if (watchRef.current != null) { navigator.geolocation.clearWatch(watchRef.current); watchRef.current = null; }
+    setSharing(false);
+  }, []);
+
+  function toggleSharing() {
+    if (sharing) { stopWatch(); localStorage.removeItem("driver-sharing"); return; }
+    if (driverId === "all") { setLocError("Bitte zuerst oben einen Fahrer auswählen."); return; }
+    localStorage.setItem("driver-sharing", driverId);
+    startSharing(driverId);
+  }
+
+  // Clear the watch on unmount.
+  useEffect(() => { return () => { if (watchRef.current != null) navigator.geolocation.clearWatch(watchRef.current); }; }, []);
+  // On driver change / initial load: stop any running watch, then auto-resume
+  // if this driver had sharing enabled before (persisted intent).
+  useEffect(() => {
+    stopWatch();
+    if (driverId !== "all" && localStorage.getItem("driver-sharing") === driverId) startSharing(driverId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [driverId]);
 
   // Only show the selected driver's stops (or all)
   const stops = driverId === "all"
@@ -124,6 +172,21 @@ export default function DriverPage() {
             <option key={t.id} value={t.id} style={{ color:"#111" }}>{t.name}</option>
           ))}
         </select>
+      </div>
+
+      {/* Live location sharing */}
+      <div style={{ padding:"0 20px 12px", display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}>
+        <button
+          onClick={toggleSharing}
+          style={{ display:"flex", alignItems:"center", gap:8, border:0, borderRadius:10, padding:"8px 14px", fontSize:13, fontWeight:800, cursor:"pointer",
+            background: sharing ? "rgba(22,182,127,.2)" : "rgba(255,255,255,.08)", color: sharing ? "var(--green)" : "rgba(255,255,255,.7)" }}
+        >
+          {sharing
+            ? <><span style={{ width:8, height:8, borderRadius:"50%", background:"var(--green)", boxShadow:"0 0 0 3px rgba(22,182,127,.25)" }} /> Standort wird geteilt</>
+            : <>📍 Standort teilen</>}
+        </button>
+        {sharing && <span style={{ fontSize:11, color:"rgba(255,255,255,.45)" }}>Kunden sehen Ihre Position live</span>}
+        {locError && <span style={{ fontSize:11, color:"#f0829a" }}>{locError}</span>}
       </div>
 
       {/* Start full route in Google Maps */}

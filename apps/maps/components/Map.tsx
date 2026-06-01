@@ -6,6 +6,7 @@ export interface MapStop {
   id: string; name: string; address: string;
   lat: number; lng: number; status: string; index: number;
   color?: string; // overrides the default pending-marker colour (e.g. per technician)
+  label?: string; // overrides the number shown in the marker (e.g. "🚐")
 }
 
 export interface RouteLine { points: Array<[number, number]>; color: string; }
@@ -47,7 +48,7 @@ export default function Map({ stops, routePolyline, routeLines, className = "map
         const color = stop.status === "done" ? "#16b67f" : stop.status === "cancelled" ? "#f0829a" : stop.status === "in_progress" ? "#d7ff72" : (stop.color ?? "#070912");
         const icon = L.divIcon({
           className: "",
-          html: `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.3);display:grid;place-items:center;font-weight:900;font-size:13px;color:${stop.status==="in_progress"?"#070912":"white"}">${stop.index}</div>`,
+          html: `<div style="width:36px;height:36px;border-radius:50%;background:${color};border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.3);display:grid;place-items:center;font-weight:900;font-size:13px;color:${stop.status==="in_progress"?"#070912":"white"}">${stop.label ?? stop.index}</div>`,
           iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -22]
         });
         const marker = L.marker([stop.lat, stop.lng], { icon }).addTo(map);

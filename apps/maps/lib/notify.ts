@@ -9,6 +9,7 @@ export interface AppointmentEmailInput {
   etaText: string;         // e.g. "ca. 10:15 Uhr" or "zwischen 10:00 und 10:30 Uhr"
   technicianName?: string | null;
   companyName?: string | null;
+  trackingUrl?: string | null; // public live-tracking link for the customer
 }
 
 function formatDateDE(iso: string): string {
@@ -18,16 +19,20 @@ function formatDateDE(iso: string): string {
 }
 
 export function buildAppointmentEmail(input: AppointmentEmailInput): { subject: string; body: string } {
-  const { customerName, date, etaText, technicianName, companyName } = input;
+  const { customerName, date, etaText, technicianName, companyName, trackingUrl } = input;
   const subject = `Ihr Termin am ${formatDateDE(date)}`;
   const techLine = technicianName
     ? `Unser Techniker ${technicianName} wird Sie ${etaText} besuchen.`
     : `Unser Techniker wird Sie ${etaText} besuchen.`;
+  const trackLine = trackingUrl
+    ? `\nVerfolgen Sie die Anfahrt live: ${trackingUrl}\n`
+    : "";
   const body =
     `Guten Tag ${customerName},\n\n` +
     `wir möchten Sie an Ihren Termin am ${formatDateDE(date)} erinnern.\n` +
-    `${techLine}\n\n` +
-    `Bitte stellen Sie sicher, dass der Zugang zum Objekt gewährleistet ist. ` +
+    `${techLine}\n` +
+    trackLine +
+    `\nBitte stellen Sie sicher, dass der Zugang zum Objekt gewährleistet ist. ` +
     `Sollte der Termin nicht passen, antworten Sie bitte einfach auf diese E-Mail.\n\n` +
     `Mit freundlichen Grüßen\n${companyName ?? "Ihr Serviceteam"}`;
   return { subject, body };
@@ -39,7 +44,10 @@ export function mailtoLink(to: string, subject: string, body: string): string {
 
 // Builds the human-readable ETA phrase from an arrival "HH:MM" and an optional
 // time window, preferring the customer's promised window when present.
+export function hm(t?: string | null): string {
+  return t ? t.slice(0, 5) : "";
+}
 export function etaPhrase(etaHm: string, timeFrom?: string | null, timeTo?: string | null): string {
-  if (timeFrom && timeTo) return `zwischen ${timeFrom} und ${timeTo} Uhr`;
+  if (timeFrom && timeTo) return `zwischen ${hm(timeFrom)} und ${hm(timeTo)} Uhr`;
   return `gegen ${etaHm} Uhr`;
 }

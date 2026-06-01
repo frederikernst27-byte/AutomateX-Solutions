@@ -23,12 +23,12 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
   const path = request.nextUrl.pathname;
-  const isPublic = path === "/login" || path === "/register" || path === "/" || path === "/demo";
+  const isPublic = path === "/login" || path === "/register" || path === "/" || path === "/demo" || path.startsWith("/track/");
 
   if (!user && !isPublic) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  if (user && isPublic && path !== "/") {
+  if (user && isPublic && path !== "/" && path !== "/demo" && !path.startsWith("/track/")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
   return supabaseResponse;

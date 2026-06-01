@@ -6,6 +6,12 @@
       "runtimeExecutable": "/usr/bin/python3",
       "runtimeArgs": ["-m", "http.server", "4000", "--directory", "public"],
       "port": 4000
+    },
+    {
+      "name": "maps",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "apps/maps"],
+      "port": 3001
     }
   ]
 }
