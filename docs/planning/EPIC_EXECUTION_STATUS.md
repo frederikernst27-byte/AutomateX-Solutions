@@ -1,6 +1,6 @@
 # Automate X Epic Execution Status
 
-Stand: 2026-04-27
+Stand: 2026-04-30
 
 Legende:
 - Done: Lokal umgesetzt oder als belastbares Artefakt abgeschlossen
@@ -36,6 +36,28 @@ Legende:
 - `docs/SMOKE_TEST.md`: manuelle QA-Checkliste
 - `docs/ARCHITECTURE.md`: Demo- und MVP-Architektur
 - `examples/tagesliste.csv`: Beispielimport
+
+## Update 2026-04-30
+
+- `public/routenplanung-test.html` zeigt jetzt Wartezeit, verspaetete Stopps und eine visuelle Late-Markierung je Stopp.
+- Fahreransicht ergaenzt: naechster Stopp, ETA, Anfahrt, angekommen, erledigt und Problem.
+- Gmail-Matching nutzt Kundenname, Adresse, Stadt und optionale E-Mail-Adresse mit Confidence-Hinweis.
+- Automatische Aktionen aus Gmail, Gemini und lokaler KI erzeugen einen Undo-faehigen Snapshot.
+- Tagesreport-Export enthaelt Kennzahlen, Stoppliste, Ereignisse und Vergleich zur Startplanung.
+- `examples/tagesliste.csv` enthaelt optionale E-Mail-Adressen fuer besseres Termin-Matching.
+- `docs/DATA_MODELS.md` dokumentiert Matching-Regeln, Audit-Log und erweiterte Metriken.
+
+Lokal zusaetzlich erledigte Tickets:
+- AX-022: Zeitfenster-Verletzungen in Demo sichtbar und aggregiert.
+- AX-063: Mail-Termin-Matching mit Confidence und E-Mail-Adresse.
+- AX-070: Fahreransicht als eigener Demo-Bereich.
+- AX-071: Fahrerstatus-Aktionen fuer unterwegs, angekommen, erledigt und Problem.
+- AX-090: Basis-Metriken plus Tagesreport.
+- AX-091: Browser-Session-Vergleich zur Startplanung als erster Sales-Vergleich.
+- AX-112: Undo-faehige Audit-Snapshots fuer automatische Aktionen.
+
+Weiterhin extern blockiert:
+- Vercel-Login/Deployment, Google-Cloud-OAuth-Konfiguration, echte Browser-QA auf Safari/Edge/Geraeten, formale DSGVO-Pruefung, produktives Backend mit Secrets, Datenbank, Billing und echte Pilotkundeninterviews.
 
 ## Ticketstatus nach Epic
 
@@ -243,4 +265,3 @@ Legende:
 3. Entscheidung: Browser-Demo behalten oder Next.js/Vercel-Functions-MVP starten.
 4. Ersten Pilotkunden für Interview und echte Tagesliste gewinnen.
 5. Backend für Secrets, Audit-Log und persistente Daten bauen.
-

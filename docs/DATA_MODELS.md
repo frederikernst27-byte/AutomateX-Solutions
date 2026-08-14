@@ -17,6 +17,7 @@ Stand: 2026-04-27
   "serviceMinutes": 25,
   "priority": 3,
   "status": "active",
+  "email": "service@stahlbau-rhein.example",
   "source": "manual",
   "createdAt": "2026-04-27T08:00:00.000Z",
   "updatedAt": "2026-04-27T08:00:00.000Z"
@@ -94,6 +95,8 @@ Priorität:
     "driveMinutes": 183,
     "waitingMinutes": 12,
     "lateStops": 1,
+    "lateMinutes": 9,
+    "onTimeStops": 4,
     "replans": 3
   },
   "status": "in_progress"
@@ -115,6 +118,31 @@ Priorität:
   "confidence": 0.82,
   "rawSnippet": "Leider müssen wir den Termin absagen...",
   "actionApplied": "cancel_stop"
+}
+```
+
+Matching-Regeln:
+- `confidence >= 0.3`: Termin darf automatisch vorgeschlagen oder in der Demo angewendet werden.
+- Trefferquellen: Kundenname, Adresse, Stadtteil/Stadt, E-Mail-Adresse.
+- Unsicheres Matching wird im Ereignislog markiert und kann ueber die Undo-Funktion rueckgaengig gemacht werden.
+
+## Audit-Log
+
+```json
+{
+  "id": "audit_123",
+  "source": "gmail",
+  "reason": "Absage erkannt",
+  "createdAt": "2026-04-27T10:15:00.000Z",
+  "before": {
+    "routeStopIds": ["stop_1", "stop_2"],
+    "metrics": { "distanceKm": 44.2, "driveMinutes": 61 }
+  },
+  "after": {
+    "routeStopIds": ["stop_2"],
+    "metrics": { "distanceKm": 29.4, "driveMinutes": 42 }
+  },
+  "undoable": true
 }
 ```
 
@@ -150,9 +178,8 @@ Erlaubte Actions:
 ## CSV-Importformat
 
 ```csv
-name,address,windowStart,windowEnd,service,priority
-Kunde Stahlbau Rhein,Essen,09:00,11:30,25,3
+name,address,windowStart,windowEnd,service,priority,email
+Kunde Stahlbau Rhein,Essen,09:00,11:30,25,3,service@stahlbau-rhein.example
 Wartung Praxis Nord,Oberhausen,10:00,13:00,20,2
 Installation Lager West,Krefeld,12:00,16:00,35,2
 ```
-

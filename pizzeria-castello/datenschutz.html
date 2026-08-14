@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datenschutz - Sama Restaurant Oberhausen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F0E6CC;
+            --cream-light: #FAF4E8;
+            --dark: #0E0B06;
+            --red: #9B1A13;
+            --gold: #B8852A;
+            --gold-light: #D4A84B;
+            --warm-gray: #7A6248;
+            --text-dark: #1A1208;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            min-height: 100vh;
+            font-family: 'Jost', sans-serif;
+            background: var(--cream-light);
+            color: var(--text-dark);
+        }
+        .topbar {
+            background: var(--dark);
+            padding: 1.1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .brand {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--cream);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .back {
+            color: rgba(240,230,204,0.65);
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .back:hover { color: var(--gold-light); }
+        main {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+        .label {
+            display: block;
+            color: var(--red);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.38em;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 600;
+            line-height: 0.95;
+            margin-bottom: 2rem;
+        }
+        .legal-card {
+            background: #FFF9EE;
+            border: 1px solid rgba(184,133,42,0.2);
+            box-shadow: 0 20px 80px rgba(20,15,8,0.07);
+            padding: clamp(2rem, 5vw, 4rem);
+        }
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--red);
+            font-size: 1.65rem;
+            font-weight: 600;
+            margin: 2rem 0 0.8rem;
+        }
+        h2:first-child { margin-top: 0; }
+        p, li {
+            color: var(--warm-gray);
+            font-size: 0.96rem;
+            font-weight: 300;
+            line-height: 1.85;
+        }
+        p { margin-bottom: 1rem; }
+        ul {
+            margin: 0.25rem 0 1rem 1.25rem;
+        }
+        a { color: var(--red); text-decoration: none; }
+        a:hover { text-decoration: underline; text-underline-offset: 3px; }
+        @media (max-width: 620px) {
+            .topbar { align-items: flex-start; flex-direction: column; }
+            main { padding: 4rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="index.html">Sama</a>
+        <a class="back" href="index.html">Zurück zur Startseite</a>
+    </header>
+
+    <main>
+        <span class="label">Rechtliches</span>
+        <h1>Datenschutz</h1>
+
+        <article class="legal-card">
+            <h2>1. Allgemeine Hinweise</h2>
+            <p>
+                Der Schutz Ihrer persönlichen Daten ist uns wichtig. Wir behandeln Ihre personenbezogenen
+                Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften.
+            </p>
+
+            <h2>2. Datenerfassung auf unserer Website</h2>
+            <p>
+                Der Provider der Seiten erhebt und speichert automatisch Informationen in sogenannten
+                Server-Log-Dateien, die Ihr Browser automatisch übermittelt.
+            </p>
+            <ul>
+                <li>Browsertyp und Browserversion</li>
+                <li>verwendetes Betriebssystem</li>
+                <li>Referrer URL</li>
+                <li>Hostname des zugreifenden Rechners</li>
+                <li>Uhrzeit der Serveranfrage</li>
+                <li>IP-Adresse</li>
+            </ul>
+            <p>Diese Daten sind nicht bestimmten Personen zuordenbar.</p>
+
+            <h2>3. Kontaktaufnahme</h2>
+            <p>
+                Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben inklusive der von Ihnen dort
+                angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage gespeichert.
+            </p>
+
+            <h2>4. Ihre Rechte</h2>
+            <p>Sie haben jederzeit das Recht auf:</p>
+            <ul>
+                <li>Auskunft über Ihre gespeicherten Daten</li>
+                <li>Berichtigung</li>
+                <li>Löschung</li>
+                <li>Einschränkung der Verarbeitung</li>
+            </ul>
+
+            <h2>5. Verantwortliche Stelle</h2>
+            <p>
+                Sama Restaurant<br>
+                Haji Piro<br>
+                Bahnhofstr. 42<br>
+                46145 Oberhausen<br>
+                Deutschland<br>
+                E-Mail: <a href="mailto:samareataurantxxx@gmail.com">samareataurantxxx@gmail.com</a>
+            </p>
+
+            <h2>6. Hosting</h2>
+            <p>
+                Die Website wird bei einem externen Hosting-Anbieter betrieben. Die personenbezogenen Daten,
+                die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert.
+                Der konkrete Hosting-Anbieter sollte vom Websitebetreiber ergänzt werden.
+            </p>
+        </article>
+    </main>
+</body>
+</html>

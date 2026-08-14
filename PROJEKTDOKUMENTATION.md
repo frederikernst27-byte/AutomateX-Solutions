@@ -2,16 +2,16 @@
 
 Stand: 2026-05-28
 
-Diese Dokumentation beschreibt den aktuellen Stand des Repositories `AutomateX-Solutions`: die statische Website, die produktnahe Maps-App, die Gmail-OAuth-Integration, Datenfluesse, Deployment, Prototypen und bekannte technische Risiken.
+Diese Dokumentation beschreibt den aktuellen Stand des Repositories `AutomateX-Solutions`: die statische Website, die produktnahe Maps-App, die Gmail-OAuth-Integration, Datenfluesse, Deployment, Kundenprojekte und bekannte technische Risiken.
 
 ## 1. Kurzueberblick
 
 AutomateX Solutions besteht aus mehreren Arbeitsbereichen:
 
-- Statische Unternehmenswebsite und Routenplanungsdemo im Root- und `public/`-Bereich.
+- Statische Unternehmenswebsite und Routenplanungsdemo unter `public/`.
 - Produktnahe Next.js-App `apps/maps` fuer KI-gestuetzte Routenplanung, Excel-Import, Gmail-Analyse und Fahreransicht.
 - Dokumentation und Planung unter `docs/`.
-- Kunden-/Demo-Prototypen unter `prototypes/`, insbesondere fuer die Scherer-Gruppe.
+- Kunden-/Demo-Prototypen unter `clients/`, derzeit fuer die Scherer-Gruppe.
 - Lokale Hilfstools, Beispiele und Assets.
 
 Das zentrale Produktziel ist eine Anwendung fuer Handwerks- und Serviceteams, die Tagesrouten verwaltet, Termine importiert, Routen optimiert und relevante E-Mails automatisch in pruefbare Termin-/Stop-Vorschlaege verwandelt.
@@ -22,11 +22,6 @@ Das zentrale Produktziel ist eine Anwendung fuer Handwerks- und Serviceteams, di
 .
 |-- README.md
 |-- PROJEKTDOKUMENTATION.md
-|-- index.html
-|-- routenplanung.html
-|-- routenplanung-test.html
-|-- impressum.html
-|-- datenschutz.html
 |-- vercel.json
 |-- api/
 |   `-- route-demo.js
@@ -45,8 +40,14 @@ Das zentrale Produktziel ist eine Anwendung fuer Handwerks- und Serviceteams, di
 |   `-- planning/
 |-- examples/
 |   `-- tagesliste.csv
-|-- prototypes/
-|   `-- scherer/
+|-- clients/
+|   `-- scherer-gruppe/
+|-- leads/
+|-- scripts/
+|-- output/
+|   `-- pdf/
+|-- archive/
+|   `-- legacy-static-site/
 |-- public/
 |   |-- index.html
 |   |-- routenplanung-test.html
@@ -58,17 +59,16 @@ Das zentrale Produktziel ist eine Anwendung fuer Handwerks- und Serviceteams, di
 
 ## 3. Arbeitsbereiche
 
-### 3.1 Root und statische Website
+### 3.1 Statische Website
 
-Der Root enthaelt statische HTML-Dateien fuer AutomateX Solutions:
+Die deploybare statische Website liegt unter `public/`:
 
-- `index.html`: Unternehmens-/Landingpage.
-- `routenplanung.html`: Routenplanungsdemo.
-- `routenplanung-test.html`: erweiterte Testdemo mit Routing, KI-Interaktion und Gmail-Client-ID-Eingabe.
-- `impressum.html`, `datenschutz.html`: rechtliche Seiten.
+- `public/index.html`: Unternehmens-/Landingpage.
+- `public/routenplanung-test.html`: erweiterte Testdemo mit Routing, KI-Interaktion und Gmail-Client-ID-Eingabe.
+- `public/impressum.html`, `public/datenschutz.html`: rechtliche Seiten.
 - `api/route-demo.js`: einfache API-/Demo-Datei fuer Vercel-Umgebungen.
 
-Der deploybare statische Bereich liegt laut `README.md` in `public/`. Die Root-`vercel.json` setzt:
+Die frühere Root-Website liegt zur Nachvollziehbarkeit unter `archive/legacy-static-site/` und wird nicht deployt. Die Root-`vercel.json` setzt:
 
 ```json
 {
@@ -534,7 +534,7 @@ apps/maps/.env.local
 
 ### 7.2 Prototypen
 
-`prototypes/scherer/clickbot/runner.py` nutzt optional:
+`clients/scherer-gruppe/clickbot/runner.py` nutzt optional:
 
 ```text
 N8N_WEBHOOK_URL
@@ -615,14 +615,14 @@ OPENROUTER_API_KEY
 
 Hinweis: Der Workflow arbeitet im Repo-Root. Wenn gezielt `apps/maps` deployed werden soll, muss die Vercel-Projektkonfiguration dazu passen oder der Workflow um ein Working Directory erweitert werden.
 
-## 9. Prototypen
+## 9. Kundenprojekte
 
 ### 9.1 Scherer Clickbot
 
 Pfad:
 
 ```text
-prototypes/scherer/clickbot
+clients/scherer-gruppe/clickbot
 ```
 
 Technologien:
@@ -667,7 +667,7 @@ GET  /
 Pfad:
 
 ```text
-prototypes/scherer/KI-Automatisierung
+clients/scherer-gruppe/KI-Automatisierung
 ```
 
 Zweck:
@@ -696,7 +696,7 @@ http://127.0.0.1:18891
 Pfad:
 
 ```text
-prototypes/scherer/claude-agent
+clients/scherer-gruppe/claude-agent
 ```
 
 Zweck:
@@ -931,4 +931,3 @@ Loesung:
 
 - Adresse pruefen.
 - Stop neu geokodieren lassen oder Koordinaten manuell korrigieren.
-

@@ -1,0 +1,10 @@
+.next/
+node_modules/
+.env.local
+coverage/
+playwright-report/
+test-results/
+demo-output/
+*.tsbuildinfo
+.DS_Store
+data/osrm/

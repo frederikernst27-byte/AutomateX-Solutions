@@ -1,0 +1,13 @@
+{
+  "name": "AutomateX Route",
+  "short_name": "AutomateX",
+  "description": "KI-gestützte Routenplanung für Handwerk und Serviceflotten",
+  "start_url": "/driver",
+  "display": "standalone",
+  "background_color": "#070912",
+  "theme_color": "#070912",
+  "lang": "de",
+  "icons": [
+    { "src": "/brand/small-logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

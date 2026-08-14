@@ -1,0 +1,23 @@
+services:
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:v5.27.1
+    command: osrm-routed --algorithm mld /data/nordrhein-westfalen-latest.osrm
+    volumes:
+      - ./data/osrm:/data:ro
+    healthcheck:
+      test: ["CMD", "osrm-routed", "--version"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  vroom:
+    image: ghcr.io/vroom-project/vroom-docker:v1.15.0
+    depends_on:
+      osrm:
+        condition: service_healthy
+    environment:
+      VROOM_ROUTER: osrm
+    volumes:
+      - ./infra/vroom/config.yml:/conf/config.yml:ro
+    ports:
+      - "3000:3000"

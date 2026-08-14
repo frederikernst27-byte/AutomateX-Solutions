@@ -1,0 +1,14 @@
+{
+  "/api/health/route": "app/api/health/route.js",
+  "/api/auth/demo/route": "app/api/auth/demo/route.js",
+  "/api/state/route": "app/api/state/route.js",
+  "/api/plans/route": "app/api/plans/route.js",
+  "/api/imports/route": "app/api/imports/route.js",
+  "/api/customers/route": "app/api/customers/route.js",
+  "/api/drivers/route": "app/api/drivers/route.js",
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/admin/planung/page": "app/admin/planung/page.js",
+  "/admin/kunden/page": "app/admin/kunden/page.js",
+  "/admin/fahrer/page": "app/admin/fahrer/page.js"
+}

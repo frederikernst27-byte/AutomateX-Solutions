@@ -1,0 +1,3 @@
+"use client";
+import { cn } from "@/lib/utils";
+export function Switch({ checked, onCheckedChange, label }: { checked: boolean; onCheckedChange: (value: boolean) => void; label?: string }) { return <button type="button" aria-pressed={checked} onClick={() => onCheckedChange(!checked)} className="flex items-center gap-2"><span className={cn("relative h-6 w-11 rounded-full p-1 transition", checked ? "bg-brand-500" : "bg-slate-200")}><span className={cn("block h-4 w-4 rounded-full bg-white shadow-sm transition", checked ? "translate-x-5" : "translate-x-0")} /></span>{label && <span className="text-sm font-semibold text-muted">{label}</span>}</button>; }

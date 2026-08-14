@@ -1,12 +1,34 @@
 {
   "permissions": {
     "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)",
       "Bash(gh repo:*)",
       "WebFetch(domain:github.com)",
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__list_projects",
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_project_url",
       "mcp__893391ba-746f-41a9-bc41-1439092a4c70__get_publishable_keys",
-      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__apply_migration"
+      "mcp__893391ba-746f-41a9-bc41-1439092a4c70__apply_migration",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions ls-files apps/maps/.env.local)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions rm --cached apps/maps/.env.local)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions add .gitignore)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions commit -m ' *)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions remote set-url origin https://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@github.com/frederikernst27-byte/AutomateX-Solutions.git)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions push origin main)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions remote set-url origin https://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@github.com/frederikernst27-byte/AutomateX-Solutions.git)",
+      "Bash(npm install *)",
+      "Bash(which node *)",
+      "Bash(ls ~/.nvm/versions/node/*/bin/npm 2>/dev/null | head -1)",
+      "Bash(find /Users/Frederik -name \"npm\" -type f 2>/dev/null | head -3)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions add apps/maps/netlify.toml apps/maps/package.json)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions ls-files apps/maps/.netlify apps/maps/.next)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions add apps/maps/.env.local.example apps/maps/netlify.toml apps/maps/package.json)",
+      "Bash(git -C /Users/Frederik/Desktop/dev/AutomateX-Solutions add apps/maps/netlify.toml)",
+      "Skill(update-config)",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:www.automate-x-solutions.de)"
     ]
   }
 }

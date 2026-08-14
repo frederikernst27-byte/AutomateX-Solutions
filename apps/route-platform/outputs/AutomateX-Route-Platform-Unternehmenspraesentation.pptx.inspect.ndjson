@@ -1,0 +1,111 @@
+{"kind":"deck","id":"pr/grtdec","name":"Deck"}
+{"kind":"layout","layoutId":"b7c50717-43d9-48e2-b2c0-1f1a1d394edd","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"f98e993a-a156-4094-8974-2ed9ef40ed00","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/ibn9bb","slide":1,"title":"AUTOMATEX","textShapes":6}
+{"kind":"textbox","id":"sh/c7mxsba9","slide":1,"text":"AUTOMATEX","textPreview":"AUTOMATEX","textChars":9,"textLines":1,"bbox":[48,48,240,30]}
+{"kind":"textbox","id":"sh/r6dgj69o","slide":1,"text":"Route Platform","textPreview":"Route Platform","textChars":14,"textLines":1,"bbox":[48,132,520,124]}
+{"kind":"textbox","id":"sh/q54fq1s3","slide":1,"text":"Die Arbeitszentrale für Planung, Einsatz und Service im Außendienst.","textPreview":"Die Arbeitszentrale für Planung, Einsatz und Service im Außendienst.","textChars":68,"textLines":1,"bbox":[48,278,510,84]}
+{"kind":"textbox","id":"sh/1wfypgrq","slide":1,"text":"Unternehmenspräsentation","textPreview":"Unternehmenspräsentation","textChars":24,"textLines":1,"bbox":[48,596,310,22]}
+{"kind":"textbox","id":"sh/zaxgn69k","slide":1,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/e9ofulsz","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"image","id":"im/dcnyh4nu","slide":1,"name":"","geometry":"roundRect","alt":"AutomateX Dashboard mit Live-Übersicht","bbox":[650,42,580,590]}
+{"kind":"notes","id":"nt/ibn9bb","slide":1,"text":""}
+{"kind":"slide","id":"sl/e4d6rl","slide":2,"title":"ALLES IM BLICK","textShapes":11}
+{"kind":"textbox","id":"sh/p0fmps7u","slide":2,"text":"ALLES IM BLICK","textPreview":"ALLES IM BLICK","textChars":14,"textLines":1,"bbox":[48,40,350,22]}
+{"kind":"textbox","id":"sh/id43exo3","slide":2,"text":"Ein zentraler Ort für den täglichen Betrieb","textPreview":"Ein zentraler Ort für den täglichen Betrieb","textChars":43,"textLines":1,"bbox":[48,76,1120,94]}
+{"kind":"textbox","id":"sh/3ed4n2po","slide":2,"text":"Von der Einsatzplanung bis zur Auswertung bündelt die Plattform die Informationen, die Ihr Team wirklich braucht.","textPreview":"Von der Einsatzplanung bis zur Auswertung bündelt die Plattform die Informationen, die Ihr Team wirklich braucht.","textChars":113,"textLines":1,"bbox":[48,180,1030,56]}
+{"kind":"shape","id":"sh/d4fmtc7q","slide":2,"bbox":[840,280,350,100]}
+{"kind":"textbox","id":"sh/q1o3ixof","slide":2,"text":"Disposition","textPreview":"Disposition","textChars":11,"textLines":1,"bbox":[864,301,290,25]}
+{"kind":"textbox","id":"sh/r2x4r2p0","slide":2,"text":"Aufträge, Fahrer und Prioritäten im Überblick.","textPreview":"Aufträge, Fahrer und Prioritäten im Überblick.","textChars":46,"textLines":1,"bbox":[864,333,295,32]}
+{"kind":"shape","id":"sh/872l83q1","slide":2,"bbox":[840,402,350,100]}
+{"kind":"textbox","id":"sh/t8v2h87m","slide":2,"text":"Transparenz","textPreview":"Transparenz","textChars":11,"textLines":1,"bbox":[864,423,290,25]}
+{"kind":"textbox","id":"sh/5s725kr2","slide":2,"text":"Live-Status, offene Aufgaben und Kennzahlen sichtbar machen.","textPreview":"Live-Status, offene Aufgaben und Kennzahlen sichtbar machen.","textChars":60,"textLines":1,"bbox":[864,455,300,36]}
+{"kind":"shape","id":"sh/4re1wzah","slide":2,"bbox":[840,524,350,100]}
+{"kind":"textbox","id":"sh/jq5k3u9w","slide":2,"text":"Service","textPreview":"Service","textChars":7,"textLines":1,"bbox":[864,545,290,25]}
+{"kind":"textbox","id":"sh/i5wjupsb","slide":2,"text":"Kunden, Anlagen und Termine sauber dokumentieren.","textPreview":"Kunden, Anlagen und Termine sauber dokumentieren.","textChars":49,"textLines":1,"bbox":[864,577,295,32]}
+{"kind":"textbox","id":"sh/tw7294ry","slide":2,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/svy10zat","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"image","id":"im/1sjupojq","slide":2,"name":"","geometry":"roundRect","alt":"Übersicht der App mit Kennzahlen, Karte und Tagesaufträgen","bbox":[48,274,750,356]}
+{"kind":"notes","id":"nt/e4d6rl","slide":2,"text":""}
+{"kind":"slide","id":"sl/smj3j9","slide":3,"title":"PLANUNG & ROUTEN","textShapes":14}
+{"kind":"textbox","id":"sh/oji90ni5","slide":3,"text":"PLANUNG & ROUTEN","textPreview":"PLANUNG & ROUTEN","textChars":16,"textLines":1,"bbox":[48,40,350,22]}
+{"kind":"textbox","id":"sh/ni987ihk","slide":3,"text":"Touren werden nachvollziehbar und flexibel geplant","textPreview":"Touren werden nachvollziehbar und flexibel geplant","textChars":50,"textLines":1,"bbox":[48,76,1120,94]}
+{"kind":"textbox","id":"sh/2h0ryd0z","slide":3,"text":"Die Karte macht Einsatzorte, Fahrten und Prioritäten sofort verständlich – für eine bessere Abstimmung zwischen Disposition und Außendienst.","textPreview":"Die Karte macht Einsatzorte, Fahrten und Prioritäten sofort verständlich – für eine bessere Abstimmung zwischen Disposition und Außendienst.","textChars":140,"textLines":1,"bbox":[48,180,1030,56]}
+{"kind":"textbox","id":"sh/cn2947ih","slide":3,"text":"Was die Planung abbilden kann","textPreview":"Was die Planung abbilden kann","textChars":29,"textLines":1,"bbox":[830,274,340,28]}
+{"kind":"shape","id":"sh/bmt8b2hw","slide":3,"bbox":[830,320,26,26]}
+{"kind":"textbox","id":"sh/alkr2x0b","slide":3,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[830,324,26,18]}
+{"kind":"textbox","id":"sh/lcvahczy","slide":3,"text":"Einsätze nach Zeitfenstern und Prioritäten","textPreview":"Einsätze nach Zeitfenstern und Prioritäten","textChars":42,"textLines":1,"bbox":[874,320,315,36]}
+{"kind":"shape","id":"sh/kbm987id","slide":3,"bbox":[830,390,26,26]}
+{"kind":"textbox","id":"sh/6hova1kz","slide":3,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[830,394,26,18]}
+{"kind":"textbox","id":"sh/rixc3614","slide":3,"text":"Fahrer, Kompetenzen und Verfügbarkeiten","textPreview":"Fahrer, Kompetenzen und Verfügbarkeiten","textChars":39,"textLines":1,"bbox":[874,390,315,36]}
+{"kind":"shape","id":"sh/sj6dcb2p","slide":3,"bbox":[830,460,26,26]}
+{"kind":"textbox","id":"sh/tkfu5gja","slide":3,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[830,464,26,18]}
+{"kind":"textbox","id":"sh/el8velkv","slide":3,"text":"Tagesrouten, Stopps und Navigation","textPreview":"Tagesrouten, Stopps und Navigation","textChars":34,"textLines":1,"bbox":[874,460,315,36]}
+{"kind":"shape","id":"sh/fmhc761g","slide":3,"bbox":[830,530,26,26]}
+{"kind":"textbox","id":"sh/gnqdgb21","slide":3,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[830,534,26,18]}
+{"kind":"textbox","id":"sh/18zu9gjm","slide":3,"text":"Manuelle Anpassungen jederzeit möglich","textPreview":"Manuelle Anpassungen jederzeit möglich","textChars":38,"textLines":1,"bbox":[874,530,315,36]}
+{"kind":"textbox","id":"sh/up4b2hkr","slide":3,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/vqdcvm1c","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"image","id":"im/k3690fe9","slide":3,"name":"","geometry":"roundRect","alt":"Routenkarte mit Touren und Einsatzorten","bbox":[48,260,720,370]}
+{"kind":"notes","id":"nt/smj3j9","slide":3,"text":""}
+{"kind":"slide","id":"sl/d318vk","slide":4,"title":"FÜR DEN GESAMTEN EINSATZPROZESS","textShapes":14}
+{"kind":"textbox","id":"sh/bilobypw","slide":4,"text":"FÜR DEN GESAMTEN EINSATZPROZESS","textPreview":"FÜR DEN GESAMTEN EINSATZPROZESS","textChars":31,"textLines":1,"bbox":[48,40,350,22]}
+{"kind":"textbox","id":"sh/cju5k3qh","slide":4,"text":"Die App verbindet Büro, Außendienst und Kunden","textPreview":"Die App verbindet Büro, Außendienst und Kunden","textChars":46,"textLines":1,"bbox":[48,76,1120,94]}
+{"kind":"textbox","id":"sh/xk36d872","slide":4,"text":"Module können so kombiniert werden, wie sie zu Ihren Abläufen passen.","textPreview":"Module können so kombiniert werden, wie sie zu Ihren Abläufen passen.","textChars":69,"textLines":1,"bbox":[48,180,1030,56]}
+{"kind":"shape","id":"sh/ylcnmd8n","slide":4,"bbox":[48,286,350,300]}
+{"kind":"textbox","id":"sh/z6lofip8","slide":4,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[72,312,70,28]}
+{"kind":"textbox","id":"sh/k7u5o3qt","slide":4,"text":"Im Büro","textPreview":"Im Büro","textChars":7,"textLines":1,"bbox":[72,355,285,34]}
+{"kind":"textbox","id":"sh/l836h87e","slide":4,"text":"Kunden- und Auftragsverwaltung\nDisposition & Tourenplanung\nLive-Übersicht und Kennzahlen","textPreview":"Kunden- und Auftragsverwaltung | Disposition & Tourenplanung | Live-Übersicht und Kennzahlen","textChars":88,"textLines":3,"bbox":[72,412,285,118]}
+{"kind":"shape","id":"sh/ep8na98j","slide":4,"bbox":[447,286,350,300]}
+{"kind":"textbox","id":"sh/fqh43ep4","slide":4,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[471,312,70,28]}
+{"kind":"textbox","id":"sh/ju50bu94","slide":4,"text":"Unterwegs","textPreview":"Unterwegs","textChars":9,"textLines":1,"bbox":[471,355,285,34]}
+{"kind":"textbox","id":"sh/itwz2psj","slide":4,"text":"Mobile Fahreransicht\nNavigation und Statusmeldungen\nServiceberichte, Fotos & Signatur","textPreview":"Mobile Fahreransicht | Navigation und Statusmeldungen | Serviceberichte, Fotos & Signatur","textChars":85,"textLines":3,"bbox":[471,412,285,118]}
+{"kind":"shape","id":"sh/5g7id4ru","slide":4,"bbox":[846,286,350,300]}
+{"kind":"textbox","id":"sh/4fyh4zq9","slide":4,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[870,312,70,28]}
+{"kind":"textbox","id":"sh/vq5g7u9s","slide":4,"text":"Für Kunden","textPreview":"Für Kunden","textChars":10,"textLines":1,"bbox":[870,355,285,34]}
+{"kind":"textbox","id":"sh/upwzyps7","slide":4,"text":"Sicherer Kundenlink\nTermin, ETA und Bericht\nNachvollziehbare Kommunikation","textPreview":"Sicherer Kundenlink | Termin, ETA und Bericht | Nachvollziehbare Kommunikation","textChars":74,"textLines":3,"bbox":[870,412,285,118]}
+{"kind":"textbox","id":"sh/hsny94ry","slide":4,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/wreh0zad","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"notes","id":"nt/d318vk","slide":4,"text":""}
+{"kind":"slide","id":"sl/hrlgk8","slide":5,"title":"IHRE VERSION","textShapes":17}
+{"kind":"textbox","id":"sh/atobqh4z","slide":5,"text":"IHRE VERSION","textPreview":"IHRE VERSION","textChars":12,"textLines":1,"bbox":[48,40,350,22]}
+{"kind":"textbox","id":"sh/xwfu1w3q","slide":5,"text":"Wir passen die App an Ihr Unternehmen an","textPreview":"Wir passen die App an Ihr Unternehmen an","textChars":40,"textLines":1,"bbox":[48,76,1120,94]}
+{"kind":"textbox","id":"sh/wv6tsrm5","slide":5,"text":"Die vorhandene Plattform ist ein Prototyp mit klarer Richtung. Daraus kann ein Produkt entstehen, das exakt zu Ihrem Betrieb passt.","textPreview":"Die vorhandene Plattform ist ein Prototyp mit klarer Richtung. Daraus kann ein Produkt entstehen, das exakt zu Ihrem Betrieb passt.","textChars":131,"textLines":1,"bbox":[48,180,1030,56]}
+{"kind":"shape","id":"sh/jixc36lg","slide":5,"bbox":[48,286,540,260]}
+{"kind":"textbox","id":"sh/yhobu14b","slide":5,"text":"Sie bestimmen den Umfang.","textPreview":"Sie bestimmen den Umfang.","textChars":25,"textLines":1,"bbox":[78,320,430,40]}
+{"kind":"textbox","id":"sh/lkzu5w3m","slide":5,"text":"Sagen Sie mir, was Sie brauchen – und was Sie bewusst nicht brauchen. Ich setze die Funktionen so um, dass sie zu Ihren Prozessen passen.","textPreview":"Sagen Sie mir, was Sie brauchen – und was Sie bewusst nicht brauchen. Ich setze die Funktionen so um, dass sie zu Ihren Prozessen passen.","textChars":137,"textLines":1,"bbox":[78,382,445,102]}
+{"kind":"textbox","id":"sh/kjqtwrm1","slide":5,"text":"Custom Version möglich","textPreview":"Custom Version möglich","textChars":22,"textLines":1,"bbox":[78,500,300,22]}
+{"kind":"shape","id":"sh/zmdsr2lc","slide":5,"bbox":[650,286,540,260]}
+{"kind":"textbox","id":"sh/e14bix4r","slide":5,"text":"Mögliche Bausteine","textPreview":"Mögliche Bausteine","textChars":18,"textLines":1,"bbox":[680,320,330,34]}
+{"kind":"textbox","id":"sh/436tkrml","slide":5,"text":"—","textPreview":"—","textChars":1,"textLines":1,"bbox":[680,380,24,24]}
+{"kind":"textbox","id":"sh/54fudw36","slide":5,"text":"Eigene Workflows und Rollen","textPreview":"Eigene Workflows und Rollen","textChars":27,"textLines":1,"bbox":[710,380,400,25]}
+{"kind":"textbox","id":"sh/i1obih4v","slide":5,"text":"—","textPreview":"—","textChars":1,"textLines":1,"bbox":[680,414,24,24]}
+{"kind":"textbox","id":"sh/32xcbml0","slide":5,"text":"Individuelle Formulare & Berichte","textPreview":"Individuelle Formulare & Berichte","textChars":33,"textLines":1,"bbox":[710,414,400,25]}
+{"kind":"textbox","id":"sh/s76tobmx","slide":5,"text":"—","textPreview":"—","textChars":1,"textLines":1,"bbox":[680,448,24,24]}
+{"kind":"textbox","id":"sh/dsfuhg3i","slide":5,"text":"Schnittstellen zu Ihren Systemen","textPreview":"Schnittstellen zu Ihren Systemen","textChars":32,"textLines":1,"bbox":[710,448,400,25]}
+{"kind":"textbox","id":"sh/q5obm14r","slide":5,"text":"—","textPreview":"—","textChars":1,"textLines":1,"bbox":[680,482,24,24]}
+{"kind":"textbox","id":"sh/r6xcf6lc","slide":5,"text":"Eigene Markenoptik und Module","textPreview":"Eigene Markenoptik und Module","textChars":29,"textLines":1,"bbox":[710,482,400,25]}
+{"kind":"textbox","id":"sh/8bmtc7md","slide":5,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/twvu5cny","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"notes","id":"nt/hrlgk8","slide":5,"text":""}
+{"kind":"slide","id":"sl/6r2wfb","slide":6,"title":"EINFACH STARTEN","textShapes":10}
+{"kind":"textbox","id":"sh/7i94ny5c","slide":6,"text":"EINFACH STARTEN","textPreview":"EINFACH STARTEN","textChars":15,"textLines":1,"bbox":[48,40,350,22]}
+{"kind":"textbox","id":"sh/sjilg36x","slide":6,"text":"10 € pro Monat für das fertige Produkt","textPreview":"10 € pro Monat für das fertige Produkt","textChars":38,"textLines":1,"bbox":[48,76,1120,94]}
+{"kind":"textbox","id":"sh/tkrmp8ni","slide":6,"text":"Mir ist kontinuierliches Feedback und die Weiterentwicklung der App wichtiger als ein hoher Einstiegspreis.","textPreview":"Mir ist kontinuierliches Feedback und die Weiterentwicklung der App wichtiger als ein hoher Einstiegspreis.","textChars":107,"textLines":1,"bbox":[48,180,1030,56]}
+{"kind":"shape","id":"sh/ul03ido3","slide":6,"bbox":[48,290,500,250]}
+{"kind":"textbox","id":"sh/fm94ri5o","slide":6,"text":"10 €","textPreview":"10 €","textChars":4,"textLines":1,"bbox":[82,330,320,96]}
+{"kind":"textbox","id":"sh/g7ilkn69","slide":6,"text":"pro Monat","textPreview":"pro Monat","textChars":9,"textLines":1,"bbox":[84,433,280,32]}
+{"kind":"textbox","id":"sh/h8rmtsne","slide":6,"text":"Ein fairer Einstieg, solange wir das System gemeinsam weiterentwickeln.","textPreview":"Ein fairer Einstieg, solange wir das System gemeinsam weiterentwickeln.","textChars":71,"textLines":1,"bbox":[84,480,360,43]}
+{"kind":"textbox","id":"sh/29k3mxoz","slide":6,"text":"Wenn Sie später ein Update benötigen, sprechen wir einfach erneut. Ich setze passende Erweiterungen gerne für Sie um.","textPreview":"Wenn Sie später ein Update benötigen, sprechen wir einfach erneut. Ich setze passende Erweiterungen gerne für Sie um.","textChars":117,"textLines":1,"bbox":[650,315,490,122]}
+{"kind":"textbox","id":"sh/3at4vi5k","slide":6,"text":"Keine starren Pakete. Kein unnötiger Ballast. Erst das, was Ihr Unternehmen wirklich benötigt.","textPreview":"Keine starren Pakete. Kein unnötiger Ballast. Erst das, was Ihr Unternehmen wirklich benötigt.","textChars":94,"textLines":1,"bbox":[650,474,465,58]}
+{"kind":"textbox","id":"sh/byhojqto","slide":6,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/qx8nqlc3","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"notes","id":"nt/6r2wfb","slide":6,"text":""}
+{"kind":"slide","id":"sl/rtdjyo","slide":7,"title":"AUTOMATEX","textShapes":6}
+{"kind":"textbox","id":"sh/2h8vahgr","slide":7,"text":"AUTOMATEX","textPreview":"AUTOMATEX","textChars":9,"textLines":1,"bbox":[48,50,220,28]}
+{"kind":"textbox","id":"sh/pkzu5cf2","slide":7,"text":"Lassen Sie uns Ihre\npassende Version bauen.","textPreview":"Lassen Sie uns Ihre | passende Version bauen.","textChars":43,"textLines":2,"bbox":[48,182,1030,205]}
+{"kind":"textbox","id":"sh/ojqdc7eh","slide":7,"text":"Sie sagen, was Sie wollen und was nicht.\nIch baue Ihre App so, wie Sie sie brauchen.","textPreview":"Sie sagen, was Sie wollen und was nicht. | Ich baue Ihre App so, wie Sie sie brauchen.","textChars":84,"textLines":2,"bbox":[48,515,640,72]}
+{"kind":"textbox","id":"sh/bm1c7mx8","slide":7,"text":"Bereit für Ihr Feedback.","textPreview":"Bereit für Ihr Feedback.","textChars":24,"textLines":1,"bbox":[48,626,370,26]}
+{"kind":"textbox","id":"sh/alsvehwn","slide":7,"text":"AutomateX Route Platform","textPreview":"AutomateX Route Platform","textChars":24,"textLines":1,"bbox":[48,682,280,16]}
+{"kind":"textbox","id":"sh/x8je9wfe","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1188,682,44,16]}
+{"kind":"notes","id":"nt/rtdjyo","slide":7,"text":""}

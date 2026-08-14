@@ -1,6 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "public",
+  "framework": null,
+  "installCommand": "cd apps/website && npm install",
+  "buildCommand": "cd apps/website && npm run build",
+  "outputDirectory": "apps/website/dist",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/((?!assets/|routenplanung|general|email-postfach).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

@@ -1,0 +1,184 @@
+{"kind":"deck","id":"pr/q1nh0b","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"JAN-DEMO","textShapes":6}
+{"kind":"shape","id":"sh/547294r6","slide":1,"bbox":[0,0,610,720]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"text":"JAN-DEMO","textPreview":"JAN-DEMO","textChars":8,"textLines":1,"bbox":[72,72,168,34]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"text":"AutomateX","textPreview":"AutomateX","textChars":9,"textLines":1,"bbox":[72,160,520,82]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"text":"Route · 3.000 Wartungsadressen werden planbar.","textPreview":"Route · 3.000 Wartungsadressen werden planbar.","textChars":46,"textLines":1,"bbox":[76,260,470,112]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"text":"KI-gestützte Routenoptimierung · Live & Dynamisch","textPreview":"KI-gestützte Routenoptimierung · Live & Dynamisch","textChars":49,"textLines":1,"bbox":[76,410,430,72]}
+{"kind":"textbox","id":"sh/sryl4zqx","slide":1,"text":"AUTOMATEX ROUTE · PILOT","textPreview":"AUTOMATEX ROUTE · PILOT","textChars":23,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"image","id":"im/7mp0jixo","slide":1,"name":"","bbox":[0,0,1280,720]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"Einstieg: Wir zeigen eine eigenständige Route-Plattform im AutomateX-Stil — zugeschnitten auf Wartung, Disposition und 3.000 Adressen in NRW."}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"AUSGANGSLAGE","textShapes":14}
+{"kind":"textbox","id":"sh/s72xofmh","slide":2,"text":"AUSGANGSLAGE","textPreview":"AUSGANGSLAGE","textChars":12,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"text":"3.000 Wartungsadressen brauchen einen verlässlichen Takt.","textPreview":"3.000 Wartungsadressen brauchen einen verlässlichen Takt.","textChars":57,"textLines":1,"bbox":[72,88,760,96]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"text":"Bei 3–4 Terminen je Fahrer und Tag werden Zeitfenster, Skills und Absagen schnell zum Dispo-Engpass.","textPreview":"Bei 3–4 Terminen je Fahrer und Tag werden Zeitfenster, Skills und Absagen schnell zum Dispo-Engpass.","textChars":100,"textLines":1,"bbox":[72,184,720,58]}
+{"kind":"shape","id":"sh/b29kza94","slide":2,"bbox":[72,300,326,232]}
+{"kind":"shape","id":"sh/a10jqpsj","slide":2,"bbox":[96,334,54,54]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"text":"3.000","textPreview":"3.000","textChars":5,"textLines":1,"bbox":[96,344,54,26]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"text":"Adressen in NRW","textPreview":"Adressen in NRW","textChars":15,"textLines":1,"bbox":[96,412,278,34]}
+{"kind":"textbox","id":"sh/r65knqtk","slide":2,"text":"Ein verteilter Bestand macht die Tagesreihenfolge zum täglichen Handlauf.","textPreview":"Ein verteilter Bestand macht die Tagesreihenfolge zum täglichen Handlauf.","textChars":73,"textLines":1,"bbox":[96,454,276,88]}
+{"kind":"shape","id":"sh/q5wjelsz","slide":2,"bbox":[456,300,326,232]}
+{"kind":"shape","id":"sh/ove9o7yd","slide":2,"bbox":[480,334,54,54]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"text":"3–4","textPreview":"3–4","textChars":3,"textLines":1,"bbox":[480,344,54,26]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"text":"Termine je Fahrer","textPreview":"Termine je Fahrer","textChars":17,"textLines":1,"bbox":[480,412,278,34]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"text":"Zeitfenster, Skills und Fahrzeit lassen wenig Puffer für manuelle Nacharbeit.","textPreview":"Zeitfenster, Skills und Fahrzeit lassen wenig Puffer für manuelle Nacharbeit.","textChars":77,"textLines":1,"bbox":[480,454,276,88]}
+{"kind":"shape","id":"sh/wjy9sry9","slide":2,"bbox":[840,300,326,232]}
+{"kind":"shape","id":"sh/xk7qlczu","slide":2,"bbox":[864,334,54,54]}
+{"kind":"textbox","id":"sh/ahwrqhgj","slide":2,"text":"90","textPreview":"90","textChars":2,"textLines":1,"bbox":[864,344,54,26]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"text":"Tage Vorausblick","textPreview":"Tage Vorausblick","textChars":16,"textLines":1,"bbox":[864,412,278,34]}
+{"kind":"textbox","id":"sh/cnupgny5","slide":2,"text":"Langfristig planen, kurzfristig umstellen — ohne die Kontrolle zu verlieren.","textPreview":"Langfristig planen, kurzfristig umstellen — ohne die Kontrolle zu verlieren.","textChars":76,"textLines":1,"bbox":[864,454,276,88]}
+{"kind":"textbox","id":"sh/do3q9szq","slide":2,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/t8byxkn2","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"Jan-Kontext setzen: 3.000 Adressen, 3–4 Termine pro Fahrer und Tag, plus Zeitfenster, Skills und kurzfristige Änderungen."}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"PRODUKTVERSPRECHEN","textShapes":11}
+{"kind":"textbox","id":"sh/w7ulsvqp","slide":3,"text":"PRODUKTVERSPRECHEN","textPreview":"PRODUKTVERSPRECHEN","textChars":18,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"text":"AutomateX Route verbindet Auslöser, Planung und Service zu einem steuerbaren Tagesfluss.","textPreview":"AutomateX Route verbindet Auslöser, Planung und Service zu einem steuerbaren Tagesfluss.","textChars":88,"textLines":1,"bbox":[72,104,760,140]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"text":"Die KI plant im Hintergrund; die Disposition sieht Vorschlag, Gründe und Freigabepunkt.","textPreview":"Die KI plant im Hintergrund; die Disposition sieht Vorschlag, Gründe und Freigabepunkt.","textChars":87,"textLines":1,"bbox":[76,268,600,74]}
+{"kind":"shape","id":"sh/298ryl4v","slide":3,"bbox":[118,430,270,118]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"text":"Trigger","textPreview":"Trigger","textChars":7,"textLines":1,"bbox":[142,454,220,32]}
+{"kind":"textbox","id":"sh/obq90bml","slide":3,"text":"Excel, Kundenantworten, neue Aufträge und Fahrerereignisse","textPreview":"Excel, Kundenantworten, neue Aufträge und Fahrerereignisse","textChars":58,"textLines":1,"bbox":[142,496,222,52]}
+{"kind":"shape","id":"sh/pcjqtg36","slide":3,"bbox":[402,468,52,42]}
+{"kind":"shape","id":"sh/m5cra54z","slide":3,"bbox":[468,430,270,118]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"text":"Decision","textPreview":"Decision","textChars":8,"textLines":1,"bbox":[492,454,220,32]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"text":"Zeitfenster, Skills, Kapazität und KI-Vorschläge — mit Freigabe","textPreview":"Zeitfenster, Skills, Kapazität und KI-Vorschläge — mit Freigabe","textChars":63,"textLines":1,"bbox":[492,496,222,52]}
+{"kind":"shape","id":"sh/m1c3mlsn","slide":3,"bbox":[752,468,52,42]}
+{"kind":"shape","id":"sh/943mhgre","slide":3,"bbox":[818,430,270,118]}
+{"kind":"textbox","id":"sh/83ulovat","slide":3,"text":"Action","textPreview":"Action","textChars":6,"textLines":1,"bbox":[842,454,220,32]}
+{"kind":"textbox","id":"sh/v6l4jq94","slide":3,"text":"Route veröffentlichen, ETA teilen, Bericht und KPI zurückführen","textPreview":"Route veröffentlichen, ETA teilen, Bericht und KPI zurückführen","textChars":63,"textLines":1,"bbox":[842,496,222,52]}
+{"kind":"textbox","id":"sh/a5c3ql8z","slide":3,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/x8nml0ra","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":"Den roten Faden erklären: Signale kommen rein, der Copilot berechnet einen begründeten Vorschlag, die Disposition veröffentlicht."}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"EIN TAG MIT AUTOMATEX","textShapes":13}
+{"kind":"textbox","id":"sh/3ytsrmpw","slide":4,"text":"EIN TAG MIT AUTOMATEX","textPreview":"EIN TAG MIT AUTOMATEX","textChars":21,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"text":"Aus der Tagesliste wird ein nachvollziehbarer Plan.","textPreview":"Aus der Tagesliste wird ein nachvollziehbarer Plan.","textChars":51,"textLines":1,"bbox":[72,88,760,96]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"text":"Jeder Schritt erzeugt einen sichtbaren Status — vom Import bis zur Wirkungsmessung.","textPreview":"Jeder Schritt erzeugt einen sichtbaren Status — vom Import bis zur Wirkungsmessung.","textChars":83,"textLines":1,"bbox":[72,184,720,58]}
+{"kind":"shape","id":"sh/rm1k7yt4","slide":4,"bbox":[72,298,492,116]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"bbox":[72,298,9,116]}
+{"kind":"textbox","id":"sh/doj29oba","slide":4,"text":"Import","textPreview":"Import","textChars":6,"textLines":1,"bbox":[106,320,390,30]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"text":"CSV oder Excel prüfen, Spalten zuordnen und Dubletten markieren.","textPreview":"CSV oder Excel prüfen, Spalten zuordnen und Dubletten markieren.","textChars":64,"textLines":1,"bbox":[106,358,410,44]}
+{"kind":"shape","id":"sh/3ihk3et8","slide":4,"bbox":[620,298,492,116]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"bbox":[620,298,9,116]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"text":"Regelset","textPreview":"Regelset","textChars":8,"textLines":1,"bbox":[654,320,390,30]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"text":"Copilot übersetzt Limits, Skills und Zeitfenster in klare Constraints.","textPreview":"Copilot übersetzt Limits, Skills und Zeitfenster in klare Constraints.","textChars":70,"textLines":1,"bbox":[654,358,410,44]}
+{"kind":"shape","id":"sh/i94r6xgz","slide":4,"bbox":[72,446,492,116]}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"bbox":[72,446,9,116]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"text":"Entwurf","textPreview":"Entwurf","textChars":7,"textLines":1,"bbox":[106,468,390,30]}
+{"kind":"textbox","id":"sh/x8vaxsfe","slide":4,"text":"Route mit Erklärung, Warnung und verständlichem Backlog.","textPreview":"Route mit Erklärung, Warnung und verständlichem Backlog.","textChars":56,"textLines":1,"bbox":[106,506,410,44]}
+{"kind":"shape","id":"sh/a5kr2xg3","slide":4,"bbox":[620,446,492,116]}
+{"kind":"shape","id":"sh/v6tsv2xo","slide":4,"bbox":[620,446,9,116]}
+{"kind":"textbox","id":"sh/g36tgryd","slide":4,"text":"Veröffentlichen","textPreview":"Veröffentlichen","textChars":15,"textLines":1,"bbox":[654,468,390,30]}
+{"kind":"textbox","id":"sh/h4fa9wfy","slide":4,"text":"Nur betroffene Fahrer und Kunden erhalten die neue Revision.","textPreview":"Nur betroffene Fahrer und Kunden erhalten die neue Revision.","textChars":60,"textLines":1,"bbox":[654,506,410,44]}
+{"kind":"textbox","id":"sh/p0batw72","slide":4,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/oz29krqh","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"Vom Import über Regeln bis zur revisionssicheren Veröffentlichung zeigen — hier wird der tägliche Ablauf greifbar."}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"DREI ROLLEN · EIN PLAN","textShapes":14}
+{"kind":"textbox","id":"sh/gfi5grih","slide":5,"text":"DREI ROLLEN · EIN PLAN","textPreview":"DREI ROLLEN · EIN PLAN","textChars":22,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"text":"Jede Rolle sieht genau den nächsten sinnvollen Schritt.","textPreview":"Jede Rolle sieht genau den nächsten sinnvollen Schritt.","textChars":55,"textLines":1,"bbox":[72,88,760,96]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"text":"Admin, Fahrer und Kunde arbeiten auf derselben Route — mit jeweils minimal nötiger Sicht.","textPreview":"Admin, Fahrer und Kunde arbeiten auf derselben Route — mit jeweils minimal nötiger Sicht.","textChars":89,"textLines":1,"bbox":[72,184,720,58]}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"bbox":[72,300,326,232]}
+{"kind":"shape","id":"sh/yhkbe1o7","slide":5,"bbox":[96,334,54,54]}
+{"kind":"textbox","id":"sh/l4bupwny","slide":5,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[96,344,54,26]}
+{"kind":"textbox","id":"sh/032tgr6d","slide":5,"text":"Admin · Control Tower","textPreview":"Admin · Control Tower","textChars":21,"textLines":1,"bbox":[96,412,278,34]}
+{"kind":"textbox","id":"sh/n6dcr65o","slide":5,"text":"Plant bis 90 Tage, sperrt Stops, sieht KPI und veröffentlicht revisionssicher.","textPreview":"Plant bis 90 Tage, sperrt Stops, sieht KPI und veröffentlicht revisionssicher.","textChars":78,"textLines":1,"bbox":[96,454,276,88]}
+{"kind":"shape","id":"sh/m5kbi1oj","slide":5,"bbox":[456,300,326,232]}
+{"kind":"shape","id":"sh/w32dkbuh","slide":5,"bbox":[480,334,54,54]}
+{"kind":"textbox","id":"sh/x4vedgvm","slide":5,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[480,344,54,26]}
+{"kind":"textbox","id":"sh/ahkvi1cb","slide":5,"text":"Fahrer · Mobile Tour","textPreview":"Fahrer · Mobile Tour","textChars":20,"textLines":1,"bbox":[480,412,278,34]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"text":"Sieht eigene veröffentlichte Touren, navigiert mit Google Maps und arbeitet offline weiter.","textPreview":"Sieht eigene veröffentlichte Touren, navigiert mit Google Maps und arbeitet offline weiter.","textChars":91,"textLines":1,"bbox":[480,454,276,88]}
+{"kind":"shape","id":"sh/k7mxovud","slide":5,"bbox":[840,300,326,232]}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"bbox":[864,334,54,54]}
+{"kind":"textbox","id":"sh/i54fmlc7","slide":5,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[864,344,54,26]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"text":"Kunde · Sicherer Link","textPreview":"Kunde · Sicherer Link","textChars":21,"textLines":1,"bbox":[864,412,278,34]}
+{"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"text":"Bestätigt, verschiebt oder sagt ab; ETA und Bericht bleiben am Termin.","textPreview":"Bestätigt, verschiebt oder sagt ab; ETA und Bericht bleiben am Termin.","textChars":70,"textLines":1,"bbox":[864,454,276,88]}
+{"kind":"textbox","id":"sh/tcfel0vu","slide":5,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/hgrmpwj2","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":"Die drei Rollen kurz durchgehen und betonen: minimale Sicht pro Rolle, eine gemeinsame Route und klare Freigaben."}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"KI MIT LEITPLANKEN","textShapes":11}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"text":"KI MIT LEITPLANKEN","textPreview":"KI MIT LEITPLANKEN","textChars":18,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"text":"Die KI beschleunigt Entscheidungen — sie ersetzt keine Freigabe.","textPreview":"Die KI beschleunigt Entscheidungen — sie ersetzt keine Freigabe.","textChars":64,"textLines":1,"bbox":[72,104,760,140]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"text":"Import-Copilot, Planungs-Copilot, Slot-Filler, KI-Inbox und Wartungsbericht liefern Vorschläge mit Begründung.","textPreview":"Import-Copilot, Planungs-Copilot, Slot-Filler, KI-Inbox und Wartungsbericht liefern Vorschläge mit Begründung.","textChars":110,"textLines":1,"bbox":[76,268,600,74]}
+{"kind":"shape","id":"sh/87ipkzal","slide":6,"bbox":[118,430,270,118]}
+{"kind":"textbox","id":"sh/98rqt4r6","slide":6,"text":"Signale","textPreview":"Signale","textChars":7,"textLines":1,"bbox":[142,454,220,32]}
+{"kind":"textbox","id":"sh/ml07i9sv","slide":6,"text":"Excel-Spalten, E-Mail, GPS und Fahrerbericht","textPreview":"Excel-Spalten, E-Mail, GPS und Fahrerbericht","textChars":44,"textLines":1,"bbox":[142,496,222,52]}
+{"kind":"shape","id":"sh/7m98ru9g","slide":6,"bbox":[402,468,52,42]}
+{"kind":"shape","id":"sh/oryp8fah","slide":6,"bbox":[468,430,270,118]}
+{"kind":"textbox","id":"sh/pc76hkr2","slide":6,"text":"Copilot","textPreview":"Copilot","textChars":7,"textLines":1,"bbox":[492,454,220,32]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"text":"Constraints, Konfidenz und passende Alternativen","textPreview":"Constraints, Konfidenz und passende Alternativen","textChars":48,"textLines":1,"bbox":[492,496,222,52]}
+{"kind":"shape","id":"sh/w32twb6l","slide":6,"bbox":[752,468,52,42]}
+{"kind":"shape","id":"sh/v2tcn650","slide":6,"bbox":[818,430,270,118]}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"text":"Mensch bestätigt","textPreview":"Mensch bestätigt","textChars":16,"textLines":1,"bbox":[842,454,220,32]}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"text":"Plan veröffentlichen, Absage akzeptieren, Folgeauftrag anlegen","textPreview":"Plan veröffentlichen, Absage akzeptieren, Folgeauftrag anlegen","textChars":62,"textLines":1,"bbox":[842,496,222,52]}
+{"kind":"textbox","id":"sh/47mt0b6x","slide":6,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/j6dcr65c","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"KI als Beschleuniger, nicht als Black Box: Jede kritische Aktion bleibt sichtbar und bestätigungspflichtig."}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"KI-FUNKTIONEN","textShapes":13}
+{"kind":"textbox","id":"sh/4fm1wb6p","slide":7,"text":"KI-FUNKTIONEN","textPreview":"KI-FUNKTIONEN","textChars":13,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/cb2tkvap","slide":7,"text":"Fünf Copiloten machen die Disposition schneller und prüfbarer.","textPreview":"Fünf Copiloten machen die Disposition schneller und prüfbarer.","textChars":62,"textLines":1,"bbox":[72,88,760,96]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"text":"Deterministische Regeln entscheiden, was gespeichert wird; KI liefert Struktur, Vorschläge und Sprache.","textPreview":"Deterministische Regeln entscheiden, was gespeichert wird; KI liefert Struktur, Vorschläge und Sprache.","textChars":103,"textLines":1,"bbox":[72,184,720,58]}
+{"kind":"shape","id":"sh/ydkbm5sv","slide":7,"bbox":[72,298,492,116]}
+{"kind":"shape","id":"sh/zedcfa9g","slide":7,"bbox":[72,298,9,116]}
+{"kind":"textbox","id":"sh/kzmdova1","slide":7,"text":"Import-Copilot","textPreview":"Import-Copilot","textChars":14,"textLines":1,"bbox":[106,320,390,30]}
+{"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"text":"Deutsche Excel-Spalten erkennen, Dubletten und Adressfehler vor dem Import zeigen.","textPreview":"Deutsche Excel-Spalten erkennen, Dubletten und Adressfehler vor dem Import zeigen.","textChars":82,"textLines":1,"bbox":[106,358,410,44]}
+{"kind":"shape","id":"sh/eh0ba1sr","slide":7,"bbox":[620,298,492,116]}
+{"kind":"shape","id":"sh/fi9c369c","slide":7,"bbox":[620,298,9,116]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"text":"Planungs-Copilot","textPreview":"Planungs-Copilot","textChars":16,"textLines":1,"bbox":[654,320,390,30]}
+{"kind":"textbox","id":"sh/a9ojq5kz","slide":7,"text":"Befehl in ein sichtbares PlanningConstraints-Objekt übersetzen; Start erst nach Bestätigung.","textPreview":"Befehl in ein sichtbares PlanningConstraints-Objekt übersetzen; Start erst nach Bestätigung.","textChars":92,"textLines":1,"bbox":[654,358,410,44]}
+{"kind":"shape","id":"sh/xcz2l03q","slide":7,"bbox":[72,446,492,116]}
+{"kind":"shape","id":"sh/cbq1sv25","slide":7,"bbox":[72,446,9,116]}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"text":"Slot-Filler & Inbox","textPreview":"Slot-Filler & Inbox","textChars":19,"textLines":1,"bbox":[106,468,390,30]}
+{"kind":"textbox","id":"sh/25ojml43","slide":7,"text":"Routennähe, Skill, SLA und Konfidenz bewerten; Absagen bleiben freigabepflichtig.","textPreview":"Routennähe, Skill, SLA und Konfidenz bewerten; Absagen bleiben freigabepflichtig.","textChars":81,"textLines":1,"bbox":[106,506,410,44]}
+{"kind":"shape","id":"sh/p8fih03e","slide":7,"bbox":[620,446,492,116]}
+{"kind":"shape","id":"sh/o761ov2t","slide":7,"bbox":[620,446,9,116]}
+{"kind":"textbox","id":"sh/f2d0b6lc","slide":7,"text":"Wartungsbericht-Copilot","textPreview":"Wartungsbericht-Copilot","textChars":23,"textLines":1,"bbox":[654,468,390,30]}
+{"kind":"textbox","id":"sh/eh4jil4r","slide":7,"text":"Text, Sprache und Fotos in Berichtsentwurf und mögliche Folgeaufgabe überführen.","textPreview":"Text, Sprache und Fotos in Berichtsentwurf und mögliche Folgeaufgabe überführen.","textChars":80,"textLines":1,"bbox":[654,506,410,44]}
+{"kind":"textbox","id":"sh/id4ju1oz","slide":7,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/jedkn654","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"Die Copiloten als konkrete Produktbausteine nennen; deterministische Validierung bleibt die letzte Instanz."}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"PILOT-MESSGRÖSSEN","textShapes":11}
+{"kind":"textbox","id":"sh/1k7edwv2","slide":8,"text":"PILOT-MESSGRÖSSEN","textPreview":"PILOT-MESSGRÖSSEN","textChars":17,"textLines":1,"bbox":[72,54,260,22]}
+{"kind":"textbox","id":"sh/18byd4zy","slide":8,"text":"Der Shadow-Pilot macht Wirkung sichtbar, bevor wir skalieren.","textPreview":"Der Shadow-Pilot macht Wirkung sichtbar, bevor wir skalieren.","textChars":61,"textLines":1,"bbox":[72,88,760,96]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"text":"Website-Zielgrößen sind Hypothesen; die Baseline kommt aus Jans Ist-Touren und wird im Pilot gemessen.","textPreview":"Website-Zielgrößen sind Hypothesen; die Baseline kommt aus Jans Ist-Touren und wird im Pilot gemessen.","textChars":102,"textLines":1,"bbox":[72,184,720,58]}
+{"kind":"shape","id":"sh/ri9g7uhw","slide":8,"bbox":[72,296,510,260]}
+{"kind":"textbox","id":"sh/tkby9kzm","slide":8,"text":"−43 %","textPreview":"−43 %","textChars":5,"textLines":1,"bbox":[670,296,250,46]}
+{"kind":"textbox","id":"sh/sjix0zy1","slide":8,"text":"Planungsaufwand · Zielgröße","textPreview":"Planungsaufwand · Zielgröße","textChars":27,"textLines":1,"bbox":[670,344,360,32]}
+{"kind":"textbox","id":"sh/je9g3ahk","slide":8,"text":"+28 %","textPreview":"+28 %","textChars":5,"textLines":1,"bbox":[670,382,250,46]}
+{"kind":"textbox","id":"sh/id0fu50z","slide":8,"text":"Stopps je Tour · Zielgröße","textPreview":"Stopps je Tour · Zielgröße","textChars":26,"textLines":1,"bbox":[670,430,360,32]}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"text":"< 5 s","textPreview":"< 5 s","textChars":5,"textLines":1,"bbox":[670,468,250,46]}
+{"kind":"textbox","id":"sh/98rehwve","slide":8,"text":"Reaktionszeit bei Änderungen · Zielgröße","textPreview":"Reaktionszeit bei Änderungen · Zielgröße","textChars":40,"textLines":1,"bbox":[670,516,360,32]}
+{"kind":"textbox","id":"sh/m5gvmhwn","slide":8,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/n6pwfmd8","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"chart","id":"ch/eh07yl4j","slide":8,"name":"Chart","chartType":"bar","title":"Illustrative Zielkurve","bbox":[112,328,430,194]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":"Noch keine Erfolgswerte behaupten: Zielgrößen markieren und im Shadow-Pilot gegen die bestehende Planung messen."}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"PILOT-ROADMAP","textShapes":9}
+{"kind":"textbox","id":"sh/cnu1kzyd","slide":9,"text":"PILOT-ROADMAP","textPreview":"PILOT-ROADMAP","textChars":13,"textLines":1,"bbox":[72,72,320,30]}
+{"kind":"textbox","id":"sh/1cfmhgne","slide":9,"text":"Sicher von der Demo zum Live-Pilot.","textPreview":"Sicher von der Demo zum Live-Pilot.","textChars":35,"textLines":1,"bbox":[72,142,840,122]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"text":"Wir starten klein, vergleichen gegen die bestehende Planung und öffnen erst danach echte Termine. Aktuell: klickbarer Demostand mit synthetischen Daten.","textPreview":"Wir starten klein, vergleichen gegen die bestehende Planung und öffnen erst danach echte Termine. Aktuell: klickbarer Demostand mit synth...","textChars":152,"textLines":1,"bbox":[76,292,720,76]}
+{"kind":"shape","id":"sh/nex4jq5k","slide":9,"bbox":[76,472,224,76]}
+{"kind":"textbox","id":"sh/mdonql4z","slide":9,"text":"Daten & Security","textPreview":"Daten & Security","textChars":16,"textLines":1,"bbox":[96,495,184,32]}
+{"kind":"shape","id":"sh/9gzml0nq","slide":9,"bbox":[352,472,224,76]}
+{"kind":"textbox","id":"sh/ofq5svm5","slide":9,"text":"Shadow-Planung","textPreview":"Shadow-Planung","textChars":14,"textLines":1,"bbox":[372,495,184,32]}
+{"kind":"shape","id":"sh/bih4na5w","slide":9,"bbox":[628,472,224,76]}
+{"kind":"textbox","id":"sh/ah8nu54b","slide":9,"text":"Kontrollierte Live-Tour","textPreview":"Kontrollierte Live-Tour","textChars":23,"textLines":1,"bbox":[648,495,184,32]}
+{"kind":"shape","id":"sh/oza1gfyh","slide":9,"bbox":[904,472,224,76]}
+{"kind":"textbox","id":"sh/p0ji9kf2","slide":9,"text":"Lernen & Skalieren","textPreview":"Lernen & Skalieren","textChars":18,"textLines":1,"bbox":[924,495,184,32]}
+{"kind":"textbox","id":"sh/2xsjepgb","slide":9,"text":"AUTOMATEX ROUTE","textPreview":"AUTOMATEX ROUTE","textChars":15,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/3y107axw","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":"Vier Phasen als Vertrauensaufbau: erst Daten und Rechte, dann Schattenlauf, dann kontrollierte echte Tour, dann Skalierung."}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"NÄCHSTER SCHRITT","textShapes":9}
+{"kind":"textbox","id":"sh/0bit8b2d","slide":10,"text":"NÄCHSTER SCHRITT","textPreview":"NÄCHSTER SCHRITT","textChars":16,"textLines":1,"bbox":[72,72,320,30]}
+{"kind":"textbox","id":"sh/xc3mho32","slide":10,"text":"45 Minuten Livedemo. Zwei Wochen Shadow-Pilot.","textPreview":"45 Minuten Livedemo. Zwei Wochen Shadow-Pilot.","textChars":46,"textLines":1,"bbox":[72,142,840,122]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"text":"Wir zeigen einen echten Ablauf mit Tagesliste, Fahrerregeln, Kundenantwort und KPI — ohne echte Termine zu verändern.","textPreview":"Wir zeigen einen echten Ablauf mit Tagesliste, Fahrerregeln, Kundenantwort und KPI — ohne echte Termine zu verändern.","textChars":117,"textLines":1,"bbox":[76,292,720,76]}
+{"kind":"shape","id":"sh/zelojyl8","slide":10,"bbox":[76,472,224,76]}
+{"kind":"textbox","id":"sh/ydcnatkn","slide":10,"text":"Stichprobe teilen","textPreview":"Stichprobe teilen","textChars":17,"textLines":1,"bbox":[96,495,184,32]}
+{"kind":"shape","id":"sh/l036l83y","slide":10,"bbox":[352,472,224,76]}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"text":"Regeln festlegen","textPreview":"Regeln festlegen","textChars":16,"textLines":1,"bbox":[372,495,184,32]}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"bbox":[628,472,224,76]}
+{"kind":"textbox","id":"sh/m1cnetkj","slide":10,"text":"Demo durchspielen","textPreview":"Demo durchspielen","textChars":17,"textLines":1,"bbox":[648,495,184,32]}
+{"kind":"shape","id":"sh/s7yt4b21","slide":10,"bbox":[904,472,224,76]}
+{"kind":"textbox","id":"sh/d87uxg3m","slide":10,"text":"Go / No-Go messen","textPreview":"Go / No-Go messen","textChars":17,"textLines":1,"bbox":[924,495,184,32]}
+{"kind":"textbox","id":"sh/q5gb21kb","slide":10,"text":"AUTOMATEX ROUTE · JAN-DEMO","textPreview":"AUTOMATEX ROUTE · JAN-DEMO","textChars":26,"textLines":1,"bbox":[72,660,180,20]}
+{"kind":"textbox","id":"sh/r6pcv6lw","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1160,654,48,28]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":"Abschlussfrage: 45 Minuten für die Demo und zwei Wochen Shadow-Pilot mit klaren Go/No-Go-Messgrößen."}

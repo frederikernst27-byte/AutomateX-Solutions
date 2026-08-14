@@ -1,0 +1,32 @@
+"use client";
+
+import { useState } from "react";
+import { Clock3, Eye, LocateFixed, Navigation, Radio, RefreshCw, Route as RouteIcon, TriangleAlert } from "lucide-react";
+import { AdminContent, TopBar } from "@/components/admin-shell";
+import { MapPreview } from "@/components/map-preview";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useDemoStore } from "@/lib/demo-store";
+import { businessDate, calculateMetrics } from "@/lib/metrics";
+import { formatNumber } from "@/lib/utils";
+
+export default function LivePage() {
+  const { state } = useDemoStore();
+  const [selectedDriver, setSelectedDriver] = useState<string>();
+  const today = businessDate();
+  const metrics = calculateMetrics(state, today);
+  const liveRoutes = state.routes.filter((route) => route.date === today);
+  const selectedRoute = liveRoutes.find((route) => route.driverId === selectedDriver) ?? liveRoutes.find((route) => route.status === "started");
+  const selectedDriverData = state.drivers.find((driver) => driver.id === selectedRoute?.driverId);
+  const followUps = state.workOrders.filter((order) => order.status === "needs_followup").length;
+  const getCustomer = (workOrderId: string) => { const order = state.workOrders.find((item) => item.id === workOrderId); return state.customers.find((customer) => customer.id === order?.customerId); };
+
+  return <><TopBar eyebrow="Echtzeit" title="Live-Dispo" description="Positionen erscheinen, sobald ein Fahrer sie während einer aktiven Tour übermittelt." actions={<div className="flex gap-2"><Button variant="outline" onClick={() => setSelectedDriver(undefined)} disabled={!selectedDriver}>Alle Touren</Button><Button variant="outline" onClick={() => window.location.reload()}><RefreshCw className="h-4 w-4" />Aktualisieren</Button></div>} /><AdminContent>
+    <div className="mb-5 grid gap-3 sm:grid-cols-4"><LiveMetric label="Fahrer unterwegs" value={String(metrics.activeRoutes)} detail="Aktive Touren" icon={Radio} /><LiveMetric label="Stops heute" value={`${metrics.todayCompleted} / ${metrics.todayOrders}`} detail="Erledigt / geplant" icon={RouteIcon} /><LiveMetric label="Fahrzeit heute" value={`${liveRoutes.reduce((sum, route) => sum + route.travelMinutes, 0)} min`} detail="Aus heutigen Routen" icon={Clock3} /><LiveMetric label="Nacharbeit" value={String(followUps)} detail="Offene Vorgänge" icon={TriangleAlert} /></div>
+    <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_390px]"><Card><CardHeader><CardTitle>Team im Einsatz</CardTitle><p className="text-sm text-muted">Die Karte enthält ausschließlich tatsächlich gespeicherte Fahrer und Routen.</p></CardHeader><CardContent><MapPreview routes={liveRoutes} drivers={state.drivers} customers={state.customers} workOrders={state.workOrders} focusDriverId={selectedDriver} live className="min-h-[520px]" /></CardContent></Card><div className="space-y-3">{state.drivers.filter((driver) => driver.active).map((driver) => { const route = liveRoutes.find((item) => item.driverId === driver.id); const selected = selectedRoute?.driverId === driver.id; return <button key={driver.id} onClick={() => setSelectedDriver(driver.id)} className={`w-full rounded-2xl border p-4 text-left ${selected ? "border-brand-200 bg-brand-50" : "border-line bg-white"}`}><div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-xl text-xs font-black text-white" style={{ background: driver.color }}>{driver.initials}</span><div className="min-w-0 flex-1"><p className="text-sm font-extrabold">{driver.name}</p><p className="mt-0.5 text-[11px] text-muted">{driver.status === "on_route" ? `Unterwegs · ${driver.lastSeen}` : driver.status === "off" ? "Abwesend" : "Bereit"}</p></div><Eye className={`h-4 w-4 ${selected ? "text-brand-600" : "text-slate-300"}`} /></div>{route && <p className="mt-3 border-t border-line pt-3 text-[11px] font-bold text-muted">{route.stops.length} Stopps · {formatNumber(route.distanceKm, 1)} km</p>}</button>; })}{state.drivers.length === 0 && <Card><CardContent className="py-10 text-center text-sm text-muted">Noch keine Fahrer angelegt.</CardContent></Card>}</div></div>
+    {selectedRoute && selectedDriverData && <Card className="mt-5"><CardHeader className="flex-row items-center justify-between"><div><CardTitle>Aktuelle Tour · {selectedDriverData.name}</CardTitle><p className="mt-1 text-sm text-muted">Letzte Standortmeldung: {selectedDriverData.lastSeen || "noch nicht übermittelt"}</p></div><Button variant="outline" size="sm" onClick={() => setSelectedDriver(selectedRoute.driverId)}><LocateFixed className="h-3.5 w-3.5" />Zentrieren</Button></CardHeader><CardContent><div className="grid gap-3 md:grid-cols-3">{selectedRoute.stops.map((stop, index) => { const customer = getCustomer(stop.workOrderId); const order = state.workOrders.find((item) => item.id === stop.workOrderId); const active = selectedRoute.currentStopId === stop.workOrderId; return <div key={stop.workOrderId} className={`rounded-xl border p-3 ${active ? "border-brand-200 bg-brand-50" : "border-line bg-soft/50"}`}><div className="flex items-center justify-between"><span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[10px] font-black text-white">{index + 1}</span><Badge variant={active ? "default" : order?.status === "completed" ? "muted" : "blue"}>{active ? "Aktuell" : order?.status === "completed" ? "Erledigt" : stop.eta}</Badge></div><p className="mt-3 text-xs font-extrabold">{customer?.name ?? "Unbekannter Kunde"}</p><p className="mt-1 text-[11px] text-muted">{customer?.address}</p><p className="mt-2 flex items-center gap-1 text-[11px] font-bold text-brand-700"><Navigation className="h-3 w-3" />{stop.distanceFromPreviousKm} km · {stop.driveMinutesFromPrevious} Min.</p></div>; })}</div></CardContent></Card>}
+  </AdminContent></>;
+}
+
+function LiveMetric({ icon: Icon, label, value, detail }: { icon: typeof Radio; label: string; value: string; detail: string }) { return <Card><CardContent className="p-4"><span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-50 text-brand-700"><Icon className="h-4 w-4" /></span><p className="mt-3 text-[10px] font-black uppercase tracking-[.11em] text-muted">{label}</p><p className="mt-1 text-xl font-black">{value}</p><p className="mt-1 text-[11px] font-bold text-muted">{detail}</p></CardContent></Card>; }

@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sama Restaurant – Oberhausen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream:        #F0E6CC;
+            --cream-light:  #FAF4E8;
+            --dark:         #0E0B06;
+            --dark-mid:     #181109;
+            --red:          #9B1A13;
+            --red-bright:   #C2241B;
+            --gold:         #B8852A;
+            --gold-light:   #D4A84B;
+            --warm-gray:    #7A6248;
+            --text-dark:    #1A1208;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--cream-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ───────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.75rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.4s, padding 0.4s;
+        }
+        nav.scrolled {
+            background: rgba(14, 11, 6, 0.93);
+            backdrop-filter: blur(12px);
+            padding: 0.9rem 3rem;
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--cream);
+            letter-spacing: 0.18em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(240,230,204,0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--cream); }
+
+        /* ── HERO ──────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            background: var(--dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(14,11,6,0.74), rgba(14,11,6,0.86)),
+                url("https://cdn.pixabay.com/photo/2020/05/11/04/11/pizza-5156418_1280.jpg") center / cover no-repeat,
+                radial-gradient(ellipse 70% 50% at 20% 70%, rgba(155,26,19,0.28) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 70% at 85% 20%, rgba(184,133,42,0.16) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 100% at 50% 50%, rgba(30,22,10,0.5) 0%, var(--dark) 72%);
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+        }
+        .hero-eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            font-weight: 300;
+            color: var(--gold-light);
+            letter-spacing: 0.5em;
+            display: block;
+            margin-bottom: 0.3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(5.5rem, 20vw, 18rem);
+            font-weight: 700;
+            color: var(--cream);
+            line-height: 0.83;
+            letter-spacing: -0.01em;
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s ease forwards 0.6s;
+        }
+        .hero-ornament {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            width: fit-content;
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1s;
+        }
+        .hero-ornament-line {
+            width: 90px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .hero-ornament-gem {
+            width: 7px; height: 7px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+        .hero-tagline {
+            font-size: clamp(0.6rem, 1.4vw, 0.78rem);
+            font-weight: 400;
+            letter-spacing: 0.48em;
+            text-transform: uppercase;
+            color: rgba(240,230,204,0.45);
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.2s;
+            margin-bottom: 3rem;
+        }
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 2.75rem;
+            border: 1px solid rgba(184,133,42,0.65);
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transition: background 0.35s, color 0.35s, border-color 0.35s;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.5s;
+        }
+        .hero-cta:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            color: rgba(240,230,204,0.3);
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 2s;
+        }
+        .hero-scroll-line {
+            width: 1px; height: 48px;
+            background: linear-gradient(to bottom, rgba(240,230,204,0.4), transparent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:.9} }
+
+        /* ── BANNER ─────────────────────────────── */
+        .banner {
+            background: var(--red);
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        .banner-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .banner-gem {
+            width: 4px; height: 4px;
+            background: rgba(240,230,204,0.5);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* ── SECTIONS SHARED ───────────────────── */
+        section { padding: 8rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .section-label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            line-height: 1.05;
+            color: var(--text-dark);
+        }
+        .section-title em { font-style: italic; font-weight: 400; }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .ornament-line { flex: 1; max-width: 70px; height: 1px; background: var(--gold); opacity: 0.6; }
+        .ornament-symbol { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); }
+
+        /* ── ABOUT ─────────────────────────────── */
+        .about {
+            background: var(--dark-mid);
+            position: relative;
+            overflow: hidden;
+        }
+        .about::before {
+            content: 'SAMA';
+            position: absolute;
+            right: -2%;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(10rem, 24vw, 28rem);
+            font-weight: 700;
+            color: rgba(240,230,204,0.022);
+            pointer-events: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .about-badge {
+            width: clamp(220px, 32vw, 340px);
+            height: clamp(220px, 32vw, 340px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 38% 35%, #C42F27, #5A0A07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+        .about-badge::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 1px solid rgba(184,133,42,0.3);
+        }
+        .about-badge::after {
+            content: '';
+            position: absolute;
+            inset: -22px;
+            border-radius: 50%;
+            border: 1px solid rgba(184,133,42,0.12);
+        }
+        .about-badge-inner { text-align: center; color: var(--cream); }
+        .about-badge-inner .num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            display: block;
+        }
+        .about-badge-inner .sub {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: rgba(240,230,204,0.55);
+            display: block;
+            margin-top: 0.3rem;
+        }
+        .about .section-label { color: var(--gold-light); }
+        .about .section-title { color: var(--cream); }
+        .about-text {
+            color: rgba(240,230,204,0.6);
+            font-size: 1rem;
+            line-height: 1.95;
+            font-weight: 300;
+            margin-top: 0.75rem;
+        }
+        .about::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 48%;
+            background:
+                linear-gradient(90deg, rgba(24,17,9,0.35), rgba(24,17,9,0.95)),
+                url("https://cdn.pixabay.com/photo/2021/07/19/16/04/pizza-6478478_1280.jpg") center / cover no-repeat;
+            opacity: 0.32;
+            pointer-events: none;
+        }
+        .about .container { position: relative; z-index: 1; }
+
+        /* ── MENU ──────────────────────────────── */
+        .menu { background: var(--cream-light); }
+        .menu-header { text-align: center; margin-bottom: 3.5rem; }
+
+        /* Tab bar */
+        .menu-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 3.5rem;
+        }
+        .menu-tab {
+            padding: 0.55rem 1.5rem;
+            border: 1px solid rgba(184,133,42,0.35);
+            background: transparent;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            transition: all 0.25s;
+        }
+        .menu-tab:hover { border-color: var(--gold); color: var(--text-dark); }
+        .menu-tab.active {
+            background: var(--dark);
+            border-color: var(--dark);
+            color: var(--cream);
+        }
+
+        /* Tab panels */
+        .menu-panel { display: none; }
+        .menu-panel.active { display: block; }
+
+        .menu-card {
+            background: #FFF9EE;
+            border: 1px solid rgba(184,133,42,0.2);
+            padding: 3.5rem 4rem;
+            position: relative;
+            max-width: 880px;
+            margin: 0 auto;
+            box-shadow: 0 20px 80px rgba(20,15,8,0.07);
+        }
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(184,133,42,0.1);
+            pointer-events: none;
+        }
+        .menu-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--red);
+            text-align: center;
+            margin-bottom: 0.4rem;
+        }
+        .menu-card-sub {
+            text-align: center;
+            font-size: 0.68rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-bottom: 2.5rem;
+        }
+        .menu-sep {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .menu-sep-line { flex: 1; height: 1px; background: rgba(184,133,42,0.22); }
+        .menu-sep-gem { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); opacity: 0.55; }
+
+        .menu-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1.5rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(184,133,42,0.07);
+            align-items: baseline;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: block;
+        }
+        .menu-item-desc {
+            font-size: 0.79rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            font-style: italic;
+            margin-top: 0.15rem;
+            display: block;
+        }
+        .menu-item-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--red);
+            white-space: nowrap;
+        }
+        .menu-item-price small {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            text-align: right;
+        }
+
+        /* Pizza size header */
+        .pizza-sizes {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1.5rem;
+            padding: 0.5rem 0 1rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(184,133,42,0.2);
+        }
+        .pizza-sizes-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+        }
+        .pizza-sizes-prices {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--warm-gray);
+            white-space: nowrap;
+        }
+
+        /* Pizza info box */
+        .pizza-info-box {
+            background: rgba(184,133,42,0.06);
+            border: 1px solid rgba(184,133,42,0.2);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.79rem;
+            color: var(--warm-gray);
+            line-height: 1.8;
+        }
+        .pizza-info-box strong {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Familienpizza box */
+        .family-deal {
+            background: var(--dark);
+            border: 1px solid rgba(184,133,42,0.3);
+            padding: 2rem;
+            margin: 2.5rem auto 0;
+            max-width: 880px;
+            text-align: center;
+        }
+        .family-deal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 0.75rem;
+        }
+        .family-deal-text {
+            font-size: 0.82rem;
+            color: rgba(240,230,204,0.65);
+            font-weight: 300;
+            line-height: 1.85;
+        }
+
+        .menu-footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid rgba(184,133,42,0.15);
+            font-size: 0.72rem;
+            color: var(--warm-gray);
+            font-style: italic;
+        }
+
+        /* Sub-section heading inside card */
+        .menu-sub-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--red);
+            margin-bottom: 1rem;
+        }
+
+        /* ── INFO ──────────────────────────────── */
+        .info {
+            background: var(--dark-mid);
+            position: relative;
+            overflow: hidden;
+        }
+        .info::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.45;
+        }
+        .info::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(24,17,9,0.96), rgba(24,17,9,0.78)),
+                url("https://cdn.pixabay.com/photo/2021/08/29/14/27/doner-kebab-6583404_1280.jpg") right center / auto 115% no-repeat;
+            opacity: 0.28;
+            pointer-events: none;
+        }
+        .info .container { position: relative; z-index: 1; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
+        .info .section-label { color: var(--gold-light); }
+        .info .section-title { color: var(--cream); }
+
+        .hours-list { list-style: none; margin-top: 2.25rem; }
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(240,230,204,0.07);
+            color: rgba(240,230,204,0.6);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+        .hours-item .time { color: var(--cream); }
+        .hours-item.special .time { color: var(--gold-light); font-style: italic; }
+
+        .contact-items { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.25rem; }
+        .contact-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+        .contact-icon {
+            width: 42px; height: 42px;
+            border: 1px solid rgba(184,133,42,0.32);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .contact-label {
+            display: block;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-bottom: 0.3rem;
+        }
+        .contact-value {
+            color: var(--cream);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            font-weight: 300;
+        }
+        .contact-value a { color: inherit; text-decoration: none; }
+        .contact-value a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        /* event box */
+        .event-box {
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(184,133,42,0.22);
+            background: rgba(184,133,42,0.05);
+        }
+        .event-box p {
+            font-size: 0.85rem;
+            color: rgba(240,230,204,0.6);
+            font-weight: 300;
+            line-height: 1.75;
+        }
+        .event-box strong {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        /* ── ALLERGENE ──────────────────────────── */
+        .allergene-section {
+            background: var(--cream-light);
+            padding: 4rem 2rem;
+        }
+        .allergene-card {
+            background: #FFF9EE;
+            border: 1px solid rgba(184,133,42,0.2);
+            padding: 2.5rem 3rem;
+            max-width: 880px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(20,15,8,0.05);
+        }
+        .allergene-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--red);
+            margin-bottom: 1.25rem;
+        }
+        .allergene-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.4rem 2rem;
+            margin-top: 0.75rem;
+        }
+        .allergene-item {
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(184,133,42,0.07);
+        }
+        .allergene-item strong { color: var(--text-dark); font-weight: 500; }
+        .allergene-note {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--warm-gray);
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        /* ── FOOTER ─────────────────────────────── */
+        footer {
+            background: var(--dark);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(184,133,42,0.1);
+        }
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cream);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        .footer-sub {
+            font-size: 0.62rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            margin-top: 0.5rem;
+            margin-bottom: 1.75rem;
+        }
+        .footer-rule { width: 50px; height: 1px; background: var(--gold); margin: 0 auto 1.75rem; opacity: 0.3; }
+        .footer-copy { font-size: 0.7rem; color: rgba(240,230,204,0.2); letter-spacing: 0.08em; line-height: 1.9; }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .footer-links a {
+            color: rgba(240,230,204,0.38);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--gold-light); }
+
+        /* ── SCROLL REVEAL ──────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.85s ease, transform 0.85s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.1s; }
+        .d2 { transition-delay: 0.22s; }
+        .d3 { transition-delay: 0.34s; }
+        .d4 { transition-delay: 0.46s; }
+
+        /* ── RESPONSIVE ─────────────────────────── */
+        @media (max-width: 900px) {
+            .about-grid, .info-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+            .about::after { width: 100%; opacity: 0.16; }
+            .info::after { background-size: cover; opacity: 0.18; }
+            .about::before { display: none; }
+            .menu-card { padding: 2.5rem 1.75rem; }
+            .allergene-card { padding: 2rem 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 1.2rem 1.5rem; }
+            nav.scrolled { padding: 0.85rem 1.5rem; }
+            .nav-links { display: none; }
+            section { padding: 5rem 1.25rem; }
+            .about-badge { width: 210px; height: 210px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────── -->
+<nav id="nav">
+    <a href="#" class="nav-logo">Sama</a>
+    <ul class="nav-links">
+        <li><a href="#about">Über uns</a></li>
+        <li><a href="#menu">Speisekarte</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────── -->
+<section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <span class="hero-eyebrow">Restaurant</span>
+        <span class="hero-title">Sama</span>
+        <div class="hero-ornament">
+            <div class="hero-ornament-line"></div>
+            <div class="hero-ornament-gem"></div>
+            <div class="hero-ornament-line"></div>
+        </div>
+        <p class="hero-tagline">Pizza &nbsp;·&nbsp; Döner &nbsp;·&nbsp; Pasta &nbsp;·&nbsp; Oberhausen</p>
+        <a href="#menu" class="hero-cta">Zur Speisekarte</a>
+    </div>
+    <div class="hero-scroll">
+        <span>Scrollen</span>
+        <div class="hero-scroll-line"></div>
+    </div>
+</section>
+
+<!-- ── BANNER ─────────────────────────────────── -->
+<div class="banner">
+    <div class="banner-inner">
+        <span>Familienpizza-Deal:</span>
+        <div class="banner-gem"></div>
+        <span>3 Pizzen kaufen &amp; 3 Getränke 0,33 l gratis</span>
+        <div class="banner-gem"></div>
+        <span>2 Familienpizzen &amp; 2×1 l Getränk gratis</span>
+    </div>
+</div>
+
+<!-- ── ABOUT ──────────────────────────────────── -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="reveal">
+                <div class="about-badge">
+                    <div class="about-badge-inner">
+                        <span class="num">50+</span>
+                        <span class="sub">Plätze für Events</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="section-label reveal">Sama Restaurant</span>
+                <h2 class="section-title reveal d1">Vielfalt &amp;<br><em>Leidenschaft</em></h2>
+                <div class="ornament reveal d2">
+                    <div class="ornament-line"></div>
+                    <span class="ornament-symbol">✦</span>
+                    <div class="ornament-line"></div>
+                </div>
+                <p class="about-text reveal d2">
+                    Das Sama Restaurant in Oberhausen vereint die Aromen zweier Welten –
+                    handgemachte Pizzen nach neapolitanischer Tradition und authentische
+                    orientalische Spezialitäten wie Döner, Pide und Lahmacun.
+                </p>
+                <p class="about-text reveal d3" style="margin-top:1rem;">
+                    Von knusprigem Fried Chicken über hausgemachte Pasta bis hin zu
+                    frischen Salaten: Bei uns findet jeder etwas, das schmeckt.
+                    Täglich frisch zubereitet – mit ehrlichen Zutaten und echtem Herzblut.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── MENU ───────────────────────────────────── -->
+<section class="menu" id="menu">
+    <div class="container">
+        <div class="menu-header">
+            <span class="section-label reveal">Unsere Karte</span>
+            <h2 class="section-title reveal d1">Speisekarte</h2>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="menu-tabs reveal d2">
+            <button class="menu-tab active" data-tab="pizza">Pizza</button>
+            <button class="menu-tab" data-tab="salate">Salate</button>
+            <button class="menu-tab" data-tab="pide">Pide &amp; Lahmacun</button>
+            <button class="menu-tab" data-tab="baguette">Baguette</button>
+            <button class="menu-tab" data-tab="burger">Burger</button>
+            <button class="menu-tab" data-tab="doener">Döner &amp; Falafel</button>
+            <button class="menu-tab" data-tab="pasta">Nudelgerichte</button>
+            <button class="menu-tab" data-tab="chicken">Fried Chicken</button>
+            <button class="menu-tab" data-tab="fingerfood">Fingerfood &amp; Dips</button>
+            <button class="menu-tab" data-tab="getraenke">Getränke</button>
+        </div>
+
+        <!-- ══ PIZZA ══ -->
+        <div class="menu-panel active" id="tab-pizza">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Pizza</div>
+                <div class="menu-card-sub">Täglich frischer Teig &nbsp;·&nbsp; Handgemacht</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="pizza-info-box">
+                    <strong>Pizzaformen:</strong> Classic (dünner Teig, knuspriger Boden) &nbsp;·&nbsp; Pan Pizza (luftig-locker, dicker Boden nach amerikanischer Art) &nbsp;·&nbsp; Käserand (knuspriger dünner Teig, mit Mozzarella gefülltem Rand)<br>
+                    <strong>Aufpreis Käserand &amp; Pan Pizza:</strong> Normal +2,00 € &nbsp;·&nbsp; Maxi +3,00 € &nbsp;·&nbsp; XL +5,00 €
+                </div>
+
+                <div class="pizza-sizes">
+                    <span class="pizza-sizes-label">Größen: Normal 24 Ø &nbsp;|&nbsp; Maxi 28 Ø &nbsp;|&nbsp; XL 36 Ø</span>
+                    <span class="pizza-sizes-prices">Normal &nbsp;/&nbsp; Maxi &nbsp;/&nbsp; XL</span>
+                </div>
+
+                <div class="menu-item"><div><span class="menu-item-name">1. Pizza Margherita</span><span class="menu-item-desc">Tomatensoße, Mozzarella</span></div><span class="menu-item-price">5,00 € / 7,00 € / 12,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">2. Pizza Funghi</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Champignons</span></div><span class="menu-item-price">6,00 € / 7,50 € / 13,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">3. Pizza Schinken</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken</span></div><span class="menu-item-price">6,00 € / 7,50 € / 13,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">4. Pizza Salami</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Salami</span></div><span class="menu-item-price">6,00 € / 7,50 € / 13,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">5. Pizza Sucuk</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Sucuk, Ei</span></div><span class="menu-item-price">6,00 € / 7,50 € / 13,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">6. Pizza Tonno</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Thunfisch, Zwiebeln, Paprika</span></div><span class="menu-item-price">7,00 € / 8,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">7. Pizza Hawaii</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken, Ananas</span></div><span class="menu-item-price">7,00 € / 8,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">8. Pizza Bolognese</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Hackfleisch</span></div><span class="menu-item-price">7,00 € / 8,50 € / 14,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">9. Pizza Romana</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken, Champignons</span></div><span class="menu-item-price">7,00 € / 8,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">10. Pizza Spinat</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Spinat, scharfer Käse, Mais</span></div><span class="menu-item-price">7,00 € / 8,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">11. Pizza Sama</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Salami, Putenschinken, Zwiebeln, Knoblauch</span></div><span class="menu-item-price">8,00 € / 9,50 € / 16,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">12. Pizza Hollandaise</span><span class="menu-item-desc">Hähnchenbrust, Brokkoli, Sauce Hollandaise, Käse</span></div><span class="menu-item-price">8,00 € / 9,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">13. Pizza Quattro Formaggi</span><span class="menu-item-desc">Tomatensoße, vier verschiedene Käsesorten</span></div><span class="menu-item-price">7,00 € / 8,50 € / 14,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">14. Pizza Quattro Stagioni</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken, Salami, Artischocken</span></div><span class="menu-item-price">8,00 € / 9,50 € / 16,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">15. Pizza Gemüse</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Champignons, Mais, Oliven</span></div><span class="menu-item-price">7,00 € / 8,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">16. Pizza Döner</span><span class="menu-item-desc">Kalb oder Hähnchen, Tomatensoße, Mozzarella, Dönerfleisch, Zwiebeln, Peperoni</span></div><span class="menu-item-price">7,50 € / 9,00 € / 15,50 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">17. Pizza Rucola</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Knoblauch, Rucola</span></div><span class="menu-item-price">6,00 € / 7,50 € / 13,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">18. Pizza Chef</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken, Salami, Zwiebeln, Ei</span></div><span class="menu-item-price">8,00 € / 9,50 € / 16,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">19. Pizza Frutti di Mare</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Meeresfrüchte, Knoblauch</span></div><span class="menu-item-price">8,00 € / 9,50 € / 16,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">20. Pizza Sardellen</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Sardellen, Kapern</span></div><span class="menu-item-price">7,00 € / 8,50 € / 14,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">21. Pizza Diavolo</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Salami, Zwiebeln, milde Peperoni</span></div><span class="menu-item-price">7,00 € / 8,50 € / 14,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">22. Pizza Chicken</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Hähnchenbrust, Paprika, Jalapeños</span></div><span class="menu-item-price">8,00 € / 9,50 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">23. Pizza Vegetarisch</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Tomatenscheiben, Rucola, Parmesan</span></div><span class="menu-item-price">7,50 € / 9,00 € / 15,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">24. Salmon</span><span class="menu-item-desc">Lachs, Spinat, Knoblauch</span></div><span class="menu-item-price">8,00 € / 9,50 € / 16,00 €<small>Normal / Maxi / XL</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">25. Pizza Calzone</span><span class="menu-item-desc">Tomatensoße, Mozzarella, Putenschinken, Champignons</span></div><span class="menu-item-price">9,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">26. Pizza nach Wahl</span><span class="menu-item-desc">Bis zu 5 Zutaten nach Wahl</span></div><span class="menu-item-price">9,00 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Änderungen vorbehalten &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+            <div class="family-deal reveal">
+                <div class="family-deal-title">Familienpizza Deal</div>
+                <p class="family-deal-text">
+                    <strong style="color:var(--gold-light)">3 Pizzen kaufen</strong> &amp; 3 Getränke 0,33 l kostenlos erhalten<br>
+                    <strong style="color:var(--gold-light)">2 Familienpizzen kaufen</strong> &amp; 2×1 l Getränke kostenlos erhalten
+                </p>
+            </div>
+        </div>
+
+        <!-- ══ SALATE ══ -->
+        <div class="menu-panel" id="tab-salate">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Salate</div>
+                <div class="menu-card-sub">Frisch &amp; täglich zubereitet &nbsp;·&nbsp; Klein / Groß</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">31. Gemischter Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Paprika</span></div><span class="menu-item-price">4,00 € / 7,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">32. Hähnchensalat / Fitness Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Hähnchenbrust, Paprika, Zwiebeln</span></div><span class="menu-item-price">6,00 € / 9,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">33. Schinken Salat</span><span class="menu-item-desc">Eisbergsalat, Käse, Gurken, Tomaten, Putenschinken, Paprika, Ei</span></div><span class="menu-item-price">5,50 € / 7,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">34. Thunfisch Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Paprika, rote Zwiebeln, Thunfisch, Ei</span></div><span class="menu-item-price">5,50 € / 7,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">35. Griechischer Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Paprika, rote Zwiebeln, Mozzarella, Oliven</span></div><span class="menu-item-price">6,00 € / 9,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">36. Döner Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Karotten, Paprika, Döner und Zwiebeln</span></div><span class="menu-item-price">5,00 € / 7,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">37. Sama Salat</span><span class="menu-item-desc">Eisbergsalat, Gurken, Tomaten, Paprika, Weißkäse, Oliven und rote Zwiebeln</span></div><span class="menu-item-price">5,00 € / 7,00 €<small>Klein / Groß</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">38. Salat nach Wahl</span><span class="menu-item-desc">Auf Anfrage</span></div><span class="menu-item-price">auf Anfrage</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ PIDE & LAHMACUN ══ -->
+        <div class="menu-panel" id="tab-pide">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Pide &amp; Lahmacun</div>
+                <div class="menu-card-sub">Orientalische Spezialitäten &nbsp;·&nbsp; Frisch aus dem Ofen</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <p class="menu-sub-heading">Pide</p>
+                <div class="menu-item"><div><span class="menu-item-name">39. Käse Pide</span><span class="menu-item-desc">Mit Weißkäse überbacken</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">40. Cheddar Pide</span><span class="menu-item-desc">Mit Goudakäse überbacken</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">41. Spinat Pide</span><span class="menu-item-desc">Mit Spinat und Käse überbacken</span></div><span class="menu-item-price">8,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">42. Sucuk Pide</span><span class="menu-item-desc">Mit türkischer Knoblauchwurst überbacken</span></div><span class="menu-item-price">8,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">43. Hackfleisch Pide</span><span class="menu-item-desc">Mit Hackfleisch und Ei überbacken</span></div><span class="menu-item-price">9,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">44. Hackfleisch Pide</span><span class="menu-item-desc">Nur Hackfleisch</span></div><span class="menu-item-price">8,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">45. Döner Pide</span><span class="menu-item-desc">Mit Kalb- oder Hähnchenfleisch-Drehspieß, Käse überbacken</span></div><span class="menu-item-price">9,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">46. Vegetarische Pide</span><span class="menu-item-desc">Mit Spinat, Paprika, Brokkoli</span></div><span class="menu-item-price">9,00 €</span></div>
+
+                <div class="menu-sep" style="margin-top:1.5rem"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+                <p class="menu-sub-heading">Lahmacun</p>
+                <div class="menu-item"><div><span class="menu-item-name">47. Lahmacun</span><span class="menu-item-desc">Ohne alles</span></div><span class="menu-item-price">3,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">48. Lahmacun mit Salat</span></div><span class="menu-item-price">5,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">49. Lahmacun mit Döner</span></div><span class="menu-item-price">8,50 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ BAGUETTE ══ -->
+        <div class="menu-panel" id="tab-baguette">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Baguette</div>
+                <div class="menu-card-sub">Frisch belegt</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">50. Putenschinken</span><span class="menu-item-desc">Mit Remoulade, Käse, Salat, Tomaten und Putenschinken</span></div><span class="menu-item-price">7,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">51. Caprese</span><span class="menu-item-desc">Mit Remoulade, Mozzarella, Salat, Tomaten und Basilikum</span></div><span class="menu-item-price">6,00 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ BURGER ══ -->
+        <div class="menu-panel" id="tab-burger">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Burger</div>
+                <div class="menu-card-sub">Menü inkl. Pommes &amp; 1 Getränk nach Wahl (außer Red Bull)</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">52. Chickenburger</span><span class="menu-item-desc">Hühnerfleisch, Salat, Zwiebeln und Tomaten</span></div><span class="menu-item-price">6,00 € / 10,00 €<small>Einzel / Menü</small></span></div>
+                <div class="menu-item"><div><span class="menu-item-name">53. Hamburger</span><span class="menu-item-desc">Rindfleisch, Salat, Zwiebeln und Tomaten</span></div><span class="menu-item-price">6,00 € / 10,00 €<small>Einzel / Menü</small></span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ DÖNER & FALAFEL ══ -->
+        <div class="menu-panel" id="tab-doener">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Döner &amp; Falafel</div>
+                <div class="menu-card-sub">Hähnchen oder Kalb &nbsp;·&nbsp; Täglich frisch</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <p class="menu-sub-heading">Döner</p>
+                <div class="menu-item"><div><span class="menu-item-name">54. Döner</span><span class="menu-item-desc">Hähnchen oder Kalb</span></div><span class="menu-item-price">6,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">55. Döner Vegetarisch</span></div><span class="menu-item-price">5,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">56. Dürüm Döner</span><span class="menu-item-desc">Hähnchen oder Kalb</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">57. Dürüm Vegetarisch</span></div><span class="menu-item-price">5,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">58. Döner Teller</span><span class="menu-item-desc">Mit Reis oder Pommes</span></div><span class="menu-item-price">10,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">59. Dönerbox</span></div><span class="menu-item-price">5,00 € / 7,50 €<small>Klein / Groß</small></span></div>
+
+                <div class="menu-sep" style="margin-top:1.5rem"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+                <p class="menu-sub-heading">Falafel</p>
+                <div class="menu-item"><div><span class="menu-item-name">60. Falafel Tasche 4 St.</span><span class="menu-item-desc">Salat &amp; Soße</span></div><span class="menu-item-price">5,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">61. Falafel Dürüm 4 St.</span><span class="menu-item-desc">Salat &amp; Soße</span></div><span class="menu-item-price">6,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">62. Falafel Teller 7 St.</span><span class="menu-item-desc">Pommes &amp; Soße &amp; Salat</span></div><span class="menu-item-price">10,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">63. Dürüm Salat</span></div><span class="menu-item-price">4,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">64. Taschen Salat</span></div><span class="menu-item-price">4,00 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ NUDELGERICHTE ══ -->
+        <div class="menu-panel" id="tab-pasta">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Nudelgerichte</div>
+                <div class="menu-card-sub">Rigatoni &nbsp;·&nbsp; Spaghetti &nbsp;·&nbsp; Tortellini &nbsp;·&nbsp; Tagliatelle</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">65. Pomodoro</span><span class="menu-item-desc">Mit Tomatensauce, Zwiebeln und Knoblauch</span></div><span class="menu-item-price">7,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">66. Arrabbiata</span><span class="menu-item-desc">Mit Tomatensauce, Zwiebeln, Knoblauch und Chili</span></div><span class="menu-item-price">7,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">67. Bolognese</span><span class="menu-item-desc">Mit Hackfleisch</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">68. Carbonara</span><span class="menu-item-desc">Mit Sahnesauce, Putenschinken und Eigelb</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">69. Crema di Funghi</span><span class="menu-item-desc">Mit Sahnesauce, Champignons und Zwiebeln</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">70. Pollo Funghi</span><span class="menu-item-desc">Mit Sahnesauce, Hähnchenbrust und Champignons</span></div><span class="menu-item-price">8,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">71. Brokkoli</span><span class="menu-item-desc">Mit Sahnesauce, Hähnchenbrust, Brokkoli und Knoblauch</span></div><span class="menu-item-price">8,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">72. Tonno</span><span class="menu-item-desc">Mit Tomaten- oder Sahnesauce, Thunfisch, Zwiebeln und Knoblauch</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">73. Frutti di Mare</span><span class="menu-item-desc">Mit Tomaten- oder Sahnesauce, Meeresfrüchte und Knoblauch</span></div><span class="menu-item-price">9,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">74. Lachs &amp; Spinat</span><span class="menu-item-desc">Mit Tomaten- oder Sahnesauce, Lachs, Spinat und Knoblauch</span></div><span class="menu-item-price">9,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">75. Gambas Pasta</span><span class="menu-item-desc">Mit Tomaten- oder Sahnesauce, Garnelen, Knoblauch und Spinat</span></div><span class="menu-item-price">9,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">76. Curry Pasta</span><span class="menu-item-desc">Mit Sahnesauce, Curry, Hähnchen, Paprika und Ananas</span></div><span class="menu-item-price">8,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">77. Pasta nach Wahl</span><span class="menu-item-desc">Auf Anfrage</span></div><span class="menu-item-price">auf Anfrage</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Nudelsorte frei wählbar &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ FRIED CHICKEN ══ -->
+        <div class="menu-panel" id="tab-chicken">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Fried Chicken</div>
+                <div class="menu-card-sub">Knusprig &nbsp;·&nbsp; Saftig &nbsp;·&nbsp; Frisch zubereitet</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">78. Brosted Chicken</span><span class="menu-item-desc">Mit Pommes, Essiggurken und Mayonnaise</span></div><span class="menu-item-price">12,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">79. Crispy Chicken</span></div><span class="menu-item-price">12,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">80. Sama Spezial Sandwich</span><span class="menu-item-desc">Mit Hähnchenbrust, Pommes und Chili-Cheese-Sauce</span></div><span class="menu-item-price">7,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">81. Ganzes Hähnchen</span><span class="menu-item-desc">Mit Salat, Reis oder Pommes</span></div><span class="menu-item-price">12,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">82. Halbes Hähnchen</span><span class="menu-item-desc"></span></div><span class="menu-item-price">7,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">83. Halbes Hähnchen</span><span class="menu-item-desc">Mit Salat, Reis oder Pommes</span></div><span class="menu-item-price">10,00 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt. &nbsp;·&nbsp; Allergene auf Anfrage</p>
+            </div>
+        </div>
+
+        <!-- ══ FINGERFOOD & DIPS ══ -->
+        <div class="menu-panel" id="tab-fingerfood">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Fingerfood</div>
+                <div class="menu-card-sub">Perfekt zum Teilen</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">84. BBQ Chicken Wings 6 Stk.</span><span class="menu-item-desc">Mit 1 Dip nach Wahl</span></div><span class="menu-item-price">6,90 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">85. Buffalo Chicken Wings 6 Stk. scharf</span><span class="menu-item-desc">Mit 1 Dip nach Wahl</span></div><span class="menu-item-price">6,90 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">86. BBQ Wings 12 Stk.</span><span class="menu-item-desc">2 Dips nach Wahl</span></div><span class="menu-item-price">10,90 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">87. Buffalo Wings 12 Stk.</span><span class="menu-item-desc">2 Dips nach Wahl</span></div><span class="menu-item-price">10,90 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">88. Chicken Nuggets 6 Stk.</span><span class="menu-item-desc">1 Dip nach Wahl</span></div><span class="menu-item-price">5,90 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">89. Chicken Nuggets 12 Stk.</span><span class="menu-item-desc">2 Dips nach Wahl</span></div><span class="menu-item-price">9,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">90. Kibbeh 3 Stk.</span><span class="menu-item-desc">Menü: Salat und Pommes</span></div><span class="menu-item-price">5,00 € / 10,00 €<small>Einzel / Menü</small></span></div>
+
+                <div class="menu-sep" style="margin-top:1.5rem"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+                <p class="menu-sub-heading">Dips</p>
+                <div class="menu-item"><div><span class="menu-item-name">91. Sweet-Chilli</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">92. BBQ Sauce</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">93. Sour Cream</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">94. Chilli-Mayo</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">95. Kräutercreme</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">96. Indi-Curry Sauce</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">97. Curry Sauce</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">98. Coctail Sauce</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">99. Ketchup oder Mayonnaise</span></div><span class="menu-item-price">1,00 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt.</p>
+            </div>
+        </div>
+
+        <!-- ══ GETRÄNKE ══ -->
+        <div class="menu-panel" id="tab-getraenke">
+            <div class="menu-card reveal">
+                <div class="menu-card-title">Getränke</div>
+                <div class="menu-card-sub">Kalt &amp; Heiß</div>
+                <div class="menu-sep"><div class="menu-sep-line"></div><div class="menu-sep-gem"></div><div class="menu-sep-line"></div></div>
+
+                <div class="menu-item"><div><span class="menu-item-name">100. Mineralwasser 0,25 l</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">101. Cola / Cola light</span><span class="menu-item-desc">1,3 l</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">102. Fanta</span><span class="menu-item-desc">1,3 l</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">103. Ayran</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">104. Capri Sun</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">105. Durstlöscher</span></div><span class="menu-item-price">1,50 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">106. Energie</span></div><span class="menu-item-price">3,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">107. Café</span></div><span class="menu-item-price">2,00 €</span></div>
+                <div class="menu-item"><div><span class="menu-item-name">108. Latte Macchiato</span></div><span class="menu-item-price">2,50 €</span></div>
+
+                <p class="menu-footer-note">Alle Preise inkl. MwSt.</p>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+</section>
+
+<!-- ── ALLERGENE ─────────────────────────────── -->
+<div class="allergene-section">
+    <div class="allergene-card reveal">
+        <div class="allergene-card-title">Inhaltsstoffe &amp; Allergene</div>
+        <p style="font-size:0.8rem;color:var(--warm-gray);margin-bottom:1.25rem;font-weight:300;">
+            <strong style="color:var(--text-dark);">Zusatzstoffe:</strong>
+            1. Coffeinhaltig &nbsp;·&nbsp; 2. Farbstoffe &nbsp;·&nbsp; 3. Süßstoffe &nbsp;·&nbsp; 4. Antioxidationsmittel &nbsp;·&nbsp; 5. Konservierungsstoff &nbsp;·&nbsp; 6. Mit Geschmacksverstärker
+        </p>
+        <p style="font-size:0.8rem;color:var(--text-dark);font-weight:500;margin-bottom:0.5rem;">Allergene:</p>
+        <div class="allergene-grid">
+            <div class="allergene-item"><strong>A.</strong> Glutenhaltiges Weizenmehl</div>
+            <div class="allergene-item"><strong>B.</strong> Krebstiere</div>
+            <div class="allergene-item"><strong>C.</strong> Eier</div>
+            <div class="allergene-item"><strong>D.</strong> Fische</div>
+            <div class="allergene-item"><strong>E.</strong> Erdnüsse</div>
+            <div class="allergene-item"><strong>F.</strong> Sojabohnen</div>
+            <div class="allergene-item"><strong>G.</strong> Milch</div>
+            <div class="allergene-item"><strong>H.</strong> Schalenfrüchte</div>
+            <div class="allergene-item"><strong>I.</strong> Sellerie</div>
+            <div class="allergene-item"><strong>J.</strong> Senf</div>
+            <div class="allergene-item"><strong>K.</strong> Sesamsamen</div>
+            <div class="allergene-item"><strong>L.</strong> Schwefeldioxid und Sulfit</div>
+            <div class="allergene-item"><strong>M.</strong> Lupinen</div>
+            <div class="allergene-item"><strong>N.</strong> Weichtiere</div>
+        </div>
+        <p class="allergene-note">Bei Fragen zu Allergenen oder Unverträglichkeiten sprechen Sie unser Personal gerne an.</p>
+    </div>
+</div>
+
+<!-- ── INFO ───────────────────────────────────── -->
+<section class="info" id="kontakt">
+    <div class="container">
+        <div class="info-grid">
+            <div>
+                <span class="section-label reveal">Öffnungszeiten</span>
+                <h2 class="section-title reveal d1">Täglich<br><em>für Sie da</em></h2>
+                <ul class="hours-list">
+                    <li class="hours-item reveal d2">
+                        <span class="day">Mo. – So. (Öffnungszeiten)</span>
+                        <span class="time">10:00 – 22:00 Uhr</span>
+                    </li>
+                    <li class="hours-item special reveal d3">
+                        <span class="day">Lieferservice (täglich)</span>
+                        <span class="time">11:00 – 21:00 Uhr</span>
+                    </li>
+                </ul>
+                <div class="event-box reveal d3">
+                    <p>
+                        <strong>Raum für bis zu 50 Personen</strong><br>
+                        Feiern Sie mit uns – Geburtstage, Firmenevents
+                        und private Feste aller Art. Sprechen Sie uns einfach an.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <span class="section-label reveal">Kontakt &amp; Adresse</span>
+                <h2 class="section-title reveal d1">So finden<br><em>Sie uns</em></h2>
+                <div class="contact-items">
+                    <div class="contact-item reveal d2">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <span class="contact-label">Adresse</span>
+                            <span class="contact-value">Bahnhofstraße 42<br>46145 Oberhausen</span>
+                        </div>
+                    </div>
+                    <div class="contact-item reveal d2">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <span class="contact-label">Telefon</span>
+                            <span class="contact-value"><a href="tel:020838590901">0208 385 90 901</a></span>
+                        </div>
+                    </div>
+                    <div class="contact-item reveal d3">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <span class="contact-label">Mobil / WhatsApp</span>
+                            <span class="contact-value"><a href="tel:015215624665">0152 156 246 65</a></span>
+                        </div>
+                    </div>
+                    <div class="contact-item reveal d3">
+                        <div class="contact-icon">✉</div>
+                        <div>
+                            <span class="contact-label">E-Mail</span>
+                            <span class="contact-value"><a href="mailto:samareataurantxxx@gmail.com">samareataurantxxx@gmail.com</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+    <div class="footer-logo">Sama</div>
+    <div class="footer-sub">Restaurant &nbsp;·&nbsp; Oberhausen</div>
+    <div class="footer-rule"></div>
+    <p class="footer-copy">Bahnhofstraße 42 &nbsp;·&nbsp; 46145 Oberhausen</p>
+    <p class="footer-copy">0208 385 90 901 &nbsp;·&nbsp; Mobil/WhatsApp: 0152 156 246 65</p>
+    <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+    </div>
+    <p class="footer-copy" style="margin-top:0.5rem;">© 2026 Sama Restaurant. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+    // Sticky nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.menu-tab');
+    const panels = document.querySelectorAll('.menu-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const panel = document.getElementById('tab-' + tab.dataset.tab);
+            if (panel) {
+                panel.classList.add('active');
+                // re-trigger reveals inside newly shown panel
+                panel.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+                    io.observe(el);
+                });
+            }
+        });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+
+    reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+-- Intentionally empty.
+-- Organizations and operational records are created through authenticated
+-- onboarding and imports. Local Supabase startup must not add demo records.

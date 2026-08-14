@@ -329,7 +329,7 @@
 
     .metrics {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       border-bottom: 1px solid var(--line);
     }
 
@@ -471,6 +471,7 @@
 
     .route-item.done .route-index { background: var(--muted); }
     .route-item.cancelled { opacity: .55; }
+    .route-item.late { border-color: var(--coral); background: #fff8f6; }
     .route-item.current { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(242, 95, 92, .1); }
 
     .route-copy strong { display: block; }
@@ -578,6 +579,9 @@
         </div>
       </div>
       <div class="status-strip">
+        <a href="index.html" class="badge" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #082f35; color: #fff; border: 1px solid rgba(255,255,255,0.2);">
+          ← Zurück zur Hauptseite
+        </a>
         <span class="badge dark" id="driveState">Fahrt nicht gestartet</span>
         <span class="badge" id="liveClock">08:00</span>
         <span class="badge" id="activeStops">0 aktive Stopps</span>
@@ -713,6 +717,19 @@
         </details>
 
         <details open>
+          <summary>Fahreransicht</summary>
+          <div class="details-body">
+            <div class="notice" id="driverNext">Noch kein naechster Stopp.</div>
+            <div class="actions">
+              <button class="btn ghost" id="driverEnrouteBtn">Anfahrt starten</button>
+              <button class="btn ghost" id="driverArrivedBtn">Angekommen</button>
+              <button class="btn ghost" id="driverDoneBtn">Erledigt</button>
+              <button class="btn coral" id="driverProblemBtn">Problem</button>
+            </div>
+          </div>
+        </details>
+
+        <details open>
           <summary>KI-Dispatcher</summary>
           <div class="details-body">
             <label>
@@ -774,6 +791,10 @@
         <details open>
           <summary>Ereignisprotokoll</summary>
           <div class="details-body">
+            <div class="actions">
+              <button class="btn ghost" id="undoBtn">Letzte Auto-Aktion rueckgaengig</button>
+              <button class="btn ghost" id="exportReportBtn">Tagesreport exportieren</button>
+            </div>
             <div class="log" id="eventLog"></div>
           </div>
         </details>
@@ -791,6 +812,8 @@
           <div class="metrics">
             <div class="metric"><span>Distanz</span><strong id="metricDistance">0 km</strong></div>
             <div class="metric"><span>Fahrtzeit</span><strong id="metricDrive">0 min</strong></div>
+            <div class="metric"><span>Wartezeit</span><strong id="metricWaiting">0 min</strong></div>
+            <div class="metric"><span>Verspaetet</span><strong id="metricLate">0</strong></div>
             <div class="metric"><span>Ankunft Ende</span><strong id="metricArrival">--:--</strong></div>
             <div class="metric"><span>Planänderungen</span><strong id="metricChanges">0</strong></div>
           </div>
@@ -834,7 +857,10 @@
       depot: { id: "depot", name: "Depot", address: "Automate X HQ, Duisburg", lat: 51.4344, lng: 6.7623, status: "active", priority: 3, service: 0 },
       stops: [],
       route: [],
-      metrics: { distance: 0, drive: 0, arrival: 0 },
+      metrics: { distance: 0, drive: 0, arrival: 0, waiting: 0, late: 0, lateMinutes: 0, onTime: 0 },
+      schedule: {},
+      originalRoute: null,
+      auditStack: [],
       started: false,
       paused: false,
       clock: 8 * 60,
@@ -888,6 +914,8 @@
       eventLog: document.getElementById("eventLog"),
       metricDistance: document.getElementById("metricDistance"),
       metricDrive: document.getElementById("metricDrive"),
+      metricWaiting: document.getElementById("metricWaiting"),
+      metricLate: document.getElementById("metricLate"),
       metricArrival: document.getElementById("metricArrival"),
       metricChanges: document.getElementById("metricChanges"),
       driveState: document.getElementById("driveState"),
@@ -898,6 +926,13 @@
       demoCancelBtn: document.getElementById("demoCancelBtn"),
       demoUrgentBtn: document.getElementById("demoUrgentBtn"),
       demoTrafficBtn: document.getElementById("demoTrafficBtn"),
+      driverNext: document.getElementById("driverNext"),
+      driverEnrouteBtn: document.getElementById("driverEnrouteBtn"),
+      driverArrivedBtn: document.getElementById("driverArrivedBtn"),
+      driverDoneBtn: document.getElementById("driverDoneBtn"),
+      driverProblemBtn: document.getElementById("driverProblemBtn"),
+      undoBtn: document.getElementById("undoBtn"),
+      exportReportBtn: document.getElementById("exportReportBtn"),
       geminiKey: document.getElementById("geminiKey"),
       aiPrompt: document.getElementById("aiPrompt"),
       aiRunBtn: document.getElementById("aiRunBtn"),
@@ -922,6 +957,7 @@
     const minToTime = mins => `${pad(Math.floor((mins % 1440) / 60))}:${pad(Math.round(mins % 60))}`;
     const priorityLabel = p => p === 3 ? "hoch" : p === 2 ? "normal" : "niedrig";
     const activeStops = () => state.stops.filter(s => s.status !== "cancelled" && s.status !== "done");
+    const plannableStops = () => state.stops.filter(s => s.status === "active" || s.status === "delayed");
 
     function geocode(input) {
       const text = String(input || "").trim();
@@ -972,7 +1008,7 @@
       syncTopInputs();
       const start = state.started && state.currentPosition ? state.currentPosition : state.depot;
       const done = state.stops.filter(s => s.status === "done");
-      const pool = state.stops.filter(s => s.status === "active");
+      const pool = plannableStops();
       const planned = [];
       let from = start;
       let now = state.started ? state.clock : timeToMin(els.startTime.value);
@@ -998,7 +1034,7 @@
         ...(els.returnDepot.checked ? [{ ...state.depot, id: "return", name: "Rückfahrt Depot", address: state.depot.address, status: "return", service: 0, priority: 1 }] : [])
       ];
       if (state.started) {
-        const next = state.route.find(s => s.status === "active" || s.status === "return");
+        const next = state.route.find(s => s.status === "active" || s.status === "delayed" || s.status === "return");
         if (next && (!state.segment || state.currentTargetId !== next.id)) {
           const from = state.currentPosition || state.depot;
           state.segment = { from: { ...from }, to: next, elapsed: 0, duration: Math.max(2, travelMinutes(from, next)) };
@@ -1036,6 +1072,11 @@
       let from = state.started && state.currentPosition ? state.currentPosition : state.depot;
       let distance = 0;
       let drive = 0;
+      let waiting = 0;
+      let late = 0;
+      let lateMinutes = 0;
+      let onTime = 0;
+      const schedule = {};
       let now = state.started ? state.clock : timeToMin(els.startTime.value);
       for (const stop of state.route.filter(s => s.status !== "done" && s.status !== "cancelled")) {
         const d = haversine(from, stop);
@@ -1043,11 +1084,20 @@
         distance += d;
         drive += t;
         now += t;
+        const arrival = now;
+        const wait = stop.windowStart ? Math.max(0, timeToMin(stop.windowStart) - arrival) : 0;
+        const delay = stop.windowEnd ? Math.max(0, arrival - timeToMin(stop.windowEnd)) : 0;
+        waiting += wait;
+        lateMinutes += delay;
+        if (delay > 0 && stop.status !== "return") late++;
+        if (delay === 0 && stop.status !== "return") onTime++;
         if (stop.windowStart) now = Math.max(now, timeToMin(stop.windowStart));
+        schedule[stop.id] = { eta: minToTime(arrival), wait: Math.round(wait), late: Math.round(delay) };
         now += Number(stop.service || 0);
         from = stop;
       }
-      state.metrics = { distance, drive, arrival: now };
+      state.schedule = schedule;
+      state.metrics = { distance, drive, arrival: now, waiting, late, lateMinutes, onTime };
     }
 
     function syncTopInputs() {
@@ -1074,6 +1124,7 @@
         windowEnd: data.windowEnd || "17:00",
         service: Number(data.service ?? 20),
         priority: Number(data.priority ?? 2),
+        email: data.email || "",
         status: "active"
       });
       state.changes++;
@@ -1097,6 +1148,7 @@
       state.currentPosition = state.currentPosition || state.depot;
       state.clock = timeToMin(els.startTime.value);
       log("Fahrt gestartet. Live-Änderungen planen die Rest-Route automatisch neu.");
+      state.originalRoute = state.originalRoute || snapshotState();
       optimizeRoute();
       nextSegment();
       startGmailMonitor();
@@ -1123,7 +1175,7 @@
     }
 
     function nextSegment() {
-      const next = state.route.find(s => s.status === "active" || s.status === "return");
+      const next = state.route.find(s => s.status === "active" || s.status === "delayed" || s.status === "return");
       if (!next) {
         state.segment = null;
         state.currentTargetId = null;
@@ -1235,6 +1287,7 @@
       if (kind === "vehicle") return "vehicle";
       if (stop.status === "done") return "done";
       if (stop.status === "cancelled") return "cancelled";
+      if (stop.status === "delayed") return "high";
       if (stop.priority === 3) return "high";
       if (stop.priority === 1) return "low";
       return "normal";
@@ -1356,8 +1409,9 @@
         const isCurrent = state.currentTargetId === stop.id;
         const done = stop.status === "done";
         const cancelled = stop.status === "cancelled";
-        const eta = estimateEta(stop.id);
-        return `<div class="route-item ${done ? "done" : ""} ${cancelled ? "cancelled" : ""} ${isCurrent ? "current" : ""}">
+        const timing = state.schedule[stop.id] || {};
+        const eta = timing.eta || estimateEta(stop.id);
+        return `<div class="route-item ${done ? "done" : ""} ${cancelled ? "cancelled" : ""} ${timing.late > 0 ? "late" : ""} ${isCurrent ? "current" : ""}">
           <div class="route-index">${done ? "✓" : cancelled ? "×" : index + 1}</div>
           <div class="route-copy">
             <strong>${escapeHtml(stop.name)}</strong>
@@ -1390,6 +1444,8 @@
       els.trafficValue.textContent = `${Number(els.trafficFactor.value).toFixed(2)}x`;
       els.metricDistance.textContent = `${state.metrics.distance.toFixed(1)} km`;
       els.metricDrive.textContent = `${Math.round(state.metrics.drive)} min`;
+      els.metricWaiting.textContent = `${Math.round(state.metrics.waiting)} min`;
+      els.metricLate.textContent = `${state.metrics.late}`;
       els.metricArrival.textContent = state.metrics.arrival ? minToTime(state.metrics.arrival) : "--:--";
       els.metricChanges.textContent = state.changes;
       els.liveClock.textContent = minToTime(state.clock);
@@ -1398,9 +1454,20 @@
       els.startBtn.disabled = state.started;
       els.pauseBtn.disabled = !state.started;
       els.pauseBtn.textContent = state.paused ? "Weiterfahren" : "Pause";
+      renderDriverPanel();
       renderMap();
       renderRouteList();
       renderLog();
+    }
+
+    function renderDriverPanel() {
+      const next = state.route.find(s => s.status === "active" || s.status === "delayed");
+      if (!next) {
+        els.driverNext.textContent = "Keine offenen Stopps. Tour ist abgeschlossen oder noch nicht geplant.";
+        return;
+      }
+      const timing = state.schedule[next.id] || {};
+      els.driverNext.textContent = `${next.name} · ${next.address} · ETA ${timing.eta || estimateEta(next.id) || "--:--"} · ${next.windowStart}-${next.windowEnd}`;
     }
 
     function renderLog() {
@@ -1409,6 +1476,70 @@
 
     function log(message) {
       state.log.push(`<strong>${minToTime(state.clock)}</strong> ${escapeHtml(message)}`);
+    }
+
+    function snapshotState() {
+      return JSON.parse(JSON.stringify({
+        stops: state.stops,
+        route: state.route,
+        metrics: state.metrics,
+        currentPosition: state.currentPosition,
+        currentTargetId: state.currentTargetId,
+        segment: state.segment,
+        started: state.started,
+        paused: state.paused,
+        changes: state.changes,
+        clock: state.clock
+      }));
+    }
+
+    function rememberAudit(source, reason) {
+      state.auditStack.push({ source, reason, before: snapshotState(), at: new Date().toISOString() });
+      if (state.auditStack.length > 20) state.auditStack.shift();
+    }
+
+    function undoLastAutoAction() {
+      const entry = state.auditStack.pop();
+      if (!entry) {
+        log("Keine automatische Aktion zum Rueckgaengigmachen vorhanden.");
+        render();
+        return;
+      }
+      Object.assign(state, entry.before);
+      log(`Auto-Aktion rueckgaengig: ${entry.source} (${entry.reason || "ohne Grund"}).`);
+      optimizeRoute();
+    }
+
+    function exportDayReport() {
+      const lines = [
+        "Automate X Tagesreport",
+        `Datum: ${els.routeDate.value}`,
+        `Stand: ${new Date().toLocaleString("de-DE")}`,
+        `Distanz: ${state.metrics.distance.toFixed(1)} km`,
+        `Fahrtzeit: ${Math.round(state.metrics.drive)} min`,
+        `Wartezeit: ${Math.round(state.metrics.waiting)} min`,
+        `Verspaetete Stopps: ${state.metrics.late}`,
+        `Planänderungen: ${state.changes}`,
+        state.originalRoute ? `Vergleich zur Startplanung: ${state.originalRoute.route.length} Start-Routenpunkte, jetzt ${state.route.length}` : "Vergleich zur Startplanung: noch nicht verfuegbar",
+        "",
+        "Stopps:",
+        ...state.route.map((stop, index) => {
+          const timing = state.schedule[stop.id] || {};
+          return `${index + 1}. ${stop.name} | ${stop.address} | ${stop.status} | ETA ${timing.eta || "--:--"} | Late ${timing.late || 0} min`;
+        }),
+        "",
+        "Ereignisse:",
+        ...state.log.map(entry => entry.replace(/<[^>]+>/g, ""))
+      ];
+      const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `automatex-tagesreport-${els.routeDate.value || "route"}.txt`;
+      link.click();
+      URL.revokeObjectURL(url);
+      log("Tagesreport exportiert.");
+      render();
     }
 
     function escapeHtml(value) {
@@ -1478,7 +1609,8 @@
           windowStart: row.windowstart || "09:00",
           windowEnd: row.windowend || "17:00",
           service: Number(row.service || 20),
-          priority: Number(row.priority || 2)
+          priority: Number(row.priority || 2),
+          email: row.email || row.mail || ""
         });
         count++;
       }
@@ -1561,7 +1693,7 @@
       const text = String(prompt || "").toLowerCase();
       const actions = [];
       if (/(absag|cancel|stornier|fällt aus|faellt aus)/.test(text)) {
-        const match = state.route.find(stop => stop.status === "active") || activeStops()[0];
+        const match = state.route.find(stop => stop.status === "active" || stop.status === "delayed") || activeStops()[0];
         if (match) actions.push({ type: "cancel_stop", target: match.id, reason: "Lokaler Dispatcher: Absage erkannt" });
       }
       if (/(eilauftrag|dringend|notfall|neu|hinzu|add)/.test(text)) {
@@ -1648,6 +1780,9 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
     function applyAiPlan(plan, source = "KI") {
       const actions = Array.isArray(plan?.actions) ? plan.actions : [];
       let changed = false;
+      if (["Gemini", "Gmail", "Lokale KI"].includes(source) && actions.length) {
+        rememberAudit(source, plan?.summary || `${actions.length} Aktion(en)`);
+      }
       for (const action of actions) {
         if (!action || !action.type) continue;
         if (action.type === "add_stop") {
@@ -1819,17 +1954,25 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
     function cancellationPlanFromEmail(email) {
       const combined = `${email.subject}\n${email.from}\n${email.snippet}\n${email.body}`;
       const lower = combined.toLowerCase();
-      const matched = state.stops.find(stop =>
-        lower.includes(stop.name.toLowerCase()) ||
-        lower.includes(stop.address.toLowerCase()) ||
-        stop.address.toLowerCase().split(/[,\s]+/).some(part => part.length > 4 && lower.includes(part))
-      );
-      const target = matched?.id || state.route.find(stop => stop.status === "active")?.id;
+      let best = { stop: null, score: 0, reasons: [] };
+      for (const stop of plannableStops()) {
+        const reasons = [];
+        let score = 0;
+        if (lower.includes(stop.name.toLowerCase())) { score += 0.55; reasons.push("Kundenname"); }
+        if (lower.includes(stop.address.toLowerCase())) { score += 0.3; reasons.push("Adresse"); }
+        if (stop.email && lower.includes(String(stop.email).toLowerCase())) { score += 0.55; reasons.push("E-Mail"); }
+        const cityHit = stop.address.toLowerCase().split(/[,\s]+/).some(part => part.length > 4 && lower.includes(part));
+        if (cityHit) { score += 0.18; reasons.push("Stadt"); }
+        if (score > best.score) best = { stop, score, reasons };
+      }
+      const matched = best.score >= 0.3 ? best.stop : null;
+      const target = matched?.id || state.route.find(stop => stop.status === "active" || stop.status === "delayed")?.id;
       if (!target) return null;
+      if (!matched) log("Gmail-Matching unsicher: naechster aktiver Stopp wird vorgeschlagen.");
       return {
-        summary: `Absage aus Gmail erkannt: ${email.subject || "ohne Betreff"}`,
+        summary: `Absage aus Gmail erkannt: ${email.subject || "ohne Betreff"} (${matched ? `Match ${Math.round(best.score * 100)}%, ${best.reasons.join("/")}` : "unsicher"})`,
         actions: [
-          { type: "cancel_stop", target },
+          { type: "cancel_stop", target, confidence: matched ? Math.min(0.99, best.score) : 0.2, reason: matched ? best.reasons.join(", ") : "Fallback auf naechsten Stopp" },
           { type: "replan" }
         ]
       };
@@ -1937,6 +2080,38 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
       }
     }
 
+    function nextActiveStop() {
+      return state.route.find(s => s.status === "active" || s.status === "delayed");
+    }
+
+    function driverSetStatus(status) {
+      const stop = nextActiveStop();
+      if (!stop) {
+        log("Fahrerstatus ohne offenen Stopp gemeldet.");
+        render();
+        return;
+      }
+      if (status === "done") {
+        const target = state.stops.find(s => s.id === stop.id);
+        if (target) target.status = "done";
+        state.changes++;
+        log(`Fahrerstatus erledigt: ${stop.name}.`);
+        optimizeRoute();
+        nextSegment();
+        return;
+      }
+      if (status === "problem") {
+        const target = state.stops.find(s => s.id === stop.id);
+        if (target) target.status = "delayed";
+        state.changes++;
+        log(`Fahrer meldet Problem bei ${stop.name}. Route wird neu bewertet.`);
+        optimizeRoute();
+        return;
+      }
+      log(`Fahrerstatus ${status}: ${stop.name}.`);
+      render();
+    }
+
     window.cancelStop = cancelStop;
     window.restoreStop = restoreStop;
     window.bumpPriority = bumpPriority;
@@ -1968,7 +2143,7 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
       event.target.value = "";
     });
     els.demoCancelBtn.addEventListener("click", () => {
-      const next = state.route.find(s => s.status === "active");
+      const next = state.route.find(s => s.status === "active" || s.status === "delayed");
       if (next) cancelStop(next.id);
     });
     els.demoUrgentBtn.addEventListener("click", addUrgentJob);
@@ -1978,6 +2153,12 @@ Nutze nur diese action types. Erfinde keine IDs, wenn ein bestehender Stop über
       log("Live-Verkehrslage geändert: Verkehrsfaktor erhöht.");
       maybeReplan();
     });
+    els.driverEnrouteBtn.addEventListener("click", () => driverSetStatus("unterwegs"));
+    els.driverArrivedBtn.addEventListener("click", () => driverSetStatus("angekommen"));
+    els.driverDoneBtn.addEventListener("click", () => driverSetStatus("done"));
+    els.driverProblemBtn.addEventListener("click", () => driverSetStatus("problem"));
+    els.undoBtn.addEventListener("click", undoLastAutoAction);
+    els.exportReportBtn.addEventListener("click", exportDayReport);
     els.aiRunBtn.addEventListener("click", () => runAi(true));
     els.aiLocalBtn.addEventListener("click", () => runAi(false));
     els.geminiKey.addEventListener("change", () => {

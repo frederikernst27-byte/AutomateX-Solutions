@@ -1,0 +1,9 @@
+{
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/driver/page": "app/driver/page.js",
+  "/admin/kunden/page": "app/admin/kunden/page.js",
+  "/admin/planung/page": "app/admin/planung/page.js",
+  "/admin/fahrer/page": "app/admin/fahrer/page.js",
+  "/admin/inbox/page": "app/admin/inbox/page.js"
+}
